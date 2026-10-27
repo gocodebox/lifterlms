@@ -37,7 +37,7 @@ ul.llms-certificates-loop,
 
 	background: $color-white;
 	border: none;
-	border-radius: $radius-medium;
+	border-radius: llms-var( radius-md );
 	color: $color-black;
 	cursor: pointer;
 	display: block;
@@ -122,7 +122,7 @@ ul.llms-certificates-loop,
 }
 
 .llms-certificate {
-	border: 4px double $color-border;
+	border: 4px double llms-var( color-border );
 	padding: 20px 10px;
 	background: $color-white;
 	text-align: center;

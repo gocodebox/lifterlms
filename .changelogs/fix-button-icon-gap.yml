@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed icon spacing on LifterLMS buttons rendered with an icon and no supporting CSS from a theme or plugin.

@@ -146,6 +146,8 @@ Full rules in [`docs/coding-standards.md`](docs/coding-standards.md). The critic
 - **`llms-` CSS class prefix** for front-end markup.
 - **File naming.** `class-llms-<name>.php` for classes, `model-llms-<name>.php` for models, `llms-trait-<name>.php` for traits (under `includes/traits/`), `llms-functions-<area>.php` for function files. Lowercase, hyphen-separated. Older files in `includes/models/` use a dot-separated `model.llms.<name>.php` legacy pattern; new files should use the hyphenated form.
 - **DocBlocks on everything new.** Summary line, then `@param` and `@return` with full sentences. See [`docs/documentation-standards.md`](docs/documentation-standards.md).
+- **Version tags: never guess the release version; use `[version]`.** Write `@since [version]`, `@version [version]`, and `@deprecated [version]` — the release workflow replaces the placeholder with the actual version when packaging. Do not hard-code a guessed version like `10.3.3`.
+- **`@since` only on new elements.** Add a `@since [version]` tag when you create a new function, method, class, hook, or property. Do **not** add a `@since` entry when modifying an existing one — git history tracks that. The one exception is template files, where a modification bumps `@version [version]` and adds a matching `@since [version]` changelog line. Before writing any docblock tag, re-read [`docs/documentation-standards.md`](docs/documentation-standards.md).
 
 ## Verification Discipline
 

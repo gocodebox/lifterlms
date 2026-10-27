@@ -729,7 +729,7 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 		return apply_filters_deprecated(
 			'llms_rest_enrollments_item_schema',
 			array( $schema ),
-			'[version]',
+			'1.0.0-beta.27',
 			"llms_rest_{$this->get_object_type( $schema )}_item_schema"
 		);
 	}

@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: On the order update payment method form, only the submit button is now labeled "Reactivate Subscription" for subscriptions pending cancellation.

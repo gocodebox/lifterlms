@@ -451,6 +451,27 @@ define( [], function() {
 		}
 
 		/**
+		 * Clear the previewed permalink of a newly created model before the saved one is set.
+		 *
+		 * Unsaved lessons and quizzes get a permalink preview set silently. When the saved
+		 * permalink matches it, no `change:permalink` fires and the settings panel keeps showing
+		 * the preview text instead of a link. Clearing it silently ensures the change fires.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} model Instance of a Backbone.Model.
+		 * @param {Object} info  Data for the model processed by the server.
+		 * @return {Void}
+		 */
+		function clear_preview_permalink( model, info ) {
+
+			if ( info.id != info.orig_id ) {
+				model.unset( 'permalink', { silent: true } );
+			}
+
+		}
+
+		/**
 		 * Processes response data from heartbeat-tick related to creating / updating a single object
 		 * Handles both collections and models as a recursive function
 		 *
@@ -487,6 +508,7 @@ define( [], function() {
 					}
 
 					if ( info.permalink ) {
+						clear_preview_permalink( model, info );
 						model.set( 'permalink', info.permalink );
 					}
 					if ( info.name ) {
@@ -548,6 +570,7 @@ define( [], function() {
 
 						// Update permalink and name if provided by the server.
 						if ( info.permalink ) {
+							clear_preview_permalink( model, info );
 							model.set( 'permalink', info.permalink );
 						}
 						if ( info.name ) {

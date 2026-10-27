@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Improved customer search in the combined orders and transactions table to match a customer's full name.

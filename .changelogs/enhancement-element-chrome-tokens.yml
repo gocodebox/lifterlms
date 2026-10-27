@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Added CSS custom properties for element border width, border style, and surface hover, using the current values as defaults.

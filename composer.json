@@ -32,7 +32,7 @@
     "woocommerce/action-scheduler": "3.9.3"
   },
   "require-dev": {
-    "lifterlms/lifterlms-tests": "^4.4",
+    "lifterlms/lifterlms-tests": "^4.5",
     "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {

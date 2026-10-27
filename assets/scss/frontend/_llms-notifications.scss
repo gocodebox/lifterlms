@@ -4,7 +4,7 @@
 
 	background: $color-white;
 	box-shadow: 0 1px 2px -2px #333, 0 1px 1px -1px #333;
-	border-top: 4px solid $color-blue;
+	border-top: 4px solid llms-var( color-primary );
 	color: $color-black;
 	opacity: 0;
 	padding: 12px;
@@ -140,7 +140,7 @@
 	}
 
 	.llms-notification-dismiss {
-		color: $color-danger;
+		color: llms-var( color-danger );
 		cursor: pointer;
 		font-size: 22px;
 		position: absolute;

@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed frontend notification toasts stacking with extra space between them when the theme adds margins to notifications.

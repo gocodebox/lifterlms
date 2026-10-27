@@ -582,7 +582,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search by order or transaction number, customer name, or email...', 'lifterlms' ) );
+		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search orders, transactions, or customers...', 'lifterlms' ) );
 	}
 
 	/**
@@ -1036,31 +1036,43 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			)
 		);
 
-		$user_query2 = new WP_User_Query(
-			array(
-				'fields'     => 'ID',
-				'meta_query' => array(
+		// Split the term into words so each word is matched against the first and last name
+		// separately, allowing searches for a customer's full name, e.g. "Nadia Test".
+		$words = array_filter( array_map( 'trim', explode( ' ', (string) $term ) ) );
+
+		$user_ids = (array) $user_query->get_results();
+
+		if ( $words ) {
+
+			$name_meta_query = array( 'relation' => 'AND' );
+			foreach ( $words as $word ) {
+				$name_meta_query[] = array(
 					'relation' => 'OR',
 					array(
 						'key'     => 'first_name',
-						'value'   => $term,
+						'value'   => $word,
 						'compare' => 'LIKE',
 					),
 					array(
 						'key'     => 'last_name',
-						'value'   => $term,
+						'value'   => $word,
 						'compare' => 'LIKE',
 					),
-				),
-			)
-		);
+				);
+			}
 
-		$user_ids = wp_parse_id_list(
-			array_merge(
-				(array) $user_query->get_results(),
-				(array) $user_query2->get_results()
-			)
-		);
+			$user_query2 = new WP_User_Query(
+				array(
+					'fields'     => 'ID',
+					'meta_query' => $name_meta_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				)
+			);
+
+			$user_ids = array_merge( $user_ids, (array) $user_query2->get_results() );
+
+		}
+
+		$user_ids = wp_parse_id_list( $user_ids );
 
 		if ( empty( $user_ids ) ) {
 			return array();

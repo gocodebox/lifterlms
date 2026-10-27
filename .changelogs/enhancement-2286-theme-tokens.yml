@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#2286"
+entry: Added CSS custom properties for frontend colors and corner radius so a single override updates related hovers, focus styles, and tinted backgrounds.
