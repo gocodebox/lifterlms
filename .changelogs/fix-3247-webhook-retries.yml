@@ -1,0 +1,5 @@
+significance: minor
+type: added
+links:
+  - "#3247"
+entry: "Failed webhook deliveries are retried on a delay before the webhook is disabled."

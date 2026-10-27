@@ -317,7 +317,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 
 		$failures = absint( $this->get( 'failure_count' ) );
 
-		$this->set( 'failure_count', ++$failures );
+		$this->set( 'failure_count', ++$failures, true );
 
 		/**
 		 * Filter the number of times a webhook is allowed to fail before it is automatically disabled.
@@ -330,7 +330,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 
 		if ( $failures > $max_allowed ) {
 
-			$this->set( 'status', 'disabled' );
+			$this->set( 'status', 'disabled', true );
 
 			/**
 			 * Fires immediately after a webhook has been disabled due to exceeding its maximum allowed failures.
