@@ -68,9 +68,10 @@ Options:
                                  individuals. Attributions are provided to
                                  thank contributions which originate from
                                  outside the LifterLMS organization. Provide a
-                                 GitHub username or a markdown-formatted
-                                 anchor. Can be provided multiple times to
-                                 attribute to multiple users.
+                                 GitHub username, a plain name, or a
+                                 markdown-formatted anchor. Can be provided
+                                 multiple times to attribute to multiple
+                                 users.
   -e, --entry <entry>            The changelog entry.
   -T, --title <title>            Changelog entry file name. Uses the current
                                  git branch name as the default. Automatically

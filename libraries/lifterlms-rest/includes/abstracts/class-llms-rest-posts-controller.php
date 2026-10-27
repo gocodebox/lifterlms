@@ -109,7 +109,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 				'default'     => false,
 			),
 		);
-
 	}
 
 	/**
@@ -132,7 +131,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $params;
-
 	}
 
 	/**
@@ -163,7 +161,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -189,7 +186,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		$total_pages   = (int) ceil( $total_results / (int) $query->get( 'posts_per_page' ) );
 
 		return compact( 'current_page', 'total_results', 'total_pages' );
-
 	}
 
 	/**
@@ -411,7 +407,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $query_params;
-
 	}
 
 	/**
@@ -436,8 +431,169 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		$query_args = $this->prepare_items_query( $prepared, $request );
 
-		return $query_args;
+		return $this->limit_query_to_readable_posts( $query_args );
+	}
 
+	/**
+	 * Retrieve the IDs of the posts of this type the current user can read.
+	 *
+	 * Pagination totals come from the collection query, before the per-item
+	 * read check runs. A controller whose read check is stricter than the query
+	 * returns the readable IDs here so the query itself only matches them.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return int[]|null Readable post IDs, or `null` when the query needs no restriction.
+	 */
+	protected function get_readable_post_ids() {
+		return null;
+	}
+
+	/**
+	 * Restrict collection query arguments to the posts the current user can read.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param array $query_args WP_Query arguments.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_posts( $query_args ) {
+
+		$readable = $this->get_readable_post_ids();
+		if ( null === $readable ) {
+			return $query_args;
+		}
+
+		$readable = array_map( 'absint', $readable );
+		if ( ! empty( $query_args['post__in'] ) ) {
+			$readable = array_intersect( $readable, array_map( 'absint', (array) $query_args['post__in'] ) );
+		}
+
+		// An empty `post__in` is ignored by WP_Query, so force an impossible match instead.
+		$query_args['post__in'] = $readable ? array_values( $readable ) : array( 0 );
+
+		return $query_args;
+	}
+
+	/**
+	 * Determine if the current user's role grants editing every post of this type.
+	 *
+	 * `current_user_can()` is not used here: LifterLMS grants `edit_others_*`
+	 * to instructors whenever the check carries no post ID.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return bool
+	 */
+	protected function can_edit_others_posts() {
+
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		$cap = get_post_type_object( $this->post_type )->cap->edit_others_posts;
+
+		return ! empty( wp_get_current_user()->allcaps[ $cap ] );
+	}
+
+	/**
+	 * Retrieve the IDs of the published courses the current user instructs.
+	 *
+	 * This is the relation `LLMS_Instructor::is_instructor()` uses when
+	 * resolving `edit_others_*` capabilities on course content.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return int[]
+	 */
+	protected function get_instructor_course_ids() {
+
+		$instructor = llms_get_instructor( get_current_user_id() );
+		if ( ! $instructor ) {
+			return array();
+		}
+
+		$ids = $instructor->get_posts(
+			array(
+				'post_type'      => 'course',
+				'posts_per_page' => -1,
+			),
+			'ids'
+		);
+
+		return array_map( 'absint', $ids );
+	}
+
+	/**
+	 * Retrieve IDs of posts authored by the current user.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string $post_type Post type name.
+	 * @return int[]
+	 */
+	protected function query_own_post_ids( $post_type ) {
+		return $this->query_post_ids(
+			array(
+				'post_type' => $post_type,
+				'author'    => get_current_user_id(),
+			)
+		);
+	}
+
+	/**
+	 * Retrieve IDs of posts whose meta value is one of the supplied values.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string $post_type Post type name.
+	 * @param string $meta_key  Meta key holding the parent ID.
+	 * @param int[]  $values    Parent IDs to match.
+	 * @return int[]
+	 */
+	protected function query_post_ids_by_meta( $post_type, $meta_key, $values ) {
+
+		if ( empty( $values ) ) {
+			return array();
+		}
+
+		return $this->query_post_ids(
+			array(
+				'post_type'  => $post_type,
+				'meta_query' => array(
+					array(
+						'key'     => $meta_key,
+						'value'   => array_map( 'absint', $values ),
+						'compare' => 'IN',
+					),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Retrieve post IDs matching the supplied query arguments, regardless of status.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param array $args WP_Query arguments.
+	 * @return int[]
+	 */
+	protected function query_post_ids( $args ) {
+
+		$query = new WP_Query(
+			wp_parse_args(
+				$args,
+				array(
+					'post_status'    => array_keys( get_post_stati() ),
+					'posts_per_page' => -1,
+					'fields'         => 'ids',
+					'no_found_rows'  => true,
+				)
+			)
+		);
+
+		return array_map( 'absint', $query->posts );
 	}
 
 	/**
@@ -622,7 +778,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		do_action( "llms_rest_after_insert_{$this->post_type}", $object, $request, $schema, false );
 
 		return $this->prepare_item_for_response( $object, $request );
-
 	}
 
 	/**
@@ -673,7 +828,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -747,7 +901,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $response;
-
 	}
 
 	/**
@@ -786,7 +939,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	protected function get_objects_query( $prepared, $request ) {
 
 		return new WP_Query( $prepared );
-
 	}
 
 	/**
@@ -801,7 +953,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	protected function get_objects_from_query( $query ) {
 
 		return $query->posts;
-
 	}
 
 	/**
@@ -830,7 +981,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $items;
-
 	}
 
 	/**
@@ -880,7 +1030,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		);
 
 		return $data;
-
 	}
 
 	/**
@@ -925,7 +1074,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		wp_reset_postdata();
 
 		return $data;
-
 	}
 
 	/**
@@ -956,7 +1104,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -985,7 +1132,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $query_args;
-
 	}
 
 	/**
@@ -1093,7 +1239,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $prepared_item;
-
 	}
 
 	/**
@@ -1290,7 +1435,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		);
 
 		return $schema;
-
 	}
 
 	/**
@@ -1421,7 +1565,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $links;
-
 	}
 
 	/**
@@ -1454,7 +1597,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return $filters_removed;
-
 	}
 
 	/**
@@ -1504,7 +1646,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		 * @param LLMS_Post_Model $object  LLMS_Post_Model object.
 		 */
 		return apply_filters( "llms_rest_{$this->post_type}_filters_removed_for_response", array(), $object );
-
 	}
 
 	/**
@@ -1574,7 +1715,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		} else {
 			return delete_post_thumbnail( $object_id );
 		}
-
 	}
 
 	/**
@@ -1655,7 +1795,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	protected function get_taxonomy_rest_base( $taxonomy ) {
 
 		return ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
-
 	}
 
 	/**
@@ -1669,7 +1808,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		$post_type = get_post_type_object( $this->post_type );
 		return current_user_can( $post_type->cap->publish_posts );
-
 	}
 
 	/**
@@ -1684,7 +1822,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		$post_type = get_post_type_object( $this->post_type );
 		return is_null( $object ) ? current_user_can( $post_type->cap->edit_posts ) : current_user_can( $post_type->cap->edit_post, $object->get( 'id' ) );
-
 	}
 
 	/**
@@ -1699,7 +1836,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		$post_type = get_post_type_object( $this->post_type );
 		return current_user_can( $post_type->cap->delete_post, $object->get( 'id' ) );
-
 	}
 
 	/**
@@ -1750,7 +1886,6 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		}
 
 		return false;
-
 	}
 
 
@@ -1838,7 +1973,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 			$post_type_obj = get_post_type_object( $this->post_type );
 
-			if ( current_user_can( $post_type_obj->cap->edit_posts ) || 'private' === $status && current_user_can( $post_type_obj->cap->read_private_posts ) ) {
+			if ( current_user_can( $post_type_obj->cap->edit_posts ) || ( 'private' === $status && current_user_can( $post_type_obj->cap->read_private_posts ) ) ) {
 				$result = rest_validate_request_arg( $status, $request, $parameter );
 				if ( is_wp_error( $result ) ) {
 					return $result;
@@ -1850,5 +1985,4 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 
 		return $statuses;
 	}
-
 }

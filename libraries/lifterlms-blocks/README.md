@@ -1,42 +1,23 @@
 LifterLMS Blocks
 ================
 
-[![Test PHPUnit](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/test-phpunit.yml/badge.svg)](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/test-phpunit.yml)
-[![PHP Code Coverage Report](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/php-test-coverage.yml/badge.svg)](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/php-test-coverage.yml)
-[![Coding Standards](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/gocodebox/lifterlms-blocks/actions/workflows/coding-standards.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/49df50fa2a04ab1f8e55/maintainability)](https://codeclimate.com/github/gocodebox/lifterlms-blocks/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/49df50fa2a04ab1f8e55/test_coverage)](https://codeclimate.com/github/gocodebox/lifterlms-blocks/test_coverage)
-
 WordPress Editor (Gutenberg) blocks for LifterLMS.
 
----
+This directory is part of the LifterLMS core repository and ships with LifterLMS. It is not a standalone plugin. The old [gocodebox/lifterlms-blocks](https://github.com/gocodebox/lifterlms-blocks) repository is archived.
 
-## Installing
-
-**Via LifterLMS**
-
-+ Since LifterLMS 3.25.0-alpha.1 this plugin is automatically included in the LifterLMS core codebase
-
-**Installation of the plugin via Zip file**
-
-+ Download the zip file using the "Clone or download" button
-+ On your WordPress admin panel navigate to Plugins -> Add New
-+ Upload the zip file
-+ Activate the plugin
-
+Core loads it when the block editor is available. Return `false` from the `llms_load_blocks_plugin` filter to skip loading it.
 
 ## Development
 
-While developing Javascript within this plugin you can watch changes in the assets and (optionally) automatically reload using LiveReload
+Source is in `src/`. From the LifterLMS repository root:
 
-To watch changes in the `assets/src` directory, run `npm start`.
-
-To use LiveReload, add the following to a mu-plugin to automatically reload during development:
-
-```php
-// add_action( 'wp_head', 'add_live_reload' ); // Auto-reload frontend.
-// add_action( 'admin_head', 'add_live_reload' ); // Auto-reload admin panel.
-function add_live_reload() {
-  echo '<script src="http://localhost:35729/livereload.js"></script>';
-}
+```bash
+npm run start --workspace=lifterlms-blocks
+npm run build --workspace=lifterlms-blocks
 ```
+
+`npm run build:libraries` builds this package and the Helper together.
+
+## Contributing
+
+Follow the [LifterLMS core contribution guidelines](../../.github/CONTRIBUTING.md). Changelog entries go in the core `.changelogs/` directory. PHPUnit coverage is in `tests/phpunit/unit-tests/libraries/lifterlms-blocks/`.

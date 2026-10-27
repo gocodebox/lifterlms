@@ -120,6 +120,8 @@ define( [
 
 			var is_initial = ! this._has_rendered;
 
+			this.release_select2_scroll_lock();
+
 			this.$el.html( this.template( this.model ) );
 
 			this.remove_subview( 'settings' );

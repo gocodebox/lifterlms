@@ -206,11 +206,7 @@ function llms_get_possible_order_statuses( $order ) {
 }
 
 /**
- * Locates an order by email address and access plan ID.
- *
- * Used during AJAX checkout order creation when users are not created until the gateway confirms success.
- *
- * Ensures that only a single pending order for a given plan and email address will exist at any given time.
+ * Locates a pending order by billing email address and access plan ID.
  *
  * @since 7.0.0
  *
@@ -279,9 +275,9 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 /**
  * Determines whether an access plan can be purchased by a user during checkout.
  *
- * Mirrors the front-end purchasability gating so that restricted access plans and products cannot be purchased
- * by submitting a crafted access plan ID directly to the checkout handlers. Enforces member-only plan availability
- * and course restrictions (enrollment window and student capacity).
+ * Mirrors the front-end purchasability gating so that unpublished or restricted access plans and products cannot
+ * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan,
+ * member-only plan availability, and no course restrictions (enrollment window and student capacity).
  *
  * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
@@ -298,7 +294,8 @@ function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
 
 	if ( ! $plan || ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
 		$can_purchase = new WP_Error( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
-	} elseif ( ! $plan->is_available_to_user( $user_id ) ) {
+	} elseif ( 'publish' !== get_post_status( $plan->get( 'id' ) ) || ! $plan->is_available_to_user( $user_id ) ) {
+		// Same error as an unavailable plan so an unpublished plan is not distinguishable from one the user cannot use.
 		$can_purchase = new WP_Error( 'plan-not-available', __( 'This access plan is not available.', 'lifterlms' ) );
 	} else {
 		$product = $plan->get_product();

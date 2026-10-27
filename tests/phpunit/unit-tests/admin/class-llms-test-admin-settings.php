@@ -459,4 +459,181 @@ class LLMS_Test_Admin_Settings extends LLMS_UnitTestCase {
 		$this->assertTrue( $saved );
 	}
 
+	/**
+	 * Test that captcha secret fields are masked and other captcha fields are not.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_captcha_secret_fields_are_obfuscated() {
+
+		$security = null;
+		foreach ( LLMS_Admin_Settings::get_settings_tabs() as $tab ) {
+			if ( $tab instanceof LLMS_Settings_Security ) {
+				$security = $tab;
+				break;
+			}
+		}
+
+		$this->assertInstanceOf( LLMS_Settings_Security::class, $security );
+
+		$fields = array();
+		foreach ( $security->get_settings() as $field ) {
+			if ( ! empty( $field['id'] ) ) {
+				$fields[ $field['id'] ] = $field;
+			}
+		}
+
+		$this->assertTrue( $fields['lifterlms_turnstile_secret_key']['obfuscate'] );
+		$this->assertTrue( $fields['lifterlms_recaptcha_secret_key']['obfuscate'] );
+		$this->assertArrayNotHasKey( 'obfuscate', $fields['lifterlms_turnstile_site_key'] );
+		$this->assertArrayNotHasKey( 'obfuscate', $fields['lifterlms_recaptcha_site_key'] );
+
+	}
+
+	/**
+	 * Test output_field() hides an obfuscated value.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_output_field_obfuscate() {
+
+		$id     = 'mock_obfuscated_field';
+		$secret = 'ts_secret_0x4AAAAAAA_TURNSTILE_KEY_zz';
+		update_option( $id, $secret );
+
+		ob_start();
+		LLMS_Admin_Settings::output_field(
+			array(
+				'type'      => 'text',
+				'id'        => $id,
+				'title'     => 'Secret',
+				'obfuscate' => true,
+			)
+		);
+		$html = ob_get_clean();
+
+		$this->assertStringNotContainsString( $secret, $html );
+		$this->assertStringContainsString( 'value="' . esc_attr( llms_anonymize_string( $secret ) ) . '"', $html );
+
+		ob_start();
+		LLMS_Admin_Settings::output_field(
+			array(
+				'type'  => 'text',
+				'id'    => $id,
+				'title' => 'Secret',
+			)
+		);
+		$plain = ob_get_clean();
+
+		$this->assertStringContainsString( 'value="' . esc_attr( $secret ) . '"', $plain );
+
+		delete_option( $id );
+
+		ob_start();
+		LLMS_Admin_Settings::output_field(
+			array(
+				'type'      => 'text',
+				'id'        => $id,
+				'title'     => 'Secret',
+				'obfuscate' => true,
+			)
+		);
+		$empty = ob_get_clean();
+
+		$this->assertStringContainsString( 'value=""', $empty );
+
+	}
+
+	/**
+	 * Test save_fields() keeps an obfuscated value only when the submission is the stored mask.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_save_fields_obfuscate() {
+
+		$secret_id = 'mock_obfuscated_secret';
+		$other_id  = 'mock_obfuscated_neighbor';
+		$secret    = 'ts_secret_0x4AAAAAAA_TURNSTILE_KEY_zz';
+		$fields    = array(
+			array(
+				'type'      => 'text',
+				'id'        => $secret_id,
+				'obfuscate' => true,
+			),
+			array(
+				'type' => 'text',
+				'id'   => $other_id,
+			),
+		);
+
+		update_option( $secret_id, $secret );
+
+		$this->mockPostRequest(
+			array(
+				$secret_id => llms_anonymize_string( $secret ),
+				$other_id  => 'visible',
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( $secret, get_option( $secret_id ) );
+		$this->assertSame( 'visible', get_option( $other_id ) );
+
+		$with_asterisk = 'partial*edit';
+		$this->mockPostRequest(
+			array(
+				$secret_id => $with_asterisk,
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( $with_asterisk, get_option( $secret_id ) );
+
+		$this->mockPostRequest(
+			array(
+				$secret_id => llms_anonymize_string( $with_asterisk ),
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( $with_asterisk, get_option( $secret_id ) );
+
+		$replacement = 'brand-new-secret-key';
+		$this->mockPostRequest(
+			array(
+				$secret_id => $replacement,
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( $replacement, get_option( $secret_id ) );
+
+		$this->mockPostRequest(
+			array(
+				$secret_id => '',
+			)
+		);
+		LLMS_Admin_Settings::save_fields( $fields );
+		$this->assertSame( '', get_option( $secret_id ) );
+
+		$plain_id = 'mock_plain_with_asterisk';
+		$this->mockPostRequest(
+			array(
+				$plain_id => 'keep*this',
+			)
+		);
+		LLMS_Admin_Settings::save_fields(
+			array(
+				array(
+					'type' => 'text',
+					'id'   => $plain_id,
+				),
+			)
+		);
+		$this->assertSame( 'keep*this', get_option( $plain_id ) );
+
+	}
+
 }

@@ -1,5 +1,11 @@
 @use 'sass:color';
 
+// Gutenberg copies any stylesheet whose selectors contain `.wp-block` into the
+// editor iframe. Keep these column rules out of admin.css so LifterLMS admin
+// button chrome does not leak into the canvas. Frontend CSS (loaded via
+// `add_editor_style`) still includes them.
+$llms-form-field-wp-block-layout: true !default;
+
 .llms-form-fields {
 	@extend %clearfix;
 	box-sizing: border-box;
@@ -16,8 +22,10 @@
 		font-weight: 700;
 	}
 
-	.wp-block-columns, .wp-block-column {
-		margin-bottom: 0;
+	@if $llms-form-field-wp-block-layout {
+		.wp-block-columns, .wp-block-column {
+			margin-bottom: 0;
+		}
 	}
 }
 

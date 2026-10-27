@@ -26,6 +26,19 @@ async function setContentEditable( locator, text ) {
 	}, text );
 }
 
+/**
+ * Click a builder control that may sit in a nested scroll area under sticky chrome.
+ *
+ * @param {import('@playwright/test').Locator} locator Target control.
+ */
+async function clickBuilderAction( locator ) {
+	await locator.waitFor( { state: 'visible' } );
+	await locator.evaluate( ( el ) => {
+		el.scrollIntoView( { block: 'center', inline: 'nearest' } );
+	} );
+	await locator.click( { force: true } );
+}
+
 test.describe( 'Course Builder / Quiz Save', () => {
 
 	test( 'adding a quiz with a multiple choice question saves without stack overflow', async ( {
@@ -82,12 +95,11 @@ test.describe( 'Course Builder / Quiz Save', () => {
 
 		// Create a new quiz.
 		await page.locator( '#llms-new-quiz' ).click();
-		await expect( page.locator( '#llms-quiz-questions' ) ).toBeVisible();
+		await expect( page.locator( '#llms-show-question-bank' ) ).toBeVisible();
 
 		// Open question bank, then add a multiple choice question.
-		await page.locator( '#llms-show-question-bank' ).click();
-		await page.locator( '#llms-add-question--choice' ).scrollIntoViewIfNeeded();
-		await page.locator( '#llms-add-question--choice' ).click();
+		await clickBuilderAction( page.locator( '#llms-show-question-bank' ) );
+		await clickBuilderAction( page.locator( '#llms-add-question--choice' ) );
 		const question = page.locator( '#llms-quiz-questions .llms-question' ).first();
 		await expect( question ).toBeVisible();
 
@@ -123,11 +135,25 @@ test.describe( 'Course Builder / Quiz Save', () => {
 		expect( stackErrors, `Unexpected stack overflow: ${ stackErrors.join( '; ' ) }` ).toHaveLength( 0 );
 
 		// Reload — quiz and question should still be attached.
+		// Opening the quiz sets #lesson:{id}:quiz, so the builder deep-links back
+		// into the editor. Clicking .edit-quiz again destroys that view while
+		// questions are lazy-loaded and the list never paints.
 		await page.reload();
 		await page.locator( '.wrap.lifterlms.llms-builder' ).waitFor( { state: 'visible' } );
-		await page.locator( `#llms-lesson-${ lesson.id } .edit-quiz` ).click();
+		await page.locator( `#llms-lesson-${ lesson.id }` ).waitFor( { state: 'visible' } );
+
+		const quizEditor = page.locator( '#llms-editor-quiz.active' );
+		const deepLinked = await quizEditor
+			.waitFor( { state: 'visible', timeout: 15000 } )
+			.then( () => true )
+			.catch( () => false );
+		if ( ! deepLinked ) {
+			await page.locator( `#llms-lesson-${ lesson.id } .edit-quiz` ).click();
+			await expect( quizEditor ).toBeVisible();
+		}
+
 		const savedQuestion = page.locator( '#llms-editor-quiz #llms-quiz-questions .llms-question' ).first();
-		await expect( savedQuestion ).toBeVisible( { timeout: 10000 } );
+		await expect( savedQuestion ).toBeVisible( { timeout: 15000 } );
 		// Title lives in the collapsed header; expand for choice text if needed.
 		await savedQuestion.locator( '.expand--question' ).click( { force: true } );
 		await expect( savedQuestion ).toContainText( '1+1=' );

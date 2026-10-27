@@ -17,9 +17,7 @@
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
 [![PHPUnit Tests][img-phpunit-tests]][link-phpunit-tests]
-[![PHPCS Coding Standards][img-phpcs-checks]][link-phpcs-checks]
-[![Code Climate maintainability][img-cc-maintainability]][link-cc]
-[![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
+[![Playwright E2E Tests][img-e2e-tests]][link-e2e-tests]
 
 [![Contributions Welcome][img-contributions-welcome]](.github/CONTRIBUTING.md)
 [![Contributors][img-contributors]](#contributors)
@@ -47,20 +45,22 @@ GitHub is for bug reports and contributions only! If you have a support question
 + Developer portal: https://developer.lifterlms.com/
 
 
-### Included Core Packages
+### Bundled Libraries
 
-The LifterLMS core includes several additional packages which are included in releases through composer. These core projects are installable as standalone plugins for development and testing purposes. The stable versions are automatically included in LifterLMS core releases.
+Blocks, the REST API, WP-CLI commands, the Helper, and admin banner notifications live in this repository under [`libraries/`](libraries/) and ship with LifterLMS core. They are not separate plugins, and they are not installed through Composer. The old repositories are archived.
 
-These packages have their own GitHub repositories:
++ [`banner-notifications`](libraries/banner-notifications) — admin banner notifications
++ [`lifterlms-blocks`](libraries/lifterlms-blocks) — WordPress Editor (Gutenberg) blocks
++ [`lifterlms-cli`](libraries/lifterlms-cli) — WP-CLI commands (`wp llms ...`)
++ [`lifterlms-helper`](libraries/lifterlms-helper) — add-on update, install, and beta tooling
++ [`lifterlms-rest`](libraries/lifterlms-rest) — REST API endpoints
 
-+ [LifterLMS Blocks](https://github.com/gocodebox/lifterlms-blocks)
-+ [LifterLMS CLI](https://github.com/gocodebox/lifterlms-cli)
-+ [LifterLMS REST API](https://github.com/gocodebox/lifterlms-rest)
+Edit them in place. Changes follow the same contribution workflow as the rest of core, including changelog entries in `.changelogs/`. See [`libraries/README.md`](libraries/README.md).
 
 
 ### AI Agent Integration
 
-LifterLMS supports AI coding assistants through its [CLI](https://github.com/gocodebox/lifterlms-cli) (for shell-based agents like Claude Code and Cursor) and [MCP server](https://github.com/gocodebox/lifterlms-mcp) (for chat-based agents like Claude Desktop). See the [AI agent guide](docs/ai-agents.md) for setup and usage.
+LifterLMS supports AI coding assistants through the WP-CLI commands bundled in [`libraries/lifterlms-cli`](libraries/lifterlms-cli) (for shell-based agents like Claude Code and Cursor) and the [MCP server](https://github.com/gocodebox/lifterlms-mcp) (for chat-based agents like Claude Desktop). See the [AI agent guide](docs/ai-agents.md) for setup and usage.
 
 
 ### Reporting a Bug
@@ -81,7 +81,7 @@ Security issues and vulnerabilities should be responsibly disclosed directly to 
 
 If you clone or download this repo directly it will not run as a plugin inside WordPress!
 
-Installable production releases are available in on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
+Installable production releases are available on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
 
 If you're interested in installing development versions, see [Installing for Development](docs/installing.md)
 
@@ -135,6 +135,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/hovpoghosyan"><img src="https://avatars.githubusercontent.com/u/9405480?v=4" title="hovpoghosyan" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>
+<a href="https://github.com/robindevitt"><img src="https://avatars.githubusercontent.com/u/16571365?v=4" title="robindevitt" width="80" height="80"></a>
 <a href="https://github.com/nicolas-jaussaud"><img src="https://avatars.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
 <a href="https://github.com/lifterlms-maurice"><img src="https://avatars.githubusercontent.com/u/272279717?v=4" title="lifterlms-maurice" width="80" height="80"></a>
 <a href="https://github.com/mrosati84"><img src="https://avatars.githubusercontent.com/u/855068?v=4" title="mrosati84" width="80" height="80"></a>
@@ -149,7 +150,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/edent"><img src="https://avatars.githubusercontent.com/u/837136?v=4" title="edent" width="80" height="80"></a>
 <a href="https://github.com/sekanderb"><img src="https://avatars.githubusercontent.com/u/3262638?v=4" title="sekanderb" width="80" height="80"></a>
 <a href="https://github.com/sapayth"><img src="https://avatars.githubusercontent.com/u/15567340?v=4" title="sapayth" width="80" height="80"></a>
-<a href="https://github.com/robindevitt"><img src="https://avatars.githubusercontent.com/u/16571365?v=4" title="robindevitt" width="80" height="80"></a>
 <a href="https://github.com/reedhewitt"><img src="https://avatars.githubusercontent.com/u/957141?v=4" title="reedhewitt" width="80" height="80"></a>
 <a href="https://github.com/Nikschavan"><img src="https://avatars.githubusercontent.com/u/2931091?v=4" title="Nikschavan" width="80" height="80"></a>
 <a href="https://github.com/nhandl3"><img src="https://avatars.githubusercontent.com/u/1247539?v=4" title="nhandl3" width="80" height="80"></a>
@@ -173,12 +173,10 @@ Endless thanks to all our incredible contributors!
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
 
 <!-- References: Links -->
-[link-cc]: https://codeclimate.com/github/gocodebox/lifterlms "LifterLMS on Code Climate"
-[link-cc-coverage]: https://codeclimate.com/github/gocodebox/lifterlms/coverage "Code coverage reports on Code Climate"
+[link-e2e-tests]: https://github.com/gocodebox/lifterlms/actions/workflows/test-e2e-playwright.yml "Playwright E2E Tests Status"
 [link-experts]: https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/ "Hire a LifterLMS Expert"
 [link-php]: https://www.php.net/supported-versions "PHP Support Versions"
 [link-phpunit-tests]: https://github.com/gocodebox/lifterlms/actions/workflows/test-phpunit.yml "PHPUnit Tests Status"
-[link-phpcs-checks]: https://github.com/gocodebox/lifterlms/actions/workflows/coding-standards.yml "PHPCS Coding Standards Checks"
 [link-slack]: https://lifterlms.com/slack "Chat with the community on Slack"
 [link-support]: https://lifterlms.com/my-account/my-tickets "LifterLMS customer support"
 [link-support-forums]: https://wordpress.org/support/plugin/lifterlms "LifterLMS user support forums"
@@ -186,13 +184,11 @@ Endless thanks to all our incredible contributors!
 [link-wp-repo]:https://wordpress.org/plugins/lifterlms/ "LifterLMS on the WordPress plugin repository"
 [link-wp-reviews]:https://wordpress.org/support/plugin/lifterlms/reviews/ "Leave a review on the WordPress plugin repository"
 
-[img-cc-coverage]:https://img.shields.io/codeclimate/coverage/gocodebox/lifterlms?style=for-the-badge&logo=code-climate
-[img-cc-maintainability]:https://img.shields.io/codeclimate/maintainability/gocodebox/lifterlms?logo=code-climate&style=for-the-badge
 [img-contributors]: https://img.shields.io/github/contributors/gocodebox/lifterlms?color=blue&style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJzdmcyIiB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjU4NSIgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPiA8ZyBpZD0ibGF5ZXIxIj4gIDxwYXRoIGlkPSJwYXRoMjQxNyIgZD0ibTI5Ny4zIDU1MC44N2MtMTMuNzc1LTE1LjQzNi00OC4xNzEtNDUuNTMtNzYuNDM1LTY2Ljg3NC04My43NDQtNjMuMjQyLTk1LjE0Mi03Mi4zOTQtMTI5LjE0LTEwMy43LTYyLjY4NS01Ny43Mi04OS4zMDYtMTE1LjcxLTg5LjIxNC0xOTQuMzQgMC4wNDQ1MTItMzguMzg0IDIuNjYwOC01My4xNzIgMTMuNDEtNzUuNzk3IDE4LjIzNy0zOC4zODYgNDUuMS02Ni45MDkgNzkuNDQ1LTg0LjM1NSAyNC4zMjUtMTIuMzU2IDM2LjMyMy0xNy44NDUgNzYuOTQ0LTE4LjA3IDQyLjQ5My0wLjIzNDgzIDUxLjQzOSA0LjcxOTcgNzYuNDM1IDE4LjQ1MiAzMC40MjUgMTYuNzE0IDYxLjc0IDUyLjQzNiA2OC4yMTMgNzcuODExbDMuOTk4MSAxNS42NzIgOS44NTk2LTIxLjU4NWM1NS43MTYtMTIxLjk3IDIzMy42LTEyMC4xNSAyOTUuNSAzLjAzMTYgMTkuNjM4IDM5LjA3NiAyMS43OTQgMTIyLjUxIDQuMzgwMSAxNjkuNTEtMjIuNzE1IDYxLjMwOS02NS4zOCAxMDguMDUtMTY0LjAxIDE3OS42OC02NC42ODEgNDYuOTc0LTEzNy44OCAxMTguMDUtMTQyLjk4IDEyOC4wMy01LjkxNTUgMTEuNTg4LTAuMjgyMTYgMS44MTU5LTI2LjQwOC0yNy40NjF6IiBmaWxsPSIjZGQ1MDRmIi8%2BIDwvZz48L3N2Zz4%3D
 [img-contributions-welcome]: https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik02NzIgMTQ3MnEwLTQwLTI4LTY4dC02OC0yOC02OCAyOC0yOCA2OCAyOCA2OCA2OCAyOCA2OC0yOCAyOC02OHptMC0xMTUycTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em02NDAgMTI4cTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em05NiAwcTAgNTItMjYgOTYuNXQtNzAgNjkuNXEtMiAyODctMjI2IDQxNC02NyAzOC0yMDMgODEtMTI4IDQwLTE2OS41IDcxdC00MS41IDEwMHYyNnE0NCAyNSA3MCA2OS41dDI2IDk2LjVxMCA4MC01NiAxMzZ0LTEzNiA1Ni0xMzYtNTYtNTYtMTM2cTAtNTIgMjYtOTYuNXQ3MC02OS41di04MjBxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZxMCA1Mi0yNiA5Ni41dC03MCA2OS41djQ5N3E1NC0yNiAxNTQtNTcgNTUtMTcgODcuNS0yOS41dDcwLjUtMzEgNTktMzkuNSA0MC41LTUxIDI4LTY5LjUgOC41LTkxLjVxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+
-[img-php]: https://img.shields.io/badge/PHP-7.2%2B-brightgreen?style=for-the-badge&logoColor=white&logo=php
-[img-phpunit-tests]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Test%20PHPUnit?label=PHPUnit&logo=github&style=for-the-badge
-[img-phpcs-checks]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Coding%20Standards?label=PHPCS&logo=github&style=for-the-badge
+[img-e2e-tests]: https://img.shields.io/github/actions/workflow/status/gocodebox/lifterlms/.github/workflows/test-e2e-playwright.yml?label=E2E&logo=github&style=for-the-badge
+[img-php]: https://img.shields.io/badge/PHP-7.4%2B-brightgreen?style=for-the-badge&logoColor=white&logo=php
+[img-phpunit-tests]: https://img.shields.io/github/actions/workflow/status/gocodebox/lifterlms/.github/workflows/test-phpunit.yml?label=PHPUnit&logo=github&style=for-the-badge
 [img-slack]: https://img.shields.io/badge/chat-on%20slack-blueviolet?style=for-the-badge&logo=slack
 [img-wp-downloads]: https://img.shields.io/wordpress/plugin/dt/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-installs]: https://img.shields.io/wordpress/plugin/installs/lifterlms.svg?style=for-the-badge&logo=wordpress
