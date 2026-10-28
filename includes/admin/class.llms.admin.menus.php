@@ -247,6 +247,7 @@ class LLMS_Admin_Menus {
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
 	 * @since 7.4.1 Added the 'Resources' submenu page.
+	 * @since [version] Process Scheduled Actions requests when the 'Status' page loads.
 	 *
 	 * @return void
 	 */
@@ -267,7 +268,8 @@ class LLMS_Admin_Menus {
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), 'manage_lifterlms', 'llms-import', array( $this, 'import_page_init' ) );
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
+		$status_hook = add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
+		add_action( 'load-' . $status_hook, array( $this, 'status_page_load' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Resources', 'lifterlms' ), __( 'Resources', 'lifterlms' ), 'manage_lifterlms', 'llms-resources', array( $this, 'resources_page_init' ) );
 
@@ -461,6 +463,22 @@ class LLMS_Admin_Menus {
 	public function status_page_actions() {
 		$this->status_page_includes();
 		LLMS_Admin_Page_Status::handle_actions();
+	}
+
+	/**
+	 * Process Scheduled Actions list table requests before the status page outputs anything
+	 *
+	 * The list table redirects after searches and bulk actions, which fails once
+	 * output has started and leaves the page blank.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function status_page_load() {
+		if ( 'action-scheduler' === llms_filter_input_sanitize_string( INPUT_GET, 'tab' ) ) {
+			ActionScheduler_AdminView::instance()->process_admin_ui();
+		}
 	}
 
 	/**
