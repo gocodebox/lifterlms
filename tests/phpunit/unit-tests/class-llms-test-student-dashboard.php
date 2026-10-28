@@ -157,4 +157,47 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 		$this->assertSame( array( $txn_ids['2020-02-01'], $txn_ids['2020-01-01'] ), $get_ids( $page_two ) );
 	}
 
+	/**
+	 * Test that My Grades redirects to the course list only when the requested course doesn't exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_invalid_my_grades_course() {
+
+		LLMS_Install::create_pages();
+
+		$dashboard  = new LLMS_Student_Dashboard();
+		$grades_url = llms_get_endpoint_url( 'my-grades', '', llms_get_page_url( 'myaccount' ) );
+		$course     = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		$redirects_to = function ( $value ) use ( $dashboard, $grades_url ) {
+			$this->go_to( add_query_arg( 'my-grades', $value, $grades_url ) );
+			try {
+				$dashboard->maybe_redirect_invalid_my_grades_course();
+			} catch ( LLMS_Unit_Test_Exception_Redirect $exception ) {
+				return $exception->getMessage();
+			}
+			return false;
+		};
+
+		// A course ID, unknown slug, or unpublished course redirects to the course list.
+		$this->assertSame( $grades_url . ' [302] YES', $redirects_to( $course->get( 'id' ) ) );
+		$this->assertSame( $grades_url . ' [302] YES', $redirects_to( 'not-a-course' ) );
+
+		// A valid course, the course list, and its pagination don't redirect.
+		$this->assertFalse( $redirects_to( $course->get( 'name' ) ) );
+		$this->assertFalse( $redirects_to( '' ) );
+		$this->assertFalse( $redirects_to( 'page/2' ) );
+
+		wp_update_post(
+			array(
+				'ID'          => $course->get( 'id' ),
+				'post_status' => 'draft',
+			)
+		);
+		$this->assertSame( $grades_url . ' [302] YES', $redirects_to( $course->get( 'name' ) ) );
+	}
+
 }

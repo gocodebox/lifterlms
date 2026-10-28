@@ -714,8 +714,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
-			// Invalid course (e.g. a numeric ID instead of a course slug).
+			// Invalid course (e.g. a numeric ID instead of a course slug): the template outputs an "Invalid course." message.
 			if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+				llms_get_template(
+					'myaccount/my-grades-single.php',
+					array(
+						'course'  => false,
+						'student' => $student,
+					)
+				);
 				return;
 			}
 

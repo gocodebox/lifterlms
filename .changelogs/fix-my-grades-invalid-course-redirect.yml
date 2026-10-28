@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Requests for an unknown course on the My Grades dashboard page now redirect to the My Grades course list instead of showing an empty page.

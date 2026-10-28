@@ -32,6 +32,7 @@ class LLMS_Student_Dashboard {
 		add_filter( 'document_title_parts', array( $this, 'modify_document_title' ) );
 		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 		add_filter( 'llms_get_student_dashboard_tabs_for_nav', array( $this, 'maybe_hide_subscriptions_nav' ) );
+		add_action( 'template_redirect', array( $this, 'maybe_redirect_invalid_my_grades_course' ) );
 	}
 
 	/**
@@ -475,12 +476,27 @@ class LLMS_Student_Dashboard {
 	 */
 	protected function get_my_grades_course_title() {
 
+		$course = self::get_my_grades_course();
+
+		return $course ? get_the_title( $course ) : '';
+	}
+
+	/**
+	 * Retrieve the course requested on the single course view of My Grades.
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Post|false|null The course post, `false` when the request isn't for a single course,
+	 *                            or `null` when no published course matches the requested slug.
+	 */
+	protected static function get_my_grades_course() {
+
 		global $wp_query, $wp_rewrite;
 
 		$slug = $wp_query->query['my-grades'] ?? '';
 
 		if ( ! $slug || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
-			return '';
+			return false;
 		}
 
 		$course = get_posts(
@@ -492,9 +508,25 @@ class LLMS_Student_Dashboard {
 			)
 		);
 
-		$course = array_shift( $course );
+		return array_shift( $course );
+	}
 
-		return $course ? get_the_title( $course ) : '';
+	/**
+	 * Redirect requests for an unknown course on My Grades to the My Grades course list.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_redirect_invalid_my_grades_course() {
+
+		if ( ! is_llms_account_page() || 'my-grades' !== self::get_current_tab( 'slug' ) ) {
+			return;
+		}
+
+		if ( null === self::get_my_grades_course() ) {
+			llms_redirect_and_exit( llms_get_endpoint_url( 'my-grades' ) );
+		}
 	}
 
 	public function modify_rewrite_rules_order( $rules ) {
