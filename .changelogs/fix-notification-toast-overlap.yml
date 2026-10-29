@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed frontend notification toasts overlapping when several are displayed at once.
