@@ -226,12 +226,14 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * Overrides the abstract setter so a deferred session cookie is emitted the
 	 * moment data is first written to a brand-new session. Anonymous visitors who
 	 * never write session data never receive the cookie, which keeps their page
-	 * views eligible for full-page caching. Every first-party write path (coupons,
-	 * notices, gift and group checkout) runs during request processing, before any
-	 * output, so the cookie is emitted in time to take effect, the same way the
-	 * cookie was previously emitted from the constructor.
+	 * views eligible for full-page caching. Most write paths (coupons, notices, gift
+	 * and group checkout) run during request processing, before any output. Some run
+	 * while the page renders (e.g. the checkout login notice); if output has already
+	 * been sent by then, the cookie can't be sent and the data only lasts for the
+	 * current request.
 	 *
 	 * @since 10.0.7
+	 * @since [version] Keep the session flagged as new when its cookie could not be sent.
 	 *
 	 * @param string $key   Session data key.
 	 * @param mixed  $value Session data value.
@@ -247,8 +249,9 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		// emission or a database row.
 		if ( $this->is_new && ! $this->is_clean ) {
 			if ( $this->session_has_data() ) {
-				$this->set_cookie();
-				$this->is_new = false;
+				// If the cookie can't be sent (output already started), the session stays new:
+				// its data remains usable for this request but is not saved at shutdown.
+				$this->is_new = ! $this->set_cookie();
 			} else {
 				// All values are empty — reset so shutdown won't write a useless DB row.
 				$this->is_clean = true;
@@ -307,13 +310,17 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * Callback for `shutdown` action hook.
 	 *
+	 * A new session whose cookie was never sent is not saved: no later request can
+	 * reference it, so saving it would only leave an orphaned database row.
+	 *
 	 * @since 4.0.0
+	 * @since [version] Do not save a new session whose cookie was never sent.
 	 *
 	 * @return boolean
 	 */
 	public function maybe_save_data() {
 
-		if ( ! $this->is_clean ) {
+		if ( ! $this->is_clean && ! $this->is_new ) {
 			return $this->save( $this->expires );
 		}
 
