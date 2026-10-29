@@ -36,6 +36,7 @@ LLMS.Achievements = {
 	 * Bind DOM events
 	 *
 	 * @since 3.14.0
+	 * @since [version] Look up the modal by ID instead of building a selector from the `data-id` attribute.
 	 *
 	 * @return {void}
 	 */
@@ -53,7 +54,7 @@ LLMS.Achievements = {
 
 			var $this  = $( this ),
 				id     = 'achievement-' + $this.attr( 'data-id' ),
-				$modal = $( '#' + id );
+				$modal = $( document.getElementById( id ) );
 
 			if ( ! $modal.length ) {
 				self.create_modal( $this );
@@ -69,6 +70,7 @@ LLMS.Achievements = {
 	 * Creates modal a modal for an achievement
 	 *
 	 * @since 3.14.0
+	 * @since [version] Don't parse the `data-id` attribute as HTML.
 	 *
 	 * @param obj $el The jQuery selector for the modal card.
 	 * @return {void}
@@ -76,10 +78,10 @@ LLMS.Achievements = {
 	create_modal: function( $el ) {
 
 		var id     = 'achievement-' + $el.attr( 'data-id' ),
-			$modal = $( '#' + id );
+			$modal = $( document.getElementById( id ) );
 
 		if ( ! $modal.length ) {
-			$modal = $( '<div class="llms-achievement-modal" id="' + id + '" />' );
+			$modal = $( '<div class="llms-achievement-modal" />' ).attr( 'id', id );
 			$( 'body' ).append( $modal );
 		}
 

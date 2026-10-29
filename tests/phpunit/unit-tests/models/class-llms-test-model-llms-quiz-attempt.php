@@ -234,6 +234,25 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test answer_question() doesn't record answers for content questions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_answer_question_content_question() {
+
+		$attempt   = $this->get_mock_attempt();
+		$questions = wp_list_pluck( $attempt->get_questions(), 'id' );
+		llms_get_post( $questions[0] )->set( 'question_type', 'content' );
+
+		$attempt->answer_question( $questions[0], array( '<div class="llms-quiz-attempt-question">x</div>' ) );
+
+		$this->assertSame( array(), $attempt->get_questions()[0]['answer'] );
+
+	}
+
+	/**
 	 * Test answer_question() when supplying an incorrect answer
 	 *
 	 * @since 4.0.0

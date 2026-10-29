@@ -3,7 +3,7 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Unknown.
- * @version 5.3.0
+ * @version [version]
  */( function( $ ) {
 
 	/**
@@ -41,12 +41,14 @@
 		 * @since 3.16.0
 		 * @since 3.30.3 When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
 		 * @since 5.3.0 Exclude removed question items.
+		 * @since [version] Only use top-level question items and build the fields without parsing attribute values as HTML.
 		 *
 		 * @return {Grading}
 		 */
 		function setup_fields() {
 
-			$els = $( '.llms-quiz-attempt-question:not(.type--content):not(.type--removed)' );
+			// Only direct children of the results list: answer content must not be able to add question elements.
+			$els = $( '.llms-quiz-attempt-results > .llms-quiz-attempt-question:not(.type--content):not(.type--removed)' );
 
 			if ( $els.length < 1 ) {
 				return;
@@ -57,28 +59,39 @@
 
 			$els.each( function() {
 
-				var id        = $( this ).attr( 'data-question-id' ),
-					$existing = $( this ).find( '.llms-quiz-attempt-answer-section.llms-remarks' ),
+				var id        = parseInt( $( this ).attr( 'data-question-id' ), 10 ),
+					$existing = $( this ).children( '.llms-quiz-attempt-question-main' ).children( '.llms-quiz-attempt-answer-section.llms-remarks' ),
 					$ui       = $( '<div class="llms-quiz-attempt-answer-section llms-remarks" />' ),
-					$textarea = $( '<textarea class="llms-remarks-field" name="remarks[' + id + ']"></textarea>' )
+					$textarea = $( '<textarea class="llms-remarks-field" />' ).attr( 'name', 'remarks[' + id + ']' ),
 					gradeable = ( 'yes' === $( this ).attr( 'data-grading-manual' ) );
 
-				$ui.append( '<p class="llms-quiz-results-label remarks">' + title + ':</p>' )
+				if ( ! id ) {
+					return;
+				}
+
+				$ui.append( $( '<p class="llms-quiz-results-label remarks" />' ).text( title + ':' ) );
 				$ui.append( $textarea );
 				if ( gradeable ) {
-					var pts = $( this ).attr( 'data-points-curr' ),
-						max = $( this ).attr( 'data-points' );
-					$ui.append( '<input name="points[' + id + ']" max="' + max + '" min="0" type="number" value="' + pts + '"> / ' + max + ' ' + points );
+					var pts = parseFloat( $( this ).attr( 'data-points-curr' ) ),
+						max = parseFloat( $( this ).attr( 'data-points' ) ) || 0;
+					$ui.append(
+						$( '<input type="number" min="0" />' ).attr( {
+							name: 'points[' + id + ']',
+							max: max,
+							value: isNaN( pts ) ? '' : pts,
+						} ),
+						document.createTextNode( ' / ' + max + ' ' + points )
+					);
 				}
 
 				if ( $existing.length ) {
 
-					$textarea.text( $existing.find( '.llms-remarks' ).text() );
+					$textarea.text( $existing.children( '.llms-remarks' ).text() );
 					$existing.replaceWith( $ui );
 
 				} else {
 
-					$( this ).find( '.llms-quiz-attempt-question-main' ).append( $ui );
+					$( this ).children( '.llms-quiz-attempt-question-main' ).append( $ui );
 
 				}
 

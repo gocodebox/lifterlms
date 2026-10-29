@@ -118,6 +118,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
 	 *              Exit the loop as soon as we find our question.
 	 *              Use strict comparison for IDs.
+	 * @since [version] Don't record answers for question types that can't be answered, like content.
 	 *
 	 * @param int      $question_id WP_Post ID of the LLMS_Question.
 	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
@@ -133,7 +134,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				continue;
 			}
 
-			$question                     = llms_get_post( $question_id );
+			$question = llms_get_post( $question_id );
+			$type     = $question->get_question_type();
+			if ( $type && empty( $type['grading'] ) ) {
+				$answer = array();
+			}
+
 			$graded                       = $question->grade( $answer );
 			$questions[ $key ]['answer']  = $answer;
 			$questions[ $key ]['correct'] = $graded;
