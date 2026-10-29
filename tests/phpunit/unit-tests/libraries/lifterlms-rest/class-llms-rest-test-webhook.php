@@ -13,6 +13,13 @@
 class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 
 	/**
+	 * HTTP args from deliveries captured during a test.
+	 *
+	 * @var array[]
+	 */
+	public $delivery_http_requests = array();
+
+	/**
 	 * Mock `wp_remote_request` via the `pre_http_request`
 	 *
 	 * @since 1.0.0-beta.1
@@ -52,6 +59,29 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	}
 
 	/**
+	 * Record HTTP args from `llms_rest_webhook_delivery`.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $http_args HTTP request args.
+	 * @return void
+	 */
+	public function capture_delivery_http_args( $http_args ) {
+		$this->delivery_http_requests[] = $http_args;
+	}
+
+	/**
+	 * One retry delay, used to exhaust the ladder in a single extra attempt.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]
+	 */
+	public function filter_single_retry_rule() {
+		return array( MINUTE_IN_SECONDS );
+	}
+
+	/**
 	 * Setup the test case.
 	 *
 	 * @since 1.0.0-beta.1
@@ -74,6 +104,10 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 
 		add_filter( 'llms_rest_webhook_pre_ping', '__return_true' );
 		remove_filter( 'pre_http_request', array( $this, 'mock_request' ), 10 );
+		remove_filter( 'llms_rest_webhook_retry_rules', '__return_empty_array' );
+		remove_filter( 'llms_rest_webhook_retry_rules', array( $this, 'filter_single_retry_rule' ) );
+		remove_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
+		$this->delivery_http_requests = array();
 
 	}
 
@@ -89,6 +123,8 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		) );
 
 		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		// No retries, so each failed POST still increments the shared failure count.
+		add_filter( 'llms_rest_webhook_retry_rules', '__return_empty_array' );
 
 		$webhook->deliver( array( $course ) );
 
@@ -108,6 +144,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * @since Unknown
 	 * @since 1.0.0-beta.17 Remove checks on `pending_delivery` unused property.
+	 * @since [version] Assert no retry is scheduled for the delivery.
 	 *
 	 * @return void
 	 */
@@ -125,10 +162,260 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		$webhook->set( 'failure_count', 3 );
 
 		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		add_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
 
 		$webhook->deliver( array( $course ) );
 
 		$this->assertEquals( 0, $webhook->get( 'failure_count' ) );
+
+		$retry_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 2,
+			'delivery_id' => $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-ID'],
+		);
+		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $retry_args, 'llms-webhooks' ) );
+
+	}
+
+	/**
+	 * A failed delivery waits before counting the failure, and retries reuse the delivery id.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_failed_delivery_schedules_retry() {
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld/400',
+			'topic' => 'course.created',
+			'status' => 'active',
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+		) );
+
+		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		add_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
+
+		$this->assertSame(
+			array(
+				15 * MINUTE_IN_SECONDS,
+				HOUR_IN_SECONDS,
+				6 * HOUR_IN_SECONDS,
+				12 * HOUR_IN_SECONDS,
+			),
+			LLMS_Unit_Test_Util::call_method( $webhook, 'get_retry_rules' )
+		);
+
+		$webhook->deliver( array( $course ) );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 0, $stored->get( 'failure_count' ) );
+		$this->assertEquals( 'active', $stored->get( 'status' ) );
+
+		$delivery_id = $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-ID'];
+		$this->assertSame( '1', $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-Attempt'] );
+
+		$schedule_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 2,
+			'delivery_id' => $delivery_id,
+		);
+
+		$this->assertEqualsWithDelta(
+			time() + ( 15 * MINUTE_IN_SECONDS ),
+			as_next_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $schedule_args, 'llms-webhooks' ),
+			5
+		);
+
+		llms_rest_deliver_webhook_async( $webhook->get( 'id' ), array( $course ), 2, $delivery_id );
+
+		$this->assertSame( $delivery_id, $this->delivery_http_requests[1]['headers']['X-LLMS-Delivery-ID'] );
+		$this->assertSame( '2', $this->delivery_http_requests[1]['headers']['X-LLMS-Delivery-Attempt'] );
+		$this->assertEquals( 0, LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) )->get( 'failure_count' ) );
+
+		$third_attempt = $schedule_args;
+		$third_attempt['attempt'] = 3;
+		$this->assertEqualsWithDelta(
+			time() + HOUR_IN_SECONDS,
+			as_next_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $third_attempt, 'llms-webhooks' ),
+			5
+		);
+
+	}
+
+	/**
+	 * The shared failure count increments only after the retry list is exhausted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_failed_delivery_counts_failure_after_retries_exhausted() {
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld/400',
+			'topic' => 'course.created',
+			'status' => 'active',
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+		) );
+
+		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		add_filter( 'llms_rest_webhook_retry_rules', array( $this, 'filter_single_retry_rule' ) );
+		add_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
+
+		$webhook->deliver( array( $course ) );
+
+		$delivery_id = $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-ID'];
+		$schedule_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 2,
+			'delivery_id' => $delivery_id,
+		);
+
+		$this->assertEqualsWithDelta(
+			time() + MINUTE_IN_SECONDS,
+			as_next_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $schedule_args, 'llms-webhooks' ),
+			5
+		);
+		$this->assertEquals( 0, LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) )->get( 'failure_count' ) );
+
+		$webhook->deliver( array( $course ), 2, $delivery_id );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 1, $stored->get( 'failure_count' ) );
+		$this->assertEquals( 'active', $stored->get( 'status' ) );
+		$this->assertSame( $delivery_id, $this->delivery_http_requests[1]['headers']['X-LLMS-Delivery-ID'] );
+		$this->assertSame( '2', $this->delivery_http_requests[1]['headers']['X-LLMS-Delivery-Attempt'] );
+
+		$schedule_args['attempt'] = 3;
+		$this->assertFalse( as_next_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $schedule_args, 'llms-webhooks' ) );
+
+		$stored->set( 'failure_count', 5, true );
+		$stored->deliver( array( $course ), 2, $delivery_id );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 6, $stored->get( 'failure_count' ) );
+		$this->assertEquals( 'disabled', $stored->get( 'status' ) );
+		$this->assertTrue( $stored->is_disabled_by_delivery_failures() );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( $stored->get_disabled_notice_id() ) );
+
+		// Reactivating starts the failure count over and clears the notice.
+		LLMS_REST_API()->webhooks()->update( array(
+			'id'     => $stored->get( 'id' ),
+			'status' => 'active',
+		) );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 0, $stored->get( 'failure_count' ) );
+		$this->assertEquals( 'active', $stored->get( 'status' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( $stored->get_disabled_notice_id() ) );
+
+	}
+
+	/**
+	 * A successful delivery clears the failure count and does not schedule a retry.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_successful_retry_resets_failure_count() {
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld/200',
+			'topic' => 'course.created',
+			'status' => 'active',
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+		) );
+
+		$webhook->set( 'failure_count', 3, true );
+
+		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+
+		$webhook->deliver( array( $course ), 2, 'delivery-ok' );
+
+		$stored = LLMS_REST_API()->webhooks()->get( $webhook->get( 'id' ) );
+		$this->assertEquals( 0, $stored->get( 'failure_count' ) );
+
+		$retry_args = array(
+			'webhook_id'  => $webhook->get( 'id' ),
+			'args'        => array( $course ),
+			'attempt'     => 3,
+			'delivery_id' => 'delivery-ok',
+		);
+		$this->assertFalse( as_has_scheduled_action( 'lifterlms_rest_deliver_webhook_async', $retry_args, 'llms-webhooks' ) );
+
+	}
+
+	/**
+	 * Queued retries do not run after the webhook is disabled. The first attempt still can.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_retry_skipped_when_webhook_disabled() {
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld/400',
+			'topic' => 'course.created',
+			'status' => 'disabled',
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+		) );
+
+		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+
+		$before = did_action( 'llms_rest_webhook_delivery' );
+		$webhook->deliver( array( $course ), 2, 'delivery-skipped' );
+		$this->assertSame( $before, did_action( 'llms_rest_webhook_delivery' ) );
+
+		$webhook->deliver( array( $course ) );
+		$this->assertSame( $before + 1, did_action( 'llms_rest_webhook_delivery' ) );
+
+	}
+
+	/**
+	 * Retry metadata stays out of the payload sent for action topics.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_retry_metadata_is_not_added_to_action_payload() {
+
+		$hook_args = array( 42, 'kept' );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld/200',
+			'topic' => 'action.mock_hook',
+			'status' => 'active',
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+		) );
+
+		add_filter( 'pre_http_request', array( $this, 'mock_request' ), 10, 3 );
+		add_action( 'llms_rest_webhook_delivery', array( $this, 'capture_delivery_http_args' ) );
+
+		$webhook->deliver( $hook_args, 3, 'stable-delivery' );
+
+		$body = json_decode( $this->delivery_http_requests[0]['body'], true );
+
+		$this->assertSame( $hook_args, $body['args'] );
+		$this->assertArrayNotHasKey( 'attempt', $body );
+		$this->assertArrayNotHasKey( 'delivery_id', $body );
+		$this->assertArrayNotHasKey( 'retry_count', $body['args'] );
+		$this->assertSame( '3', $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-Attempt'] );
+		$this->assertSame( 'stable-delivery', $this->delivery_http_requests[0]['headers']['X-LLMS-Delivery-ID'] );
 
 	}
 
@@ -766,6 +1053,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 * Test scheduling a webhook via multiple hooks, ensuring only one is scheduled for delivery.
 	 *
 	 * @since 1.0.0
+	 * @since [version] Count only the webhook's own scheduled actions.
 	 *
 	 * @return void
 	 */
@@ -784,7 +1072,16 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 		wp_trash_post($membership_id);
 		wp_delete_post($membership_id);
 
-		$this->assertCount(1, as_get_scheduled_actions( array( 'hook' => 'lifterlms_rest_deliver_webhook_async' ) ) );
+		// Count only this webhook's actions; earlier tests can leave other deliveries pending.
+		$actions = as_get_scheduled_actions( array(
+			'hook'     => 'lifterlms_rest_deliver_webhook_async',
+			'group'    => 'llms-webhooks',
+			'per_page' => -1,
+		) );
+		$actions = array_filter( $actions, function( $action ) use ( $webhook ) {
+			return absint( $webhook->get( 'id' ) ) === absint( $action->get_args()['webhook_id'] );
+		} );
+		$this->assertCount( 1, $actions );
 	}
 
 	/**

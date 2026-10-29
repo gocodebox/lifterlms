@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page: REST API: Webhooks
  *
  * @since 1.0.0-beta.1
+ * @since [version] Explain the status of a webhook disabled by delivery failures.
  */
 class LLMS_Rest_Admin_Settings_Webhooks {
 
@@ -67,6 +68,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 
 				$settings[] = array(
 					'title'   => __( 'Status', 'lifterlms' ),
+					'desc'    => $hook && $hook->is_disabled_by_delivery_failures() ? '<br>' . __( 'Disabled automatically because deliveries kept failing after every retry. Check that the delivery URL is reachable, then set the status to Active to resume deliveries.', 'lifterlms' ) : '',
 					'id'      => 'llms_rest_webhook_status',
 					'type'    => 'select',
 					'options' => LLMS_REST_API()->webhooks()->get_statuses(),
