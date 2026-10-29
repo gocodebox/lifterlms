@@ -176,6 +176,7 @@ class LLMS_Controller_Checkout {
 	 * should be redirected to the relevant course or membership URL.
 	 *
 	 * @since 7.0.0 Moved from `LLMS_Controller_Orders.
+	 * @since [version] Add an error notice when the submitted nonce can't be verified.
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -185,6 +186,10 @@ class LLMS_Controller_Checkout {
 
 		$verify = $this->verify_request( '_llms_checkout_nonce', self::ACTION_CREATE_PENDING_ORDER );
 		if ( ! $verify ) {
+			// The form was submitted with an expired or invalid nonce, e.g. from a page served by a full-page cache.
+			if ( null === $verify && isset( $_POST['_llms_checkout_nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce failed verification, only checking for its presence.
+				llms_add_notice( __( 'Your session has expired. Please review your information and submit the form again.', 'lifterlms' ), 'error' );
+			}
 			return $verify;
 		}
 
