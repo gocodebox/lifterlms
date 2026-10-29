@@ -122,9 +122,11 @@
 		 * Get the vertical offset (on screen) relative to an element
 		 * used for notification positioning
 		 *
-		 * The relative element's top margin is subtracted from its offset so
-		 * themes that add margins to notifications don't inflate the space
-		 * between stacked notifications.
+		 * Uses the relative element's assigned `top` rather than its rendered
+		 * position, which lags behind while its `top` transition is running and
+		 * would make the next notification overlap it. The assigned `top` also
+		 * excludes theme margins, so they don't inflate the space between
+		 * stacked notifications.
 		 *
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
@@ -143,7 +145,7 @@
 				return 24;
 			}
 
-			var top    = $relative_el.offset().top - ( parseFloat( $relative_el.css( 'margin-top' ) ) || 0 ),
+			var top    = parseFloat( $relative_el.get( 0 ).style.top ) || 0,
 				height = $relative_el.outerHeight();
 
 			return top + height + spacer;
