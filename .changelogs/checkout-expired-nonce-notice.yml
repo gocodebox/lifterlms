@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3422"
+entry: Display an error message when the checkout form is submitted with an expired security nonce instead of silently reloading the form.

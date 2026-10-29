@@ -350,12 +350,14 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	 */
 	public function test_create_pending_order_not_submitted() {
 		$this->assertNull( $this->main->create_pending_order() );
+		$this->assertEquals( 0, llms_notice_count( 'error' ) );
 	}
 
 	/**
 	 * Test create_pending_order() when a nonce error is encountered.
 	 *
 	 * @since 7.0.0
+	 * @since [version] Assert an error notice is added.
 	 *
 	 * @return void
 	 */
@@ -364,6 +366,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'_llms_checkout_nonce' => 'fake',
 		) );
 		$this->assertNull( $this->main->create_pending_order() );
+		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 	}
 
 	/**
