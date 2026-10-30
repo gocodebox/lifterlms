@@ -211,6 +211,87 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_restrict_listed_content(): membership-restricted posts in search results show the restriction notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_search() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$restricted = array();
+		foreach ( array( 'post', 'page' ) as $post_type ) {
+			$restricted[ $post_type ] = $this->factory->post->create( array(
+				'post_type'    => $post_type,
+				'post_title'   => 'Zebracorn ' . $post_type,
+				'post_content' => 'SECRET_BODY',
+				'post_excerpt' => 'page' === $post_type ? 'SECRET_EXCERPT' : '',
+			) );
+			update_post_meta( $restricted[ $post_type ], '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+			update_post_meta( $restricted[ $post_type ], '_llms_is_restricted', 'yes' );
+		}
+		$public = $this->factory->post->create( array(
+			'post_title'   => 'Zebracorn public',
+			'post_content' => 'PUBLIC_BODY',
+		) );
+
+		LLMS_Install::create_visibilities();
+		$this->go_to( add_query_arg( 's', 'Zebracorn', home_url( '/' ) ) );
+		$this->assertTrue( is_search() );
+
+		$this->main->maybe_prepare_listed_content_restriction();
+
+		$render = function( $post_id ) use ( &$post ) {
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			return array(
+				apply_filters( 'the_content', get_the_content() ),
+				get_the_excerpt( $post ),
+			);
+		};
+
+		// Guests and logged in non-members.
+		foreach ( array( 0, $this->get_mock_student()->get( 'id' ) ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			foreach ( $restricted as $post_id ) {
+				$this->assertSame( array( 'no access.', 'no access.' ), $render( $post_id ) );
+			}
+			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		}
+
+		// Members.
+		$student = $this->get_mock_student();
+		$student->enroll( $membership->get( 'id' ) );
+		wp_set_current_user( $student->get( 'id' ) );
+		$this->assertStringContainsString( 'SECRET_BODY', $render( $restricted['post'] )[0] );
+		$this->assertSame( 'SECRET_EXCERPT', $render( $restricted['page'] )[1] );
+
+		// Sitewide membership: every listed post is restricted for non-members only.
+		update_option( 'lifterlms_membership_required', $membership->get( 'id' ) );
+		$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		wp_set_current_user( 0 );
+		$this->assertSame( array( 'no access.', 'no access.' ), $render( $public ) );
+		delete_option( 'lifterlms_membership_required' );
+
+		// The queried post of a singular request is left to the template loader.
+		$this->go_to( get_permalink( $restricted['post'] ) );
+		$this->assertStringContainsString( 'SECRET_BODY', $render( $restricted['post'] )[0] );
+
+		remove_filter( 'the_content', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		remove_filter( 'get_the_excerpt', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		wp_reset_postdata();
+
+	}
+
+	/**
 	 * Test maybe_prepare_feed_content_restriction(): filters are only attached on feed requests.
 	 *
 	 * @since 10.1.0
