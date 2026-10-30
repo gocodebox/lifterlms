@@ -725,6 +725,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
+	 * @since [version] End the attempt without recording the answer once the quiz time limit has passed.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -777,6 +778,11 @@ class LLMS_AJAX_Handler {
 				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
+		}
+
+		// Out of time: grade the answers recorded within the limit, as the quiz timer does.
+		if ( $attempt->has_time_limit_expired() ) {
+			return self::quiz_end( $request, $attempt );
 		}
 
 		// record the answer.

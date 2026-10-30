@@ -893,6 +893,47 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Determine if the quiz time limit for this attempt has passed.
+	 *
+	 * Always `false` for quizzes without a time limit and for students allowed unlimited quiz time.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function has_time_limit_expired() {
+
+		$quiz    = $this->get_quiz();
+		$student = $this->get_student();
+
+		if ( ! $quiz || ! $quiz->has_time_limit() || ! $this->get( 'start_date' ) || ( $student && $student->has_unlimited_quiz_time() ) ) {
+			return false;
+		}
+
+		$minutes = absint( $quiz->get( 'time_limit' ) );
+		if ( ! $minutes ) {
+			return false;
+		}
+
+		/**
+		 * Filters the seconds allowed past a quiz time limit before answers are rejected.
+		 *
+		 * Covers the delay between the browser timer running out and its request reaching the server.
+		 *
+		 * @since [version]
+		 *
+		 * @param int               $grace_period Grace period in seconds.
+		 * @param LLMS_Quiz_Attempt $attempt      Quiz attempt.
+		 */
+		$grace_period = absint( apply_filters( 'llms_quiz_attempt_time_limit_grace_period', 5, $this ) );
+
+		$deadline = new DateTime( $this->get( 'start_date' ), wp_timezone() );
+		$deadline->modify( sprintf( '+%d seconds', $minutes * MINUTE_IN_SECONDS + $grace_period ) );
+
+		return current_datetime() > $deadline;
+	}
+
+	/**
 	 * Translate attempt related strings.
 	 *
 	 * @since 3.9.0
