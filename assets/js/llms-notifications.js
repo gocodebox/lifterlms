@@ -242,7 +242,7 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0
+		 * @version  [version]
 		 */
 		this.show_one = function( n ) {
 
@@ -261,6 +261,16 @@
 			setTimeout( function() {
 				$html.addClass( 'visible' );
 			}, 1 );
+
+			// Restack the notifications below this one when its height changes after it was positioned (e.g. web fonts loading).
+			if ( window.ResizeObserver ) {
+				new ResizeObserver( function() {
+					var $next = $html.nextAll( '.llms-notification.visible' ).first();
+					if ( $html.hasClass( 'visible' ) && $next.length ) {
+						self.reposition( $next );
+					}
+				} ).observe( $html.get( 0 ) );
+			}
 
 			// if it's auto dismissing, set up a dismissal
 			if ( $html.attr( 'data-auto-dismiss' ) ) {

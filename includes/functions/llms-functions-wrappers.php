@@ -147,6 +147,7 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 *
 	 * @since 4.0.0
 	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
+	 * @since [version] Return `false` without calling `setcookie()` when headers have already been sent.
 	 *
 	 * @link https://www.php.net/manual/en/function.setcookie.php
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/trunk/framework/functions-llms-tests.php#L81-L111
@@ -160,9 +161,17 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 * @param bool   $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
 	 *                         preventing it from being accessed by scripting languages (such as Javascript).
 	 *
-	 * @return boolean
+	 * @return boolean `true` if the cookie header was queued, `false` if it could not be,
+	 *                 for example because output has already been sent to the browser.
 	 */
 	function llms_setcookie( $name, $value = '', $expires = 0, $path = '', $domain = '', $secure = false, $httponly = false ) {
+
+		// A cookie can no longer reach the browser once output has started (e.g. another plugin flushed
+		// the output buffer mid-render). `setcookie()` would fail anyway, but would also raise a warning.
+		if ( headers_sent() ) {
+			return false;
+		}
+
 		return setcookie( $name, $value, $expires, $path, $domain, $secure, $httponly );
 	}
 }

@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3425"
+entry: Fixed a "headers already sent" PHP warning when a logged-out visitor views the checkout page and another plugin has already flushed the page output.
