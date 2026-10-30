@@ -311,6 +311,39 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test writing to a new session when its cookie can't be sent, e.g. because output
+	 * was flushed before a shortcode added a notice mid-render.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_new_session_cookie_not_sent() {
+
+		$this->cookies->unset_all();
+		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
+
+		// Simulate llms_setcookie() failing because headers were already sent.
+		$this->cookies->expect_error();
+		$this->main->set( 'llms_notices', array( 'notice' => array( 'Already have an account?' ) ) );
+
+		// The data is still usable for the rest of this request.
+		$this->assertEquals( array( 'notice' => array( 'Already have an account?' ) ), $this->main->get( 'llms_notices' ) );
+
+		// No later request can reference the session, so it isn't saved.
+		$this->assertTrue( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
+		$this->assertFalse( $this->main->maybe_save_data() );
+		$this->assertFalse( $this->main->read( $this->main->get_id(), false ) );
+
+		// A later write that does manage to send the cookie saves the session as usual.
+		$this->cookies->expect_success();
+		$this->main->set( 'something', 123 );
+		$this->assertNotNull( $this->get_raw_cookie() );
+		$this->assertTrue( $this->main->maybe_save_data() );
+
+	}
+
+	/**
 	 * Test
 	 *
 	 * @since 4.0.0
