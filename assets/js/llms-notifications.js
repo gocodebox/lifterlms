@@ -2,7 +2,7 @@
  * LifterLMS Basic Notifications Displayer
  *
  * @since    3.8.0
- * @version  3.22.0
+ * @version  [version]
  */( function( $ ) {
 
 	var llms_notifications = function() {
@@ -122,10 +122,16 @@
 		 * Get the vertical offset (on screen) relative to an element
 		 * used for notification positioning
 		 *
+		 * Uses the relative element's assigned `top` rather than its rendered
+		 * position, which lags behind while its `top` transition is running and
+		 * would make the next notification overlap it. The assigned `top` also
+		 * excludes theme margins, so they don't inflate the space between
+		 * stacked notifications.
+		 *
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.get_offset = function( $relative_el ) {
 
@@ -139,7 +145,7 @@
 				return 24;
 			}
 
-			var top    = $relative_el.offset().top,
+			var top    = parseFloat( $relative_el.get( 0 ).style.top ) || 0,
 				height = $relative_el.outerHeight();
 
 			return top + height + spacer;
@@ -236,7 +242,7 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0
+		 * @version  [version]
 		 */
 		this.show_one = function( n ) {
 
@@ -255,6 +261,16 @@
 			setTimeout( function() {
 				$html.addClass( 'visible' );
 			}, 1 );
+
+			// Restack the notifications below this one when its height changes after it was positioned (e.g. web fonts loading).
+			if ( window.ResizeObserver ) {
+				new ResizeObserver( function() {
+					var $next = $html.nextAll( '.llms-notification.visible' ).first();
+					if ( $html.hasClass( 'visible' ) && $next.length ) {
+						self.reposition( $next );
+					}
+				} ).observe( $html.get( 0 ) );
+			}
 
 			// if it's auto dismissing, set up a dismissal
 			if ( $html.attr( 'data-auto-dismiss' ) ) {

@@ -1,4 +1,6 @@
 @use 'sass:color';
+@use 'sass:list';
+@use 'sass:string';
 // ----- LifterLMS Brand Colors ----- \\
 $color-brand-dark-blue: #243c56;
 
@@ -71,3 +73,256 @@ $break-large: 1024px;
 
 $radius-small: 6px;
 $radius-medium: 12px;
+
+// Warning UI (pending badges, quiz timer at half time, answers waiting for
+// review) used to share $color-orange with action buttons, whose hover then
+// jumped to $color-brand-orange-dark — a different hue. Warning is its own
+// gold so the two roles can be overridden separately. #946200 stays above
+// 4.5:1 on $color-white.
+$llms-color-warning: #946200;
+$llms-color-neutral: #e1e1e1;
+$llms-color-ink: #1d2327;
+
+
+// One base color drives hover, focus, and tint. Themes set the base.
+// :where(:root) keeps specificity at 0 so any :root rule wins, whichever
+// stylesheet loads first.
+@function llms-base-color( $name ) {
+	@if $name == 'primary' { @return $color-brand-blue; }
+	@if $name == 'action' { @return $color-orange; }
+	@if $name == 'accent' { @return $color-brand-pink; }
+	@if $name == 'success' { @return $color-success; }
+	@if $name == 'warning' { @return $llms-color-warning; }
+	@if $name == 'danger' { @return $color-danger; }
+	@if $name == 'border' { @return $color-border; }
+	@if $name == 'input-border' { @return $color-grey; }
+	@if $name == 'neutral' { @return $llms-color-neutral; }
+	@if $name == 'ink' { @return $llms-color-ink; }
+	@if $name == 'on-solid' { @return $color-white; }
+	@if $name == 'on-neutral' { @return $color-cinder; }
+	@if $name == 'surface' { @return $el-background; }
+	@return null;
+}
+
+@function llms-ends-with( $string, $suffix ) {
+	$suffix-length: string.length( $suffix );
+	@if string.length( $string ) < $suffix-length {
+		@return false;
+	}
+	@return string.slice( $string, -$suffix-length ) == $suffix;
+}
+
+// $for-root: the :root value. Otherwise the var() fallback, which still
+// references the base so a single override works where :root is not emitted.
+@function llms-derived( $color-name, $kind, $for-root ) {
+	$amount: null;
+	$with: null;
+
+	@if $color-name == 'neutral' and $kind == 'hover' {
+		$amount: 91%;
+		$with: #000;
+	} @else if $color-name == 'neutral' and $kind == 'focus' {
+		$amount: 67%;
+		$with: #fff;
+	} @else if $color-name == 'on-neutral' and $kind == 'hover' {
+		$amount: 96%;
+		$with: #000;
+	} @else if $kind == 'hover' {
+		$amount: 82%;
+		$with: #000;
+	} @else if $kind == 'focus' {
+		$amount: 81%;
+		$with: #fff;
+	} @else if $kind == 'subtle' {
+		// Info notices use a stronger tint than status badges.
+		$amount: 15%;
+		@if $color-name == 'primary' {
+			$amount: 30%;
+		}
+		$with: transparent;
+	} @else if $kind == 'muted' and $color-name == 'danger' {
+		$amount: 30%;
+		$with: transparent;
+	} @else if $kind == 'muted' and $color-name == 'warning' {
+		$amount: 20%;
+		$with: transparent;
+	} @else {
+		@return null;
+	}
+
+	$channel: 'var(--llms-color-#{$color-name})';
+	@if not $for-root {
+		$channel: 'var(--llms-color-#{$color-name}, #{llms-base-color( $color-name )})';
+	}
+	@return string.unquote( 'color-mix(in srgb, #{$channel} #{$amount}, #{$with})' );
+}
+
+@function llms-token-value( $name, $for-root: false ) {
+	@if $name == 'radius-sm' {
+		@return string.unquote( 'var(--llms-radius, #{$radius-small})' );
+	}
+	@if $name == 'radius-md' {
+		@return string.unquote( 'calc(var(--llms-radius, #{$radius-small}) * 2)' );
+	}
+	@if $name == 'radius-control' {
+		@return string.unquote( 'var(--llms-radius, 8px)' );
+	}
+	@if $name == 'element-border-width' {
+		@return 1px;
+	}
+	@if $name == 'element-border-style' {
+		@return string.unquote( 'solid' );
+	}
+
+	@if string.slice( $name, 1, 6 ) != 'color-' {
+		@return null;
+	}
+
+	$rest: string.slice( $name, 7 );
+
+	@if $rest == 'track' {
+		@if $for-root {
+			@return string.unquote( 'var(--llms-color-border)' );
+		}
+		@return string.unquote( 'var(--llms-color-border, #{llms-base-color( border )})' );
+	}
+
+	// Syllabus hover is #eaeaea, not a mix of the surface color. Its own
+	// token lets a theme change the hover without changing --llms-color-surface.
+	@if $rest == 'surface-hover' {
+		@return $el-background-hover;
+	}
+
+	@if $rest == 'on-primary' or $rest == 'on-action' or $rest == 'on-danger' or $rest == 'on-accent' {
+		@if $for-root {
+			@return string.unquote( 'var(--llms-color-on-solid)' );
+		}
+		@return string.unquote( 'var(--llms-color-on-solid, #{llms-base-color( on-solid )})' );
+	}
+
+	$kind: 'base';
+	$color-name: $rest;
+	@each $suffix in ( 'muted', 'subtle', 'hover', 'focus' ) {
+		$needle: '-#{$suffix}';
+		@if llms-ends-with( $rest, $needle ) {
+			$kind: $suffix;
+			$color-name: string.slice( $rest, 1, string.length( $rest ) - string.length( $needle ) );
+		}
+	}
+
+	$base: llms-base-color( $color-name );
+	@if $base == null {
+		@return null;
+	}
+	@if $kind == 'base' {
+		@return $base;
+	}
+	@return llms-derived( $color-name, $kind, $for-root );
+}
+
+@function llms-token-names() {
+	@return (
+		'color-primary',
+		'color-primary-hover',
+		'color-primary-focus',
+		'color-primary-subtle',
+		'color-on-primary',
+		'color-action',
+		'color-action-hover',
+		'color-action-focus',
+		'color-action-subtle',
+		'color-on-action',
+		'color-accent',
+		'color-accent-hover',
+		'color-accent-focus',
+		'color-accent-subtle',
+		'color-on-accent',
+		'color-success',
+		'color-success-hover',
+		'color-success-focus',
+		'color-success-subtle',
+		'color-warning',
+		'color-warning-hover',
+		'color-warning-focus',
+		'color-warning-subtle',
+		'color-warning-muted',
+		'color-danger',
+		'color-danger-hover',
+		'color-danger-focus',
+		'color-danger-subtle',
+		'color-danger-muted',
+		'color-on-danger',
+		'color-neutral',
+		'color-neutral-hover',
+		'color-neutral-focus',
+		'color-on-neutral',
+		'color-on-neutral-hover',
+		'color-on-solid',
+		'color-border',
+		'color-input-border',
+		'color-track',
+		'color-surface',
+		'color-surface-hover',
+		'color-ink',
+		'radius-sm',
+		'radius-md',
+		'radius-control',
+		'element-border-width',
+		'element-border-style',
+	);
+}
+
+// 1px solid card borders. Featured plans and certificates keep their own width.
+@function llms-element-border() {
+	@return string.unquote( '#{llms-var( element-border-width )} #{llms-var( element-border-style )} #{llms-var( color-border )}' );
+}
+
+@function llms-var( $name ) {
+	@if not list.index( llms-token-names(), $name ) {
+		@error 'Unknown LifterLMS CSS variable "#{$name}".';
+	}
+	@return string.unquote( 'var(--llms-#{$name}, #{llms-token-value( $name, false )})' );
+}
+
+@mixin llms-frontend-tokens() {
+	@each $name in llms-token-names() {
+		--llms-#{$name}: #{llms-token-value( $name, true )};
+	}
+}
+
+// Historical admin colors. Specified on body so they beat inherited :root
+// tokens. Action hover stays the brand orange, and warning stays $color-orange.
+@mixin llms-admin-tokens() {
+	--llms-color-primary: #{$color-brand-blue};
+	--llms-color-primary-hover: #{$color-brand-blue-dark};
+	--llms-color-primary-focus: #{$color-brand-blue-light};
+	--llms-color-primary-subtle: #{color.change( $color-brand-blue, $alpha: 0.3 )};
+	--llms-color-on-primary: #{$color-white};
+	--llms-color-action: #{$color-orange};
+	--llms-color-action-hover: #{$color-brand-orange-dark};
+	--llms-color-action-focus: #{$color-brand-orange-light};
+	--llms-color-action-subtle: #{color.change( $color-orange, $alpha: 0.15 )};
+	--llms-color-on-action: #{$color-white};
+	--llms-color-success: #{$color-success};
+	--llms-color-success-subtle: #{color.change( $color-green, $alpha: 0.15 )};
+	--llms-color-warning: #{$color-orange};
+	--llms-color-warning-subtle: #{color.change( $color-orange, $alpha: 0.15 )};
+	--llms-color-warning-muted: #{color.change( $color-orange, $alpha: 0.2 )};
+	--llms-color-danger: #{$color-danger};
+	--llms-color-danger-hover: #981c17;
+	--llms-color-danger-focus: #cd261f;
+	--llms-color-danger-subtle: #{color.change( $color-red, $alpha: 0.15 )};
+	--llms-color-danger-muted: #{color.change( $color-red, $alpha: 0.3 )};
+	--llms-color-on-danger: #{$color-white};
+	--llms-color-neutral: #e1e1e1;
+	--llms-color-neutral-hover: #cdcdcd;
+	--llms-color-neutral-focus: #ebebeb;
+	--llms-color-on-neutral: #{$color-cinder};
+	--llms-color-on-neutral-hover: #414141;
+	--llms-color-on-solid: #{$color-white};
+	--llms-color-border: #{$color-border};
+	--llms-color-input-border: #{$color-grey};
+	--llms-color-ink: #{$llms-color-ink};
+	--llms-radius-sm: #{$radius-small};
+	--llms-radius-control: 8px;
+}

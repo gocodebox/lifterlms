@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @version 3.14.0
+ * @since [version] Link the course or membership title instead of the whole tile.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
 	<div class="llms-loop-item-content">
 
 	<?php
+		llms_loop_link_title_only( true );
+
 		/**
 		 * Hook: lifterlms_before_loop_item
 		 *
@@ -31,9 +34,9 @@ defined( 'ABSPATH' ) || exit;
 		 * @hooked lifterlms_template_loop_progress - 15
 		 */
 		do_action( 'lifterlms_before_loop_item_title' );
-	?>
 
-	<h4 class="llms-loop-title"><?php the_title(); ?></h4>
+		lifterlms_template_loop_title();
+	?>
 
 	<footer class="llms-loop-item-footer">
 		<?php
@@ -60,6 +63,8 @@ defined( 'ABSPATH' ) || exit;
 		 * @hooked lifterlms_loop_link_end - 5
 		 */
 		do_action( 'lifterlms_after_loop_item' );
+
+		llms_loop_link_title_only( false );
 	?>
 
 	</div><!-- .llms-loop-item-content -->

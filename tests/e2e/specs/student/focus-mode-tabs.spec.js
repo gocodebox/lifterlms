@@ -24,6 +24,12 @@ test.describe( 'FocusModeTabs', () => {
 		await page.goto( '/lesson/focus-mode-tabs-lesson/' );
 
 		await expect( page.locator( 'body' ) ).toHaveClass( /llms-focus-mode/ );
+		await expect( page.locator( '#llms-focus-mode-sidebar' ) ).toHaveAttribute( 'aria-label', 'Course lessons' );
+		await expect( page.locator( '.llms-focus-mode-sidebar-header h2' ) ).toHaveText( 'Lessons' );
+		const sidebarToggle = page.locator( '.llms-focus-mode-sidebar-toggle' );
+		await expect( sidebarToggle ).toHaveAttribute( 'aria-expanded', 'true' );
+		await sidebarToggle.click();
+		await expect( sidebarToggle ).toHaveAttribute( 'aria-expanded', 'false' );
 		await expect( page.getByRole( 'tab', { name: 'Overview' } ) ).toBeVisible();
 		await expect( page.getByRole( 'tab', { name: 'Details' } ) ).toBeVisible();
 

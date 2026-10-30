@@ -196,6 +196,32 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Load a table handler the current user is allowed to query.
+	 *
+	 * Most tables require `view_lifterlms_reports`. A table can override
+	 * `user_can_access()` when it should follow a different capability, such as
+	 * the Orders screen.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request Post data ($_REQUEST).
+	 * @return LLMS_Admin_Table|false
+	 */
+	protected static function get_authorized_admin_table( $request ) {
+
+		if ( empty( $request['handler'] ) ) {
+			return false;
+		}
+
+		$table = self::get_admin_table_instance( $request['handler'] );
+		if ( ! $table || ! $table->user_can_access() ) {
+			return false;
+		}
+
+		return $table;
+	}
+
+	/**
 	 * Queue a table export event
 	 *
 	 * @since 3.15.0
@@ -206,11 +232,7 @@ class LLMS_AJAX_Handler {
 	 * @return array|bool
 	 */
 	public static function export_admin_table( $request ) {
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			wp_die();
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			wp_die();
 		}
@@ -231,11 +253,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function get_admin_table_data( $request ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			return false;
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			return false;
 		}

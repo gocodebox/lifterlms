@@ -5,6 +5,10 @@
 @import "_includes/vars";
 @import "_includes/vars-brand-colors";
 
+:where(body.wp-admin) {
+	@include llms-admin-tokens;
+}
+
 @import "_includes/extends";
 // Admin UI always uses LifterLMS button chrome; theme inheritance via
 // `wp-element-button` is front-end only (settings, reporting, notices, etc.).

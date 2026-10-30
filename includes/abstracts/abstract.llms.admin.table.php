@@ -425,6 +425,20 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
+	 * Whether the current user may load or export this table.
+	 *
+	 * Reporting tables use `view_lifterlms_reports`. Tables that show order data
+	 * override this with the Orders screen capability.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function user_can_access() {
+		return current_user_can( 'view_lifterlms_reports' );
+	}
+
+	/**
 	 * Retrieve the max number of pages for the table.
 	 *
 	 * @since 3.15.0

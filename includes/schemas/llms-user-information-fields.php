@@ -13,13 +13,15 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  *
  * @see llms_get_user_information_fields() Retrieves the (filtered) schema.
  * @see llms_get_user_information_field() Retrieve a single field from this schema by ID.
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$password_min_strength = get_option( 'lifterlms_registration_password_min_strength', 'weak' );
 
 return array(
 
@@ -48,18 +50,11 @@ return array(
 		'data_store'        => 'users',
 		'data_store_key'    => 'user_pass',
 		'meter'             => llms_parse_bool( get_option( 'lifterlms_registration_password_strength', 'yes' ) ),
-		'min_strength'      => get_option( 'lifterlms_registration_password_min_strength', 'weak' ),
+		'min_strength'      => $password_min_strength,
 		'html_attrs'        => array(
 			'minlength' => 8,
 		),
-		'meter_description' => sprintf(
-			// Translators: %s = Minimum password strength.
-			__(
-				'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
-				'lifterlms'
-			),
-			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'weak' ) )
-		),
+		'meter_description' => llms_get_password_meter_description( $password_min_strength ),
 	),
 	array(
 		'id'             => 'first_name',
