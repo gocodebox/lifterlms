@@ -80,8 +80,12 @@
 			max-width: 100%;
 		}
 
+		// The tag is h2-h4 by context; keep one card title size.
 		.llms-loop-title {
 			color: $color-black;
+			font-size: llms-var( loop-title-size );
+			font-weight: llms-var( loop-title-weight );
+			line-height: llms-var( loop-title-line-height );
 			margin: 15px 0;
 			&:hover {
 				color: llms-var( color-primary );
