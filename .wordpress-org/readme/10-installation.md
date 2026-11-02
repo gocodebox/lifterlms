@@ -4,10 +4,9 @@
 
 LifterLMS requires:
 
-* WordPress version 6.7
-* PHP 8.3
-* MySQL 8.0 or greater or MariaDB 10.6 or greater
-* Nginx or Apache with mod_rewrite module
++ PHP 7.4 or later
++ WordPress 5.6 or later
++ MySQL 5.6 or later
 
 For the best experience, use supported versions of WordPress, PHP, your theme, and your other active plugins.
 

@@ -9,4 +9,4 @@ Tested up to: {{__TESTED_WP_VERSION__}}
 Requires PHP: {{__MIN_PHP_VERSION__}}
 Stable tag: {{__VERSION__}}
 
-Complete WordPress LMS (learning management system) to create, launch, and scale eLearning: sell online courses, memberships, quizzes, and training.
+{{__SHORT_DESCRIPTION__}}
