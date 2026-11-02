@@ -308,6 +308,7 @@ class LLMS_Media_Protector {
 		$attachment = get_post( $media_id );
 		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
 			$this->add_authorization_meta_to_media_post( $media_id );
+			$this->save_mod_rewrite_rules();
 		}
 	}
 
@@ -430,6 +431,7 @@ class LLMS_Media_Protector {
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
 		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
+		$this->save_mod_rewrite_rules();
 
 		return $media_id;
 	}
@@ -830,7 +832,9 @@ class LLMS_Media_Protector {
 			/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 
-			WP_Filesystem();
+			if ( ! WP_Filesystem() ) {
+				return;
+			}
 
 			$uploads = wp_get_upload_dir();
 
@@ -838,6 +842,11 @@ class LLMS_Media_Protector {
 			$htaccess_file = $upload_path . '/.htaccess';
 
 			$upload_path_writeable = $wp_filesystem->is_writable( $upload_path );
+
+			// The folder is created by the first protected upload: check again until it exists.
+			if ( ! $upload_path_writeable ) {
+				return;
+			}
 
 			$rules  = "Options -Indexes\n";
 			$rules .= "deny from all\n";
@@ -881,7 +890,9 @@ class LLMS_Media_Protector {
 				}
 			}
 
-			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
+			if ( $wp_filesystem->get_contents( $htaccess_file ) === $rules ) {
+				set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
+			}
 		}
 	}
 

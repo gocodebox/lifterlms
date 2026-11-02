@@ -491,4 +491,48 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
 		$this->assertSame( 'llms_test_authorize_media_view', $protector->get_authorization_filter_name( $media_id ) );
 	}
+
+	/**
+	 * Test that the upload folder protection files are written once the folder is created by the first protected upload.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_protection_files_written_after_first_upload() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		// Fresh site: the protected folder doesn't exist yet.
+		$protector   = new LLMS_Media_Protector( '', '/llms-test-' . uniqid() );
+		$upload_path = wp_get_upload_dir()['basedir'] . $protector->get_base_upload_path();
+		$htaccess    = $upload_path . '/.htaccess';
+		$this->assertDirectoryDoesNotExist( $upload_path );
+		delete_transient( 'lifterlms_check_media_protection_files' );
+
+		$protector->save_mod_rewrite_rules();
+		$this->assertFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+
+		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
+		file_put_contents( $tmp, 'test' );
+		$_FILES['file'] = array(
+			'name'     => 'llms-media-protector-test.txt',
+			'tmp_name' => $tmp,
+			'type'     => 'text/plain',
+			'error'    => 0,
+			'size'     => filesize( $tmp ),
+		);
+		$media_id = $protector->handle_upload( 'file', 0, 'llms_test_authorize_media_view', array(), array( 'test_form' => false, 'action' => 'testing' ) );
+		unset( $_FILES['file'] );
+
+		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
+		$this->assertStringStartsWith( $upload_path . '/', get_attached_file( $media_id ) );
+		$this->assertFileExists( $htaccess );
+		$this->assertStringContainsString( 'deny from all', file_get_contents( $htaccess ) );
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+
+		$GLOBALS['wp_filesystem']->rmdir( $upload_path, true );
+	}
 }
