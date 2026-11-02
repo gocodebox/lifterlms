@@ -1,7 +1,7 @@
 === LifterLMS - WP LMS for eLearning, Online Courses, & Quizzes ===
-Contributors: lifterlms, chrisbadgett, strangerstudios, kimannwall, d4z_c0nf, actuallyakash, codeboxllc, brianhogg
-Donate link: {{__PROJECT_URI__}}
-Tags: lms, course, elearning, learning management system, quiz
+Contributors: lifterlms, chrisbadgett, strangerstudios, kimannwall, codeboxllc, brianhogg, alextonio22, nadiaakther, vonconcepts, wpcourseguide, scalemath
+Donate link: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+Tags: lms, elearning, learning management system, course, quiz
 License: {{__LICENSE__}}
 License URI: {{__LICENSE_URI__}}
 Requires at least: {{__MIN_WP_VERSION__}}
@@ -9,4 +9,4 @@ Tested up to: {{__TESTED_WP_VERSION__}}
 Requires PHP: {{__MIN_PHP_VERSION__}}
 Stable tag: {{__VERSION__}}
 
-{{__SHORT_DESCRIPTION__}}
+Complete WordPress LMS (learning management system) to create, launch, and scale eLearning: sell online courses, memberships, quizzes, and training.

@@ -2,36 +2,49 @@
 
 #### Minimum System Requirements
 
-LifterLMS Requires
+LifterLMS requires:
 
-+ PHP 7.4 or later
-+ WordPress 5.6 or later
-+ MySQL 5.6 or later
+* WordPress version 6.7
+* PHP 8.3
+* MySQL 8.0 or greater or MariaDB 10.6 or greater
+* Nginx or Apache with mod_rewrite module
 
-Visit our [full system requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) for additional information.
+For the best experience, use supported versions of WordPress, PHP, your theme, and your other active plugins.
+
+Review the full system requirements here:
+
+[Minimum System Requirements for LifterLMS](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 #### Automatic Installation
 
-The simplest way to install LifterLMS is through your existing WordPress site’s admin. Let WordPress handle file transfers for you - you’ll never need to leave the web browser or admin panel.
+The easiest way to install LifterLMS is from your WordPress dashboard.
 
-1. Log in to your WordPress dashboard
-2. Navigate to Plugins -> Add New
-3. In the search field, type "LifterLMS" and click "Search Plugins"
-4. Once you've located LifterLMS, click "Install Now"
-5. Once installation is complete, click "Activate"
+1. Log in to your WordPress dashboard.
+2. Go to Plugins > Add New.
+3. Search for "LifterLMS".
+4. Click Install Now.
+5. Click Activate.
+
+After activation, LifterLMS will guide you through the setup wizard.
 
 #### Manual Installation
 
-To manually install LifterLMS, you'll need to download the zip file using the "Download" link on this screen. Then, use FTP to manually upload the unzipped plugin folder to the proper plugins directory on your webserver.
+You can also install LifterLMS manually.
 
-Please see this [WordPress Codex document](https://wordpress.org/documentation/article/manage-plugins/#manual-plugin-installation-1) for full instructions on Manual Plugin Installation.
+Download the plugin zip file from WordPress.org, then upload it through your WordPress dashboard or by FTP.
+
+For full instructions, see the WordPress guide to manual plugin installation:
+
+[Managing Plugins in WordPress](https://wordpress.org/documentation/article/manage-plugins/#manual-plugin-installation-1)
 
 #### Setup Wizard
 
-After installation, LifterLMS launches a friendly (and super quick) Setup Wizard.
+After installation, LifterLMS launches a setup wizard to help you configure your LMS.
 
-This wizard helps you configure LifterLMS so you can get to the fun stuff - like creating your courses - as quickly as possible.
+The setup wizard helps you create the core pages your LMS needs, including student account, checkout, course catalog, and membership catalog pages.
 
-The wizard includes a few sample courses you can import if you want to see some examples before you start creating your own content.
+You can also import sample courses if you want to explore how a LifterLMS course is structured before building your own.
 
-You can return to the setup wizard at any time by following [these steps](https://lifterlms.com/docs/rerun-lifterlms-setup-wizard/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+You can return to the setup wizard later if you need to review or update your setup.
+
+[How to rerun the LifterLMS setup wizard](https://lifterlms.com/docs/rerun-lifterlms-setup-wizard/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
