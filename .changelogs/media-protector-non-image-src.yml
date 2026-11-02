@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed a PHP 8.1+ "Automatic conversion of false to array is deprecated" notice when uploading a protected non-image file.
