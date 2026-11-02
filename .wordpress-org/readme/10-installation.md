@@ -4,8 +4,8 @@
 
 LifterLMS requires:
 
-+ PHP 7.4 or later
-+ WordPress 5.6 or later
++ PHP {{__MIN_PHP_VERSION__}} or later
++ WordPress {{__MIN_WP_VERSION__}} or later
 + MySQL 5.6 or later
 
 For the best experience, use supported versions of WordPress, PHP, your theme, and your other active plugins.
