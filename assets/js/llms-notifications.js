@@ -82,13 +82,13 @@
 		 * @param    obj   $el  notification dom element
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0
+		 * @version  [version]
 		 */
 		this.dismiss = function( $el ) {
 			var self = this;
 			$el.removeClass( 'visible' );
 			setTimeout( function() {
-				self.reposition( $el.next( '.llms-notification.visible' ) );
+				self.reposition( $el.nextAll( '.llms-notification.visible' ).first() );
 			}, 10 );
 		};
 
@@ -180,7 +180,7 @@
 		 * @param    obj   $start_el  element to start repositioning with
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.reposition = function( $start_el ) {
 
@@ -194,7 +194,8 @@
 
 			$start_el.css( 'top', self.get_offset( $start_el.prevAll( selector ).first() ) );
 
-			$next_el = $start_el.next( selector );
+			// Skip dismissed notifications, which stay in the DOM.
+			$next_el = $start_el.nextAll( selector ).first();
 			if ( $next_el.length ) {
 				setTimeout( function() {
 					self.reposition( $next_el );
@@ -258,9 +259,10 @@
 			$( 'body' ).append( $html );
 			$html.css( 'top', self.get_offset() );
 
-			setTimeout( function() {
-				$html.addClass( 'visible' );
-			}, 1 );
+			// Show it right away: until it's visible, it's left out of the stack and toasts placed or restacked below it would overlap it.
+			// Reading its height first applies the hidden starting styles so the slide-in transition still runs.
+			$html.outerHeight();
+			$html.addClass( 'visible' );
 
 			// Restack the notifications below this one when its height changes after it was positioned (e.g. web fonts loading).
 			if ( window.ResizeObserver ) {
