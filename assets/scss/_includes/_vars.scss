@@ -173,6 +173,16 @@ $llms-color-ink: #1d2327;
 	@if $name == 'element-border-style' {
 		@return string.unquote( 'solid' );
 	}
+	// Block themes get their h4 values from theme.json (LLMS_Frontend_Assets).
+	@if $name == 'loop-title-size' {
+		@return 1.5rem;
+	}
+	@if $name == 'loop-title-weight' {
+		@return 600;
+	}
+	@if $name == 'loop-title-line-height' {
+		@return 1.3;
+	}
 
 	@if string.slice( $name, 1, 6 ) != 'color-' {
 		@return null;
@@ -269,6 +279,9 @@ $llms-color-ink: #1d2327;
 		'radius-control',
 		'element-border-width',
 		'element-border-style',
+		'loop-title-size',
+		'loop-title-weight',
+		'loop-title-line-height',
 	);
 }
 
