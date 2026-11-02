@@ -262,7 +262,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		foreach ( array( 0, $this->get_mock_student()->get( 'id' ) ) as $user_id ) {
 			wp_set_current_user( $user_id );
 			foreach ( $restricted as $post_id ) {
-				$this->assertSame( array( 'no access.', 'no access.' ), $render( $post_id ) );
+				$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $post_id ) );
 			}
 			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
 		}
@@ -278,7 +278,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		update_option( 'lifterlms_membership_required', $membership->get( 'id' ) );
 		$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
 		wp_set_current_user( 0 );
-		$this->assertSame( array( 'no access.', 'no access.' ), $render( $public ) );
+		$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $public ) );
 		delete_option( 'lifterlms_membership_required' );
 
 		// The queried post of a singular request is left to the template loader.
@@ -337,7 +337,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		$student->enroll( $membership->get( 'id' ) );
 		foreach ( array( 0, $student->get( 'id' ) ) as $user_id ) {
 			wp_set_current_user( $user_id );
-			$this->assertSame( array( 'no access.', 'no access.' ), $render( $restricted ) );
+			$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $restricted ) );
 			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
 		}
 
@@ -386,7 +386,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 			);
 		};
 
-		$restricted = array( 'This content is restricted', 'This content is restricted' );
+		$restricted = array( "<p>This content is restricted</p>\n", 'This content is restricted' );
 
 		// Guests and logged in students who aren't enrolled.
 		foreach ( array( 0, $this->get_mock_student()->get( 'id' ) ) as $user_id ) {

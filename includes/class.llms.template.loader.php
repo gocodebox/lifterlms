@@ -858,7 +858,7 @@ class LLMS_Template_Loader {
 			$page_restricted = llms_page_restricted( $post_id );
 			$this->restore_feed_restriction_query( $restore );
 
-			return $page_restricted['is_restricted'] ? $this->get_content_restriction_message( $page_restricted ) : $content;
+			return $page_restricted['is_restricted'] ? $this->get_listed_content_restriction_message( $page_restricted ) : $content;
 		}
 
 		if ( in_array( $post_type, $this->get_content_restriction_skip_post_types(), true ) ) {
@@ -867,7 +867,7 @@ class LLMS_Template_Loader {
 
 		if ( is_feed() ) {
 			$restriction = $this->get_feed_restriction( $post_id );
-			return empty( $restriction['is_restricted'] ) ? $content : $this->get_content_restriction_message( $restriction );
+			return empty( $restriction['is_restricted'] ) ? $content : $this->get_listed_content_restriction_message( $restriction );
 		}
 
 		$user_id        = get_current_user_id();
@@ -884,7 +884,7 @@ class LLMS_Template_Loader {
 			return $content;
 		}
 
-		return $this->get_content_restriction_message(
+		return $this->get_listed_content_restriction_message(
 			array(
 				'content_id'     => $post_id,
 				'is_restricted'  => true,
@@ -892,6 +892,26 @@ class LLMS_Template_Loader {
 				'restriction_id' => $restriction_id,
 			)
 		);
+	}
+
+	/**
+	 * Retrieve the message to display in place of a restricted listed post's content or excerpt.
+	 *
+	 * `the_content` runs `wpautop()` before the listing filter, so the message is wrapped in a
+	 * paragraph there. Without it, block themes (such as Twenty Twenty-Five) output the message as a
+	 * bare text node outside the post content's layout. Excerpts are left as-is because the theme
+	 * or excerpt block adds its own paragraph.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $restriction Array of restriction info, as from `llms_page_restricted()`.
+	 * @return string
+	 */
+	private function get_listed_content_restriction_message( $restriction ) {
+
+		$message = $this->get_content_restriction_message( $restriction );
+
+		return 'the_content' === current_filter() ? wpautop( $message ) : $message;
 	}
 
 	/**
