@@ -821,14 +821,16 @@ class LLMS_Template_Loader {
 	 * Runs on the `the_content` and `get_the_excerpt` filters: `get_the_content()` reads the global
 	 * `$pages` array and a stored excerpt never passes through `the_content`, so the strings must be
 	 * replaced here. The queried post of a singular request is skipped since the template loader
-	 * already handles it, as are the LifterLMS post types, whose listings show their public content.
+	 * already handles it, as are the other LifterLMS post types, whose listings show their public content.
 	 *
-	 * The membership helpers are called directly because `llms_page_restricted()` only applies
+	 * Lessons and quizzes are checked as their own (singular) page would be. For other posts the
+	 * membership helpers are called directly because `llms_page_restricted()` only applies
 	 * membership restrictions on singular requests.
 	 *
 	 * In a feed, posts listed inside a feed item (such as by a Query Loop block) are checked as an
 	 * anonymous visitor would see them, like the feed item itself, since feeds are commonly cached
-	 * with no per-user key.
+	 * with no per-user key. Post types that feeds never output (such as lessons and quizzes) are
+	 * removed from feed listings for every viewer.
 	 *
 	 * @since [version]
 	 *
@@ -840,11 +842,26 @@ class LLMS_Template_Loader {
 
 		$post_id = $post instanceof WP_Post ? $post->ID : get_the_ID();
 
-		if (
-			! $post_id ||
-			( is_singular() && get_queried_object_id() === $post_id ) ||
-			in_array( get_post_type( $post_id ), $this->get_content_restriction_skip_post_types(), true )
-		) {
+		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) ) {
+			return $content;
+		}
+
+		$post_type = get_post_type( $post_id );
+
+		// Feeds never output these post types, so don't list them inside a feed item either, whoever is viewing.
+		if ( is_feed() && in_array( $post_type, LLMS_Query::get_feed_excluded_post_types(), true ) ) {
+			return '';
+		}
+
+		if ( in_array( $post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
+			$restore         = $this->force_feed_restriction_query();
+			$page_restricted = llms_page_restricted( $post_id );
+			$this->restore_feed_restriction_query( $restore );
+
+			return $page_restricted['is_restricted'] ? $this->get_content_restriction_message( $page_restricted ) : $content;
+		}
+
+		if ( in_array( $post_type, $this->get_content_restriction_skip_post_types(), true ) ) {
 			return $content;
 		}
 
