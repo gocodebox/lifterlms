@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Additional checks when authorizing access to protected media."

@@ -202,6 +202,40 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that an incomplete quiz attempt only authorizes media linked to that quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_incomplete_quiz_attempt() {
+
+		$course  = llms_get_post( $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) ) );
+		$quiz_id = $course->get_quizzes()[0];
+
+		$student_id = $this->factory->student->create();
+		wp_set_current_user( $student_id );
+		LLMS_Quiz_Attempt::init( $quiz_id, llms_get_post( $quiz_id )->get( 'lesson_id' ), $student_id )->start();
+
+		$protector = new LLMS_Media_Protector();
+
+		// Media not linked to any quiz, uploaded by another user.
+		$media_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $this->factory->user->create(),
+			)
+		);
+		update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+		$this->assertFalse( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// The same media once linked to the quiz the student is taking.
+		update_post_meta( $media_id, '_llms_quiz_id', $quiz_id );
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+	}
+
+	/**
 	 * Create a protected attachment post with a real file in the uploads directory.
 	 *
 	 * @since 10.2.0

@@ -602,7 +602,8 @@ class LLMS_Media_Protector {
 			}
 
 			if ( ! $is_authorized ) {
-				$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+				// Ignore empty and invalid quiz IDs.
+				$authorized_quiz_ids = array_filter( array_map( 'absint', (array) get_post_meta( $media_id, '_llms_quiz_id', true ) ) );
 
 				if ( $authorized_quiz_ids ) {
 					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
