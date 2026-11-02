@@ -811,10 +811,6 @@ class LLMS_Template_Loader {
 	 */
 	public function maybe_prepare_listed_content_restriction() {
 
-		if ( is_feed() ) {
-			return;
-		}
-
 		add_filter( 'the_content', array( $this, 'maybe_restrict_listed_content' ), 9999 );
 		add_filter( 'get_the_excerpt', array( $this, 'maybe_restrict_listed_content' ), 9999, 2 );
 	}
@@ -829,6 +825,10 @@ class LLMS_Template_Loader {
 	 *
 	 * The membership helpers are called directly because `llms_page_restricted()` only applies
 	 * membership restrictions on singular requests.
+	 *
+	 * In a feed, posts listed inside a feed item (such as by a Query Loop block) are checked as an
+	 * anonymous visitor would see them, like the feed item itself, since feeds are commonly cached
+	 * with no per-user key.
 	 *
 	 * @since [version]
 	 *
@@ -846,6 +846,11 @@ class LLMS_Template_Loader {
 			in_array( get_post_type( $post_id ), $this->get_content_restriction_skip_post_types(), true )
 		) {
 			return $content;
+		}
+
+		if ( is_feed() ) {
+			$restriction = $this->get_feed_restriction( $post_id );
+			return empty( $restriction['is_restricted'] ) ? $content : $this->get_content_restriction_message( $restriction );
 		}
 
 		$user_id        = get_current_user_id();

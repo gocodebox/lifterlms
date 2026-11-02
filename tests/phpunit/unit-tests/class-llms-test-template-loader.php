@@ -292,6 +292,62 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_restrict_listed_content(): posts listed inside a feed item are restricted as for an anonymous visitor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_feed() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$restricted = $this->factory->post->create( array(
+			'post_content' => 'SECRET_BODY',
+			'post_excerpt' => 'SECRET_EXCERPT',
+		) );
+		update_post_meta( $restricted, '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+		update_post_meta( $restricted, '_llms_is_restricted', 'yes' );
+		$public = $this->factory->post->create( array(
+			'post_content' => 'PUBLIC_BODY',
+		) );
+
+		$this->go_to( add_query_arg( array( 'feed' => 'rss2', 's' => 'Zebracorn' ), home_url( '/' ) ) );
+		$this->assertTrue( is_feed() );
+
+		$this->main->maybe_prepare_listed_content_restriction();
+
+		$render = function( $post_id ) use ( &$post ) {
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			return array(
+				apply_filters( 'the_content', get_the_content() ),
+				get_the_excerpt( $post ),
+			);
+		};
+
+		// Feeds may be cached without a per-user key, so members get the anonymous output too.
+		$student = $this->get_mock_student();
+		$student->enroll( $membership->get( 'id' ) );
+		foreach ( array( 0, $student->get( 'id' ) ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			$this->assertSame( array( 'no access.', 'no access.' ), $render( $restricted ) );
+			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		}
+
+		remove_filter( 'the_content', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		remove_filter( 'get_the_excerpt', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		wp_reset_postdata();
+
+	}
+
+	/**
 	 * Test maybe_prepare_feed_content_restriction(): filters are only attached on feed requests.
 	 *
 	 * @since 10.1.0
