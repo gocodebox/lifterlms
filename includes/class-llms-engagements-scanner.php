@@ -1007,21 +1007,26 @@ class LLMS_Engagements_Scanner {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $post_id  WP_Post ID of the course or membership.
-	 * @param int $cursor   Last processed WP_User ID.
-	 * @param int $per_page Number of users per page.
+	 * @param int|int[] $post_id  WP_Post ID of the course or membership, or a list of them.
+	 * @param int       $cursor   Last processed WP_User ID.
+	 * @param int       $per_page Number of users per page.
 	 * @return int[]
 	 */
 	protected function get_enrolled_user_ids( $post_id, $cursor, $per_page ) {
 
 		global $wpdb;
 
+		$post_ids = array_values( array_filter( array_map( 'absint', (array) $post_id ) ) );
+		if ( ! $post_ids ) {
+			return array();
+		}
+
 		$ids = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT upm.user_id
 				 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 				 JOIN {$wpdb->users} AS users ON users.ID = upm.user_id
-				 WHERE upm.post_id = %d
+				 WHERE upm.post_id IN ( " . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . " )
 				   AND upm.meta_key = '_status'
 				   AND upm.user_id > %d
 				   AND upm.meta_value = 'enrolled'
@@ -1034,9 +1039,7 @@ class LLMS_Engagements_Scanner {
 				   )
 				 ORDER BY upm.user_id ASC
 				 LIMIT %d",
-				$post_id,
-				$cursor,
-				$per_page
+				array_merge( $post_ids, array( $cursor, $per_page ) )
 			)
 		); // db call ok; no-cache ok.
 
@@ -1055,16 +1058,44 @@ class LLMS_Engagements_Scanner {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $course_id WP_Post ID of the course, or `0` for all courses.
-	 * @param int $cursor    Last processed `meta_id` or `0` for the first page.
-	 * @param int $per_page  Number of enrollment rows per page.
+	 * @param int|int[] $course_id WP_Post ID of the course, a list of course IDs, or `0` for all courses.
+	 * @param int       $cursor    Last processed `meta_id` or `0` for the first page.
+	 * @param int       $per_page  Number of enrollment rows per page.
 	 * @return object[] Array of objects with `meta_id`, `user_id`, and `post_id` properties.
 	 */
 	protected function get_enrollments( $course_id, $cursor, $per_page ) {
 
 		global $wpdb;
 
-		// When no specific course is configured `%d = 0` disables the course condition.
+		$course_ids = array_values( array_filter( array_map( 'absint', (array) $course_id ) ) );
+
+		// No course IDs means every course. The two queries stay separate so the IN list is built
+		// from placeholders rather than interpolated SQL.
+		if ( ! $course_ids ) {
+			return $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT upm.meta_id, upm.user_id, upm.post_id
+					 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+					 JOIN {$wpdb->posts} AS posts ON posts.ID = upm.post_id AND posts.post_type = 'course'
+					 JOIN {$wpdb->users} AS users ON users.ID = upm.user_id
+					 WHERE upm.meta_key = '_status'
+					   AND upm.meta_value = 'enrolled'
+					   AND upm.meta_id > %d
+					   AND upm.updated_date = (
+					       SELECT MAX( upm2.updated_date )
+					       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+					       WHERE upm2.user_id = upm.user_id
+					         AND upm2.post_id = upm.post_id
+					         AND upm2.meta_key = '_status'
+					   )
+					 ORDER BY upm.meta_id ASC
+					 LIMIT %d",
+					$cursor,
+					$per_page
+				)
+			); // db call ok; no-cache ok.
+		}
+
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT upm.meta_id, upm.user_id, upm.post_id
@@ -1074,7 +1105,7 @@ class LLMS_Engagements_Scanner {
 				 WHERE upm.meta_key = '_status'
 				   AND upm.meta_value = 'enrolled'
 				   AND upm.meta_id > %d
-				   AND ( %d = 0 OR upm.post_id = %d )
+				   AND upm.post_id IN ( " . implode( ',', array_fill( 0, count( $course_ids ), '%d' ) ) . " )
 				   AND upm.updated_date = (
 				       SELECT MAX( upm2.updated_date )
 				       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
@@ -1084,10 +1115,7 @@ class LLMS_Engagements_Scanner {
 				   )
 				 ORDER BY upm.meta_id ASC
 				 LIMIT %d",
-				$cursor,
-				$course_id,
-				$course_id,
-				$per_page
+				array_merge( array( $cursor ), $course_ids, array( $per_page ) )
 			)
 		); // db call ok; no-cache ok.
 	}
@@ -1329,16 +1357,43 @@ class LLMS_Engagements_Scanner {
 	}
 
 	/**
+	 * Retrieve the trigger post IDs configured for an engagement.
+	 *
+	 * An empty selection is stored as `any` and returns an empty array, meaning the
+	 * engagement applies to every post of the trigger's type. Each selected post is
+	 * its own meta row.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $engagement Engagement post object.
+	 * @return int[]
+	 */
+	protected function get_trigger_post_ids( $engagement ) {
+
+		$ids = array();
+		foreach ( (array) get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', false ) as $value ) {
+			if ( is_numeric( $value ) ) {
+				$id = absint( $value );
+				if ( $id ) {
+					$ids[] = $id;
+				}
+			}
+		}
+
+		return array_values( array_unique( $ids ) );
+	}
+
+	/**
 	 * Retrieve the trigger post ID configured for an engagement, if it's a specific post.
 	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post $engagement Engagement post object.
-	 * @return int WP_Post ID or `0` when set to "any" or empty.
+	 * @return int WP_Post ID, the first ID when several are selected, or `0` when set to "any" or empty.
 	 */
 	protected function get_trigger_post_id( $engagement ) {
-		$trigger_post = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
-		return is_numeric( $trigger_post ) ? absint( $trigger_post ) : 0;
+		$ids = $this->get_trigger_post_ids( $engagement );
+		return $ids ? $ids[0] : 0;
 	}
 
 	/**
@@ -1347,8 +1402,8 @@ class LLMS_Engagements_Scanner {
 	 * Candidates must have at least one currently-enrolled course they have not
 	 * completed: the trigger nags students to come back and finish, so someone with
 	 * nothing left to do (completed everything, or membership-only with no courses)
-	 * is never a candidate. When the engagement is scoped to a course, only enrolled
-	 * non-completers of that course are scanned; when scoped to a membership, its
+	 * is never a candidate. When the engagement is scoped to one or more courses, only enrolled
+	 * non-completers of those courses are scanned; when scoped to one or more memberships, its
 	 * enrolled members must additionally have a non-completed course enrollment
 	 * elsewhere on the site. Accounts with no enrollments (staff, leads) are never
 	 * candidates, matching the trigger's "student" labeling. Users who have never
@@ -1374,13 +1429,13 @@ class LLMS_Engagements_Scanner {
 			return $done;
 		}
 
-		$cutoff       = $this->get_cutoff( $period );
-		$since        = $this->get_since( $engagement );
-		$since_floor  = $since ? $since : '1000-01-01 00:00:00';
-		$trigger_post = $this->get_trigger_post_id( $engagement );
+		$cutoff        = $this->get_cutoff( $period );
+		$since         = $this->get_since( $engagement );
+		$since_floor   = $since ? $since : '1000-01-01 00:00:00';
+		$trigger_posts = $this->get_trigger_post_ids( $engagement );
 
-		if ( $trigger_post ) {
-			$page_ids = $this->get_enrolled_user_ids( $trigger_post, $cursor, $per_page );
+		if ( $trigger_posts ) {
+			$page_ids = $this->get_enrolled_user_ids( $trigger_posts, $cursor, $per_page );
 		} else {
 			// Require a current enrollment (latest `_status` row) in a non-completed course,
 			// and only page users already inside the login window so a large site is not
@@ -1436,9 +1491,9 @@ class LLMS_Engagements_Scanner {
 		// The cursor must reflect the raw page: filtering candidates out below must not stall pagination.
 		$next_cursor = count( $page_ids ) === $per_page ? end( $page_ids ) : null;
 
-		if ( $trigger_post && 'course' === get_post_type( $trigger_post ) ) {
-			$user_ids = array_values( array_diff( $page_ids, $this->get_completed_user_ids( $page_ids, $trigger_post ) ) );
-		} elseif ( $trigger_post ) {
+		if ( $trigger_posts && 'course' === get_post_type( $trigger_posts[0] ) ) {
+			$user_ids = $this->filter_users_with_incomplete_course( $page_ids, $trigger_posts );
+		} elseif ( $trigger_posts ) {
 			// Membership scope: members must also have a non-completed course enrollment site-wide.
 			$user_ids = $this->filter_users_with_incomplete_course( $page_ids );
 		} else {
@@ -1469,7 +1524,7 @@ class LLMS_Engagements_Scanner {
 			if ( $last_login && $last_login < $cutoff && ( ! $since || $last_login >= $since ) ) {
 				$candidates[] = array(
 					'user_id'         => $user_id,
-					'related_post_id' => $trigger_post ? $trigger_post : '',
+					'related_post_id' => 1 === count( $trigger_posts ) ? $trigger_posts[0] : '',
 					'anchor'          => $last_login,
 				);
 			}
@@ -1490,9 +1545,10 @@ class LLMS_Engagements_Scanner {
 	 * @since [version]
 	 *
 	 * @param int[] $user_ids List of WP_User IDs.
+	 * @param int[] $post_ids Optional. Limit the check to these course IDs. Default empty, which checks every course.
 	 * @return int[]
 	 */
-	protected function filter_users_with_incomplete_course( $user_ids ) {
+	protected function filter_users_with_incomplete_course( $user_ids, $post_ids = array() ) {
 
 		global $wpdb;
 
@@ -1501,9 +1557,38 @@ class LLMS_Engagements_Scanner {
 			return array();
 		}
 
-		$matched = array_map(
-			'absint',
-			$wpdb->get_col(
+		$post_ids = array_values( array_filter( array_map( 'absint', (array) $post_ids ) ) );
+
+		if ( $post_ids ) {
+			$matched = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT DISTINCT upm.user_id
+					 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+					 JOIN {$wpdb->posts} AS courses ON courses.ID = upm.post_id AND courses.post_type = 'course'
+					 WHERE upm.user_id IN ( " . implode( ',', array_fill( 0, count( $user_ids ), '%d' ) ) . ' )
+					   AND upm.post_id IN ( ' . implode( ',', array_fill( 0, count( $post_ids ), '%d' ) ) . " )
+					   AND upm.meta_key = '_status'
+					   AND upm.meta_value = 'enrolled'
+					   AND upm.updated_date = (
+					       SELECT MAX( upm2.updated_date )
+					       FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+					       WHERE upm2.user_id = upm.user_id
+					         AND upm2.post_id = upm.post_id
+					         AND upm2.meta_key = '_status'
+					   )
+					   AND NOT EXISTS (
+					       SELECT 1
+					       FROM {$wpdb->prefix}lifterlms_user_postmeta AS complete
+					       WHERE complete.user_id = upm.user_id
+					         AND complete.post_id = upm.post_id
+					         AND complete.meta_key = '_is_complete'
+					         AND complete.meta_value = 'yes'
+					   )",
+					array_merge( $user_ids, $post_ids )
+				)
+			); // db call ok; no-cache ok.
+		} else {
+			$matched = $wpdb->get_col(
 				$wpdb->prepare(
 					"SELECT DISTINCT upm.user_id
 					 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
@@ -1528,8 +1613,10 @@ class LLMS_Engagements_Scanner {
 					   )",
 					$user_ids
 				)
-			)
-		); // db call ok; no-cache ok.
+			); // db call ok; no-cache ok.
+		}
+
+		$matched = array_map( 'absint', $matched );
 
 		return array_values( array_intersect( $user_ids, $matched ) );
 	}
@@ -1594,7 +1681,7 @@ class LLMS_Engagements_Scanner {
 			return $done;
 		}
 
-		$rows = $this->get_enrollments( $this->get_trigger_post_id( $engagement ), $cursor, $per_page );
+		$rows = $this->get_enrollments( $this->get_trigger_post_ids( $engagement ), $cursor, $per_page );
 		if ( ! $rows ) {
 			return $done;
 		}
@@ -1697,7 +1784,7 @@ class LLMS_Engagements_Scanner {
 			return $done;
 		}
 
-		$rows = $this->get_enrollments( $this->get_trigger_post_id( $engagement ), $cursor, $per_page );
+		$rows = $this->get_enrollments( $this->get_trigger_post_ids( $engagement ), $cursor, $per_page );
 		if ( ! $rows ) {
 			return $done;
 		}
@@ -1757,34 +1844,49 @@ class LLMS_Engagements_Scanner {
 			return $done;
 		}
 
-		$cutoff       = $this->get_cutoff( $period );
-		$since        = $this->get_since( $engagement );
-		$trigger_post = $this->get_trigger_post_id( $engagement );
+		$cutoff        = $this->get_cutoff( $period );
+		$since         = $this->get_since( $engagement );
+		$trigger_posts = $this->get_trigger_post_ids( $engagement );
 
-		// When no specific quiz is configured `%d = 0` disables the quiz condition, and
-		// an unset since floor falls back to the minimum DATETIME so it matches everything
+		// An unset since floor falls back to the minimum DATETIME so it matches everything
 		// (comparing a DATETIME column to an empty string errors in strict mode).
 		// The users join excludes attempts orphaned by user deletion.
-		$attempts = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT attempts.id, attempts.student_id, attempts.quiz_id
-				 FROM {$wpdb->prefix}lifterlms_quiz_attempts AS attempts
-				 JOIN {$wpdb->users} AS users ON users.ID = attempts.student_id
-				 WHERE attempts.status = 'incomplete'
-				   AND attempts.id > %d
-				   AND attempts.update_date < %s
-				   AND attempts.update_date >= %s
-				   AND ( %d = 0 OR attempts.quiz_id = %d )
-				 ORDER BY attempts.id ASC
-				 LIMIT %d",
-				$cursor,
-				$cutoff,
-				$since ? $since : '1000-01-01 00:00:00',
-				$trigger_post,
-				$trigger_post,
-				$per_page
-			)
-		); // db call ok; no-cache ok.
+		$since_floor = $since ? $since : '1000-01-01 00:00:00';
+		if ( $trigger_posts ) {
+			$attempts = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT attempts.id, attempts.student_id, attempts.quiz_id
+					 FROM {$wpdb->prefix}lifterlms_quiz_attempts AS attempts
+					 JOIN {$wpdb->users} AS users ON users.ID = attempts.student_id
+					 WHERE attempts.status = 'incomplete'
+					   AND attempts.id > %d
+					   AND attempts.update_date < %s
+					   AND attempts.update_date >= %s
+					   AND attempts.quiz_id IN ( " . implode( ',', array_fill( 0, count( $trigger_posts ), '%d' ) ) . ' )
+					 ORDER BY attempts.id ASC
+					 LIMIT %d',
+					array_merge( array( $cursor, $cutoff, $since_floor ), $trigger_posts, array( $per_page ) )
+				)
+			); // db call ok; no-cache ok.
+		} else {
+			$attempts = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT attempts.id, attempts.student_id, attempts.quiz_id
+					 FROM {$wpdb->prefix}lifterlms_quiz_attempts AS attempts
+					 JOIN {$wpdb->users} AS users ON users.ID = attempts.student_id
+					 WHERE attempts.status = 'incomplete'
+					   AND attempts.id > %d
+					   AND attempts.update_date < %s
+					   AND attempts.update_date >= %s
+					 ORDER BY attempts.id ASC
+					 LIMIT %d",
+					$cursor,
+					$cutoff,
+					$since_floor,
+					$per_page
+				)
+			); // db call ok; no-cache ok.
+		}
 
 		if ( ! $attempts ) {
 			return $done;
