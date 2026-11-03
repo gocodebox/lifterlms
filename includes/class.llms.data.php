@@ -293,22 +293,7 @@ class LLMS_Data {
 		$data['terms_required'] = get_option( 'lifterlms_registration_require_agree_to_terms', 'no' );
 		$data['terms_page']     = self::get_page_data( 'lifterlms_terms_page_id' );
 
-		$data['checkout_names']              = get_option( 'lifterlms_user_info_field_names_checkout_visibility' );
-		$data['checkout_address']            = get_option( 'lifterlms_user_info_field_address_checkout_visibility' );
-		$data['checkout_phone']              = get_option( 'lifterlms_user_info_field_phone_checkout_visibility' );
-		$data['checkout_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_checkout_visibility', 'no' );
-
-		$data['open_registration']               = get_option( 'lifterlms_enable_myaccount_registration', 'no' );
-		$data['registration_names']              = get_option( 'lifterlms_user_info_field_names_registration_visibility' );
-		$data['registration_address']            = get_option( 'lifterlms_user_info_field_address_registration_visibility' );
-		$data['registration_phone']              = get_option( 'lifterlms_user_info_field_phone_registration_visibility' );
-		$data['registration_voucher']            = get_option( 'lifterlms_voucher_field_registration_visibility' );
-		$data['registration_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_registration_visibility', 'no' );
-
-		$data['account_names']              = get_option( 'lifterlms_user_info_field_names_account_visibility' );
-		$data['account_address']            = get_option( 'lifterlms_user_info_field_address_account_visibility' );
-		$data['account_phone']              = get_option( 'lifterlms_user_info_field_phone_account_visibility' );
-		$data['account_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_account_visibility', 'no' );
+		$data['open_registration'] = get_option( 'lifterlms_enable_myaccount_registration', 'no' );
 
 		$data['confirmation_endpoint'] = get_option( 'lifterlms_myaccount_confirm_payment_endpoint' );
 		$data['force_ssl_checkout']    = get_option( 'lifterlms_checkout_force_ssl' );
