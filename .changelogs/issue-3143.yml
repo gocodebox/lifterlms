@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added email support to the 'Certificate Earned' notification and added a new 'Student earns a certificate' engagement trigger."
