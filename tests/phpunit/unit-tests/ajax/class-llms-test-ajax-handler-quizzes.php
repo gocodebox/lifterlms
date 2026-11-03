@@ -215,7 +215,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test quiz_answer_question() does not record a correct answer sent after the quiz time limit.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

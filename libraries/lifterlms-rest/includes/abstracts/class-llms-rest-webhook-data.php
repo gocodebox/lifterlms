@@ -141,7 +141,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	 * Retrieve the admin URL where the api key is managed.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Use the object ID instead of reading it from the database.
+	 * @since 1.1.3 Use the object ID instead of reading it from the database.
 	 *
 	 * @return string
 	 */
@@ -173,7 +173,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	 * Retrieve an array of hooks for the webhook topic.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Return no hooks for "action" topics that are not allowed for the webhook's owner.
+	 * @since 1.1.3 Return no hooks for "action" topics that are not allowed for the webhook's owner.
 	 *
 	 * @return string[]
 	 */

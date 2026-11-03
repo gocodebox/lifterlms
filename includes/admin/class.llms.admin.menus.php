@@ -247,7 +247,7 @@ class LLMS_Admin_Menus {
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
 	 * @since 7.4.1 Added the 'Resources' submenu page.
-	 * @since [version] Process Scheduled Actions requests when the 'Status' page loads.
+	 * @since 11.0.0 Process Scheduled Actions requests when the 'Status' page loads.
 	 *
 	 * @return void
 	 */
@@ -471,7 +471,7 @@ class LLMS_Admin_Menus {
 	 * The list table redirects after searches and bulk actions, which fails once
 	 * output has started and leaves the page blank.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

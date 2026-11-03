@@ -126,7 +126,7 @@ class LLMS_REST_Test_Webhooks_Controller extends LLMS_REST_Unit_Test_Case_Server
 	/**
 	 * Error creating webhook for an action hook that is not allowed.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @since [version] Link the course or membership title instead of the whole tile.
- * @version [version]
+ * @since 11.0.0 Link the course or membership title instead of the whole tile.
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -7,14 +7,14 @@
  * @group admin
  * @group rest_admin
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_REST_Test_Admin_Settings extends LLMS_REST_Unit_Test_Case_Base {
 
 	/**
 	 * Set up the tests.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_REST_Test_Admin_Settings extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Clean up webhooks between tests.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_REST_Test_Admin_Settings extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Retrieve the notice output for the current user.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -63,7 +63,7 @@ class LLMS_REST_Test_Admin_Settings extends LLMS_REST_Unit_Test_Case_Base {
 	 * Undeliverable active webhooks are listed for each user who can manage webhooks until that user dismisses the notice,
 	 * and the notice returns when the list changes.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

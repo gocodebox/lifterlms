@@ -189,7 +189,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_admin_table_data() for the StudentManagement table only lists students of courses the user can edit.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

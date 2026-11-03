@@ -1321,7 +1321,7 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Hidden access plans are only output to users who can edit the plan or its related product.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1373,7 +1373,7 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Access plans of draft and private products are only output to users who can read the product.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

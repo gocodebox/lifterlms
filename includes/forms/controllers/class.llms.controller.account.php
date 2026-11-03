@@ -47,7 +47,7 @@ class LLMS_Controller_Account {
 	 * (see {@see llms_get_transaction_receipt_url()}). Generates a PDF when the LifterLMS PDFs
 	 * add-on is active (via the `llms_serve_transaction_receipt` action) or an HTML receipt otherwise.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Controller_Account {
 		 * If a plugin hooks in and handles this action (e.g. generates a PDF), it should
 		 * call exit() to prevent the HTML fallback from rendering.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param LLMS_Transaction $transaction The transaction object.
 		 * @param LLMS_Order       $order       The parent order object.

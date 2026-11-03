@@ -5,7 +5,7 @@
  * @package  LifterLMS_REST/Admin/Classes
  *
  * @since 1.0.0-beta.1
- * @version [version]
+ * @version 1.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Manage admin settings pages.
  *
  * @since 1.0.0-beta.1
- * @since [version] Added a notice for webhooks that won't be delivered because their topic is not allowed.
+ * @since 1.1.3 Added a notice for webhooks that won't be delivered because their topic is not allowed.
  */
 class LLMS_REST_Admin_Settings {
 
@@ -29,7 +29,7 @@ class LLMS_REST_Admin_Settings {
 	 * Constructor.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Added a notice for webhooks that won't be delivered because their topic is not allowed.
+	 * @since 1.1.3 Added a notice for webhooks that won't be delivered because their topic is not allowed.
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_REST_Admin_Settings {
 	 *
 	 * A user's dismissal only applies to the set of webhooks it was made for, so the notice returns when the set changes.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param LLMS_REST_Webhook[] $hooks Undeliverable webhooks.
 	 * @return string
@@ -68,7 +68,7 @@ class LLMS_REST_Admin_Settings {
 	/**
 	 * Dismisses the undeliverable webhooks notice for the current user.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_REST_Admin_Settings {
 	 *
 	 * Shown to each user who can manage webhooks until they dismiss it, and again when the list of webhooks changes.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @return void
 	 */

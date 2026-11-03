@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Displays recurring orders (subscriptions) in an LLMS Admin Table
  * with lifetime revenue totals.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 
@@ -100,7 +100,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key  The column id / key.
 	 * @param LLMS_Order $data Order object.
@@ -186,7 +186,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Build the customer cell HTML: name linked to the user profile, email as a mailto link.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return string
@@ -214,7 +214,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell in an export file.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key  The column id / key.
 	 * @param LLMS_Order $data Order object.
@@ -296,7 +296,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Get the search placeholder text.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -307,7 +307,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Get HTML for the filters displayed in the head of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -336,7 +336,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Subscription data follows the Orders screen capability, not the reporting capability.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -347,7 +347,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -448,7 +448,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	 * or ended subscriptions that have no next payment date. A LEFT JOIN keeps them
 	 * and sorts them after the rows that have a value, in either direction.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array    $clauses Array of SQL clauses.
 	 * @param WP_Query $query   The WP_Query instance.
@@ -472,7 +472,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Search users by name or email.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $term Search term.
 	 * @return int[] Array of matching user IDs.
@@ -517,7 +517,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of arguments.
 	 * @return void
@@ -551,7 +551,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
@@ -564,7 +564,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
@@ -681,7 +681,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Set the table's title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */

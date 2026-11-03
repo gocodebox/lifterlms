@@ -33,7 +33,7 @@ class LLMS_Test_Model_Quiz_Attempt_Question extends LLMS_UnitTestCase {
 	/**
 	 * A single answer is not announced as a one-item list.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Test_Model_Quiz_Attempt_Question extends LLMS_UnitTestCase {
 	/**
 	 * Multiple answers stay in a list.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_Test_Model_Quiz_Attempt_Question extends LLMS_UnitTestCase {
 	/**
 	 * Answer HTML keeps formatting but loses form controls and data attributes, including HTML returned by filters.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

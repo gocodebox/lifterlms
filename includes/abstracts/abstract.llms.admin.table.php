@@ -430,7 +430,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Reporting tables use `view_lifterlms_reports`. Tables that show order data
 	 * override this with the Orders screen capability.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */

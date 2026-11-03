@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3418"
-entry: Fixed a blank Scheduled Actions tab on the LifterLMS Status page after searching or running a row or bulk action.

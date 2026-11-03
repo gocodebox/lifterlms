@@ -40,7 +40,7 @@ class LLMS_Student_Dashboard {
 	 * The endpoint itself remains registered (and accessible by direct URL); it is only
 	 * removed from the dashboard navigation when the student has zero recurring orders.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $tabs Navigation tabs from {@see LLMS_Student_Dashboard::get_tabs_for_nav()}.
 	 * @return array
@@ -63,7 +63,7 @@ class LLMS_Student_Dashboard {
 	 *
 	 * Result is cached for the duration of the request to avoid repeated queries.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -393,7 +393,7 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Prepend the current dashboard view to the browser document title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $parts Document title parts.
 	 * @return array
@@ -414,7 +414,7 @@ class LLMS_Student_Dashboard {
 		/**
 		 * Filter the student dashboard document title parts.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param array  $parts  Document title parts.
 		 * @param string $prefix Text prepended to the page title. Empty on the default dashboard tab.
@@ -425,7 +425,7 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Text prepended to the dashboard document title for the current view.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -469,7 +469,7 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Course title when viewing a single course on My Grades.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -549,7 +549,7 @@ class LLMS_Student_Dashboard {
 		 * When `true` (default) the transaction + order list (`my-transactions.php`) is
 		 * rendered. Return `false` to restore the legacy order list (`my-orders.php`).
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param bool $use_transaction_view Whether to use the transaction list view.
 		 */
@@ -586,7 +586,7 @@ class LLMS_Student_Dashboard {
 	 * {@see LLMS_Order} (for orders without any transactions, e.g. free enrollments or pending
 	 * payment orders). Rows are sorted by date, newest first.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $page     Page number. Default `1`.
 	 * @param int $per_page Number of rows per page. Default `25`.
@@ -698,7 +698,7 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Endpoint to output the student's subscriptions (recurring orders).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

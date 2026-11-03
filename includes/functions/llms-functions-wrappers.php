@@ -147,7 +147,7 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 *
 	 * @since 4.0.0
 	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
-	 * @since [version] Return `false` without calling `setcookie()` when headers have already been sent.
+	 * @since 11.0.0 Return `false` without calling `setcookie()` when headers have already been sent.
 	 *
 	 * @link https://www.php.net/manual/en/function.setcookie.php
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/trunk/framework/functions-llms-tests.php#L81-L111

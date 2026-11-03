@@ -90,7 +90,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.15 Unknown.
-	 * @since [version] Remove form controls and `data-*` attributes from the answer HTML.
+	 * @since 11.0.0 Remove form controls and `data-*` attributes from the answer HTML.
 	 *
 	 * @return string
 	 */
@@ -215,7 +215,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * A single answer is not wrapped in a list. Multiple answers stay a list.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $answers Answer strings.
 	 * @return string

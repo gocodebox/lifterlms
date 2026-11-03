@@ -1654,7 +1654,7 @@ class LLMS_REST_Test_Courses extends LLMS_REST_Unit_Test_Case_Posts {
 	 * collection query must not count them either — otherwise the pagination
 	 * totals become a search oracle against unreleased content.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -123,7 +123,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Test loop title sizes come from a block theme's h4 styles.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

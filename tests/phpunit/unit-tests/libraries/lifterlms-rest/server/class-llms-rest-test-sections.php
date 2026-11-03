@@ -161,7 +161,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	 * Test links.
 	 *
 	 * @since 1.0.0-beta.7
-	 * @since [version] Sections are only readable by logged in users.
+	 * @since 11.0.0 Sections are only readable by logged in users.
 	 */
 	public function test_links() {
 
@@ -577,7 +577,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	 * query would still match (and count) it, turning the pagination totals
 	 * into a search oracle.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -635,7 +635,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Sections are not readable by unauthenticated users, on any route that outputs them.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -668,7 +668,7 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Sections of draft and private courses are only readable by users who can read the course.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

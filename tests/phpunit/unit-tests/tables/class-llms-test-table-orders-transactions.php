@@ -6,14 +6,14 @@
  *
  * @group reporting_tables
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * Instructors can view reports but cannot open the Orders screen, so this table is closed to them.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * Amount sorting for transaction-less orders uses the initial (trial) price that is displayed.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * The month filter ignores dates of orders that are hidden because they have transactions.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

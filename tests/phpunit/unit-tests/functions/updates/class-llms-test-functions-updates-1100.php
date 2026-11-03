@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_1100
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 
@@ -24,7 +24,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Tear down the test.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Callback to reduce items per page for testing pagination.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return int
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Create a legacy order with a transaction but no `_llms_has_transaction` flag.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return int Order post ID.
 	 */
@@ -89,7 +89,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Test replace_weak_password_meter_descriptions().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Translate the legacy weak password description for the current locale.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $translation Translated text.
 	 * @param string $text        Text to translate.
@@ -189,7 +189,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	 * Test backfill_has_transaction_flag() flags only orders with transactions and
 	 * paginates, returning true while more remain and false when complete.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -221,7 +221,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Test backfill_has_transaction_flag() returns false immediately with nothing to do.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * A trashed transaction does not flag its order.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -254,7 +254,7 @@ class LLMS_Test_Functions_Updates_1100 extends LLMS_UnitTestCase {
 	/**
 	 * Test update_db_version().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

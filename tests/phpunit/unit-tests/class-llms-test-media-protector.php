@@ -181,7 +181,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 * Media imported without an author (e.g. `wp media import` without `--user`) has a post_author of 0,
 	 * which matches the user ID of a logged-out visitor.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that an incomplete quiz attempt only authorizes media linked to that quiz.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -489,7 +489,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 *
 	 * Before the fix, writing `$image[0]` on `false` raised a PHP 8.1+ deprecation notice.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -561,7 +561,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	/**
 	 * Test that the upload folder protection files are written once the folder is created by the first protected upload.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -1,3 +1,0 @@
-significance: patch
-type: performance
-entry: Improved performance of REST API collection requests and of the protected media folder check in the admin.

@@ -251,7 +251,7 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 	 * scope is added to the query's SQL by
 	 * {@see LLMS_REST_Students_Controller::limit_user_query_to_readable_users()}.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array $prepared Collection query arguments.
 	 * @return array
@@ -288,7 +288,7 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 	 * of the courses or memberships they instruct, as resolved by
 	 * {@see LLMS_Instructor::has_student()}.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param WP_User_Query $query Query object.
 	 * @return void

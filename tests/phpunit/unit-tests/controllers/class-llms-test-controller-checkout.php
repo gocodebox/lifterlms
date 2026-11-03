@@ -357,7 +357,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	 * Test create_pending_order() when a nonce error is encountered.
 	 *
 	 * @since 7.0.0
-	 * @since [version] Assert an error notice is added.
+	 * @since 11.0.0 Assert an error notice is added.
 	 *
 	 * @return void
 	 */

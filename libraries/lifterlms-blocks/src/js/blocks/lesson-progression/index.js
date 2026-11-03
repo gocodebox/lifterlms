@@ -6,8 +6,8 @@
  * @since 1.8.0 Use imports in favor of "wp." variables.
  *              Convert "edit" function from using ServerSideRender.
  * @since 10.3.0 Add `wp-element-button` to editor preview buttons and apply `llms.lessonProgressBlock.extraButtons`.
- * @since [version] Render preview buttons inside `.llms-lesson-button-wrapper` so they share one row.
- * @version [version]
+ * @since 11.0.0 Render preview buttons inside `.llms-lesson-button-wrapper` so they share one row.
+ * @version 11.0.0
  */
 
 // WP Deps.

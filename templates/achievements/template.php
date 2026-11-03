@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Achievements
  *
  * @since 1.0.0
- * @since [version] Open the achievement from a title button instead of a link around the card.
- * @version [version]
+ * @since 11.0.0 Open the achievement from a title button instead of a link around the card.
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -9,8 +9,8 @@
  * @since 4.17.0 Return early if accessed without a logged in user.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
  * @since 7.8.0 Don't try to round nulls.
- * @since [version] View a previous attempt from a submit button instead of changing the select.
- * @version [version]
+ * @since 11.0.0 View a previous attempt from a submit button instead of changing the select.
+ * @version 11.0.0
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */

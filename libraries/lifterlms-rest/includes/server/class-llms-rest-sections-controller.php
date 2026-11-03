@@ -600,7 +600,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * Sections are not public REST content: listing them requires an authenticated user.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -618,7 +618,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 * Checks if a Section can be read
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Sections cannot be read by unauthenticated users, or when their course cannot be read.
+	 * @since 1.1.3 Sections cannot be read by unauthenticated users, or when their course cannot be read.
 	 *
 	 * @param LLMS_Section $section The Section oject.
 	 * @return bool Whether the post can be read.
@@ -654,7 +654,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 * identical to the returned items. Only requests for sections of
 	 * non-public statuses need the per-section check run here.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array           $query_args Collection query arguments.
 	 * @param WP_REST_Request $request    Request object.
@@ -684,7 +684,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 * the course must be published, or readable or editable by the current user,
 	 * and not password protected outside of the edit context.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array           $query_args Collection query arguments.
 	 * @param WP_REST_Request $request    Request object.

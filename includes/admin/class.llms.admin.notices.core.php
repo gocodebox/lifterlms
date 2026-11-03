@@ -44,7 +44,7 @@ class LLMS_Admin_Notices_Core {
 	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
 	 * @since 7.1.0 Do not add a callback to show the missing sidebar support anymore.
 	 * @since 7.7.0 Add notice for media protection on certain hosting servers.
-	 * @since [version] Add notice for efficient protected media serving on WP Engine.
+	 * @since 11.0.0 Add notice for efficient protected media serving on WP Engine.
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class LLMS_Admin_Notices_Core {
 	 * efficient serving. The notice is shown once at least one media file is protected and is removed
 	 * once the `llms_media_serve_method` filter has been configured to use NGINX.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -186,7 +186,7 @@ class LLMS_Admin_Notices_Core {
 		/**
 		 * Filters whether the site is hosted on WP Engine for the purpose of the protected media notice.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param bool $is_wpengine Whether the site is hosted on WP Engine.
 		 */

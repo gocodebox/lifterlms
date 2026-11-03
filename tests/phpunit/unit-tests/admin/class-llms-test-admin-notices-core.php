@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_notices
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Admin_Notices_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Admin_Notices_Core extends LLMS_UnitTestCase {
 	/**
 	 * Tear down.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Admin_Notices_Core extends LLMS_UnitTestCase {
 	 * Test the WP Engine media protection notice is only shown on WP Engine once media is protected,
 	 * and removed once the site is configured to serve files via NGINX.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

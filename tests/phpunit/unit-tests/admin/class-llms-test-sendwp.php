@@ -9,7 +9,7 @@
  * @since 3.36.1
  * @since 3.37.0 Add testing for nonce verifications.
  * @since 3.40.0 Added additional coverage.
- * @since [version] Moved tests that need the live SendWP plugin into the `external` group.
+ * @since 11.0.0 Moved tests that need the live SendWP plugin into the `external` group.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 

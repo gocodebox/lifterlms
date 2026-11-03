@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
  * @since 3.41.1 Fixed content membership restricted post's content not restricted in REST requests.
  * @since 4.0.0 Don't pass objects by reference because it's unnecessary.
- * @since [version] Restrict the content of posts listed on search results, archives, and in query loops.
+ * @since 11.0.0 Restrict the content of posts listed on search results, archives, and in query loops.
  */
 class LLMS_Template_Loader {
 
@@ -33,7 +33,7 @@ class LLMS_Template_Loader {
 	 * @since 6.2.0 Added 'llms_template_loader_priority' filter.
 	 * @since 6.4.0 Reverted back the priority of the `$this->template_loader()` callback
 	 *              (`template_include` hook's callback) from 100 to 10.
-	 * @since [version] Predispose content restriction of listed posts.
+	 * @since 11.0.0 Predispose content restriction of listed posts.
 	 */
 	public function __construct() {
 
@@ -805,7 +805,7 @@ class LLMS_Template_Loader {
 	 * a membership-restricted post or page is output in full (or as its excerpt) on search results,
 	 * archives, and in query loops.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -832,7 +832,7 @@ class LLMS_Template_Loader {
 	 * with no per-user key. Post types that feeds never output (such as lessons and quizzes) are
 	 * removed from feed listings for every viewer.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string       $content Post content or excerpt.
 	 * @param WP_Post|null $post    Optional. Post object, passed by `get_the_excerpt`. Default `null`.
@@ -902,7 +902,7 @@ class LLMS_Template_Loader {
 	 * bare text node outside the post content's layout. Excerpts are left as-is because the theme
 	 * or excerpt block adds its own paragraph.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $restriction Array of restriction info, as from `llms_page_restricted()`.
 	 * @return string

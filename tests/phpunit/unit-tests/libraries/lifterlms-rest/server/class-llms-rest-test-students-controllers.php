@@ -1410,7 +1410,7 @@ class LLMS_REST_Test_Students_Controllers extends LLMS_REST_Unit_Test_Case_Users
 	 * `X-WP-Total` header, with the `search` parameter, as an oracle against
 	 * the records they are not allowed to read.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

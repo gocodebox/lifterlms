@@ -213,7 +213,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_listed_content(): membership-restricted posts in search results show the restriction notice.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -294,7 +294,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_listed_content(): posts listed inside a feed item are restricted as for an anonymous visitor.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -350,7 +350,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_listed_content() on lesson and quiz listings.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -359,7 +359,7 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 	 * Test the is_topic_valid() method.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Custom action topics are only valid for administrators.
+	 * @since 11.0.0 Custom action topics are only valid for administrators.
 	 *
 	 * @return void
 	 */
@@ -385,7 +385,7 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Custom action topics are only available to users who can `manage_options`.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -423,7 +423,7 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * A non-administrator can't update an administrator's custom action webhook, e.g. to change its delivery URL.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

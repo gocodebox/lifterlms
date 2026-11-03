@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Fixed a PHP fatal error when viewing a course's grades page on the student dashboard using the course ID instead of its slug.

@@ -577,7 +577,7 @@ class LLMS_Engagement_Handler {
 		 * Used by scan-based (inactivity) triggers to allow a re-armed engagement to resend
 		 * an email which was previously sent for the same related post.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param boolean    $is_duplicate  Whether the email is considered a duplicate.
 		 * @param int        $person_id     WP_User ID of the recipient.

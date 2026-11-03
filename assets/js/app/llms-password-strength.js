@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 11.0.0
  */
 
 $.extend( LLMS.PasswordStrength, {
@@ -213,7 +213,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve the values of the other form fields used when checking the
 	 * password for reuse of information from the form.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return {String[]} Lowercased values of all text, email, tel, and number inputs in the form.
 	 */
@@ -236,7 +236,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve the translated message displayed when the password is rejected
 	 * because it reuses information found in another form field.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return {String}
 	 */
@@ -255,7 +255,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * abbreviation, do not produce a false explanation. Those values can
 	 * still score as very weak and keep the existing label.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return {Boolean|Object} The zxcvbn match which caused the reuse or `false` when the password's weakness is not caused by field reuse.
 	 */

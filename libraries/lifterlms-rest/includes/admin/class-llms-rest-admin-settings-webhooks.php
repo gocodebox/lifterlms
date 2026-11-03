@@ -22,7 +22,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 	 * Get settings fields for the Keys tab.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Keep the "Action" topic option when editing an existing action webhook.
+	 * @since 1.1.3 Keep the "Action" topic option when editing an existing action webhook.
 	 *
 	 * @return array
 	 */

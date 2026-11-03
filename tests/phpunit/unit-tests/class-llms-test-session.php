@@ -314,7 +314,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 * Test writing to a new session when its cookie can't be sent, e.g. because output
 	 * was flushed before a shortcode added a notice mid-render.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

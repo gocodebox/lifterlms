@@ -1028,7 +1028,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Mirrors {@see LLMS_Student::get_orders()} but restricts results to recurring
 	 * orders via the `_llms_order_type` meta and to recurring-specific statuses.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $params {
 	 *     Optional. Query arguments.

@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3439"
-entry: Fixed a PHP warning on REST API instructors collection requests that return no results.

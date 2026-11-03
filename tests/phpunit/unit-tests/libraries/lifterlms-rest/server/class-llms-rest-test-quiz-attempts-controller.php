@@ -145,7 +145,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	 * The student filter, a missing student, and an unscoped list must all count
 	 * only readable quizzes. An LMS manager still receives the full total.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * An instructor sees attempts on a quiz they do not author when it belongs to a course they instruct.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Assert a collection response status, total, and attempt ids.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_REST_Response $response   Response object.
 	 * @param int              $total      Expected X-WP-Total and body length.
@@ -249,7 +249,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Create a published quiz authored by the given user.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $author Author WP_User ID.
 	 * @return int Quiz post ID.
@@ -268,7 +268,7 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	/**
 	 * Insert a quiz attempt for a student.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $quiz_id    Quiz post ID.
 	 * @param int $student_id Student WP_User ID.

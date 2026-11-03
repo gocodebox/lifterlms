@@ -207,7 +207,7 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
-	 * @since [version] Return `$image` unchanged when it is not an array, e.g. for non-image attachments.
+	 * @since 11.0.0 Return `$image` unchanged when it is not an array, e.g. for non-image attachments.
 	 *
 	 * @param array|false  $image    {
 	 *     Array of image data, or boolean false if no image is available.
@@ -911,7 +911,7 @@ class LLMS_Media_Protector {
 	 * The first protected upload creates the directory, so the daily check of
 	 * {@see LLMS_Media_Protector::save_mod_rewrite_rules()} is run again regardless of when it last ran.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

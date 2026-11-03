@@ -202,7 +202,7 @@ class LLMS_AJAX_Handler {
 	 * `user_can_access()` when it should follow a different capability, such as
 	 * the Orders screen.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return LLMS_Admin_Table|false
@@ -725,7 +725,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
-	 * @since [version] End the attempt without recording the answer once the quiz time limit has passed.
+	 * @since 11.0.0 End the attempt without recording the answer once the quiz time limit has passed.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string

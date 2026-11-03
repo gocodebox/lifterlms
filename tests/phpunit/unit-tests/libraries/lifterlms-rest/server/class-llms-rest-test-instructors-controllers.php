@@ -336,7 +336,7 @@ class LLMS_REST_Test_Instructors_Controllers extends LLMS_REST_Unit_Test_Case_Us
 	/**
 	 * Test listing instructors with no results.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

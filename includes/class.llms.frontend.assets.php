@@ -131,7 +131,7 @@ class LLMS_Frontend_Assets {
 	 * Loop titles were h4 until their tag became h2-h4 by context, so this keeps
 	 * their look. Classic themes use the stylesheet defaults.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -174,7 +174,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 * @since 5.0.0 Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
-	 * @since [version] Add loop title sizes from the theme's theme.json.
+	 * @since 11.0.0 Add loop title sizes from the theme's theme.json.
 	 *
 	 * @return void
 	 */
@@ -215,7 +215,7 @@ class LLMS_Frontend_Assets {
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
 	 * @since 7.5.0 Enqueue `llms-favorites` script on lesson and course page.
-	 * @since [version] Enqueue `llms-dashboard-nav` on the student dashboard.
+	 * @since 11.0.0 Enqueue `llms-dashboard-nav` on the student dashboard.
 	 *
 	 * @return void
 	 */

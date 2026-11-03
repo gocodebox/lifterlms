@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View: Course/Membership Unenrollment
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_View {
 
@@ -45,7 +45,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup body content for output
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -58,7 +58,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup footer content for output
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_footer() {
 		return '';
@@ -68,7 +68,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup notification icon for output
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'negative' );
@@ -78,7 +78,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup merge codes that can be used with the notification
 	 *
 	 * @return array
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -93,7 +93,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -121,7 +121,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup notification subject for output
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_subject() {
 		if ( $this->is_for_self() ) {
@@ -134,7 +134,7 @@ class LLMS_Notification_View_Unenrollment extends LLMS_Abstract_Notification_Vie
 	 * Setup notification title for output
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_title() {
 		return sprintf( __( '%1$s unenrollment', 'lifterlms' ), '{{TYPE}}' );

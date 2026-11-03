@@ -442,7 +442,7 @@ abstract class LLMS_REST_Users_Controller extends LLMS_Rest_Controller {
 	 *
 	 * Users queries read the `page` argument, so run the query again on page one instead of unsetting it.
 	 *
-	 * @since [version] Moved from `LLMS_REST_Students_Controller` so it applies to every users controller.
+	 * @since 1.1.3 Moved from `LLMS_REST_Students_Controller` so it applies to every users controller.
 	 *
 	 * @param array           $args    Array of query args.
 	 * @param WP_REST_Request $request Full details about the request.

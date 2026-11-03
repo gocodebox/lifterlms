@@ -2,7 +2,7 @@
  * LifterLMS Basic Notifications Displayer
  *
  * @since    3.8.0
- * @version  [version]
+ * @version  11.0.0
  */( function( $ ) {
 
 	var llms_notifications = function() {
@@ -82,7 +82,7 @@
 		 * @param    obj   $el  notification dom element
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  [version]
+		 * @version  11.0.0
 		 */
 		this.dismiss = function( $el ) {
 			var self = this;
@@ -131,7 +131,7 @@
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
 		 * @since    3.8.0
-		 * @version  [version]
+		 * @version  11.0.0
 		 */
 		this.get_offset = function( $relative_el ) {
 
@@ -180,7 +180,7 @@
 		 * @param    obj   $start_el  element to start repositioning with
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  [version]
+		 * @version  11.0.0
 		 */
 		this.reposition = function( $start_el ) {
 
@@ -243,7 +243,7 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  [version]
+		 * @version  11.0.0
 		 */
 		this.show_one = function( n ) {
 

@@ -118,7 +118,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
 	 *              Exit the loop as soon as we find our question.
 	 *              Use strict comparison for IDs.
-	 * @since [version] Don't record answers for question types that can't be answered, like content.
+	 * @since 11.0.0 Don't record answers for question types that can't be answered, like content.
 	 *
 	 * @param int      $question_id WP_Post ID of the LLMS_Question.
 	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
@@ -897,7 +897,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * Always `false` for quizzes without a time limit and for students allowed unlimited quiz time.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -920,7 +920,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		 *
 		 * Covers the delay between the browser timer running out and its request reaching the server.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param int               $grace_period Grace period in seconds.
 		 * @param LLMS_Quiz_Attempt $attempt      Quiz attempt.

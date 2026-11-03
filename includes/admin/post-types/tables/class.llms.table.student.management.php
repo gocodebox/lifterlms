@@ -255,7 +255,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 *
 	 * @since 3.4.0
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
-	 * @since [version] Require permission to edit the course or membership.
+	 * @since 11.0.0 Require permission to edit the course or membership.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void

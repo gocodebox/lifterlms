@@ -483,7 +483,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * An existing action webhook not owned by an administrator is not hooked or delivered.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -519,7 +519,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * A custom action webhook owned by an administrator is hooked without registering its topic.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -1705,7 +1705,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test that record_transaction() sets the `_llms_has_transaction` order flag.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1729,7 +1729,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test that the `_llms_has_transaction` flag is cleared only when an order's
 	 * last transaction is deleted.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1767,7 +1767,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Trashing the last visible transaction clears the flag, and restoring it sets the flag again.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

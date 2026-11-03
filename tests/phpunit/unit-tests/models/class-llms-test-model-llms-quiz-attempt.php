@@ -236,7 +236,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Test answer_question() doesn't record answers for content questions.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -7,8 +7,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin page registration for the Orders & Transactions and Subscriptions tables.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Admin_Page_Orders {
 
@@ -26,7 +26,7 @@ class LLMS_Admin_Page_Orders {
 	 * These match the `WP_Screen::$id` values and are used to enqueue the
 	 * admin tables JS on the correct screens.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @var string[]
 	 */
@@ -35,7 +35,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Admin_Page_Orders {
 	 *
 	 * The single-order edit screen (`post.php`) remains fully accessible.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Admin_Page_Orders {
 	 * Only redirects when viewing the raw CPT listing (not the single edit screen
 	 * and not one of our own custom pages).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Register submenu pages under the Orders CPT menu.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class LLMS_Admin_Page_Orders {
 	 * The hook suffixes returned by `add_submenu_page()` match the
 	 * `WP_Screen::$id` of each page, so they can be used directly.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string[] $pages Array of screen IDs.
 	 * @return string[]
@@ -191,7 +191,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Render the Orders & Transactions page.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -208,7 +208,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Render the Subscriptions page.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -230,7 +230,7 @@ class LLMS_Admin_Page_Orders {
 	 * order edit screen letting the user know the transaction itself lives in the
 	 * Transactions list below, with a jump link to it.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -274,7 +274,7 @@ class LLMS_Admin_Page_Orders {
 	 *
 	 * Triggered via URL parameter: ?llms_receipt_txn={transaction_id}&_wpnonce={nonce}
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -310,7 +310,7 @@ class LLMS_Admin_Page_Orders {
 		 * If a plugin hooks in and handles this action (e.g. generates a PDF), it should
 		 * call exit() to prevent the HTML fallback from rendering.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param LLMS_Transaction $transaction The transaction object.
 		 * @param LLMS_Order       $order       The parent order object.
@@ -325,7 +325,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Get the URL for downloading a transaction receipt.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $txn_id Transaction post ID.
 	 * @return string

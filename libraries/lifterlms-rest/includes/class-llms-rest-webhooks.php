@@ -39,7 +39,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	/**
 	 * Active webhooks found by `load()` that won't be delivered because their topic is not allowed for their owner.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @var LLMS_REST_Webhook[]
 	 */
@@ -100,7 +100,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * The user performing the update becomes the webhook's owner, so its topic (new or existing)
 	 * must be allowed for that user.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array $data Associative array of data to update, including the webhook `id`.
 	 * @return WP_Error|LLMS_REST_Webhook
@@ -217,7 +217,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * @since 1.0.0-beta.1
 	 * @since 1.0.0-beta.6 Fix translated access plans typo.
 	 * @since 1.0.0-beta.18 Remove access_plan.restored topic - access plan post type doesn't support trashing.
-	 * @since [version] Only include the "action" topic for users who can `manage_options`.
+	 * @since 1.1.3 Only include the "action" topic for users who can `manage_options`.
 	 *
 	 * @return array
 	 */
@@ -525,7 +525,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * Determine if a given topic is valid.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Custom "action.{hook}" topics are only valid for users who can `manage_options`.
+	 * @since 1.1.3 Custom "action.{hook}" topics are only valid for users who can `manage_options`.
 	 *
 	 * @param string $topic Topic.
 	 * @return bool
@@ -542,7 +542,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * Topics returned by `get_topics()` are allowed for everyone. Custom "action.{hook}" topics, which deliver
 	 * the hook's raw arguments, are only allowed for users who can `manage_options`.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param string $topic   Topic.
 	 * @param int    $user_id WP User ID.
@@ -564,7 +564,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 *
 	 * @since 1.0.0-beta.1
 	 * @since 1.0.0-beta.16
-	 * @since [version] Record webhooks that won't be delivered because their topic is not allowed for their owner.
+	 * @since 1.1.3 Record webhooks that won't be delivered because their topic is not allowed for their owner.
 	 *
 	 * @return int Number of hooks loaded.
 	 */
@@ -606,7 +606,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	/**
 	 * Retrieves the active webhooks found by `load()` that won't be delivered because their topic is not allowed for their owner.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @return LLMS_REST_Webhook[]
 	 */

@@ -233,7 +233,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * current request.
 	 *
 	 * @since 10.0.7
-	 * @since [version] Keep the session flagged as new when its cookie could not be sent.
+	 * @since 11.0.0 Keep the session flagged as new when its cookie could not be sent.
 	 *
 	 * @param string $key   Session data key.
 	 * @param mixed  $value Session data value.
@@ -314,7 +314,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * reference it, so saving it would only leave an orphaned database row.
 	 *
 	 * @since 4.0.0
-	 * @since [version] Do not save a new session whose cookie was never sent.
+	 * @since 11.0.0 Do not save a new session whose cookie was never sent.
 	 *
 	 * @return boolean
 	 */

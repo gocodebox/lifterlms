@@ -458,7 +458,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * since published rows are admitted to every caller. A `null` return leaves
 	 * the query unrestricted.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array $query_args Collection query arguments.
 	 * @return int[]|null Readable post IDs, or `null` when the query needs no restriction.
@@ -512,7 +512,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * {@see LLMS_REST_Posts_Controller::check_read_permission()}, which the
 	 * per-item read check runs on every returned row.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param int[] $ids Post IDs.
 	 * @return int[]
@@ -535,7 +535,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 * Restrict collection query arguments to the posts the current user can read.
 	 *
 	 * @since 10.3.1
-	 * @since [version] Passes the request to `constrain_readable_post_ids()`.
+	 * @since 1.1.3 Passes the request to `constrain_readable_post_ids()`.
 	 *
 	 * @param array           $query_args WP_Query arguments.
 	 * @param WP_REST_Request $request    Request object.
@@ -565,7 +565,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	/**
 	 * Determine if the current user can read a related post, such as the course of a section or the product of an access plan.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return bool

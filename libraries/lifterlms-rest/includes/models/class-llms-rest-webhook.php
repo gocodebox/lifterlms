@@ -24,7 +24,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	 * Delivers the webhook
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Skip delivery when the webhook's topic is not allowed for its owner.
+	 * @since 1.1.3 Skip delivery when the webhook's topic is not allowed for its owner.
 	 *
 	 * @param array $args Numeric array of arguments from the originating hook.
 	 * @return void

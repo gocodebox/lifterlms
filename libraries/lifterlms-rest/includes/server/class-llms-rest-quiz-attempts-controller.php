@@ -400,7 +400,7 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	 * An empty `quiz_id` list is ignored by {@see LLMS_Query_Quiz_Attempt},
 	 * which would count every attempt. A non-matching id forces an empty set.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array $args Query arguments.
 	 * @return array

@@ -187,7 +187,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * Users who can edit the plan or its related course/membership can read it.
 	 * Anyone else can only read visible plans of a course/membership they can read.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param LLMS_Access_Plan $access_plan LLMS Access Plan instance.
 	 * @return bool Whether the access plan can be read.
@@ -218,7 +218,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * {@see LLMS_REST_Access_Plans_Controller::filter_readable_posts_where()},
 	 * so the pagination totals match the returned items without loading every plan.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array           $query_args WP_Query arguments.
 	 * @param WP_REST_Request $request    Request object.
@@ -245,7 +245,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * Mirrors the `edit_post` check on a product: its author, or one of its
 	 * instructors on a published product (see {@see LLMS_Instructor::is_instructor()}).
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @return int[]
 	 */
@@ -284,7 +284,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve a query object based on arguments from a `get_items()` (collection) request.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param array           $prepared Array of collection arguments.
 	 * @param WP_REST_Request $request  Full details about the request.
@@ -309,7 +309,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * - its course or membership is one the current user can edit;
 	 * - it is not hidden, and its course or membership is published.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @param string   $where The WHERE clause of the query.
 	 * @param WP_Query $query The WP_Query instance.

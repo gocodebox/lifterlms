@@ -95,7 +95,7 @@ class LLMS_REST_Quizzes_Controller extends LLMS_REST_Posts_Controller {
 	 * Null when the user can edit others' quizzes and the collection is not restricted.
 	 * Quiz attempts use this so their totals stay on the same set as this collection.
 	 *
-	 * @since [version]
+	 * @since 1.1.3
 	 *
 	 * @return int[]|null
 	 */

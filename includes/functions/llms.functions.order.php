@@ -149,7 +149,7 @@ function llms_get_order_status_name( $status ) {
  * The resulting URL is served by {@see LLMS_Controller_Account::maybe_serve_transaction_receipt()}
  * which generates a PDF (when the LifterLMS PDFs add-on is active) or an HTML receipt otherwise.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param int $txn_id Transaction post ID.
  * @return string
@@ -164,7 +164,7 @@ function llms_get_transaction_receipt_url( $txn_id ) {
 	/**
 	 * Filters the front-end transaction receipt download URL.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $url    The receipt URL.
 	 * @param int    $txn_id Transaction post ID.
@@ -533,7 +533,7 @@ function llms_setup_pending_order( $data = array() ) {
  *
  * Uses the same capability as the Orders screen (`llms_order` `show_ui`).
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return bool
  */

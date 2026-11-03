@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -234,7 +234,7 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
  * a weak password is what the site wants. Medium and strong minimums are named
  * because they are a bar above that default.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param string $strength Minimum password strength. Accepts "strong", "medium", or "weak".
  * @return string
