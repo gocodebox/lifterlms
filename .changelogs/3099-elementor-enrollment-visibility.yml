@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added an Enrollment Visibility control to LifterLMS Elementor widgets, allowing widgets to be shown or hidden based on the visitor's enrollment status, login state, or enrollment in specific courses or memberships."
