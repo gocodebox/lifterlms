@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: "Clarified the Unrestricted Preview Access setting description to note that bypassing restrictions also requires the user to be able to edit the content."
