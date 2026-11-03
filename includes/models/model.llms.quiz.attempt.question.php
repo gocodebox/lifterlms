@@ -90,6 +90,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.15 Unknown.
+	 * @since 11.0.0 Remove form controls and `data-*` attributes from the answer HTML.
 	 *
 	 * @return string
 	 */
@@ -99,20 +100,27 @@ class LLMS_Quiz_Attempt_Question {
 		$answers  = $this->get_answer_array();
 		$ret      = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
 
-		if ( ! $ret ) {
+		if ( ! $ret && $answers ) {
+			$ret = $this->format_answers_html( $answers );
+		}
 
-			if ( $answers ) {
+		$ret = apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
 
-				$ret = '<ul class="llms-quiz-attempt-answers">';
-				foreach ( $answers as $answer ) {
-					$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
-				}
-				$ret .= '</ul>';
-
+		/*
+		 * Answers can contain student-submitted HTML that is displayed to instructors inside the grading form.
+		 * Don't let it add form controls or data attributes that the review scripts read.
+		 */
+		$allowed_html = wp_kses_allowed_html( 'post' );
+		foreach ( array( 'button', 'fieldset', 'form', 'input', 'label', 'legend', 'option', 'select', 'textarea' ) as $tag ) {
+			unset( $allowed_html[ $tag ] );
+		}
+		foreach ( $allowed_html as $tag => $attributes ) {
+			if ( is_array( $attributes ) ) {
+				unset( $allowed_html[ $tag ]['data-*'] );
 			}
 		}
 
-		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
+		return wp_kses( $ret, $allowed_html );
 	}
 
 	/**
@@ -163,13 +171,7 @@ class LLMS_Quiz_Attempt_Question {
 		$answers = $this->get_correct_answer_array();
 
 		if ( $answers ) {
-
-			$ret = '<ul class="llms-quiz-attempt-answers">';
-			foreach ( $answers as $answer ) {
-				$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
-			}
-			$ret .= '</ul>';
-
+			$ret = $this->format_answers_html( $answers );
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer', $ret, $answers, $this->get_question(), $this );
@@ -206,6 +208,37 @@ class LLMS_Quiz_Attempt_Question {
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
+	}
+
+	/**
+	 * Format selected or correct answers for the results page.
+	 *
+	 * A single answer is not wrapped in a list. Multiple answers stay a list.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param array $answers Answer strings.
+	 * @return string
+	 */
+	protected function format_answers_html( $answers ) {
+
+		$answers = array_values( $answers );
+
+		if ( ! $answers ) {
+			return '';
+		}
+
+		if ( 1 === count( $answers ) ) {
+			return sprintf( '<div class="llms-quiz-attempt-answer">%s</div>', wp_kses_post( $answers[0] ) );
+		}
+
+		$ret = '<ul class="llms-quiz-attempt-answers">';
+		foreach ( $answers as $answer ) {
+			$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+		}
+		$ret .= '</ul>';
+
+		return $ret;
 	}
 
 	/**

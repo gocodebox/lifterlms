@@ -1,6 +1,0 @@
-x-summary: Not Found.
-description: The requested resource could not be located.
-content:
-  application/json:
-    schema:
-      $ref: '#/components/schemas/Error404'

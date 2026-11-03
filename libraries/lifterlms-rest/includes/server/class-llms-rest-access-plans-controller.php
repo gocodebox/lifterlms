@@ -182,6 +182,179 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Checks if an access plan can be read.
+	 *
+	 * Users who can edit the plan or its related course/membership can read it.
+	 * Anyone else can only read visible plans of a course/membership they can read.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param LLMS_Access_Plan $access_plan LLMS Access Plan instance.
+	 * @return bool Whether the access plan can be read.
+	 */
+	protected function check_read_permission( $access_plan ) {
+
+		if ( is_wp_error( $access_plan ) ) {
+			return false;
+		}
+
+		$product_id = (int) $access_plan->get( 'product_id' );
+		$can_edit   = $this->check_update_permission( $access_plan ) || ( $product_id && current_user_can( 'edit_post', $product_id ) );
+
+		if ( ! $can_edit && ( 'hidden' === $access_plan->get_visibility() || ! $this->can_read_related_post( $product_id ) ) ) {
+			return false;
+		}
+
+		return parent::check_read_permission( $access_plan );
+	}
+
+	/**
+	 * Restrict collection query arguments to the access plans the current user can read.
+	 *
+	 * Pagination totals come from the collection query, before the per-item
+	 * read check runs. The read rule of
+	 * {@see LLMS_REST_Access_Plans_Controller::check_read_permission()} is added
+	 * to the collection query's SQL by
+	 * {@see LLMS_REST_Access_Plans_Controller::filter_readable_posts_where()},
+	 * so the pagination totals match the returned items without loading every plan.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param array           $query_args WP_Query arguments.
+	 * @param WP_REST_Request $request    Request object.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_posts( $query_args, $request = null ) {
+
+		// Users who can edit every access plan can read every hidden one.
+		if ( $this->can_edit_others_posts() ) {
+			return $query_args;
+		}
+
+		$query_args['llms_rest_readable_access_plans'] = array(
+			'user_id'     => get_current_user_id(),
+			'product_ids' => $this->get_editable_product_ids(),
+		);
+
+		return $query_args;
+	}
+
+	/**
+	 * Retrieve the IDs of the courses and memberships the current user can edit.
+	 *
+	 * Mirrors the `edit_post` check on a product: its author, or one of its
+	 * instructors on a published product (see {@see LLMS_Instructor::is_instructor()}).
+	 *
+	 * @since 1.1.3
+	 *
+	 * @return int[]
+	 */
+	protected function get_editable_product_ids() {
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return array();
+		}
+
+		$post_types = array( 'course', 'llms_membership' );
+		$ids        = $this->query_post_ids(
+			array(
+				'post_type' => $post_types,
+				'author'    => $user_id,
+			)
+		);
+
+		$instructor = llms_get_instructor( $user_id );
+		if ( $instructor ) {
+			$ids = array_merge(
+				$ids,
+				$instructor->get_posts(
+					array(
+						'post_type'      => $post_types,
+						'posts_per_page' => -1,
+					),
+					'ids'
+				)
+			);
+		}
+
+		return array_values( array_unique( array_map( 'absint', $ids ) ) );
+	}
+
+	/**
+	 * Retrieve a query object based on arguments from a `get_items()` (collection) request.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param array           $prepared Array of collection arguments.
+	 * @param WP_REST_Request $request  Full details about the request.
+	 * @return WP_Query
+	 */
+	protected function get_objects_query( $prepared, $request ) {
+
+		add_filter( 'posts_where', array( $this, 'filter_readable_posts_where' ), 10, 2 );
+		$query = parent::get_objects_query( $prepared, $request );
+		remove_filter( 'posts_where', array( $this, 'filter_readable_posts_where' ), 10 );
+
+		return $query;
+	}
+
+	/**
+	 * Limit the collection query to the access plans the current user can read.
+	 *
+	 * This is {@see LLMS_REST_Access_Plans_Controller::check_read_permission()} in SQL.
+	 * A plan is readable when it is published, or authored by the current user,
+	 * and one of these is true:
+	 * - the current user authored it;
+	 * - its course or membership is one the current user can edit;
+	 * - it is not hidden, and its course or membership is published.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param string   $where The WHERE clause of the query.
+	 * @param WP_Query $query The WP_Query instance.
+	 * @return string
+	 */
+	public function filter_readable_posts_where( $where, $query ) {
+
+		$readable = $query->get( 'llms_rest_readable_access_plans' );
+		if ( ! $readable ) {
+			return $where;
+		}
+
+		global $wpdb;
+
+		$own = $readable['user_id'] ? $wpdb->prepare( "{$wpdb->posts}.post_author = %d", $readable['user_id'] ) : '0 = 1';
+
+		$public_statuses = "'" . implode( "', '", array_map( 'esc_sql', get_post_stati( array( 'public' => true ) ) ) ) . "'";
+
+		$editable = '0 = 1';
+		if ( $readable['product_ids'] ) {
+			$product_ids = "'" . implode( "', '", array_map( 'absint', $readable['product_ids'] ) ) . "'";
+			$editable    = "{$wpdb->posts}.ID IN (
+				SELECT post_id FROM {$wpdb->postmeta}
+				WHERE meta_key = '_llms_product_id' AND meta_value IN ( {$product_ids} )
+			)";
+		}
+
+		$visible = "{$wpdb->posts}.ID IN (
+			SELECT plan_product.post_id FROM {$wpdb->postmeta} AS plan_product
+			INNER JOIN {$wpdb->posts} AS product ON product.ID = plan_product.meta_value
+			WHERE plan_product.meta_key = '_llms_product_id'
+			  AND product.post_type IN ( 'course', 'llms_membership' )
+			  AND product.post_status = 'publish'
+		)
+		AND {$wpdb->posts}.ID NOT IN (
+			SELECT tr.object_id FROM {$wpdb->term_relationships} AS tr
+			INNER JOIN {$wpdb->term_taxonomy} AS tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+			INNER JOIN {$wpdb->terms} AS t ON t.term_id = tt.term_id
+			WHERE tt.taxonomy = 'llms_access_plan_visibility' AND t.name = 'hidden'
+		)";
+
+		return $where . " AND ( {$wpdb->posts}.post_status IN ( {$public_statuses} ) OR {$own} ) AND ( {$own} OR {$editable} OR ( {$visible} ) )";
+	}
+
+	/**
 	 * Prepare links for the request
 	 *
 	 * @since 1.0.0-beta.18

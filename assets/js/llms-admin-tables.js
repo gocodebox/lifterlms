@@ -147,11 +147,20 @@
 
 		this.change_filter = function( $table, $select ) {
 
-			this.reload( $table, {
+			var args = {
 				filter: $select.val(),
 				filterby: $select.attr( 'name' ),
 				page: 1,
+			};
+
+			// Also pass every filter's current value keyed by its name so tables that
+			// support multiple simultaneous filters (e.g. orders/transactions) can combine
+			// them. Tables using the single filter/filterby mechanism ignore the extras.
+			$table.parent().find( '.llms-table-filters select.llms-table-filter' ).each( function() {
+				args[ $( this ).attr( 'name' ) ] = $( this ).val();
 			} );
+
+			this.reload( $table, args );
 
 		};
 

@@ -207,6 +207,7 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
+	 * @since 11.0.0 Return `$image` unchanged when it is not an array, e.g. for non-image attachments.
 	 *
 	 * @param array|false  $image    {
 	 *     Array of image data, or boolean false if no image is available.
@@ -236,6 +237,11 @@ class LLMS_Media_Protector {
 		} elseif ( false === $is_authorized ) {
 			// Return the same thing that wp_get_attachment_image_src would return if no image found.
 			return false;
+		}
+
+		if ( ! is_array( $image ) ) {
+			// No image source to rewrite, e.g. a non-image attachment without an icon.
+			return $image;
 		}
 
 		$image[0] = add_query_arg(
@@ -308,6 +314,7 @@ class LLMS_Media_Protector {
 		$attachment = get_post( $media_id );
 		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
 			$this->add_authorization_meta_to_media_post( $media_id );
+			$this->protect_upload_folder();
 		}
 	}
 
@@ -430,6 +437,7 @@ class LLMS_Media_Protector {
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
 		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
+		$this->protect_upload_folder();
 
 		return $media_id;
 	}
@@ -584,7 +592,8 @@ class LLMS_Media_Protector {
 			$is_authorized = true;
 		} else {
 			$user          = wp_get_current_user();
-			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || intval( get_post_field( 'post_author', $media_id ) ) === $user_id;
+			// Only a real user can be the uploader: logged-out visitors (user ID 0) would otherwise match media with no author.
+			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || ( $user_id > 0 && intval( get_post_field( 'post_author', $media_id ) ) === $user_id );
 		}
 
 		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
@@ -599,7 +608,8 @@ class LLMS_Media_Protector {
 			}
 
 			if ( ! $is_authorized ) {
-				$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+				// Ignore empty and invalid quiz IDs.
+				$authorized_quiz_ids = array_filter( array_map( 'absint', (array) get_post_meta( $media_id, '_llms_quiz_id', true ) ) );
 
 				if ( $authorized_quiz_ids ) {
 					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
@@ -823,13 +833,21 @@ class LLMS_Media_Protector {
 		// TODO: Different for multi-site?
 
 		if ( false === get_transient( 'lifterlms_check_media_protection_files' ) ) {
+
+			// Check at most once a day on admin requests, even when the folder
+			// can't be protected yet: protected uploads, which create the
+			// folder, run the check right away (see {@see LLMS_Media_Protector::protect_upload_folder()}).
+			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
+
 			global $wp_filesystem;
 			/** @var WP_Filesystem_Base $wp_filesystem */
 
 			/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 
-			WP_Filesystem();
+			if ( ! WP_Filesystem() ) {
+				return;
+			}
 
 			$uploads = wp_get_upload_dir();
 
@@ -837,6 +855,11 @@ class LLMS_Media_Protector {
 			$htaccess_file = $upload_path . '/.htaccess';
 
 			$upload_path_writeable = $wp_filesystem->is_writable( $upload_path );
+
+			// The folder is created by the first protected upload: check again until it exists.
+			if ( ! $upload_path_writeable ) {
+				return;
+			}
 
 			$rules  = "Options -Indexes\n";
 			$rules .= "deny from all\n";
@@ -879,9 +902,22 @@ class LLMS_Media_Protector {
 					$wp_filesystem->put_contents( $dir . 'index.html', '' );
 				}
 			}
-
-			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
 		}
+	}
+
+	/**
+	 * Adds the protection files to the upload directory right after a protected upload.
+	 *
+	 * The first protected upload creates the directory, so the daily check of
+	 * {@see LLMS_Media_Protector::save_mod_rewrite_rules()} is run again regardless of when it last ran.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	private function protect_upload_folder() {
+		delete_transient( 'lifterlms_check_media_protection_files' );
+		$this->save_mod_rewrite_rules();
 	}
 
 	/**

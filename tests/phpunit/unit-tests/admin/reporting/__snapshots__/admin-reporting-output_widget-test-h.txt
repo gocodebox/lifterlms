@@ -1,8 +1,0 @@
-<div class="d-1of2">
-	<div class="llms-reporting-widget test-h" id="test-h">
-				<div class="llms-reporting-widget-data">
-			<strong>0.000</strong>
-					</div>
-		<small>Test Letter H</small>
-	</div>
-</div>

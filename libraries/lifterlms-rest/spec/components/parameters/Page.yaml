@@ -1,9 +1,0 @@
-name: page
-in: query
-description: Specify the page number for a paginated collection.
-required: false
-schema:
-  type: integer
-  minimum: 1
-  default: 1
-  example: 1
