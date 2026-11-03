@@ -331,8 +331,36 @@ function llms_template_single_lesson_media( $type, $placement ) {
  */
 function llms_template_single_lesson_media_bottom() {
 
+	// Block lessons output it before their Lesson Progression block instead, see llms_template_lesson_media_before_progression_block().
+	if ( has_block( 'llms/lesson-progression', get_the_ID() ) ) {
+		return;
+	}
+
 	llms_template_single_lesson_media( 'video', 'bottom' );
 	llms_template_single_lesson_media( 'audio', 'bottom' );
+}
+
+/**
+ * Output a lesson's bottom-placed featured video and audio before its Lesson Progression (Mark Complete) block.
+ *
+ * Block lessons render Mark Complete and navigation as blocks inside the content, so the
+ * `lifterlms_single_lesson_after_summary` hook would put the media below them.
+ *
+ * @since [version]
+ *
+ * @param string $block_content Rendered block HTML.
+ * @return string
+ */
+function llms_template_lesson_media_before_progression_block( $block_content ) {
+
+	if ( ! is_singular( 'lesson' ) || ! in_the_loop() ) {
+		return $block_content;
+	}
+
+	ob_start();
+	llms_template_single_lesson_media( 'video', 'bottom' );
+	llms_template_single_lesson_media( 'audio', 'bottom' );
+	return ob_get_clean() . $block_content;
 }
 
 /**

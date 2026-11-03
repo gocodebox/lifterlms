@@ -56,6 +56,7 @@ add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
 add_action( 'lifterlms_single_lesson_after_summary', 'llms_template_single_lesson_media_bottom', 5 );
+add_filter( 'render_block_llms/lesson-progression', 'llms_template_lesson_media_before_progression_block' );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_navigation', 20 );
 
