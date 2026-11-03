@@ -116,6 +116,7 @@
       "lessons": [
         {
           "audio_embed": "",
+          "audio_placement": "top",
           "author": {
             "description": "",
             "email": "admin@wpllms.test",
@@ -256,7 +257,8 @@
           "time_available": "",
           "title": "New Lesson",
           "type": "lesson",
-          "video_embed": ""
+          "video_embed": "",
+          "video_placement": "bottom"
         }
       ],
       "menu_order": 0,
