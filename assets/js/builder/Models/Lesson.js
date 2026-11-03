@@ -62,6 +62,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				// Editable fields.
 				content: '',
 				audio_embed: '',
+				audio_placement: 'top',
 				has_prerequisite: 'no',
 				has_minimum_time: 'no',
 				minimum_time: 0,
@@ -71,6 +72,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				require_passing_grade: 'yes',
 				require_assignment_passing_grade: 'yes',
 				video_embed: '',
+				video_placement: 'top',
 				free_lesson: '',
 				points: 1,
 

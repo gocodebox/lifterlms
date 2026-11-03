@@ -55,6 +55,7 @@ if ( llms_is_favorites_enabled() ) {
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
+add_action( 'lifterlms_single_lesson_after_summary', 'llms_template_single_lesson_media_bottom', 5 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_navigation', 20 );
 

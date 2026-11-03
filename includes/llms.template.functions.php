@@ -291,14 +291,48 @@ if ( ! function_exists( 'lifterlms_template_single_membership_video' ) ) {
 /**
  * Lesson Video Embed Template Include
  *
+ * Only outputs the video when it's placed at the top of the lesson.
+ *
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_single_lesson_video' ) ) {
 
 	function lifterlms_template_single_lesson_video() {
 
-		llms_get_template( 'lesson/video.php' );
+		llms_template_single_lesson_media( 'video', 'top' );
 	}
+}
+
+/**
+ * Output a lesson's featured video or audio when it's configured for the given placement.
+ *
+ * @since [version]
+ *
+ * @param string $type      Media type, either "video" or "audio".
+ * @param string $placement Placement being rendered: "top", "bottom", or "inline".
+ * @return void
+ */
+function llms_template_single_lesson_media( $type, $placement ) {
+
+	$lesson = llms_get_post( get_the_ID() );
+	if ( ! $lesson instanceof LLMS_Lesson || $placement !== $lesson->get_media_placement( $type ) ) {
+		return;
+	}
+
+	llms_get_template( "lesson/{$type}.php" );
+}
+
+/**
+ * Output a lesson's featured video and audio when they're placed after the lesson content.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_template_single_lesson_media_bottom() {
+
+	llms_template_single_lesson_media( 'video', 'bottom' );
+	llms_template_single_lesson_media( 'audio', 'bottom' );
 }
 
 /**
@@ -330,13 +364,15 @@ if ( ! function_exists( 'lifterlms_template_single_membership_audio' ) ) {
 /**
  * Lesson Audio Template Include
  *
+ * Only outputs the audio when it's placed at the top of the lesson.
+ *
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_single_lesson_audio' ) ) {
 
 	function lifterlms_template_single_lesson_audio() {
 
-		llms_get_template( 'lesson/audio.php' );
+		llms_template_single_lesson_media( 'audio', 'top' );
 	}
 }
 

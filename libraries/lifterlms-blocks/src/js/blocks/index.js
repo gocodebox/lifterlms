@@ -27,6 +27,7 @@ import * as courseContinueButton from './course-continue-button/';
 import * as courseInfo from './course-information/';
 import * as courseProgress from './course-progress/';
 import * as instructors from './instructors/';
+import * as lessonMedia from './lesson-media/';
 import * as lessonNavigation from './lesson-navigation/';
 import * as lessonProgression from './lesson-progression/';
 import * as phpTemplate from './php-template/';
@@ -130,6 +131,8 @@ export default () => {
 		courseInfo,
 		courseProgress,
 		instructors,
+		lessonMedia.video,
+		lessonMedia.audio,
 		lessonNavigation,
 		lessonProgression,
 		phpTemplate,

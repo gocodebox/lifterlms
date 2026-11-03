@@ -58,6 +58,11 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		$min_time_mins  = floor( ( $total_seconds % 3600 ) / 60 );
 		$min_time_secs  = $total_seconds % 60;
 
+		$media_placements = array(
+			'top'    => __( 'Top of lesson (default)', 'lifterlms' ),
+			'bottom' => __( 'Bottom of lesson', 'lifterlms' ),
+		);
+
 		$methods = array(
 			'date'       => __( 'On a specific date', 'lifterlms' ),
 			'enrollment' => __( 'After course enrollment', 'lifterlms' ),
@@ -96,6 +101,26 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'id'         => $this->prefix . 'audio_embed',
 						'type'       => 'text',
 						'label'      => __( 'Audio Embed Url', 'lifterlms' ),
+					),
+					array(
+						'allow_null' => false,
+						'class'      => 'input-full',
+						'desc'       => __( 'Where the video displays on the lesson. To place it anywhere else, add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'id'         => $this->prefix . 'video_placement',
+						'label'      => __( 'Video Placement', 'lifterlms' ),
+						'type'       => 'select',
+						'value'      => $media_placements,
+					),
+					array(
+						'allow_null' => false,
+						'class'      => 'input-full',
+						'desc'       => __( 'Where the audio displays on the lesson. To place it anywhere else, add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'id'         => $this->prefix . 'audio_placement',
+						'label'      => __( 'Audio Placement', 'lifterlms' ),
+						'type'       => 'select',
+						'value'      => $media_placements,
 					),
 					array(
 						'class'         => '',

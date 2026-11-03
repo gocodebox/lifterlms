@@ -50,6 +50,26 @@ define( [], function() {
 		];
 	}
 
+	/**
+	 * Placement options for the lesson's featured video and audio.
+	 *
+	 * @since [version]
+	 *
+	 * @return {Array}
+	 */
+	function get_media_placement_options() {
+		return [
+			{
+				key: 'top',
+				val: LLMS.l10n.translate( 'Top of lesson (default)' ),
+			},
+			{
+				key: 'bottom',
+				val: LLMS.l10n.translate( 'Bottom of lesson' ),
+			},
+		];
+	}
+
 	var schema = {
 
 		default: {
@@ -93,6 +113,30 @@ define( [], function() {
 						id: 'audio-embed',
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
+			},
+			], [
+					{
+						attribute: 'video_placement',
+						id: 'video-placement',
+						label: LLMS.l10n.translate( 'Video Placement' ),
+						tip: LLMS.l10n.translate( 'Add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content to place the video anywhere else. The block or shortcode overrides this setting.' ),
+						type: 'select',
+						options: get_media_placement_options,
+						condition: function() {
+							return !! this.get( 'video_embed' );
+						},
+			},
+					{
+						attribute: 'audio_placement',
+						id: 'audio-placement',
+						label: LLMS.l10n.translate( 'Audio Placement' ),
+						tip: LLMS.l10n.translate( 'Add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content to place the audio anywhere else. The block or shortcode overrides this setting.' ),
+						tip_position: 'top-left',
+						type: 'select',
+						options: get_media_placement_options,
+						condition: function() {
+							return !! this.get( 'audio_embed' );
+						},
 			},
 			], [
 					{
@@ -321,7 +365,7 @@ define( [], function() {
 	};
 
 	schema.default.fields.splice(
-		4,
+		5,
 		0,
 			[
 				{
