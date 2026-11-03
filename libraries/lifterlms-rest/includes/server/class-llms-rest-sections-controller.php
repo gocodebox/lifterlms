@@ -510,8 +510,10 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			$parent_id = $request['parent'];
 		}
 
+		$parent_id = empty( $parent_id ) ? 0 : absint( $parent_id );
+
 		// Filter by parent.
-		if ( ! empty( $parent_id ) ) {
+		if ( $parent_id ) {
 			$query_args = array_merge(
 				$query_args,
 				array(
@@ -526,7 +528,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			);
 		}
 
-		return $query_args;
+		return $this->limit_query_to_readable_courses( $query_args, $request, $parent_id );
 	}
 
 	/**
@@ -594,14 +596,42 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to read items.
+	 *
+	 * Sections are not public REST content: listing them requires an authenticated user.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function get_items_permissions_check( $request ) {
+
+		if ( ! is_user_logged_in() ) {
+			return llms_rest_authorization_required_error();
+		}
+
+		return parent::get_items_permissions_check( $request );
+	}
+
+	/**
 	 * Checks if a Section can be read
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Sections cannot be read by unauthenticated users, or when their course cannot be read.
 	 *
 	 * @param LLMS_Section $section The Section oject.
 	 * @return bool Whether the post can be read.
 	 */
 	protected function check_read_permission( $section ) {
+
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		if ( ! $this->check_update_permission( $section ) && ! $this->can_read_related_post( $section->get( 'parent_course' ) ) ) {
+			return false;
+		}
 
 		/**
 		 * As of now, sections of password protected courses cannot be read
@@ -617,10 +647,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 * Retrieve the IDs of the sections the current user can read.
 	 *
 	 * Pagination totals come from the collection query, before the per-item
-	 * read check runs. Sections of password protected courses are refused by
-	 * {@see LLMS_REST_Sections_Controller::check_read_permission()} but are
-	 * still matched by the query, so they are removed here to keep the
-	 * pagination totals identical to the returned items.
+	 * read check runs. Sections of password protected or unreadable courses
+	 * are refused by {@see LLMS_REST_Sections_Controller::check_read_permission()},
+	 * so {@see LLMS_REST_Sections_Controller::limit_query_to_readable_courses()}
+	 * removes them from the collection query to keep the pagination totals
+	 * identical to the returned items. Only requests for sections of
+	 * non-public statuses need the per-section check run here.
 	 *
 	 * @since [version]
 	 *
@@ -630,19 +662,78 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	 */
 	protected function constrain_readable_post_ids( $query_args, $request = null ) {
 
-		// In edit context the per-item read check skips the parent course
-		// password check entirely, so the collection is not restricted.
-		if ( $request && 'edit' === $request['context'] && $this->check_update_permission() ) {
-			return null;
+		// Mirror the per-item check, which skips the parent course password check in edit context.
+		$edit = $request && 'edit' === $request['context'];
+		if ( $edit ) {
+			add_filter( 'post_password_required', '__return_false' );
 		}
 
-		$statuses = empty( $query_args['post_status'] ) ? array( 'publish' ) : (array) $query_args['post_status'];
-		$args     = array( 'post_type' => $this->post_type );
-		if ( ! in_array( 'any', array_map( 'strval', $statuses ), true ) ) {
-			$args['post_status'] = $statuses;
+		$readable = parent::constrain_readable_post_ids( $query_args );
+
+		if ( $edit ) {
+			remove_filter( 'post_password_required', '__return_false' );
 		}
 
-		return $this->filter_post_ids_by_read_permission( $this->query_post_ids( $args ) );
+		return $readable;
+	}
+
+	/**
+	 * Restrict collection query arguments to the sections of courses the current user can read.
+	 *
+	 * Mirrors the course checks of {@see LLMS_REST_Sections_Controller::check_read_permission()}:
+	 * the course must be published, or readable or editable by the current user,
+	 * and not password protected outside of the edit context.
+	 *
+	 * @since [version]
+	 *
+	 * @param array           $query_args Collection query arguments.
+	 * @param WP_REST_Request $request    Request object.
+	 * @param int             $parent_id  Parent course ID the collection is limited to, or `0`.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_courses( $query_args, $request, $parent_id ) {
+
+		// Users who can edit every section can read every section.
+		if ( $this->can_edit_others_posts() ) {
+			return $query_args;
+		}
+
+		$edit = 'edit' === $request['context'];
+
+		// Sections of one course: check that course only.
+		if ( $parent_id ) {
+			$readable = ( $this->can_read_related_post( $parent_id ) || current_user_can( 'edit_post', $parent_id ) )
+				&& ( $edit || ! post_password_required( $parent_id ) );
+			if ( ! $readable ) {
+				$query_args['post__in'] = array( 0 );
+			}
+			return $query_args;
+		}
+
+		$args = array( 'post_type' => 'course' );
+		if ( ! $edit ) {
+			$args['has_password'] = false;
+		}
+
+		// Published courses, and the current user's own courses whatever their status.
+		$course_ids = $this->query_post_ids( array_merge( $args, array( 'post_status' => get_post_stati( array( 'public' => true ) ) ) ) );
+		if ( get_current_user_id() ) {
+			$course_ids = array_merge( $course_ids, $this->query_post_ids( array_merge( $args, array( 'author' => get_current_user_id() ) ) ) );
+		}
+
+		if ( ! $course_ids ) {
+			$query_args['post__in'] = array( 0 );
+			return $query_args;
+		}
+
+		$query_args['meta_query']   = isset( $query_args['meta_query'] ) ? $query_args['meta_query'] : array();
+		$query_args['meta_query'][] = array(
+			'key'     => '_llms_parent_course',
+			'value'   => array_values( array_unique( $course_ids ) ),
+			'compare' => 'IN',
+		);
+
+		return $query_args;
 	}
 
 	/**

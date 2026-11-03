@@ -161,8 +161,11 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 	 * Test links.
 	 *
 	 * @since 1.0.0-beta.7
+	 * @since [version] Sections are only readable by logged in users.
 	 */
 	public function test_links() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
 
 		// create course with 3 sections and 1 lesson per section.
 		$course = $this->factory->course->create_and_get( array( 'sections' => 3, 'lessons' => 1 ) );
@@ -600,7 +603,8 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 			)
 		);
 
-		// An anonymous caller cannot count, or search for, the protected section.
+		// A caller who cannot read the parent course cannot count, or search for, the protected section.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
 		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
 			'include' => array( $hidden ),
 			'search'  => $secret,
@@ -625,6 +629,85 @@ class LLMS_REST_Test_Sections extends LLMS_REST_Unit_Test_Case_Posts {
 		$this->assertResponseStatusEquals( 200, $res );
 		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
 		$this->assertEquals( array( $hidden ), wp_list_pluck( $res->get_data(), 'id' ) );
+
+	}
+
+	/**
+	 * Sections are not readable by unauthenticated users, on any route that outputs them.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sections_unauthenticated() {
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 0 ) );
+		$section = $course->get_sections( 'ids' )[0];
+
+		wp_set_current_user( 0 );
+
+		$routes = array(
+			$this->route,
+			$this->route . '/' . $section,
+			'/llms/v1/courses/' . $course->get( 'id' ) . '/content',
+		);
+		foreach ( $routes as $route ) {
+			$res = $this->perform_mock_request( 'GET', $route );
+			$this->assertResponseStatusEquals( 401, $res, $route );
+		}
+
+		// Any logged in user can still read the published course's sections.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
+		foreach ( $routes as $route ) {
+			$res = $this->perform_mock_request( 'GET', $route, array(), array( 'include' => array( $section ) ) );
+			$this->assertResponseStatusEquals( 200, $res, $route );
+		}
+
+	}
+
+	/**
+	 * Sections of draft and private courses are only readable by users who can read the course.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sections_of_unpublished_courses() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$sections = array();
+		foreach ( array( 'publish', 'draft', 'private' ) as $status ) {
+			$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 0 ) );
+			wp_update_post( array( 'ID' => $course->get( 'id' ), 'post_status' => $status ) );
+			$course->set_instructors( array( array( 'id' => $instructor ) ) );
+			$sections[ $status ] = $course->get_sections( 'ids' )[0];
+		}
+
+		$cases = array(
+			'student'           => array( $this->factory->user->create( array( 'role' => 'student' ) ), array( 'publish' ) ),
+			'other instructor'  => array( $this->factory->user->create( array( 'role' => 'instructor' ) ), array( 'publish' ) ),
+			'course instructor' => array( $instructor, array( 'publish', 'draft', 'private' ) ),
+			'administrator'     => array( $this->user_allowed, array( 'publish', 'draft', 'private' ) ),
+		);
+
+		foreach ( $cases as $who => $case ) {
+
+			list( $user_id, $readable ) = $case;
+			wp_set_current_user( $user_id );
+
+			$expected = array_values( array_intersect_key( $sections, array_flip( $readable ) ) );
+
+			$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'include' => array_values( $sections ) ) );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+			$this->assertEqualSets( $expected, wp_list_pluck( $res->get_data(), 'id' ), $who );
+			$this->assertEquals( count( $expected ), $res->get_headers()['X-WP-Total'], $who );
+
+			foreach ( $sections as $status => $section ) {
+				$res = $this->perform_mock_request( 'GET', $this->route . '/' . $section );
+				$this->assertResponseStatusEquals( in_array( $status, $readable, true ) ? 200 : 403, $res, "$who $status" );
+			}
+		}
 
 	}
 

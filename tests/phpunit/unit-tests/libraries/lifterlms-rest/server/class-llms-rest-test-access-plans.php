@@ -1319,6 +1319,108 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Hidden access plans are only output to users who can edit the plan or its related product.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_hidden_access_plans_readability() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$visible = new LLMS_Access_Plan( 'new', 'Visible plan' );
+		$visible->set( 'product_id', $course->get( 'id' ) );
+
+		$hidden = new LLMS_Access_Plan( 'new', 'Hidden plan' );
+		$hidden->set( 'product_id', $course->get( 'id' ) );
+		$hidden->set_visibility( 'hidden' );
+
+		$query = array( 'post_id' => $course->get( 'id' ) );
+		$cases = array(
+			'anonymous'           => array( 0, 401, false ),
+			'student'             => array( $this->factory->user->create( array( 'role' => 'student' ) ), 403, false ),
+			'other instructor'    => array( $this->factory->user->create( array( 'role' => 'instructor' ) ), 403, false ),
+			'course instructor'   => array( $instructor, 200, true ),
+			'administrator'       => array( $this->user_allowed, 200, true ),
+		);
+
+		foreach ( $cases as $who => $case ) {
+
+			list( $user_id, $single_status, $can_read_hidden ) = $case;
+			wp_set_current_user( $user_id );
+
+			$expected = $can_read_hidden ? array( $visible->get( 'id' ), $hidden->get( 'id' ) ) : array( $visible->get( 'id' ) );
+
+			$res = $this->perform_mock_request( 'GET', $this->route, array(), $query );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+			$this->assertEqualSets( $expected, wp_list_pluck( $res->get_data(), 'id' ), $who );
+			$this->assertEquals( count( $expected ), $res->get_headers()['X-WP-Total'], $who );
+
+			$res = $this->perform_mock_request( 'GET', $this->route . '/' . $hidden->get( 'id' ) );
+			$this->assertResponseStatusEquals( $single_status, $res, $who );
+
+			$res = $this->perform_mock_request( 'GET', $this->route . '/' . $visible->get( 'id' ) );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+
+		}
+
+	}
+
+	/**
+	 * Access plans of draft and private products are only output to users who can read the product.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_access_plans_of_unpublished_products_readability() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$plans = array();
+		foreach ( array( 'publish', 'draft', 'private' ) as $status ) {
+			$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+			wp_update_post( array( 'ID' => $course->get( 'id' ), 'post_status' => $status ) );
+			$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+			$plan = new LLMS_Access_Plan( 'new', "Plan of a {$status} course" );
+			$plan->set( 'product_id', $course->get( 'id' ) );
+			$plans[ $status ] = $plan->get( 'id' );
+		}
+
+		$cases = array(
+			'anonymous'         => array( 0, 401, array( 'publish' ) ),
+			'student'           => array( $this->factory->user->create( array( 'role' => 'student' ) ), 403, array( 'publish' ) ),
+			'other instructor'  => array( $this->factory->user->create( array( 'role' => 'instructor' ) ), 403, array( 'publish' ) ),
+			'course instructor' => array( $instructor, 403, array( 'publish', 'draft', 'private' ) ),
+			'administrator'     => array( $this->user_allowed, 403, array( 'publish', 'draft', 'private' ) ),
+		);
+
+		foreach ( $cases as $who => $case ) {
+
+			list( $user_id, $forbidden_status, $readable ) = $case;
+			wp_set_current_user( $user_id );
+
+			$expected = array_values( array_intersect_key( $plans, array_flip( $readable ) ) );
+
+			$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'include' => array_values( $plans ) ) );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+			$this->assertEqualSets( $expected, wp_list_pluck( $res->get_data(), 'id' ), $who );
+			$this->assertEquals( count( $expected ), $res->get_headers()['X-WP-Total'], $who );
+
+			foreach ( $plans as $status => $plan_id ) {
+				$res = $this->perform_mock_request( 'GET', $this->route . '/' . $plan_id );
+				$this->assertResponseStatusEquals( in_array( $status, $readable, true ) ? 200 : $forbidden_status, $res, "$who $status" );
+			}
+		}
+
+	}
+
+	/**
 	 * Get resource creation args.
 	 *
 	 * @since 1.0.0-beta.27

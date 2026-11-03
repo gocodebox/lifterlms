@@ -546,6 +546,18 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	}
 
 	/**
+	 * Determine if the current user can read a related post, such as the course of a section or the product of an access plan.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID.
+	 * @return bool
+	 */
+	protected function can_read_related_post( $post_id ) {
+		return $post_id && ( is_post_publicly_viewable( $post_id ) || current_user_can( 'read_post', $post_id ) );
+	}
+
+	/**
 	 * Determine if the current user's role grants editing every post of this type.
 	 *
 	 * `current_user_can()` is not used here: LifterLMS grants `edit_others_*`
