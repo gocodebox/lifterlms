@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: '"Last Seen" column on the students reporting screen now respects the WordPress timezone setting instead of always displaying UTC.'
