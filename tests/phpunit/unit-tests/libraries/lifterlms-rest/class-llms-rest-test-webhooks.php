@@ -22,6 +22,11 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 		parent::set_up();
 		$this->webhooks = LLMS_REST_API()->webhooks();
 
+		// Add the mock "action.{hook}" topics used in these tests.
+		add_filter( 'llms_rest_webhook_topics', function( $topics ) {
+			return array_merge( $topics, array_fill_keys( array( 'action.mock', 'action.mock_hook', 'action.fake', 'action.new_action' ), 'Mock' ) );
+		} );
+
 	}
 
 	/**
@@ -354,6 +359,7 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 	 * Test the is_topic_valid() method.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Custom action topics are only valid for administrators.
 	 *
 	 * @return void
 	 */
@@ -362,6 +368,7 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
 		$tests = array_fill_keys( array_keys( $this->webhooks->get_topics() ), true );
 
 		$tests['action.mock'] = true;
+		$tests['action.set_logged_in_cookie'] = false;
 		$tests['course.fake'] = false;
 		$tests['courses.created'] = false;
 		$tests['action'] = false;
@@ -372,6 +379,72 @@ class LLMS_REST_Test_Webhooks extends LLMS_REST_Unit_Test_Case_Base {
  			$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( $this->webhooks, 'is_topic_valid', array( $topic ) ), $topic );
 
  		}
+
+	}
+
+	/**
+	 * Custom action topics are only available to users who can `manage_options`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_action_topics_admin_only() {
+
+		remove_all_filters( 'llms_rest_webhook_topics' );
+
+		$admin   = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$manager = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+
+		foreach ( array( 0, $manager ) as $user ) {
+			wp_set_current_user( $user );
+			$this->assertArrayNotHasKey( 'action', $this->webhooks->get_topics() );
+			$this->assertFalse( $this->webhooks->is_topic_valid( 'action.set_logged_in_cookie' ) );
+			$this->assertTrue( $this->webhooks->is_topic_valid( 'course.created' ) );
+			$this->assertWPErrorCodeEquals( 'llms_rest_webhook_invalid_topic', $this->webhooks->create( array(
+				'topic'        => 'action.set_logged_in_cookie',
+				'delivery_url' => 'https://mock.tld',
+			) ) );
+		}
+
+		wp_set_current_user( $admin );
+		$this->assertArrayHasKey( 'action', $this->webhooks->get_topics() );
+		$this->assertTrue( $this->webhooks->is_topic_valid( 'action.my_hook' ) );
+		$this->assertFalse( $this->webhooks->is_topic_valid( 'action' ) );
+		$this->assertFalse( $this->webhooks->is_topic_valid( 'action.' ) );
+
+		// Allowed for an administrator-owned webhook regardless of the current user.
+		wp_set_current_user( 0 );
+		$this->assertTrue( $this->webhooks->is_topic_allowed( 'action.my_hook', $admin ) );
+		$this->assertFalse( $this->webhooks->is_topic_allowed( 'action.my_hook', $manager ) );
+
+	}
+
+	/**
+	 * A non-administrator can't update an administrator's custom action webhook, e.g. to change its delivery URL.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_action_webhook_requires_admin() {
+
+		remove_all_filters( 'llms_rest_webhook_topics' );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$hook = $this->webhooks->create( array(
+			'topic'        => 'action.my_hook',
+			'delivery_url' => 'https://mock.tld',
+		) );
+		$this->assertFalse( is_wp_error( $hook ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$ret = $this->webhooks->update( array(
+			'id'           => $hook->get( 'id' ),
+			'delivery_url' => 'https://attacker.tld',
+		) );
+		$this->assertWPErrorCodeEquals( 'llms_rest_webhook_invalid_topic', $ret );
+		$this->assertEquals( 'https://mock.tld', $this->webhooks->get( $hook->get( 'id' ) )->get( 'delivery_url' ) );
 
 	}
 

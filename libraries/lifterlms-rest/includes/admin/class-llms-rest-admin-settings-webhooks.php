@@ -22,6 +22,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 	 * Get settings fields for the Keys tab.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Keep the "Action" topic option when editing an existing action webhook.
 	 *
 	 * @return array
 	 */
@@ -73,9 +74,12 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 					'value'   => $hook ? $hook->get( 'status' ) : '',
 				);
 
-				$topic = '';
+				$topic  = '';
+				$topics = LLMS_REST_API()->webhooks()->get_topics();
 				if ( $hook && 'action' === $hook->get_resource() ) {
 					$topic = 'action';
+					// Keep the existing topic selected; saving it is only allowed for administrators.
+					$topics['action'] = __( 'Action', 'lifterlms' );
 				} elseif ( $hook ) {
 					$topic = $hook->get( 'topic' );
 				}
@@ -84,7 +88,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 					'id'      => 'llms_rest_webhook_topic',
 					'type'    => 'select',
 					'class'   => 'llms-select2',
-					'options' => LLMS_REST_API()->webhooks()->get_topics(),
+					'options' => $topics,
 					'value'   => $topic,
 				);
 

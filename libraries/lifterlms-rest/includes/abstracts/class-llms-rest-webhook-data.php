@@ -141,6 +141,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	 * Retrieve the admin URL where the api key is managed.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Use the object ID instead of reading it from the database.
 	 *
 	 * @return string
 	 */
@@ -148,7 +149,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 		return add_query_arg(
 			array(
 				'section'      => 'webhooks',
-				'edit-webhook' => $this->get( 'id' ),
+				'edit-webhook' => $this->get_id(),
 			),
 			LLMS_REST_API()->keys()->get_admin_url()
 		);
@@ -172,13 +173,14 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	 * Retrieve an array of hooks for the webhook topic.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Return no hooks for "action" topics that are not allowed for the webhook's owner.
 	 *
 	 * @return string[]
 	 */
 	public function get_hooks() {
 
 		if ( 'action' === $this->get_resource() ) {
-			$hooks = array( $this->get_event() => 1 );
+			$hooks = LLMS_REST_API()->webhooks()->is_topic_allowed( $this->get( 'topic' ), $this->get( 'user_id' ) ) ? array( $this->get_event() => 1 ) : array();
 		} else {
 			$all_hooks = LLMS_REST_API()->webhooks()->get_hooks();
 			$topic     = $this->get( 'topic' );

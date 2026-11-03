@@ -60,6 +60,11 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 */
 	public function set_up() {
 		parent::set_up();
+
+		// Add the mock "action.{hook}" topics used in these tests.
+		add_filter( 'llms_rest_webhook_topics', function( $topics ) {
+			return array_merge( $topics, array_fill_keys( array( 'action.mock', 'action.mock_hook', 'action.fake', 'action.new_action' ), 'Mock' ) );
+		} );
 	}
 
 	/**
@@ -475,6 +480,65 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * @return void
 	 */
+	/**
+	 * An existing action webhook not owned by an administrator is not hooked or delivered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_disallowed_custom_action_not_enqueued_or_delivered() {
+
+		// Saved by an LMS Manager while the topic was registered.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld',
+			'topic'        => 'action.mock_hook',
+			'status'       => 'active',
+		) );
+
+		remove_all_filters( 'llms_rest_webhook_topics' );
+
+		$this->assertEquals( array(), $webhook->get_hooks() );
+		$webhook->enqueue();
+		$this->assertFalse( has_action( 'mock_hook', array( $webhook, 'process_hook' ) ) );
+
+		$requests = 0;
+		$count    = function( $pre ) use ( &$requests ) {
+			++$requests;
+			return $pre;
+		};
+		add_filter( 'pre_http_request', $count );
+		$webhook->deliver( array( 'secret-cookie-value' ) );
+		remove_filter( 'pre_http_request', $count );
+
+		$this->assertEquals( 0, $requests );
+
+	}
+
+	/**
+	 * A custom action webhook owned by an administrator is hooked without registering its topic.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_admin_custom_action_enqueued() {
+
+		remove_all_filters( 'llms_rest_webhook_topics' );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$webhook = LLMS_REST_API()->webhooks()->create( array(
+			'delivery_url' => 'https://mock.tld',
+			'topic'        => 'action.admin_hook',
+			'status'       => 'active',
+		) );
+
+		wp_set_current_user( 0 );
+		$this->assertEquals( array( 'admin_hook' => 1 ), $webhook->get_hooks() );
+
+	}
+
 	public function test_get_event() {
 
 		$tests = array(

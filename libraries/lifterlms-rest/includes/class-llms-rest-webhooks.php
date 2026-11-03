@@ -37,6 +37,15 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	protected $model = 'LLMS_REST_Webhook';
 
 	/**
+	 * Active webhooks found by `load()` that won't be delivered because their topic is not allowed for their owner.
+	 *
+	 * @since [version]
+	 *
+	 * @var LLMS_REST_Webhook[]
+	 */
+	protected $undeliverable = array();
+
+	/**
 	 * Default column values (for creating).
 	 *
 	 * @var array
@@ -82,6 +91,30 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 		unset( $data['failure_count'] );
 
 		return $this->save( new $this->model(), $data );
+
+	}
+
+	/**
+	 * Update a webhook.
+	 *
+	 * The user performing the update becomes the webhook's owner, so its topic (new or existing)
+	 * must be allowed for that user.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data Associative array of data to update, including the webhook `id`.
+	 * @return WP_Error|LLMS_REST_Webhook
+	 */
+	public function update( $data ) {
+
+		if ( ! empty( $data['id'] ) && empty( $data['topic'] ) ) {
+			$hook = $this->get( $data['id'] );
+			if ( $hook && $hook->exists() ) {
+				$data['topic'] = $hook->get( 'topic' );
+			}
+		}
+
+		return parent::update( $data );
 
 	}
 
@@ -184,64 +217,72 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * @since 1.0.0-beta.1
 	 * @since 1.0.0-beta.6 Fix translated access plans typo.
 	 * @since 1.0.0-beta.18 Remove access_plan.restored topic - access plan post type doesn't support trashing.
+	 * @since [version] Only include the "action" topic for users who can `manage_options`.
 	 *
 	 * @return array
 	 */
 	public function get_topics() {
 
+		$topics = array(
+			'course.created'              => __( 'Course created', 'lifterlms' ),
+			'course.updated'              => __( 'Course updated', 'lifterlms' ),
+			'course.deleted'              => __( 'Course deleted', 'lifterlms' ),
+			'course.restored'             => __( 'Course restored', 'lifterlms' ),
+			'section.created'             => __( 'Section created', 'lifterlms' ),
+			'section.updated'             => __( 'Section updated', 'lifterlms' ),
+			'section.deleted'             => __( 'Section deleted', 'lifterlms' ),
+			'lesson.created'              => __( 'Lesson created', 'lifterlms' ),
+			'lesson.updated'              => __( 'Lesson updated', 'lifterlms' ),
+			'lesson.deleted'              => __( 'Lesson deleted', 'lifterlms' ),
+			'lesson.restored'             => __( 'Lesson restored', 'lifterlms' ),
+			'membership.created'          => __( 'Membership created', 'lifterlms' ),
+			'membership.updated'          => __( 'Membership updated', 'lifterlms' ),
+			'membership.deleted'          => __( 'Membership deleted', 'lifterlms' ),
+			'membership.restored'         => __( 'Membership restored', 'lifterlms' ),
+			'access_plan.created'         => __( 'Access Plan created', 'lifterlms' ),
+			'access_plan.updated'         => __( 'Access Plan updated', 'lifterlms' ),
+			'access_plan.deleted'         => __( 'Access Plan deleted', 'lifterlms' ),
+			'order.created'               => __( 'Order created', 'lifterlms' ),
+			'order.updated'               => __( 'Order updated', 'lifterlms' ),
+			'order.deleted'               => __( 'Order deleted', 'lifterlms' ),
+			'order.restored'              => __( 'Order restored', 'lifterlms' ),
+			'transaction.created'         => __( 'Transaction created', 'lifterlms' ),
+			'transaction.updated'         => __( 'Transaction updated', 'lifterlms' ),
+			'transaction.deleted'         => __( 'Transaction deleted', 'lifterlms' ),
+			'student.created'             => __( 'Student created', 'lifterlms' ),
+			'student.updated'             => __( 'Student updated', 'lifterlms' ),
+			'student.deleted'             => __( 'Student deleted', 'lifterlms' ),
+			'enrollment.created'          => __( 'Enrollment created', 'lifterlms' ),
+			'enrollment.updated'          => __( 'Enrollment updated', 'lifterlms' ),
+			'enrollment.deleted'          => __( 'Enrollment deleted', 'lifterlms' ),
+			'progress.updated'            => __( 'Progress updated', 'lifterlms' ),
+			'progress.deleted'            => __( 'Progress deleted', 'lifterlms' ),
+			'instructor.created'          => __( 'Instructor created', 'lifterlms' ),
+			'instructor.updated'          => __( 'Instructor updated', 'lifterlms' ),
+			'instructor.deleted'          => __( 'Instructor deleted', 'lifterlms' ),
+			'quiz-attempt.completed'      => __( 'Quiz Attempt completed', 'lifterlms' ),
+			'quiz-attempt.graded'         => __( 'Quiz Attempt graded', 'lifterlms' ),
+			'awarded-certificate.created' => __( 'Awarded Certificate created', 'lifterlms' ),
+			'awarded-certificate.updated' => __( 'Awarded Certificate updated', 'lifterlms' ),
+		);
+
+		// Custom action hooks send their raw arguments to the delivery URL, so only administrators can use them.
+		if ( current_user_can( 'manage_options' ) ) {
+			$topics['action'] = __( 'Action', 'lifterlms' );
+		}
+
 		/**
 		 * Filter the available webhook topics.
+		 *
+		 * Topics added for custom action hooks (e.g. "action.my_hook") can be used by any user who can manage
+		 * webhooks and deliver the hook's raw arguments to the delivery URL, so only add hooks whose arguments
+		 * are safe to send to a remote URL.
 		 *
 		 * @since 1.0.0-beta.1
 		 *
 		 * @param array $topics Array of topics.
 		 */
-		return apply_filters(
-			'llms_rest_webhook_topics',
-			array(
-				'course.created'              => __( 'Course created', 'lifterlms' ),
-				'course.updated'              => __( 'Course updated', 'lifterlms' ),
-				'course.deleted'              => __( 'Course deleted', 'lifterlms' ),
-				'course.restored'             => __( 'Course restored', 'lifterlms' ),
-				'section.created'             => __( 'Section created', 'lifterlms' ),
-				'section.updated'             => __( 'Section updated', 'lifterlms' ),
-				'section.deleted'             => __( 'Section deleted', 'lifterlms' ),
-				'lesson.created'              => __( 'Lesson created', 'lifterlms' ),
-				'lesson.updated'              => __( 'Lesson updated', 'lifterlms' ),
-				'lesson.deleted'              => __( 'Lesson deleted', 'lifterlms' ),
-				'lesson.restored'             => __( 'Lesson restored', 'lifterlms' ),
-				'membership.created'          => __( 'Membership created', 'lifterlms' ),
-				'membership.updated'          => __( 'Membership updated', 'lifterlms' ),
-				'membership.deleted'          => __( 'Membership deleted', 'lifterlms' ),
-				'membership.restored'         => __( 'Membership restored', 'lifterlms' ),
-				'access_plan.created'         => __( 'Access Plan created', 'lifterlms' ),
-				'access_plan.updated'         => __( 'Access Plan updated', 'lifterlms' ),
-				'access_plan.deleted'         => __( 'Access Plan deleted', 'lifterlms' ),
-				'order.created'               => __( 'Order created', 'lifterlms' ),
-				'order.updated'               => __( 'Order updated', 'lifterlms' ),
-				'order.deleted'               => __( 'Order deleted', 'lifterlms' ),
-				'order.restored'              => __( 'Order restored', 'lifterlms' ),
-				'transaction.created'         => __( 'Transaction created', 'lifterlms' ),
-				'transaction.updated'         => __( 'Transaction updated', 'lifterlms' ),
-				'transaction.deleted'         => __( 'Transaction deleted', 'lifterlms' ),
-				'student.created'             => __( 'Student created', 'lifterlms' ),
-				'student.updated'             => __( 'Student updated', 'lifterlms' ),
-				'student.deleted'             => __( 'Student deleted', 'lifterlms' ),
-				'enrollment.created'          => __( 'Enrollment created', 'lifterlms' ),
-				'enrollment.updated'          => __( 'Enrollment updated', 'lifterlms' ),
-				'enrollment.deleted'          => __( 'Enrollment deleted', 'lifterlms' ),
-				'progress.updated'            => __( 'Progress updated', 'lifterlms' ),
-				'progress.deleted'            => __( 'Progress deleted', 'lifterlms' ),
-				'instructor.created'          => __( 'Instructor created', 'lifterlms' ),
-				'instructor.updated'          => __( 'Instructor updated', 'lifterlms' ),
-				'instructor.deleted'          => __( 'Instructor deleted', 'lifterlms' ),
-				'quiz-attempt.completed'      => __( 'Quiz Attempt completed', 'lifterlms' ),
-				'quiz-attempt.graded'         => __( 'Quiz Attempt graded', 'lifterlms' ),
-				'awarded-certificate.created' => __( 'Awarded Certificate created', 'lifterlms' ),
-				'awarded-certificate.updated' => __( 'Awarded Certificate updated', 'lifterlms' ),
-				'action'                      => __( 'Action', 'lifterlms' ),
-			)
-		);
+		return apply_filters( 'llms_rest_webhook_topics', $topics );
 
 	}
 
@@ -484,21 +525,37 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * Determine if a given topic is valid.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Custom "action.{hook}" topics are only valid for users who can `manage_options`.
 	 *
 	 * @param string $topic Topic.
 	 * @return bool
 	 */
 	public function is_topic_valid( $topic ) {
 
-		$split = explode( '.', $topic );
+		return $this->is_topic_allowed( $topic, get_current_user_id() );
 
-		if ( 'action' === $split[0] && ! empty( $split[1] ) ) {
-			return true;
-		} elseif ( in_array( $topic, array_keys( $this->get_topics() ), true ) && 'action' !== $topic ) {
+	}
+
+	/**
+	 * Determine if a topic can be used by a webhook saved by the given user.
+	 *
+	 * Topics returned by `get_topics()` are allowed for everyone. Custom "action.{hook}" topics, which deliver
+	 * the hook's raw arguments, are only allowed for users who can `manage_options`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $topic   Topic.
+	 * @param int    $user_id WP User ID.
+	 * @return bool
+	 */
+	public function is_topic_allowed( $topic, $user_id ) {
+
+		if ( 'action' !== $topic && in_array( $topic, array_keys( $this->get_topics() ), true ) ) {
 			return true;
 		}
 
-		return false;
+		$split = explode( '.', $topic, 2 );
+		return 'action' === $split[0] && ! empty( $split[1] ) && user_can( $user_id, 'manage_options' );
 
 	}
 
@@ -507,10 +564,13 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 *
 	 * @since 1.0.0-beta.1
 	 * @since 1.0.0-beta.16
+	 * @since [version] Record webhooks that won't be delivered because their topic is not allowed for their owner.
 	 *
 	 * @return int Number of hooks loaded.
 	 */
 	public function load() {
+
+		$this->undeliverable = array();
 
 		/**
 		 * Limit the number of webhooks that are loaded. By default all webhooks are loaded.
@@ -532,12 +592,26 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 
 		$loaded = 0;
 		foreach ( $hooks->get_webhooks() as $hook ) {
+			if ( ! $this->is_topic_allowed( $hook->get( 'topic' ), $hook->get( 'user_id' ) ) ) {
+				$this->undeliverable[] = $hook;
+			}
 			$hook->enqueue();
 			$loaded++;
 		}
 
 		return $loaded;
 
+	}
+
+	/**
+	 * Retrieves the active webhooks found by `load()` that won't be delivered because their topic is not allowed for their owner.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_REST_Webhook[]
+	 */
+	public function get_undeliverable() {
+		return $this->undeliverable;
 	}
 
 	/**
