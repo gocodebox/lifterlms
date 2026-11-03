@@ -51,23 +51,41 @@ define( [], function() {
 	}
 
 	/**
-	 * Placement options for the lesson's featured video and audio.
+	 * Get a function returning the placement options for the lesson's featured video or audio.
+	 *
+	 * The first option inherits the parent course's setting, which is shown in its label.
 	 *
 	 * @since [version]
 	 *
-	 * @return {Array}
+	 * @param {string} type Media type, "video" or "audio".
+	 * @return {Function} Options callback, bound to the lesson model.
 	 */
-	function get_media_placement_options() {
-		return [
-			{
-				key: 'top',
-				val: LLMS.l10n.translate( 'Top of lesson (default)' ),
-			},
-			{
-				key: 'bottom',
-				val: LLMS.l10n.translate( 'Bottom of lesson' ),
-			},
-		];
+	function get_media_placement_options( type ) {
+		return function() {
+			var labels = {
+					top: LLMS.l10n.translate( 'Top of lesson' ),
+					bottom: LLMS.l10n.translate( 'Bottom of lesson' ),
+				},
+				course = this.get_course(),
+				course_placement = course && 'bottom' === course.get( 'lesson_' + type + '_placement' ) ? 'bottom' : 'top';
+
+			return [
+				{
+					key: 'course',
+					val: LLMS.l10n.replace( 'Course setting (%s)', {
+						'%s': labels[ course_placement ],
+					} ),
+				},
+				{
+					key: 'top',
+					val: labels.top,
+				},
+				{
+					key: 'bottom',
+					val: labels.bottom,
+				},
+			];
+		};
 	}
 
 	var schema = {
@@ -119,9 +137,9 @@ define( [], function() {
 						attribute: 'video_placement',
 						id: 'video-placement',
 						label: LLMS.l10n.translate( 'Video Placement' ),
-						tip: LLMS.l10n.translate( 'Add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content to place the video anywhere else. The block or shortcode overrides this setting.' ),
+						tip: LLMS.l10n.translate( 'Add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content to place the video anywhere else. The block or shortcode overrides this setting. By default it follows the Lesson Video Placement setting of the course.' ),
 						type: 'select',
-						options: get_media_placement_options,
+						options: get_media_placement_options( 'video' ),
 						condition: function() {
 							return !! this.get( 'video_embed' );
 						},
@@ -130,10 +148,10 @@ define( [], function() {
 						attribute: 'audio_placement',
 						id: 'audio-placement',
 						label: LLMS.l10n.translate( 'Audio Placement' ),
-						tip: LLMS.l10n.translate( 'Add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content to place the audio anywhere else. The block or shortcode overrides this setting.' ),
+						tip: LLMS.l10n.translate( 'Add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content to place the audio anywhere else. The block or shortcode overrides this setting. By default it follows the Lesson Audio Placement setting of the course.' ),
 						tip_position: 'top-left',
 						type: 'select',
-						options: get_media_placement_options,
+						options: get_media_placement_options( 'audio' ),
 						condition: function() {
 							return !! this.get( 'audio_embed' );
 						},

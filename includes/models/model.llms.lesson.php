@@ -42,8 +42,8 @@ defined( 'ABSPATH' ) || exit;
  * @property string $require_assignment_passing_grade Whether of not students have to pass the assignment to advance to the next lesson [yes|no].
  * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
  * @property string $video_embed                      URL to an oEmbed enable video URL.
- * @property string $video_placement                  Where the featured video is output when the lesson content has no lesson video block or shortcode [top|bottom].
- * @property string $audio_placement                  Where the featured audio is output when the lesson content has no lesson audio block or shortcode [top|bottom].
+ * @property string $video_placement                  Where the featured video is output when the lesson content has no lesson video block or shortcode [course|top|bottom]. Empty or "course" uses the course setting.
+ * @property string $audio_placement                  Where the featured audio is output when the lesson content has no lesson audio block or shortcode [course|top|bottom]. Empty or "course" uses the course setting.
  * @property string $content_added_in_builder         Whether content was (at least initially) added within the page builder.
  * @property string $has_minimum_time                 Whether minimum time is enabled [yes|no].
  * @property int    $minimum_time                     Minimum time in seconds a student must spend on the lesson.
@@ -134,8 +134,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Retrieve where the lesson's featured video or audio is output on the lesson page.
 	 *
-	 * A lesson video (or audio) block or shortcode in the lesson content always wins over the
-	 * lesson's placement setting.
+	 * A lesson video (or audio) block or shortcode in the lesson content always wins. Otherwise the
+	 * lesson's placement setting is used, falling back to the parent course's setting, then to "top".
 	 *
 	 * @since [version]
 	 *
@@ -148,7 +148,12 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		if ( has_shortcode( $content, "lifterlms_lesson_{$type}" ) || has_block( "llms/lesson-{$type}", $content ) ) {
 			$placement = 'inline';
 		} else {
-			$placement = 'bottom' === $this->get( "{$type}_placement" ) ? 'bottom' : 'top';
+			$placement = $this->get( "{$type}_placement" );
+			if ( ! in_array( $placement, array( 'top', 'bottom' ), true ) ) {
+				$course    = $this->get_course();
+				$placement = $course ? $course->get( "lesson_{$type}_placement" ) : '';
+			}
+			$placement = 'bottom' === $placement ? 'bottom' : 'top';
 		}
 
 		/**

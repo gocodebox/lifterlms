@@ -1,3 +1,3 @@
 significance: minor
 type: added
-entry: "Added a Video Placement and Audio Placement option for lessons, plus Lesson Video and Lesson Audio blocks and `[lifterlms_lesson_video]` / `[lifterlms_lesson_audio]` shortcodes to place a lesson's featured video or audio anywhere in the lesson content."
+entry: "Added Video Placement and Audio Placement options for lessons, with a course-level default, plus Lesson Video and Lesson Audio blocks and `[lifterlms_lesson_video]` / `[lifterlms_lesson_audio]` shortcodes to place a lesson's featured video or audio anywhere in the lesson content."

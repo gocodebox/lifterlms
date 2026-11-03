@@ -346,6 +346,20 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( 'bottom', $lesson->get_media_placement( 'video' ) );
 		$this->assertEquals( 'top', $lesson->get_media_placement( 'audio' ) );
 
+		// Unset or "course" lesson values inherit the parent course setting.
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$child  = $course->get_lessons()[0];
+		$this->assertEquals( 'top', $child->get_media_placement( 'video' ) );
+		$course->set( 'lesson_video_placement', 'bottom' );
+		$this->assertEquals( 'bottom', $child->get_media_placement( 'video' ) );
+		$this->assertEquals( 'top', $child->get_media_placement( 'audio' ) );
+		$child->set( 'video_placement', 'course' );
+		$this->assertEquals( 'bottom', $child->get_media_placement( 'video' ) );
+
+		// An explicit lesson value overrides the course setting.
+		$child->set( 'video_placement', 'top' );
+		$this->assertEquals( 'top', $child->get_media_placement( 'video' ) );
+
 		// The audio shortcode only moves the audio.
 		$lesson->set( 'content', '<p>Intro</p>[lifterlms_lesson_audio]' );
 		$this->assertEquals( 'inline', $lesson->get_media_placement( 'audio' ) );

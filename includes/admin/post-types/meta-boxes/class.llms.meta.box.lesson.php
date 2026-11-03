@@ -58,11 +58,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		$min_time_mins  = floor( ( $total_seconds % 3600 ) / 60 );
 		$min_time_secs  = $total_seconds % 60;
 
-		$media_placements = array(
-			'top'    => __( 'Top of lesson (default)', 'lifterlms' ),
-			'bottom' => __( 'Bottom of lesson', 'lifterlms' ),
-		);
-
 		$methods = array(
 			'date'       => __( 'On a specific date', 'lifterlms' ),
 			'enrollment' => __( 'After course enrollment', 'lifterlms' ),
@@ -80,6 +75,22 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		$course = $lesson->get_course();
 		if ( ! $course || ! $course->get_date( 'start_date' ) ) {
 			unset( $methods['start'] );
+		}
+
+		$media_placement_labels = array(
+			'top'    => __( 'Top of lesson', 'lifterlms' ),
+			'bottom' => __( 'Bottom of lesson', 'lifterlms' ),
+		);
+		$media_placements       = array();
+		foreach ( array( 'video', 'audio' ) as $type ) {
+			$course_placement          = $course && 'bottom' === $course->get( "lesson_{$type}_placement" ) ? 'bottom' : 'top';
+			$media_placements[ $type ] = array_merge(
+				array(
+					// Translators: %s = The course's placement, e.g. "Top of lesson".
+					'course' => sprintf( __( 'Course setting (%s)', 'lifterlms' ), $media_placement_labels[ $course_placement ] ),
+				),
+				$media_placement_labels
+			);
 		}
 
 		$fields = array(
@@ -105,22 +116,24 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 					array(
 						'allow_null' => false,
 						'class'      => 'input-full',
-						'desc'       => __( 'Where the video displays on the lesson. To place it anywhere else, add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
+						'desc'       => __( 'Where the video displays on the lesson. Defaults to the course setting. To place it anywhere else, add the Lesson Video block or [lifterlms_lesson_video] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'video_placement',
 						'label'      => __( 'Video Placement', 'lifterlms' ),
+						'selected'   => $lesson->get( 'video_placement' ) ? $lesson->get( 'video_placement' ) : 'course',
 						'type'       => 'select',
-						'value'      => $media_placements,
+						'value'      => $media_placements['video'],
 					),
 					array(
 						'allow_null' => false,
 						'class'      => 'input-full',
-						'desc'       => __( 'Where the audio displays on the lesson. To place it anywhere else, add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
+						'desc'       => __( 'Where the audio displays on the lesson. Defaults to the course setting. To place it anywhere else, add the Lesson Audio block or [lifterlms_lesson_audio] shortcode to the lesson content; it overrides this setting.', 'lifterlms' ),
 						'desc_class' => 'd-all',
 						'id'         => $this->prefix . 'audio_placement',
 						'label'      => __( 'Audio Placement', 'lifterlms' ),
+						'selected'   => $lesson->get( 'audio_placement' ) ? $lesson->get( 'audio_placement' ) : 'course',
 						'type'       => 'select',
-						'value'      => $media_placements,
+						'value'      => $media_placements['audio'],
 					),
 					array(
 						'class'         => '',
