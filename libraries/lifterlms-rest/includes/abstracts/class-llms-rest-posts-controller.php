@@ -465,10 +465,11 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 */
 	protected function constrain_readable_post_ids( $query_args ) {
 
-		$statuses = empty( $query_args['post_status'] ) ? array( 'publish' ) : array_map( 'strval', (array) $query_args['post_status'] );
+		$statuses        = empty( $query_args['post_status'] ) ? array( 'publish' ) : array_map( 'strval', (array) $query_args['post_status'] );
+		$public_statuses = get_post_stati( array( 'public' => true ) );
 
 		// Every row the query can match is admitted by the read check.
-		if ( ! array_diff( $statuses, get_post_stati( array( 'public' => true ) ) ) ) {
+		if ( ! array_diff( $statuses, $public_statuses ) ) {
 			return null;
 		}
 
@@ -478,14 +479,30 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 			return null;
 		}
 
-		// Everything the query could otherwise match, and then keep only
-		// what the read check admits.
-		$args = array( 'post_type' => $this->post_type );
-		if ( ! in_array( 'any', $statuses, true ) ) {
-			$args['post_status'] = $statuses;
+		if ( in_array( 'any', $statuses, true ) ) {
+			$statuses = array_keys( get_post_stati() );
 		}
 
-		return $this->filter_post_ids_by_read_permission( $this->query_post_ids( $args ) );
+		// Rows of public statuses are admitted by the read check, so only
+		// rows of the other statuses are loaded and checked one by one.
+		$readable = array();
+		if ( array_intersect( $statuses, $public_statuses ) ) {
+			$readable = $this->query_post_ids(
+				array(
+					'post_type'   => $this->post_type,
+					'post_status' => array_values( array_intersect( $statuses, $public_statuses ) ),
+				)
+			);
+		}
+
+		$others = $this->query_post_ids(
+			array(
+				'post_type'   => $this->post_type,
+				'post_status' => array_values( array_diff( $statuses, $public_statuses ) ),
+			)
+		);
+
+		return array_merge( $readable, $this->filter_post_ids_by_read_permission( $others ) );
 	}
 
 	/**

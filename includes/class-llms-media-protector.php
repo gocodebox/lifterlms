@@ -308,7 +308,7 @@ class LLMS_Media_Protector {
 		$attachment = get_post( $media_id );
 		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
 			$this->add_authorization_meta_to_media_post( $media_id );
-			$this->save_mod_rewrite_rules();
+			$this->protect_upload_folder();
 		}
 	}
 
@@ -431,7 +431,7 @@ class LLMS_Media_Protector {
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
 		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
-		$this->save_mod_rewrite_rules();
+		$this->protect_upload_folder();
 
 		return $media_id;
 	}
@@ -827,6 +827,12 @@ class LLMS_Media_Protector {
 		// TODO: Different for multi-site?
 
 		if ( false === get_transient( 'lifterlms_check_media_protection_files' ) ) {
+
+			// Check at most once a day on admin requests, even when the folder
+			// can't be protected yet: protected uploads, which create the
+			// folder, run the check right away (see {@see LLMS_Media_Protector::protect_upload_folder()}).
+			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
+
 			global $wp_filesystem;
 			/** @var WP_Filesystem_Base $wp_filesystem */
 
@@ -890,11 +896,22 @@ class LLMS_Media_Protector {
 					$wp_filesystem->put_contents( $dir . 'index.html', '' );
 				}
 			}
-
-			if ( $wp_filesystem->get_contents( $htaccess_file ) === $rules ) {
-				set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
-			}
 		}
+	}
+
+	/**
+	 * Adds the protection files to the upload directory right after a protected upload.
+	 *
+	 * The first protected upload creates the directory, so the daily check of
+	 * {@see LLMS_Media_Protector::save_mod_rewrite_rules()} is run again regardless of when it last ran.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function protect_upload_folder() {
+		delete_transient( 'lifterlms_check_media_protection_files' );
+		$this->save_mod_rewrite_rules();
 	}
 
 	/**

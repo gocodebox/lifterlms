@@ -546,8 +546,10 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 		$this->assertDirectoryDoesNotExist( $upload_path );
 		delete_transient( 'lifterlms_check_media_protection_files' );
 
+		// Admin requests check at most once a day, even before the folder exists.
 		$protector->save_mod_rewrite_rules();
-		$this->assertFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+		$this->assertDirectoryDoesNotExist( $upload_path );
 
 		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
 		file_put_contents( $tmp, 'test' );

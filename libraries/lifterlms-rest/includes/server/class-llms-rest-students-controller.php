@@ -205,10 +205,17 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 
 		$prepared = $this->limit_query_to_readable_users( $prepared );
 
+		$this->prepared_query_args = $prepared;
+
+		// Runs before `get_objects_query_pre()`, which ends the WHERE clause with a HAVING clause.
+		$limit = isset( $prepared['llms_rest_readable_post_ids'] );
+		if ( $limit ) {
+			add_action( 'pre_user_query', array( $this, 'limit_user_query_to_readable_users' ), 5 );
+		}
+
 		$remove = false;
 		if ( ! empty( $prepared['enrolled_in'] ) || ! empty( $prepared['enrolled_not_in'] ) ) {
 
-			$this->prepared_query_args = $prepared;
 			add_action( 'pre_user_query', array( $this, 'get_objects_query_pre' ) );
 			$remove = true;
 
@@ -216,10 +223,13 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 
 		$query = parent::get_objects_query( $prepared, $request );
 
+		$this->prepared_query_args = array();
+
+		if ( $limit ) {
+			remove_action( 'pre_user_query', array( $this, 'limit_user_query_to_readable_users' ), 5 );
+		}
+
 		if ( $remove ) {
-
-			$this->prepared_query_args = array();
-
 			remove_action( 'pre_user_query', array( $this, 'get_objects_query_pre' ) );
 		}
 
@@ -237,7 +247,9 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 	 *
 	 * This mirrors {@see LLMS_REST_Students_Controller::check_read_item_permissions()}:
 	 * the scoped query matches the current user and the students they can
-	 * read, so the pagination totals fall out of the constrained query.
+	 * read, so the pagination totals fall out of the constrained query. The
+	 * scope is added to the query's SQL by
+	 * {@see LLMS_REST_Students_Controller::limit_user_query_to_readable_users()}.
 	 *
 	 * @since [version]
 	 *
@@ -259,71 +271,55 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 			return $prepared;
 		}
 
-		$readable = $this->get_readable_user_ids();
+		$prepared['llms_rest_readable_post_ids'] = array();
 
-		if ( ! empty( $prepared['include'] ) ) {
-			$readable = array_intersect( $readable, array_map( 'absint', (array) $prepared['include'] ) );
+		$instructor = llms_get_instructor( get_current_user_id() );
+		if ( $instructor ) {
+			$prepared['llms_rest_readable_post_ids'] = array_map( 'absint', $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) );
 		}
-
-		// An empty `include` list is ignored by `WP_User_Query`, which would
-		// count every user, so force an impossible match instead.
-		$prepared['include'] = $readable ? array_values( array_unique( $readable ) ) : array( 0 );
 
 		return $prepared;
 	}
 
 	/**
-	 * Retrieve the IDs of the users the current user can read.
+	 * Callback for WP_User_Query "pre_user_query" action.
 	 *
-	 * Mirrors the scoped `view_students` capability check: the current user
-	 * themself, plus every student enrolled in one of the courses or
-	 * memberships they instruct, as resolved by
+	 * Limits the query to the current user and the students enrolled in one
+	 * of the courses or memberships they instruct, as resolved by
 	 * {@see LLMS_Instructor::has_student()}.
 	 *
 	 * @since [version]
 	 *
-	 * @return int[]
+	 * @param WP_User_Query $query Query object.
+	 * @return void
 	 */
-	protected function get_readable_user_ids() {
+	public function limit_user_query_to_readable_users( $query ) {
 
-		$ids = array( get_current_user_id() );
+		global $wpdb;
 
-		$instructor = llms_get_instructor( get_current_user_id() );
-		if ( $instructor ) {
-
-			$post_ids = array_map( 'absint', $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) );
-
-			if ( $post_ids ) {
-
-				global $wpdb;
-
-				$placeholders = implode( ', ', array_fill( 0, count( $post_ids ), '%d' ) );
-				$found        = $wpdb->get_col(
-					$wpdb->prepare(
-						// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- prepared via $wpdb->prepare().
-						"SELECT DISTINCT upm.user_id
-						 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
-						 WHERE upm.meta_key = '_status'
-						   AND upm.post_id IN ( {$placeholders} )
-						   AND upm.meta_value = 'enrolled'
-						   AND upm.meta_id = (
-							   SELECT upm2.meta_id
-							   FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
-							   WHERE upm2.user_id = upm.user_id
-							     AND upm2.post_id = upm.post_id
-							     AND upm2.meta_key = '_status'
-							   ORDER BY upm2.updated_date DESC, upm2.meta_id DESC
-							   LIMIT 1
-						   )",
-						$post_ids
-					)
-				);
-
-				$ids = array_merge( $ids, array_map( 'absint', $found ) );
-			}
+		$enrolled = '';
+		$post_ids = $this->prepared_query_args['llms_rest_readable_post_ids'];
+		if ( $post_ids ) {
+			$post_ids = implode( ', ', array_map( 'absint', $post_ids ) );
+			$enrolled = " OR {$wpdb->users}.ID IN (
+				SELECT upm.user_id
+				FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
+				WHERE upm.meta_key = '_status'
+				  AND upm.post_id IN ( {$post_ids} )
+				  AND upm.meta_value = 'enrolled'
+				  AND upm.meta_id = (
+					  SELECT upm2.meta_id
+					  FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm2
+					  WHERE upm2.user_id = upm.user_id
+					    AND upm2.post_id = upm.post_id
+					    AND upm2.meta_key = '_status'
+					  ORDER BY upm2.updated_date DESC, upm2.meta_id DESC
+					  LIMIT 1
+				  )
+			)";
 		}
 
-		return array_values( array_unique( $ids ) );
+		$query->query_where .= $wpdb->prepare( " AND ( {$wpdb->users}.ID = %d{$enrolled} )", get_current_user_id() ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- IDs are cast to integers.
 	}
 
 	/**
