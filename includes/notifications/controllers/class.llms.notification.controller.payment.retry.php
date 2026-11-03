@@ -128,6 +128,7 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'all_instructors', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
 				break;
 

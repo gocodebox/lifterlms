@@ -197,6 +197,31 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'class' => 'code input-full',
 						'value' => 'test',
 					),
+					array(
+						'allow_null' => false,
+						'class'      => 'llms-select2',
+						'desc'       => __( 'Override the global "All Instructors" notification setting for this membership. Instructors can receive notifications for all instructors assigned to the membership, not just the author.', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'group'      => 'bottom',
+						'id'         => $this->prefix . 'notification_all_instructors',
+						'label'      => __( 'Send Notifications to All Instructors', 'lifterlms' ),
+						'selected'   => $membership->get( 'notification_all_instructors' ) ? $membership->get( 'notification_all_instructors' ) : 'global',
+						'type'       => 'select',
+						'value'      => array(
+							array(
+								'key'   => 'global',
+								'title' => __( 'Use Global Setting', 'lifterlms' ),
+							),
+							array(
+								'key'   => 'yes',
+								'title' => __( 'Send', 'lifterlms' ),
+							),
+							array(
+								'key'   => 'no',
+								'title' => __( 'Do Not Send', 'lifterlms' ),
+							),
+						),
+					),
 				),
 			),
 
@@ -413,6 +438,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$this->prefix . 'audio_embed',
 			$this->prefix . 'tile_featured_video',
 			$this->prefix . 'instructors_data',
+			$this->prefix . 'notification_all_instructors',
 		);
 
 		if ( ! is_array( $fields ) ) {
