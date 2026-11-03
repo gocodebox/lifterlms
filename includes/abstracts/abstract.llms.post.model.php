@@ -431,6 +431,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	private function ___get( $key, $raw = false ) {
 
+		// Bail if the underlying WP_Post is missing for a post-derived key.
+		if ( is_null( $this->post ) && in_array( $key, array_keys( $this->get_post_properties() ), true ) ) {
+			return '';
+		}
+
 		// Force numeric id and prevent filtering on the id.
 		if ( 'id' === $key ) {
 
@@ -1604,7 +1609,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		foreach ( $this->get_to_array_properties() as $prop ) {
 
-			if ( in_array( $prop, array( 'content', 'excerpt', 'title' ), true ) ) {
+			if ( in_array( $prop, array( 'content', 'excerpt', 'title' ), true ) && ! is_null( $this->post ) ) {
 				$post_prop    = "post_{$prop}";
 				$arr[ $prop ] = $this->post->$post_prop;
 			} else {
@@ -1670,7 +1675,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$arr = $this->toArrayAfter( $arr );
 
 		$cpt_data = $this->get_post_type_data();
-		if ( $cpt_data->public ) {
+		if ( $cpt_data && $cpt_data->public ) {
 			$arr['permalink'] = get_permalink( $this->get( 'id' ) );
 		}
 

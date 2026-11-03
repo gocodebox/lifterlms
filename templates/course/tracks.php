@@ -10,6 +10,10 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
+if ( ! $post instanceof WP_Post ) {
+	return;
+}
+
 // Return if the course doesn't have a track.
 if ( ! has_term( '', 'course_track', $post->ID ) ) {
 	return;
