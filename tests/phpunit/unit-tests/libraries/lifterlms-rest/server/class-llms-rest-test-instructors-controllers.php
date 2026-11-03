@@ -333,6 +333,24 @@ class LLMS_REST_Test_Instructors_Controllers extends LLMS_REST_Unit_Test_Case_Us
 
 	}
 
+	/**
+	 * Test listing instructors with no results.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_items_no_results() {
+
+		wp_set_current_user( $this->user_admin );
+
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'search' => 'cannotfindthis' ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEmpty( $res->get_data() );
+		$this->assertEquals( 0, $res->get_headers()['X-WP-Total'] );
+
+	}
+
 	// public function test_update_item_auth() {}
 	// public function test_update_item_errors() {}
 	// public function test_update_item_success() {}

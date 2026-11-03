@@ -407,21 +407,6 @@ class LLMS_REST_Students_Controller extends LLMS_REST_Users_Controller {
 	}
 
 	/**
-	 * Prepare query args for total count query.
-	 *
-	 * @since 1.0.0-beta.7
-	 *
-	 * @param  array           $args Array of query args.
-	 * @param  WP_REST_Request $request  Full details about the request.
-	 * @return array
-	 */
-	protected function prepare_args_for_total_count_query( $args, $request ) {
-		// Run the query again on page one to get a proper total count.
-		$args['page'] = 1;
-		return $args;
-	}
-
-	/**
 	 * Called right after a student is completely inserted (created/updated).
 	 *
 	 * @since 1.0.0-beta.12

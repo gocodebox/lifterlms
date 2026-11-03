@@ -485,6 +485,38 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that authorize_media_image_src() returns false unchanged for an authorized, protected non-image attachment.
+	 *
+	 * Before the fix, writing `$image[0]` on `false` raised a PHP 8.1+ deprecation notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_authorize_media_image_src_non_image() {
+
+		$attachment_id = $this->create_protected_attachment();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$errors = array();
+		set_error_handler(
+			function ( $errno, $errstr ) use ( &$errors ) {
+				$errors[] = $errstr;
+				return true;
+			}
+		);
+
+		try {
+			$image = ( new LLMS_Media_Protector() )->authorize_media_image_src( false, $attachment_id, 'thumbnail', false );
+		} finally {
+			restore_error_handler();
+		}
+
+		$this->assertFalse( $image );
+		$this->assertSame( array(), $errors );
+	}
+
+	/**
 	 * Test that handle_upload() stores the supplied authorization hook name.
 	 *
 	 * @since 10.2.0
