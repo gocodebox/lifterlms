@@ -255,6 +255,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 *
 	 * @since 3.4.0
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 * @since 11.0.0 Require permission to edit the course or membership.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -268,6 +269,10 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 		}
 
 		$args = $this->clean_args( $args );
+
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'edit_post', absint( $args['post_id'] ) ) ) {
+			return;
+		}
 
 		$this->post_id = $args['post_id'];
 

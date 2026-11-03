@@ -864,4 +864,204 @@ class LLMS_REST_Test_Enrollments extends LLMS_REST_Unit_Test_Case_Server {
 		return str_replace( '(?P<id>[\d]+)', $student_id, $this->route );
 	}
 
+	/**
+	 * Course enrollment collection totals are scoped to the students the current user can read.
+	 *
+	 * The pagination totals are computed from the collection query, so the query must be
+	 * restricted to the same enrollments the per-item read check returns, otherwise the
+	 * totals disclose whether an unreadable student is enrolled.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @return void
+	 */
+	public function test_get_course_enrollments_totals_scoped_to_readable_students() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+
+		$student_a = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$student_b = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$student_c = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		llms_enroll_student( $student_a, $course_id, 'testing' );
+		llms_enroll_student( $student_b, $course_id, 'testing' );
+
+		$route = "/llms/v1/courses/{$course_id}/enrollments";
+
+		wp_set_current_user( $student_a );
+
+		// The requesting student counts and receives only their own enrollment.
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$student_a},{$student_b}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $student_a ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		// Without a `student` filter the totals do not disclose how many students are enrolled.
+		$res = $this->perform_mock_request( 'GET', $route );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $student_a ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		// A student the requester cannot read is not counted either.
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$student_a},{$student_c}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+
+		// Only-unreadable students match nothing.
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => (string) $student_b ) );
+		$this->assertResponseStatusEquals( 404, $res );
+
+		// Control: an administrator counts and receives every enrollment.
+		wp_set_current_user( $this->user_allowed );
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$student_a},{$student_b}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $student_a, $student_b ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		$res = $this->perform_mock_request( 'GET', $route );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( 2, count( $res->get_data() ) );
+
+	}
+
+	/**
+	 * Course enrollment collection totals are scoped for instructors.
+	 *
+	 * An instructor counts and receives the enrollments of the students they instruct and
+	 * their own; enrollments of students they cannot read are not counted.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @return void
+	 */
+	public function test_get_course_enrollments_totals_scoped_for_instructors() {
+
+		$instructor = $this->factory->instructor->create();
+
+		$own_course = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+		llms_get_post( $own_course )->instructors()->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$other_course = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+
+		$instructed = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$enrolled   = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$outsider   = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		// Enrolled in the course the instructor teaches.
+		llms_enroll_student( $instructed, $own_course, 'testing' );
+		llms_enroll_student( $enrolled, $own_course, 'testing' );
+
+		// Enrolled in a course the instructor does not teach.
+		llms_enroll_student( $instructor, $other_course, 'testing' );
+		llms_enroll_student( $outsider, $other_course, 'testing' );
+
+		wp_set_current_user( $instructor );
+
+		// On the course they teach, the instructor counts and receives every enrollment.
+		$route = "/llms/v1/courses/{$own_course}/enrollments";
+		$res   = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$instructed},{$enrolled}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( 2, count( $res->get_data() ) );
+
+		$res = $this->perform_mock_request( 'GET', $route );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+
+		// On a course they do not teach, the instructor counts and receives only their own enrollment.
+		$route = "/llms/v1/courses/{$other_course}/enrollments";
+		$res   = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$instructor},{$outsider}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $instructor ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		// Control: an administrator counts and receives every enrollment of the course they do not teach.
+		wp_set_current_user( $this->user_allowed );
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$instructor},{$outsider}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( 2, count( $res->get_data() ) );
+
+	}
+
+	/**
+	 * Student enrollment collections keep their totals after the course collections scoping.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @return void
+	 */
+	public function test_get_student_enrollments_totals_unchanged() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+
+		$student = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		llms_enroll_student( $student, $course_id, 'testing' );
+
+		wp_set_current_user( $student );
+
+		$res = $this->perform_mock_request( 'GET', $this->parse_route( $student ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $course_id ), wp_list_pluck( $res->get_data(), 'post_id' ) );
+
+	}
+
+	/**
+	 * Instructor enrollment totals follow enrollment in any course they instruct.
+	 *
+	 * A student enrolled in a course the instructor teaches stays readable on a course
+	 * the instructor does not teach. A student whose latest status on the instructor's
+	 * course is no longer enrolled is not counted.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @return void
+	 */
+	public function test_get_course_enrollments_totals_follow_instructor_student_access() {
+
+		$instructor = $this->factory->instructor->create();
+
+		$own_course = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+		llms_get_post( $own_course )->instructors()->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$other_course = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0, 'quizzes' => 0 ) );
+
+		$shared    = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$cancelled = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		llms_enroll_student( $shared, $own_course, 'testing' );
+		llms_enroll_student( $shared, $other_course, 'testing' );
+
+		llms_enroll_student( $cancelled, $own_course, 'testing' );
+		llms_unenroll_student( $cancelled, $own_course, 'cancelled', 'testing' );
+
+		wp_set_current_user( $instructor );
+
+		// Readable on a course the instructor does not teach, because they instruct the student elsewhere.
+		$route = "/llms/v1/courses/{$other_course}/enrollments";
+		$res   = $this->perform_mock_request( 'GET', $route );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $shared ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => "{$shared},{$cancelled}" ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $shared ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		// The cancelled enrollment on the instructed course is not counted.
+		$route = "/llms/v1/courses/{$own_course}/enrollments";
+		$res   = $this->perform_mock_request( 'GET', $route );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 1, $res->get_headers()['X-WP-Total'] );
+		$this->assertEquals( array( $shared ), wp_list_pluck( $res->get_data(), 'student_id' ) );
+
+		$res = $this->perform_mock_request( 'GET', $route, array(), array( 'student' => (string) $cancelled ) );
+		$this->assertResponseStatusEquals( 404, $res );
+
+	}
+
 }

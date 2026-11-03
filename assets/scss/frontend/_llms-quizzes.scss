@@ -13,9 +13,9 @@
 
 		.llms-donut {
 			&.passing {
-				color: $color-success;
+				color: llms-var( color-success );
 				svg path {
-					stroke: $color-success;
+					stroke: llms-var( color-success );
 				}
 			}
 			&.pending {
@@ -25,9 +25,9 @@
 				}
 			}
 			&.failing {
-				color: $color-danger;
+				color: llms-var( color-danger );
 				svg path {
-					stroke: $color-danger;
+					stroke: llms-var( color-danger );
 				}
 			}
 		}
@@ -56,6 +56,13 @@
 			.llms-quiz-results-history {
 				clear: right;
 			}
+		}
+
+		.llms-quiz-attempt-select-form {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
 		}
 
 	}
@@ -118,7 +125,7 @@
 	}
 
 	.llms-progress {
-		background-color: $color-border;
+		background-color: llms-var( color-track );
 		flex-direction: row;
 		height: 8px;
 		margin: 0;
@@ -131,14 +138,14 @@
 
 	.llms-error {
 		@include clearfix();
-		background: color.change( $color-red, $alpha: 0.15 );
-		border: 1px solid $color-red;
-		border-radius: $radius-small;
+		background: llms-var( color-danger-subtle );
+		border: 1px solid llms-var( color-danger );
+		border-radius: llms-var( radius-sm );
 		margin: 20px 0;
 		padding: 15px;
 
 		a {
-			color: $color-red;
+			color: llms-var( color-danger );
 			float: right;
 			font-size: 22px;
 			line-height: 1;
@@ -264,20 +271,20 @@
 
 				&:checked {
 					+ label:before {
-						background: $color-brand-pink;
-						color: #fff;
+						background: llms-var( color-accent );
+						color: llms-var( color-on-accent );
 					}
 				}
 
 				&:focus {
 					+ label:before {
-						box-shadow: 0 0px 8px $color-brand-pink;
+						box-shadow: 0 0px 8px llms-var( color-accent );
 					}
 				}
 
 				&:not(:checked) {
 					+ label.hovered:before {
-						box-shadow: 0 0px 8px $color-brand-pink;
+						box-shadow: 0 0px 8px llms-var( color-accent );
 					}
 				}
 			}
@@ -347,9 +354,9 @@
 
 .llms-quiz-timer {
 	background: #fff;
-	border: 1px solid $color-green;
+	border: 1px solid llms-var( color-success );
 	border-radius: 4px;
-	color: $color-green;
+	color: llms-var( color-success );
 	float: right;
 	font-size: 18px;
 	line-height: 1;
@@ -360,13 +367,13 @@
 	z-index: 1;
 
 	&.color-half {
-		border-color: $color-orange;
-		color: $color-orange
+		border-color: llms-var( color-warning );
+		color: llms-var( color-warning )
 	}
 
 	&.color-empty {
-		border-color: $color-danger;
-		color: $color-danger
+		border-color: llms-var( color-danger );
+		color: llms-var( color-danger )
 	}
 
 	.llms-tiles {

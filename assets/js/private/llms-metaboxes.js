@@ -283,13 +283,17 @@
 			} ).on( "keyup", function() {
 				var date;
 				try {
-					date = $.datepicker.parseDate( $.datepicker._defaults.dateFormat, this.value );
+					date = $.datepicker.parseDate( format, this.value );
 				} catch ( e ) { }
 
-				if ( !date && altField.length > 0 ) {
-					if ( /^#[A-Za-z0-9\-_]+$/.test( altField ) ) {
-						$( altField ).val( "" );
-					}
+				if ( !altField.length || !/^#[A-Za-z0-9\-_]+$/.test( altField ) ) {
+					return;
+				}
+
+				if ( date ) {
+					$( altField ).val( $.datepicker.formatDate( altFormat || format, date ) );
+				} else {
+					$( altField ).val( "" );
 				}
 			} );
 		}
