@@ -207,6 +207,7 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
+	 * @since [version] Return `$image` unchanged when it is not an array, e.g. for non-image attachments.
 	 *
 	 * @param array|false  $image    {
 	 *     Array of image data, or boolean false if no image is available.
@@ -236,6 +237,11 @@ class LLMS_Media_Protector {
 		} elseif ( false === $is_authorized ) {
 			// Return the same thing that wp_get_attachment_image_src would return if no image found.
 			return false;
+		}
+
+		if ( ! is_array( $image ) ) {
+			// No image source to rewrite, e.g. a non-image attachment without an icon.
+			return $image;
 		}
 
 		$image[0] = add_query_arg(
