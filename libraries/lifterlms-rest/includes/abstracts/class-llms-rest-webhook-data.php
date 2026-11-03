@@ -307,17 +307,13 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Increment delivery failures and after max allowed failures are reached, set status to disabled.
+	 * Retrieve the number of times a webhook is allowed to fail before it is automatically disabled.
 	 *
-	 * @since 1.0.0-beta.1
+	 * @since [version]
 	 *
-	 * @return LLMS_REST_Webhook
+	 * @return int
 	 */
-	protected function set_delivery_failure() {
-
-		$failures = absint( $this->get( 'failure_count' ) );
-
-		$this->set( 'failure_count', ++$failures );
+	protected function get_max_delivery_failures() {
 
 		/**
 		 * Filter the number of times a webhook is allowed to fail before it is automatically disabled.
@@ -326,11 +322,87 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 		 *
 		 * @param int $num Number of allowed failures. Default: 5.
 		 */
-		$max_allowed = apply_filters( 'llms_rest_webhook_max_delivery_failures', 5 );
+		return apply_filters( 'llms_rest_webhook_max_delivery_failures', 5 );
 
-		if ( $failures > $max_allowed ) {
+	}
 
-			$this->set( 'status', 'disabled' );
+	/**
+	 * Determine whether the webhook was disabled automatically because its deliveries kept failing.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function is_disabled_by_delivery_failures() {
+		return 'disabled' === $this->get( 'status' ) && absint( $this->get( 'failure_count' ) ) > $this->get_max_delivery_failures();
+	}
+
+	/**
+	 * Retrieve the ID of the admin notice shown when the webhook is disabled by delivery failures.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_disabled_notice_id() {
+		return 'llms-rest-webhook-disabled-' . $this->get( 'id' );
+	}
+
+	/**
+	 * Delete the webhook and its disabled notice.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean `true` on success, `false` otherwise.
+	 */
+	public function delete() {
+
+		$notice_id = $this->get_disabled_notice_id();
+		$deleted   = parent::delete();
+
+		if ( $deleted ) {
+			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+			LLMS_Admin_Notices::delete_notice( $notice_id );
+		}
+
+		return $deleted;
+
+	}
+
+	/**
+	 * Increment delivery failures and after max allowed failures are reached, set status to disabled.
+	 *
+	 * @since 1.0.0-beta.1
+	 * @since [version] Add an admin notice when the webhook is disabled.
+	 *
+	 * @return LLMS_REST_Webhook
+	 */
+	protected function set_delivery_failure() {
+
+		$failures = absint( $this->get( 'failure_count' ) );
+
+		$this->set( 'failure_count', ++$failures, true );
+
+		if ( $failures > $this->get_max_delivery_failures() ) {
+
+			$this->set( 'status', 'disabled', true );
+
+			// Deliveries run in the background, where admin notices are not loaded.
+			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+			LLMS_Admin_Notices::add_notice(
+				$this->get_disabled_notice_id(),
+				sprintf(
+					// Translators: %1$s = webhook name; %2$s = opening anchor tag linking to the webhook; %3$s = closing anchor tag.
+					__( 'The webhook "%1$s" was disabled automatically because its deliveries kept failing after every retry. Check that the delivery URL is reachable, then %2$sset the webhook to Active%3$s to resume deliveries.', 'lifterlms' ),
+					esc_html( $this->get( 'name' ) ),
+					'<a href="' . esc_url( $this->get_edit_link() ) . '">',
+					'</a>'
+				),
+				array(
+					'type'             => 'warning',
+					'dismiss_for_days' => 0,
+				)
+			);
 
 			/**
 			 * Fires immediately after a webhook has been disabled due to exceeding its maximum allowed failures.

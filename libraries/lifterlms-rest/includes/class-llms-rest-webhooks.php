@@ -546,6 +546,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * This method assumes the supplied data has already been validated and sanitized.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since [version] Reset the failure count and clear the disabled notice when a webhook is reactivated.
 	 *
 	 * @param LLMS_REST_Webhook $obj Webhook object.
 	 * @param array             $data Associative array of data to persist.
@@ -559,6 +560,13 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 			if ( is_wp_error( $ping ) ) {
 				return $ping;
 			}
+		}
+
+		// Reactivating a webhook starts its failure count over and clears the disabled notice.
+		if ( isset( $data['status'] ) && 'active' === $data['status'] && 'active' !== $obj->get( 'status' ) && $obj->exists() ) {
+			$data['failure_count'] = 0;
+			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+			LLMS_Admin_Notices::delete_notice( $obj->get_disabled_notice_id() );
 		}
 
 		$obj->setup( $data )->save();

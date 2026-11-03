@@ -25,10 +25,19 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	 *
 	 * @since 1.0.0-beta.1
 	 *
-	 * @param array $args Numeric array of arguments from the originating hook.
+	 * @param array  $args        Numeric array of arguments from the originating hook.
+	 * @param int    $attempt     Delivery attempt. The first attempt is 1.
+	 * @param string $delivery_id Delivery ID shared by every attempt. Generated when empty.
 	 * @return void
 	 */
-	public function deliver( $args ) {
+	public function deliver( $args, $attempt = 1, $delivery_id = '' ) {
+
+		$attempt = max( 1, absint( $attempt ) );
+
+		// A disabled webhook can still finish an in-flight first attempt. Later attempts are the retry queue.
+		if ( $attempt > 1 && 'active' !== $this->get( 'status' ) ) {
+			return;
+		}
 
 		$start   = microtime( true );
 		$payload = $this->get_payload( $args );
@@ -55,7 +64,9 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 		 */
 		$http_args = apply_filters( 'llms_rest_webhook_delivery_args', $http_args, $this, $args );
 
-		$delivery_id = wp_hash( $this->get( 'id' ) . strtotime( 'now' ) );
+		if ( ! is_string( $delivery_id ) || '' === $delivery_id ) {
+			$delivery_id = wp_hash( $this->get( 'id' ) . strtotime( 'now' ) );
+		}
 
 		$http_args['headers'] = array_merge(
 			$http_args['headers'],
@@ -67,6 +78,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 				'X-LLMS-Webhook-Signature' => $this->get_delivery_signature( $http_args['body'] ),
 				'X-LLMS-Webhook-ID'        => $this->get( 'id' ),
 				'X-LLMS-Delivery-ID'       => $delivery_id,
+				'X-LLMS-Delivery-Attempt'  => (string) $attempt,
 			)
 		);
 
@@ -74,7 +86,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 
 		$duration = round( microtime( true ) - $start, 5 );
 
-		$this->delivery_after( $delivery_id, $http_args, $res, $duration );
+		$this->delivery_after( $delivery_id, $http_args, $res, $duration, $args, $attempt );
 
 		/**
 		 * Fires after a webhook is delivered
@@ -104,9 +116,11 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	 * @param array  $req_args    HTTP Request Arguments used to deliver the webhook.
 	 * @param array  $res         Results from `wp_safe_remote_request()`.
 	 * @param float  $duration    Time (in microseconds) it took to generate and deliver the webhook.
+	 * @param array  $args        Numeric array of arguments from the originating hook.
+	 * @param int    $attempt     Delivery attempt. The first attempt is 1.
 	 * @return void
 	 */
-	protected function delivery_after( $delivery_id, $req_args, $res, $duration ) {
+	protected function delivery_after( $delivery_id, $req_args, $res, $duration, $args = array(), $attempt = 1 ) {
 
 		// Parse response.
 		if ( is_wp_error( $res ) ) {
@@ -157,10 +171,101 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 
 		// Check for a success, which is a 2xx, 301 or 302 Response Code.
 		if ( absint( $res_code ) >= 200 && absint( $res_code ) <= 302 ) {
-			$this->set( 'failure_count', 0 );
+			$this->set( 'failure_count', 0, true );
 		} else {
-			$this->set_delivery_failure();
+			$this->maybe_retry_delivery( $args, $attempt, $delivery_id );
 		}
+
+	}
+
+	/**
+	 * Delays, in seconds, between failed delivery attempts.
+	 *
+	 * The first failure waits for the first delay, the second failure for the second, and so on.
+	 * The webhook failure count is incremented only after every delay has been used.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[] Delays in seconds.
+	 */
+	protected function get_retry_rules() {
+
+		$rules = array(
+			15 * MINUTE_IN_SECONDS,
+			HOUR_IN_SECONDS,
+			6 * HOUR_IN_SECONDS,
+			12 * HOUR_IN_SECONDS,
+		);
+
+		/**
+		 * Filters the delays used to reschedule a failed webhook delivery.
+		 *
+		 * Return an empty array to disable automatic retries. Each value is a delay in seconds,
+		 * applied after the corresponding failed attempt.
+		 *
+		 * @since [version]
+		 *
+		 * @param int[]             $rules Delays in seconds.
+		 * @param LLMS_REST_Webhook $webhook Webhook object.
+		 */
+		$rules = apply_filters( 'llms_rest_webhook_retry_rules', $rules, $this );
+
+		return array_values( array_map( 'absint', (array) $rules ) );
+
+	}
+
+	/**
+	 * Reschedule a failed delivery, or record the failure when no retries remain.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $args        Numeric array of arguments from the originating hook.
+	 * @param int    $attempt     Delivery attempt that just failed.
+	 * @param string $delivery_id Delivery ID shared by every attempt.
+	 * @return void
+	 */
+	protected function maybe_retry_delivery( $args, $attempt, $delivery_id ) {
+
+		$rules = $this->get_retry_rules();
+		$index = max( 0, absint( $attempt ) - 1 );
+		$delay = isset( $rules[ $index ] ) ? absint( $rules[ $index ] ) : 0;
+
+		if ( $delay > 0 ) {
+			$this->schedule_retry( $args, absint( $attempt ) + 1, $delivery_id, $delay );
+			return;
+		}
+
+		$this->set_delivery_failure();
+
+	}
+
+	/**
+	 * Schedule another delivery attempt.
+	 *
+	 * Retries are not sent through `schedule()`. That method deduplicates the original hook
+	 * arguments and would drop a pending retry.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $args        Numeric array of arguments from the originating hook.
+	 * @param int    $attempt     Delivery attempt number for the next request.
+	 * @param string $delivery_id Delivery ID shared by every attempt.
+	 * @param int    $delay       Seconds to wait before the next attempt.
+	 * @return int Action ID, or 0 when the action could not be scheduled.
+	 */
+	protected function schedule_retry( $args, $attempt, $delivery_id, $delay ) {
+
+		return as_schedule_single_action(
+			time() + absint( $delay ),
+			'lifterlms_rest_deliver_webhook_async',
+			array(
+				'webhook_id'  => $this->get( 'id' ),
+				'args'        => $args,
+				'attempt'     => absint( $attempt ),
+				'delivery_id' => $delivery_id,
+			),
+			'llms-webhooks'
+		);
 
 	}
 
