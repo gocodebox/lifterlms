@@ -438,6 +438,22 @@ abstract class LLMS_REST_Users_Controller extends LLMS_Rest_Controller {
 	}
 
 	/**
+	 * Prepare query args for total count query.
+	 *
+	 * Users queries read the `page` argument, so run the query again on page one instead of unsetting it.
+	 *
+	 * @since [version] Moved from `LLMS_REST_Students_Controller` so it applies to every users controller.
+	 *
+	 * @param array           $args    Array of query args.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return array
+	 */
+	protected function prepare_args_for_total_count_query( $args, $request ) {
+		$args['page'] = 1;
+		return $args;
+	}
+
+	/**
 	 * Retrieve a query object based on arguments from a `get_items()` (collection) request
 	 *
 	 * @since 1.0.0-beta.1
