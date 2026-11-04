@@ -48,4 +48,21 @@
 	.llms-table-search {
 		order: 2;
 	}
+
+	// Bulk actions get their own row directly above the table, aligned right.
+	.llms-table-bulk-actions {
+		align-items: center;
+		display: flex;
+		flex-basis: 100%;
+		gap: 8px;
+		justify-content: flex-end;
+		order: 3;
+	}
+
+	.llms-table-bulk-select-all {
+		align-items: center;
+		display: inline-flex;
+		gap: 6px;
+		margin-right: 4px;
+	}
 }

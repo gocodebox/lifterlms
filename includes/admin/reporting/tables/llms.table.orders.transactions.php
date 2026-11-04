@@ -660,6 +660,10 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			?>
 		<form class="llms-table-bulk-actions" id="<?php echo esc_attr( self::BULK_FORM_ID ); ?>" method="post">
 			<?php wp_nonce_field( self::BULK_NONCE_ACTION ); ?>
+			<label class="llms-table-bulk-select-all">
+				<input class="llms-table-select-all" type="checkbox">
+				<?php esc_html_e( 'Select all', 'lifterlms' ); ?>
+			</label>
 			<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-bulk-action">
 				<?php esc_html_e( 'Select bulk action', 'lifterlms' ); ?>
 			</label>
