@@ -87,6 +87,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
 	 * @since 3.30.3 Removed duplicate array keys.
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since [version] Restrict auto-enrollment fields to users with `manage_lifterlms` capability.
 	 *
 	 * @return array
 	 */
@@ -112,7 +113,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 		$instructor_defaults = llms_get_instructors_defaults();
 
-		return array(
+		$fields = array(
 			array(
 				'title'  => __( 'Sales Page', 'lifterlms' ),
 				'fields' => array(
@@ -327,7 +328,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				),
 			),
 
-			array(
+		);
+
+		if ( current_user_can( 'manage_lifterlms' ) ) {
+			$fields[] = array(
 				'title'  => __( 'Auto Enrollment', 'lifterlms' ),
 				'fields' => array(
 					array(
@@ -351,8 +355,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'value'           => array(),
 					),
 				),
-			),
-		);
+			);
+		}
+
+		return $fields;
 	}
 
 	/**

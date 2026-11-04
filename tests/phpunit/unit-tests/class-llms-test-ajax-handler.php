@@ -870,6 +870,54 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_save_membership_autoenroll_courses permissions.
+	 *
+	 * Only users with `manage_lifterlms` and `edit_membership` capabilities can save auto-enroll courses.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_save_membership_autoenroll_courses_permissions() {
+
+		$course     = $this->factory->course->create();
+		$membership = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		$request = array(
+			'post_id' => $membership,
+			'courses' => array( $course ),
+		);
+
+		// Admin (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request ) );
+		$llms_membership = new LLMS_Membership( $membership );
+		$this->assertEquals( array( $course ), $llms_membership->get_auto_enroll_courses() );
+
+		// LMS Manager (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$new_course = $this->factory->course->create();
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( array(
+			'post_id' => $membership,
+			'courses' => array( $new_course ),
+		) ) );
+		$this->assertEquals( array( $new_course ), $llms_membership->get_auto_enroll_courses() );
+
+		// Non-admin/manager roles (instructor, instructors_assistant, subscriber) lack manage_lifterlms and must die.
+		foreach ( array( 'instructor', 'instructors_assistant', 'subscriber' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$caught = false;
+			ob_start();
+			try {
+				LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request );
+			} catch ( WPAjaxDieContinueException $e ) {
+				$caught = true;
+			}
+			$this->assertTrue( $caught, sprintf( 'Expected wp_die() for %s without manage_lifterlms.', $role ) );
+		}
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * @since 3.32.0
