@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3444"
-entry: Adding missing ActionScheduler file.
