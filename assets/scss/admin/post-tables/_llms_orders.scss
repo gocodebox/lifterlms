@@ -57,4 +57,12 @@
 		gap: 8px;
 		order: 3;
 	}
+
+	.llms-table-trash-link {
+		margin-left: auto;
+
+		.count {
+			color: #50575e;
+		}
+	}
 }

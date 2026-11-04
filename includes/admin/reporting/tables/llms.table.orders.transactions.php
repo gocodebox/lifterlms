@@ -671,6 +671,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<option value="trash"><?php esc_html_e( 'Move to Trash', 'lifterlms' ); ?></option>
 			</select>
 			<button class="button action" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
+			<?php
+			$trash_count = absint( wp_count_posts( 'llms_order' )->trash );
+			if ( $trash_count ) :
+				?>
+				<a class="llms-table-trash-link" href="<?php echo esc_url( admin_url( 'edit.php?post_type=llms_order&post_status=trash' ) ); ?>">
+					<?php esc_html_e( 'Trash', 'lifterlms' ); ?> <span class="count">(<?php echo esc_html( number_format_i18n( $trash_count ) ); ?>)</span>
+				</a>
+			<?php endif; ?>
 		</form>
 			<?php
 		endif;
