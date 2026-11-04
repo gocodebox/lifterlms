@@ -1,4 +1,0 @@
-description: Total number of pages available in the collection.
-schema:
-  type: integer
-  example: 28

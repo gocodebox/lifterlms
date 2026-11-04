@@ -1,5 +1,0 @@
-pot:
-  dir: languages
-release.prepare:
-  libraries:
-    - libraries/lifterlms-rest

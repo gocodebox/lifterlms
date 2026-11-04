@@ -1,7 +1,0 @@
-@import "_includes/vars";
-
-:where(:root) {
-	@include llms-frontend-tokens;
-}
-
-@import "frontend/focus-mode";

@@ -1,6 +1,0 @@
-x-summary: Forbidden.
-description: The client does not have access to perform the requested action.
-content:
-  application/json:
-    schema:
-      $ref: '#/components/schemas/Error403'

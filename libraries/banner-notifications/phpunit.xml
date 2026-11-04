@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/phpunit/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./vendor</directory>
+      <directory suffix=".php">./tests</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Banner Notifications Test Suite">
+      <directory suffix=".php">./tests/phpunit/unit-tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
