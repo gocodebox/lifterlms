@@ -134,6 +134,14 @@ class LLMS_Admin_Profile {
 			update_user_option( $user_id, 'llms_allow_unlimited_quiz_time', 'no' );
 		}
 
+		$due_accommodation = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_date_accommodation' );
+		$due_extension     = absint( llms_filter_input( INPUT_POST, 'llms_due_date_extension_days', FILTER_SANITIZE_NUMBER_INT ) );
+		if ( 'extend' === $due_accommodation && ! $due_extension ) {
+			$due_accommodation = '';
+		}
+		update_user_option( $user_id, 'llms_due_date_accommodation', in_array( $due_accommodation, array( 'extend', 'none' ), true ) ? $due_accommodation : '' );
+		update_user_option( $user_id, 'llms_due_date_extension_days', 'extend' === $due_accommodation ? min( $due_extension, 365 ) : '' );
+
 		if ( is_wp_error( $submit ) ) {
 			$this->errors = $submit;
 		}

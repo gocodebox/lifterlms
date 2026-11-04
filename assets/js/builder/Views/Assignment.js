@@ -115,6 +115,7 @@ define( [
 					this.model.set_parent( this.lesson );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 
 				}
 
@@ -196,6 +197,7 @@ define( [
 					this.lesson.set( 'assignment', this.model );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 					this.render();
 
 				} else {
@@ -242,6 +244,7 @@ define( [
 				this.model = assignment;
 
 				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.listenTo( this.model, 'change:due_method', this.render_settings );
 				this.render();
 
 			},

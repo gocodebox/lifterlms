@@ -8,7 +8,8 @@
  * @since 4.0.0 Unknown.
  * @since 4.17.0 Return early if accessed without a logged in user or the quiz can't be loaded from the `$post` global.
  * @since 7.4.0 Used `LLMS_Quiz::get_questions_count()` method for showing count and escaped labels.
- * @version 7.4.0
+ * @since [version] Added the due date.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +47,13 @@ $passing_percent = $quiz->get( 'passing_percent' );
 	<?php if ( $quiz->has_time_limit() && ! $student->has_unlimited_quiz_time() ) : ?>
 	<li class="llms-quiz-meta-item llms-time-limit">
 		<?php printf( esc_html__( 'Time Limit: %s', 'lifterlms' ), '<span class="llms-time-limit">' . esc_html( $quiz->get_time_limit_string() ) . '</span>' ); ?>
+	</li>
+	<?php endif; ?>
+
+	<?php $due_date_html = $quiz->get_due_date_html( $student->get_id() ); ?>
+	<?php if ( $due_date_html ) : ?>
+	<li class="llms-quiz-meta-item llms-quiz-due-date">
+		<?php echo wp_kses_post( $due_date_html ); ?>
 	</li>
 	<?php endif; ?>
 </ul>
