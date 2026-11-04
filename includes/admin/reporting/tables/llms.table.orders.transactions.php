@@ -28,6 +28,24 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	const CACHE_GROUP = 'llms_orders_transactions';
 
 	/**
+	 * HTML ID of the bulk actions form, referenced by each row's checkbox.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	const BULK_FORM_ID = 'llms-orders-transactions-bulk';
+
+	/**
+	 * Nonce action for the bulk actions form.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	const BULK_NONCE_ACTION = 'llms-orders-transactions-bulk';
+
+	/**
 	 * Unique ID for the Table.
 	 *
 	 * @var string
@@ -146,6 +164,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
+			case 'cb':
+				if ( $order ) {
+					$value = $this->get_checkbox_html( $order );
+				}
+				break;
+
 			case 'transaction_id':
 				$txn_id      = $data->get( 'id' );
 				$receipt_url = LLMS_Admin_Page_Orders::get_receipt_url( $txn_id );
@@ -214,6 +238,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
+			case 'cb':
+				return $this->get_checkbox_html( $order );
+
 			case 'transaction_id':
 				$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
 				$value     = '&ndash;';
@@ -250,6 +277,41 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			default:
 				return '';
 		}
+	}
+
+	/**
+	 * Build the bulk action checkbox for a row.
+	 *
+	 * The checkbox selects the row's order, so every row of an order trashes the same order.
+	 * It's tied to the bulk actions form through the `form` attribute because the table
+	 * body is replaced on AJAX reloads and sits outside the form.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return string
+	 */
+	protected function get_checkbox_html( $order ) {
+		$order_id = $order->get( 'id' );
+		return sprintf(
+			'<input type="checkbox" name="order_ids[]" value="%1$d" form="%2$s" aria-label="%3$s">',
+			$order_id,
+			esc_attr( self::BULK_FORM_ID ),
+			/* translators: %d: order ID */
+			esc_attr( sprintf( __( 'Select order #%d', 'lifterlms' ), $order_id ) )
+		);
+	}
+
+	/**
+	 * Whether the current user can trash orders in bulk.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	protected function user_can_bulk_trash() {
+		$post_type = get_post_type_object( 'llms_order' );
+		return $post_type && current_user_can( $post_type->cap->delete_posts );
 	}
 
 	/**
@@ -594,6 +656,21 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_transaction_statuses();
+		if ( $this->user_can_bulk_trash() ) :
+			?>
+		<form class="llms-table-bulk-actions" id="<?php echo esc_attr( self::BULK_FORM_ID ); ?>" method="post">
+			<?php wp_nonce_field( self::BULK_NONCE_ACTION ); ?>
+			<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-bulk-action">
+				<?php esc_html_e( 'Select bulk action', 'lifterlms' ); ?>
+			</label>
+			<select id="<?php echo esc_attr( $this->id ); ?>-bulk-action" name="llms_bulk_action">
+				<option value=""><?php esc_html_e( 'Bulk actions', 'lifterlms' ); ?></option>
+				<option value="trash"><?php esc_html_e( 'Move to Trash', 'lifterlms' ); ?></option>
+			</select>
+			<button class="button" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
+		</form>
+			<?php
+		endif;
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -810,12 +887,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		if ( $this->sort_mode ) {
 			add_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10, 2 );
 		}
+		add_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$query = new WP_Query( $query_args );
 
 		if ( $this->sort_mode ) {
 			remove_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10 );
 		}
+		remove_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
@@ -1166,6 +1245,32 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Hide transactions whose parent order is in the trash.
+	 *
+	 * Trashed orders already drop out of the `any` post status, but their
+	 * transactions keep their own status, so they're excluded here.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $where SQL WHERE clause.
+	 * @return string
+	 */
+	public function exclude_trashed_order_transactions( $where ) {
+
+		global $wpdb;
+
+		$where .= " AND ( {$wpdb->posts}.post_type <> 'llms_transaction' OR NOT EXISTS (
+			SELECT 1 FROM {$wpdb->postmeta} AS llms_toid
+			INNER JOIN {$wpdb->posts} AS llms_torder ON llms_torder.ID = llms_toid.meta_value
+			WHERE llms_toid.post_id = {$wpdb->posts}.ID
+			  AND llms_toid.meta_key = '_llms_order_id'
+			  AND llms_torder.post_status = 'trash'
+		) )";
+
+		return $where;
+	}
+
+	/**
 	 * Retrieve order IDs associated with a given coupon.
 	 *
 	 * @since 11.0.0
@@ -1305,7 +1410,18 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+
+		$columns = array();
+
+		if ( $this->user_can_bulk_trash() ) {
+			$columns['cb'] = array(
+				'exportable' => false,
+				'sortable'   => false,
+				'title'      => __( 'Select', 'lifterlms' ),
+			);
+		}
+
+		return $columns + array(
 			'transaction_id'         => array(
 				'exportable' => true,
 				'sortable'   => false,
