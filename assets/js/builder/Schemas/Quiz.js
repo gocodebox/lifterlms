@@ -5,10 +5,11 @@
  * @since 7.4.0 Added upsell for Question Bank and condition in `random_questions` schema.
  * @since 7.6.2 Added `disable_retake` schema.
  * @since 7.8.0 Added `can_be_resumed` option.
- * @version 7.8.0
+ * @since [version] Added due date settings.
+ * @version [version]
 
  */
-define( [], function() {
+define( [ 'Schemas/DueDate' ], function( DueDateFields ) {
 
 	return window.llms.hooks.applyFilters( 'llms_define_quiz_schema', {
 
@@ -93,7 +94,9 @@ define( [], function() {
 						tip: LLMS.l10n.translate( 'Prevent quiz retake after student passed the quiz.' ),
 						type: 'switch',
 			},
-				], [
+				],
+			].concat( DueDateFields() ).concat( [
+				[
 					{
 						id: 'question-bank',
 						label: LLMS.l10n.translate( 'Question Bank' ),
@@ -104,7 +107,7 @@ define( [], function() {
 					}
 				]
 
-			],
+			] ),
 		},
 
 	} );

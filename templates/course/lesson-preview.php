@@ -10,7 +10,8 @@
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
  * @since 7.5.0 Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
- * @version 7.5.0
+ * @since [version] Display quiz and assignment due dates for enrolled students.
+ * @version [version]
  *
  * @var LLMS_Lesson $lesson        The lesson object.
  * @var string      $pre_text      The text to display before the lesson.
@@ -130,11 +131,14 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 			if ( 'lesson' !== get_post_type( get_the_ID() ) ) :
 				?>
 				<?php
+				$due_student = llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) ? get_current_user_id() : 0;
 				if ( $lesson->is_quiz_enabled() ) :
+					$due_quiz = $due_student ? llms_get_post( $lesson->get( 'quiz' ) ) : false;
 					?>
 					<span class="llms-lesson-has-quiz">
 						<i class="fa fa-question-circle"></i>
 					<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+					<?php echo $due_quiz instanceof LLMS_Quiz ? wp_kses_post( $due_quiz->get_due_date_html( $due_student, get_option( 'date_format' ) ) ) : ''; ?>
 					</span>
 					<?php
 				endif;
@@ -146,6 +150,10 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 					<span class="llms-lesson-has-assignment">
 						<i class="fa fa-pencil-square"></i>
 					<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+					<?php
+					$due_assignment = $due_student && function_exists( 'llms_lesson_get_assignment' ) ? llms_lesson_get_assignment( $lesson ) : false;
+					echo $due_assignment && method_exists( $due_assignment, 'get_due_date_html' ) ? wp_kses_post( $due_assignment->get_due_date_html( $due_student, get_option( 'date_format' ) ) ) : '';
+					?>
 					</span>
 					<?php
 				endif;

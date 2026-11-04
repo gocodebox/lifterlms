@@ -438,6 +438,25 @@ if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
 	}
 }
 
+if ( ! function_exists( 'llms_template_lesson_quiz_due_date' ) ) {
+
+	/**
+	 * Output the student's due date for the current lesson's quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function llms_template_lesson_quiz_due_date() {
+		$lesson = llms_get_post( get_the_ID() );
+		$quiz   = $lesson instanceof LLMS_Lesson ? llms_get_post( $lesson->get( 'quiz' ) ) : false;
+		$html   = $quiz instanceof LLMS_Quiz ? $quiz->get_due_date_html( get_current_user_id() ) : '';
+		if ( $html ) {
+			echo '<p class="llms-lesson-due-date">' . wp_kses_post( $html ) . '</p>';
+		}
+	}
+}
+
 /**
  * Complete Lesson Link Template Include
  *

@@ -832,6 +832,19 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Determine if the attempt was submitted after the student's due date for the quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function is_late() {
+		$quiz = $this->get_quiz();
+		$end  = $this->get( 'end_date' );
+		return $quiz && $end && $quiz->is_submission_late( $this->get( 'student_id' ), $end );
+	}
+
+	/**
 	 * Determine if the attempt was passing.
 	 *
 	 * @since 3.9.2

@@ -497,3 +497,45 @@
 }
 
 @import "../_includes/quiz-result-question-list";
+
+// Quiz & assignment due dates.
+.llms-due-badge {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-transform: uppercase;
+	color: #fff;
+	background: #6c757d;
+
+	&.llms-due-badge--due-soon { background: #b26200; }
+	&.llms-due-badge--overdue,
+	&.llms-due-badge--late { background: #c62828; }
+	&.llms-due-badge--on-time { background: #2e7d32; }
+	&.llms-due-badge--override { background: #2271b1; }
+}
+.llms-due-dates-report {
+	margin-top: 30px;
+
+	.llms-due-dates-table td { vertical-align: top; }
+	.llms-due-dates-actions { width: 1%; white-space: nowrap; text-align: right; }
+	details[open] summary { margin-bottom: 8px; }
+	summary { display: inline-block; cursor: pointer; list-style: none; }
+	summary::-webkit-details-marker { display: none; }
+	.llms-due-dates-form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		width: 300px;
+		white-space: normal;
+		text-align: left;
+		label { display: block; }
+		input[type="date"],
+		input[type="time"],
+		input[type="text"] { display: block; width: 100%; margin-top: 4px; }
+		.llms-due-dates-when { display: flex; gap: 6px; }
+	}
+}

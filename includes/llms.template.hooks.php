@@ -89,6 +89,13 @@ add_action( 'lifterlms_after_loop_item', 'lifterlms_template_loop_featured_prici
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 
 /**
+ * Quiz due date below the "Take Quiz" button on lessons.
+ *
+ * @since [version]
+ */
+add_action( 'llms_after_start_quiz_button', 'llms_template_lesson_quiz_due_date' );
+
+/**
  * Course Syllabus
  *
  * @since 7.5.0

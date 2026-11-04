@@ -423,3 +423,29 @@
 // }
 
 
+
+// Quiz & assignment due dates.
+.llms-due-date {
+	margin-left: 4px;
+	opacity: .85;
+	white-space: nowrap;
+}
+.llms-due-badge {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-transform: uppercase;
+	vertical-align: middle;
+	color: #fff;
+	background: #6c757d;
+
+	&.llms-due-badge--due-soon { background: #b26200; }
+	&.llms-due-badge--overdue,
+	&.llms-due-badge--late { background: #c62828; }
+	&.llms-due-badge--on-time { background: #2e7d32; }
+}
+.llms-quiz-due-date .llms-due-date { margin-left: 0; opacity: 1; }
