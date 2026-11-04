@@ -58,9 +58,7 @@
 					self.export( $table, $( this ) );
 				} );
 
-				// Select all checkboxes live in the table head and in the bulk actions bar above the table.
-				$table.parent().on( 'change', '.llms-table-select-all', function() {
-					$table.parent().find( '.llms-table-select-all' ).prop( 'checked', this.checked );
+				$table.on( 'change', 'thead .llms-table-select-all', function() {
 					$table.find( 'tbody td.cb input[type="checkbox"]' ).prop( 'checked', this.checked );
 				} );
 
@@ -68,7 +66,7 @@
 				$table.on( 'change', 'tbody td.cb input[type="checkbox"]', function() {
 					var $boxes = $table.find( 'tbody td.cb input[type="checkbox"]' );
 					$boxes.filter( '[value="' + this.value + '"]' ).prop( 'checked', this.checked );
-					$table.parent().find( '.llms-table-select-all' ).prop( 'checked', $boxes.length === $boxes.filter( ':checked' ).length );
+					$table.find( 'thead .llms-table-select-all' ).prop( 'checked', $boxes.length === $boxes.filter( ':checked' ).length );
 				} );
 
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
@@ -339,9 +337,6 @@
 						$table.find( 'thead' ).replaceWith( r.data.thead );
 						$table.find( 'tbody' ).replaceWith( r.data.tbody );
 						$table.find( 'tfoot' ).replaceWith( r.data.tfoot );
-
-						// The reloaded rows are unchecked, so clear any select all checkbox outside the table.
-						$table.parent().find( '.llms-table-select-all' ).prop( 'checked', false );
 
 					}
 

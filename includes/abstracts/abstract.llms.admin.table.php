@@ -901,7 +901,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			<?php foreach ( $this->get_columns() as $id => $data ) : ?>
 				<th class="<?php echo esc_attr( $id ); ?>">
 					<?php if ( 'cb' === $id ) : ?>
-						<input class="llms-table-select-all" type="checkbox" aria-label="<?php esc_attr_e( 'Select all', 'lifterlms' ); ?>">
+						<input class="llms-table-select-all" id="llms-table-select-all-<?php echo esc_attr( $this->id ); ?>" type="checkbox">
+						<label for="llms-table-select-all-<?php echo esc_attr( $this->id ); ?>"><span class="screen-reader-text"><?php esc_html_e( 'Select All', 'lifterlms' ); ?></span></label>
 					<?php elseif ( is_array( $data ) ) : ?>
 						<?php if ( isset( $data['sortable'] ) && $data['sortable'] ) : ?>
 							<a class="llms-sortable<?php echo ( $this->get_orderby() === $id ) ? ' active' : ''; ?>" data-order="<?php echo esc_attr( $this->get_new_order( $id ) ); ?>" data-orderby="<?php echo esc_attr( $id ); ?>" href="#llms-gb-table-resort">

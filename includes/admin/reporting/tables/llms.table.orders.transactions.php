@@ -166,7 +166,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'cb':
 				if ( $order ) {
-					$value = $this->get_checkbox_html( $order );
+					$value = $this->get_checkbox_html( $order, $data->get( 'id' ) );
 				}
 				break;
 
@@ -239,7 +239,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'cb':
-				return $this->get_checkbox_html( $order );
+				return $this->get_checkbox_html( $order, $order->get( 'id' ) );
 
 			case 'transaction_id':
 				$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
@@ -288,17 +288,20 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Order $order Order object.
+	 * @param LLMS_Order $order  Order object.
+	 * @param int        $row_id Post ID of the row (transaction or order), used for a unique input ID.
 	 * @return string
 	 */
-	protected function get_checkbox_html( $order ) {
+	protected function get_checkbox_html( $order, $row_id ) {
 		$order_id = $order->get( 'id' );
+		$input_id = 'llms-select-' . absint( $row_id );
 		return sprintf(
-			'<input type="checkbox" name="order_ids[]" value="%1$d" form="%2$s" aria-label="%3$s">',
+			'<input id="%1$s" type="checkbox" name="order_ids[]" value="%2$d" form="%3$s"><label for="%1$s"><span class="screen-reader-text">%4$s</span></label>',
+			esc_attr( $input_id ),
 			$order_id,
 			esc_attr( self::BULK_FORM_ID ),
 			/* translators: %d: order ID */
-			esc_attr( sprintf( __( 'Select order #%d', 'lifterlms' ), $order_id ) )
+			esc_html( sprintf( __( 'Select order #%d', 'lifterlms' ), $order_id ) )
 		);
 	}
 
@@ -660,10 +663,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			?>
 		<form class="llms-table-bulk-actions" id="<?php echo esc_attr( self::BULK_FORM_ID ); ?>" method="post">
 			<?php wp_nonce_field( self::BULK_NONCE_ACTION ); ?>
-			<label class="llms-table-bulk-select-all">
-				<input class="llms-table-select-all" type="checkbox">
-				<?php esc_html_e( 'Select all', 'lifterlms' ); ?>
-			</label>
 			<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-bulk-action">
 				<?php esc_html_e( 'Select bulk action', 'lifterlms' ); ?>
 			</label>
@@ -671,7 +670,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<option value=""><?php esc_html_e( 'Bulk actions', 'lifterlms' ); ?></option>
 				<option value="trash"><?php esc_html_e( 'Move to Trash', 'lifterlms' ); ?></option>
 			</select>
-			<button class="button" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
+			<button class="button action" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
 		</form>
 			<?php
 		endif;
