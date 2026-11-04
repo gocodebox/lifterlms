@@ -201,7 +201,10 @@ trait LLMS_Trait_Due_Date {
 	}
 
 	/**
-	 * Retrieve the due date timestamp that applies to a student, including any override.
+	 * Retrieve the due date timestamp that applies to a student.
+	 *
+	 * In order of precedence: the student's due date for this item, the due date accommodation on
+	 * the student's profile, then the course due date.
 	 *
 	 * @since [version]
 	 *
@@ -215,7 +218,28 @@ trait LLMS_Trait_Due_Date {
 			return 'none' === $override['due'] ? false : strtotime( $override['due'] );
 		}
 
-		return $this->get_default_due_timestamp( $student_id );
+		$default       = $this->get_default_due_timestamp( $student_id );
+		$accommodation = $default ? $this->get_due_date_accommodation( $student_id ) : false;
+		if ( $accommodation ) {
+			return 'none' === $accommodation['type'] ? false : $default + ( $accommodation['days'] * DAY_IN_SECONDS );
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Retrieve the due date accommodation from the student's profile, if any.
+	 *
+	 * A per-student due date on the item takes precedence over the accommodation.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID.
+	 * @return array|false See {@see LLMS_Student::get_due_date_accommodation()}.
+	 */
+	public function get_due_date_accommodation( $student_id ) {
+		$student = $student_id ? llms_get_student( $student_id ) : false;
+		return $student ? $student->get_due_date_accommodation() : false;
 	}
 
 	/**

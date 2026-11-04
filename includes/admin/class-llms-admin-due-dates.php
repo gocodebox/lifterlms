@@ -151,7 +151,7 @@ class LLMS_Admin_Due_Dates {
 		<section class="llms-reporting-tab-main llms-due-dates-report">
 			<header>
 				<h3><?php esc_html_e( 'Due Dates', 'lifterlms' ); ?></h3>
-				<p class="description"><?php esc_html_e( 'Change a due date for this student only, for example for an accommodation or an extension. Late status is always calculated against the student\'s current due date.', 'lifterlms' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Change a due date for this student only, for example for an extension. Accommodations for every course are set on the student\'s WordPress profile. Late status is always calculated against the student\'s current due date.', 'lifterlms' ); ?></p>
 			</header>
 			<?php if ( $saved ) : ?>
 				<div class="notice notice-success inline"><p><?php esc_html_e( 'Due date updated.', 'lifterlms' ); ?></p></div>
@@ -189,6 +189,18 @@ class LLMS_Admin_Due_Dates {
 						<td><?php echo $default ? esc_html( date_i18n( $format, $default ) ) : '&ndash;'; ?></td>
 						<td>
 							<?php echo $due ? esc_html( date_i18n( $format, $due ) ) : esc_html__( 'No due date', 'lifterlms' ); ?>
+							<?php $accommodation = ! $override && $default ? $item->get_due_date_accommodation( $student->get_id() ) : false; ?>
+							<?php if ( $accommodation ) : ?>
+								<span class="llms-due-badge llms-due-badge--override"><?php esc_html_e( 'Accommodation', 'lifterlms' ); ?></span>
+								<br><small>
+								<?php
+								echo 'none' === $accommodation['type'] ?
+									esc_html__( 'No due dates (student profile)', 'lifterlms' ) :
+									// Translators: %d = Number of days.
+									esc_html( sprintf( _n( '+%d day (student profile)', '+%d days (student profile)', $accommodation['days'], 'lifterlms' ), $accommodation['days'] ) );
+								?>
+								</small>
+							<?php endif; ?>
 							<?php if ( $override ) : ?>
 								<span class="llms-due-badge llms-due-badge--override"><?php esc_html_e( 'Adjusted', 'lifterlms' ); ?></span>
 								<br><small>
