@@ -40,6 +40,7 @@ class LLMS_Emails {
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Added the `set_password` email.
 	 *
 	 * @return void
 	 */
@@ -54,6 +55,7 @@ class LLMS_Emails {
 		// Email child classes.
 		$this->emails['engagement']     = 'LLMS_Email_Engagement';
 		$this->emails['reset_password'] = 'LLMS_Email_Reset_Password';
+		$this->emails['set_password']   = 'LLMS_Email_Set_Password';
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
 	}
