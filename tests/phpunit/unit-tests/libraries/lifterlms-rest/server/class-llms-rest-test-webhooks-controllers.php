@@ -67,6 +67,11 @@ class LLMS_REST_Test_Webhooks_Controller extends LLMS_REST_Unit_Test_Case_Server
 		$this->endpoint = new LLMS_REST_Webhooks_Controller();
 		$this->user_forbidden = $this->factory->user->create( array( 'role' => 'instructor' ) );
 
+		// Add the mock "action.{hook}" topics used in these tests.
+		add_filter( 'llms_rest_webhook_topics', function( $topics ) {
+			return array_merge( $topics, array_fill_keys( array( 'action.mock', 'action.mock_hook', 'action.fake', 'action.new_action' ), 'Mock' ) );
+		} );
+
 	}
 
 	/**
@@ -112,6 +117,24 @@ class LLMS_REST_Test_Webhooks_Controller extends LLMS_REST_Unit_Test_Case_Server
 		wp_set_current_user( $this->user_allowed );
 		$res = $this->perform_mock_request( 'POST', $this->route, $this->get_hook_args( array(
 			'topic' => 'course.fake',
+		) ) );
+		$this->assertResponseStatusEquals( 400, $res );
+		$this->assertResponseCodeEquals( 'rest_invalid_param', $res );
+
+	}
+
+	/**
+	 * Error creating webhook for an action hook that is not allowed.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_create_item_disallowed_action_topic() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$res = $this->perform_mock_request( 'POST', $this->route, $this->get_hook_args( array(
+			'topic' => 'action.set_logged_in_cookie',
 		) ) );
 		$this->assertResponseStatusEquals( 400, $res );
 		$this->assertResponseCodeEquals( 'rest_invalid_param', $res );

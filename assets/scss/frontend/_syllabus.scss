@@ -7,16 +7,16 @@
 		margin: 40px 0 10px;
 
 		+ .llms-lesson-preview {
-			border-top: 1px solid $color-border;
+			border-top: llms-element-border();
 		}
 	}
 
 }
 
 .llms-lesson-preview {
-	border-right: 1px solid $color-border;
-	border-bottom: 1px solid $color-border;
-	border-left: 1px solid $color-border;
+	border-right: llms-element-border();
+	border-bottom: llms-element-border();
+	border-left: llms-element-border();
 	display: block;
 	margin: 0;
 	max-width: 100%;
@@ -40,7 +40,7 @@
 		transition: background-color 0.3s ease;
 
 		&:hover {
-			background: $el-background-hover;
+			background: llms-var( color-surface-hover );
 		}
 
 		&:visited {
@@ -131,7 +131,7 @@
 	&.is-free,
 	&.is-complete {
 		.llms-lesson-complete {
-			color: $color-brand-blue;
+			color: llms-var( color-primary );
 		}
 	}
 
@@ -142,9 +142,9 @@
 	}
 
 	.llms-icon-free {
-		background: $color-brand-blue;
-		border-radius: $radius-small;
-		color: $color-white;
+		background: llms-var( color-primary );
+		border-radius: llms-var( radius-sm );
+		color: llms-var( color-on-primary );
 		display: inline-block;
 		font-size: 14px;
 		font-weight: bold;
@@ -196,7 +196,7 @@
 	}
 
 	.llms-lesson-preview {
-		border: 1px solid $color-border;
+		border: llms-element-border();
 	}
 
 	.llms-lesson-link {

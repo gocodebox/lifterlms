@@ -176,6 +176,66 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that a logged-out visitor isn't authorized for protected media with no author.
+	 *
+	 * Media imported without an author (e.g. `wp media import` without `--user`) has a post_author of 0,
+	 * which matches the user ID of a logged-out visitor.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_logged_out_authorless_media() {
+
+		wp_set_current_user( 0 );
+
+		$attachment_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => 0,
+			)
+		);
+		update_post_meta( $attachment_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+
+		$this->assertSame( 0, intval( get_post_field( 'post_author', $attachment_id ) ) );
+		$this->assertFalse( ( new LLMS_Media_Protector() )->is_authorized_to_view( 0, $attachment_id ) );
+	}
+
+	/**
+	 * Test that an incomplete quiz attempt only authorizes media linked to that quiz.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_incomplete_quiz_attempt() {
+
+		$course  = llms_get_post( $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) ) );
+		$quiz_id = $course->get_quizzes()[0];
+
+		$student_id = $this->factory->student->create();
+		wp_set_current_user( $student_id );
+		LLMS_Quiz_Attempt::init( $quiz_id, llms_get_post( $quiz_id )->get( 'lesson_id' ), $student_id )->start();
+
+		$protector = new LLMS_Media_Protector();
+
+		// Media not linked to any quiz, uploaded by another user.
+		$media_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $this->factory->user->create(),
+			)
+		);
+		update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+		$this->assertFalse( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// The same media once linked to the quiz the student is taking.
+		update_post_meta( $media_id, '_llms_quiz_id', $quiz_id );
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+	}
+
+	/**
 	 * Create a protected attachment post with a real file in the uploads directory.
 	 *
 	 * @since 10.2.0
@@ -425,6 +485,38 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that authorize_media_image_src() returns false unchanged for an authorized, protected non-image attachment.
+	 *
+	 * Before the fix, writing `$image[0]` on `false` raised a PHP 8.1+ deprecation notice.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_authorize_media_image_src_non_image() {
+
+		$attachment_id = $this->create_protected_attachment();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$errors = array();
+		set_error_handler(
+			function ( $errno, $errstr ) use ( &$errors ) {
+				$errors[] = $errstr;
+				return true;
+			}
+		);
+
+		try {
+			$image = ( new LLMS_Media_Protector() )->authorize_media_image_src( false, $attachment_id, 'thumbnail', false );
+		} finally {
+			restore_error_handler();
+		}
+
+		$this->assertFalse( $image );
+		$this->assertSame( array(), $errors );
+	}
+
+	/**
 	 * Test that handle_upload() stores the supplied authorization hook name.
 	 *
 	 * @since 10.2.0
@@ -464,5 +556,51 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 
 		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
 		$this->assertSame( 'llms_test_authorize_media_view', $protector->get_authorization_filter_name( $media_id ) );
+	}
+
+	/**
+	 * Test that the upload folder protection files are written once the folder is created by the first protected upload.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_protection_files_written_after_first_upload() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		// Fresh site: the protected folder doesn't exist yet.
+		$protector   = new LLMS_Media_Protector( '', '/llms-test-' . uniqid() );
+		$upload_path = wp_get_upload_dir()['basedir'] . $protector->get_base_upload_path();
+		$htaccess    = $upload_path . '/.htaccess';
+		$this->assertDirectoryDoesNotExist( $upload_path );
+		delete_transient( 'lifterlms_check_media_protection_files' );
+
+		// Admin requests check at most once a day, even before the folder exists.
+		$protector->save_mod_rewrite_rules();
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+		$this->assertDirectoryDoesNotExist( $upload_path );
+
+		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
+		file_put_contents( $tmp, 'test' );
+		$_FILES['file'] = array(
+			'name'     => 'llms-media-protector-test.txt',
+			'tmp_name' => $tmp,
+			'type'     => 'text/plain',
+			'error'    => 0,
+			'size'     => filesize( $tmp ),
+		);
+		$media_id = $protector->handle_upload( 'file', 0, 'llms_test_authorize_media_view', array(), array( 'test_form' => false, 'action' => 'testing' ) );
+		unset( $_FILES['file'] );
+
+		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
+		$this->assertStringStartsWith( $upload_path . '/', get_attached_file( $media_id ) );
+		$this->assertFileExists( $htaccess );
+		$this->assertStringContainsString( 'deny from all', file_get_contents( $htaccess ) );
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+
+		$GLOBALS['wp_filesystem']->rmdir( $upload_path, true );
 	}
 }

@@ -196,6 +196,32 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Load a table handler the current user is allowed to query.
+	 *
+	 * Most tables require `view_lifterlms_reports`. A table can override
+	 * `user_can_access()` when it should follow a different capability, such as
+	 * the Orders screen.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param array $request Post data ($_REQUEST).
+	 * @return LLMS_Admin_Table|false
+	 */
+	protected static function get_authorized_admin_table( $request ) {
+
+		if ( empty( $request['handler'] ) ) {
+			return false;
+		}
+
+		$table = self::get_admin_table_instance( $request['handler'] );
+		if ( ! $table || ! $table->user_can_access() ) {
+			return false;
+		}
+
+		return $table;
+	}
+
+	/**
 	 * Queue a table export event
 	 *
 	 * @since 3.15.0
@@ -206,11 +232,7 @@ class LLMS_AJAX_Handler {
 	 * @return array|bool
 	 */
 	public static function export_admin_table( $request ) {
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			wp_die();
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			wp_die();
 		}
@@ -231,11 +253,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function get_admin_table_data( $request ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			return false;
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			return false;
 		}
@@ -707,6 +725,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
+	 * @since 11.0.0 End the attempt without recording the answer once the quiz time limit has passed.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -759,6 +778,11 @@ class LLMS_AJAX_Handler {
 				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
+		}
+
+		// Out of time: grade the answers recorded within the limit, as the quiz timer does.
+		if ( $attempt->has_time_limit_expired() ) {
+			return self::quiz_end( $request, $attempt );
 		}
 
 		// record the answer.

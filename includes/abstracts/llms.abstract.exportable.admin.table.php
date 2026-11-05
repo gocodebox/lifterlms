@@ -386,7 +386,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 					__METHOD__
 				)
 			),
-			'[version]'
+			'7.0.1'
 		);
 		return $this->id;
 	}

@@ -46,6 +46,7 @@
 		border-bottom: 1px solid #c3c4c7;
 		padding: 10px 12px;
 		text-align: center;
+		vertical-align: top;
 
 		&.expandable.closed {
 			display: none;
@@ -222,5 +223,21 @@
 .llms-gb-table-notifications {
 	th, td {
 		text-align: left;
+	}
+}
+
+// Orders & Transactions and Subscriptions tables: left-align text, right-align monetary columns.
+.llms-gb-table-orders_transactions,
+.llms-gb-table-subscriptions {
+	td,
+	th {
+		text-align: left;
+	}
+
+	td.amount,
+	th.amount,
+	td.revenue,
+	th.revenue {
+		text-align: right;
 	}
 }
