@@ -86,6 +86,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			'edit-account'      => 'lifterlms_myaccount_edit_account_endpoint',
 			'redeem-voucher'    => 'lifterlms_myaccount_redeem_vouchers_endpoint',
 			'orders'            => 'lifterlms_myaccount_orders_endpoint',
+			'subscriptions'     => 'lifterlms_myaccount_subscriptions_endpoint',
 		);
 
 		$non_latin = array(
@@ -99,6 +100,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 			'edit-account'      => 'חשבון-עריכה', // Hebrew.
 			'redeem-voucher'    => 'چھڑانا', // Urdu.
 			'orders'            => 'आदेश', // Hindi.
+			'subscriptions'     => 'συνδρομές', // Greek.
 		);
 
 		foreach ( LLMS_Student_Dashboard::get_tabs() as $id => $tab ) {

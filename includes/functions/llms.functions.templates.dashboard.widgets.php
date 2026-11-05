@@ -23,7 +23,13 @@ defined( 'ABSPATH' ) || exit;
 function llms_sd_dashboard_widget( $title, $content, $empty_text = '' ) {
 	?>
 	<div class="llms-sd-widget">
-		<h4 class="llms-sd-widget-title"><?php echo esc_html( $title ); ?></h4>
+		<?php
+		printf(
+			'<%1$s class="llms-sd-widget-title">%2$s</%1$s>',
+			tag_escape( llms_get_content_heading_tag( 'dashboard-widget' ) ),
+			esc_html( $title )
+		);
+		?>
 		<?php if ( $content ) : ?>
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped before being passed to dashboard widget.

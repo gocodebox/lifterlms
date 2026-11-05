@@ -118,6 +118,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
 	 *              Exit the loop as soon as we find our question.
 	 *              Use strict comparison for IDs.
+	 * @since 11.0.0 Don't record answers for question types that can't be answered, like content.
 	 *
 	 * @param int      $question_id WP_Post ID of the LLMS_Question.
 	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
@@ -133,7 +134,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				continue;
 			}
 
-			$question                     = llms_get_post( $question_id );
+			$question = llms_get_post( $question_id );
+			$type     = $question->get_question_type();
+			if ( $type && empty( $type['grading'] ) ) {
+				$answer = array();
+			}
+
 			$graded                       = $question->grade( $answer );
 			$questions[ $key ]['answer']  = $answer;
 			$questions[ $key ]['correct'] = $graded;
@@ -884,6 +890,47 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$current_date_obj = current_datetime();
 
 		return $current_date_obj > $start_date_obj->modify( sprintf( '+%d hours', intval( $resume_time_period ) ) );
+	}
+
+	/**
+	 * Determine if the quiz time limit for this attempt has passed.
+	 *
+	 * Always `false` for quizzes without a time limit and for students allowed unlimited quiz time.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return bool
+	 */
+	public function has_time_limit_expired() {
+
+		$quiz    = $this->get_quiz();
+		$student = $this->get_student();
+
+		if ( ! $quiz || ! $quiz->has_time_limit() || ! $this->get( 'start_date' ) || ( $student && $student->has_unlimited_quiz_time() ) ) {
+			return false;
+		}
+
+		$minutes = absint( $quiz->get( 'time_limit' ) );
+		if ( ! $minutes ) {
+			return false;
+		}
+
+		/**
+		 * Filters the seconds allowed past a quiz time limit before answers are rejected.
+		 *
+		 * Covers the delay between the browser timer running out and its request reaching the server.
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param int               $grace_period Grace period in seconds.
+		 * @param LLMS_Quiz_Attempt $attempt      Quiz attempt.
+		 */
+		$grace_period = absint( apply_filters( 'llms_quiz_attempt_time_limit_grace_period', 5, $this ) );
+
+		$deadline = new DateTime( $this->get( 'start_date' ), wp_timezone() );
+		$deadline->modify( sprintf( '+%d seconds', $minutes * MINUTE_IN_SECONDS + $grace_period ) );
+
+		return current_datetime() > $deadline;
 	}
 
 	/**

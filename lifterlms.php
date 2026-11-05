@@ -9,8 +9,8 @@
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
- * Description: Complete e-learning platform to sell online courses, protect lessons, offer memberships, and quiz students. WP Learning Management System.
- * Version: 10.3.2
+ * Description: Complete WordPress LMS (learning management system) to create, launch, and scale eLearning: sell online courses, memberships, quizzes, and training.
+ * Version: 11.0.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms

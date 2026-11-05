@@ -96,6 +96,29 @@
 			text-decoration: none;
 		}
 
+		.llms-addon-update-available {
+			background: #f0f6fc;
+			border-radius: 8px;
+			color: llms-color( llms-blue );
+			display: block;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 1.4;
+			margin: 0 20px 4px;
+			padding: 8px 12px;
+			text-decoration: none;
+
+			.fa {
+				margin-right: 4px;
+			}
+
+			&:hover,
+			&:focus {
+				background: #e5f0fa;
+				color: llms-color( llms-blue );
+			}
+		}
+
 		header {
 			margin-bottom: 0;
 			h4 {
