@@ -123,6 +123,9 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		if ( ! $wp_filesystem->is_dir( dirname( $new_file ) ) ) {
 			wp_mkdir_p( dirname( $new_file ) );
 		}
+		// Write the protection files before the file is moved in: this may be the move that creates the folder.
+		$protector->protect_upload_folder();
+
 		if ( $wp_filesystem->move( $file, $new_file ) ) {
 			// Move thumbnails if they exist.
 			if ( ! empty( $metadata['sizes'] ) ) {
