@@ -48,4 +48,21 @@
 	.llms-table-search {
 		order: 2;
 	}
+
+	// Bulk actions get their own row directly above the table, aligned left like the post type list table.
+	.llms-table-bulk-actions {
+		align-items: center;
+		display: flex;
+		flex-basis: 100%;
+		gap: 8px;
+		order: 3;
+	}
+
+	.llms-table-trash-link {
+		margin-left: auto;
+
+		.count {
+			color: #50575e;
+		}
+	}
 }

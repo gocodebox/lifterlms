@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v11.0.1 - 2026-11-04
+--------------------
+
+##### Bug Fixes
+
++ Adding missing ActionScheduler file. [#3444](https://github.com/gocodebox/lifterlms/issues/3444)
+
+
 v11.0.0 - 2026-11-03
 --------------------
 

@@ -117,11 +117,12 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/daniel-shuy"><img src="https://avatars.githubusercontent.com/u/17351764?v=4" title="daniel-shuy" width="80" height="80"></a>
 <a href="https://github.com/andreasblumberg"><img src="https://avatars.githubusercontent.com/u/1697968?v=4" title="andreasblumberg" width="80" height="80"></a>
+<a href="https://github.com/faisalahammad"><img src="https://avatars.githubusercontent.com/u/13257516?v=4" title="faisalahammad" width="80" height="80"></a>
 <a href="https://github.com/imknight"><img src="https://avatars.githubusercontent.com/u/77604?v=4" title="imknight" width="80" height="80"></a>
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
-<a href="https://github.com/faisalahammad"><img src="https://avatars.githubusercontent.com/u/13257516?v=4" title="faisalahammad" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
 <a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
+<a href="https://github.com/ampagent"><img src="https://avatars.githubusercontent.com/u/289058786?v=4" title="ampagent" width="80" height="80"></a>
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
 <a href="https://github.com/actual-saurabh"><img src="https://avatars.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
 <a href="https://github.com/nikolapasic"><img src="https://avatars.githubusercontent.com/u/10199798?v=4" title="nikolapasic" width="80" height="80"></a>
@@ -144,6 +145,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/flintfromthebasement"><img src="https://avatars.githubusercontent.com/u/267404437?v=4" title="flintfromthebasement" width="80" height="80"></a>
 <a href="https://github.com/bsetiawan88"><img src="https://avatars.githubusercontent.com/u/5827051?v=4" title="bsetiawan88" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
+<a href="https://github.com/alexjpanagis"><img src="https://avatars.githubusercontent.com/u/32090467?v=4" title="alexjpanagis" width="80" height="80"></a>
 <a href="https://github.com/sujaypawar"><img src="https://avatars.githubusercontent.com/u/2222249?v=4" title="sujaypawar" width="80" height="80"></a>
 <a href="https://github.com/AlexVCS"><img src="https://avatars.githubusercontent.com/u/49458917?v=4" title="AlexVCS" width="80" height="80"></a>
 <a href="https://github.com/dotance"><img src="https://avatars.githubusercontent.com/u/38263904?v=4" title="dotance" width="80" height="80"></a>
@@ -161,7 +163,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/cadengrey"><img src="https://avatars.githubusercontent.com/u/30481164?v=4" title="cadengrey" width="80" height="80"></a>
 <a href="https://github.com/andrewvaughan"><img src="https://avatars.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
 <a href="https://github.com/andrewlimaza"><img src="https://avatars.githubusercontent.com/u/12629136?v=4" title="andrewlimaza" width="80" height="80"></a>
-<a href="https://github.com/alexjpanagis"><img src="https://avatars.githubusercontent.com/u/32090467?v=4" title="alexjpanagis" width="80" height="80"></a>
 
 [//]: contributor-faces
 

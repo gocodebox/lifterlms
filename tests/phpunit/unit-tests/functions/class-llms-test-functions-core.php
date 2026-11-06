@@ -237,6 +237,22 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Normalize HTML output that differs between libxml2 versions.
+	 *
+	 * libxml2 < 2.14 wraps bare body text in an implied `<p>` element and encodes non-ASCII characters
+	 * as entities, while newer versions don't add the `<p>` and may output the characters as UTF-8.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $html HTML string.
+	 * @return string
+	 */
+	private function normalize_dom_html( $html ) {
+		$html = preg_replace( '#<body><p>(.*)</p></body>#s', '<body>$1</body>', $html );
+		return html_entity_decode( $html, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
+	/**
 	 * Test llms_get_dom_document()
 	 *
 	 * @since 4.7.0
@@ -253,12 +269,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		 *
 		 * First value is the input string & the second value is the expected output string.
 		 *
+		 * Output is compared with `normalize_dom_html()` so the test passes with any libxml2 version.
+		 *
 		 * @var array[]
 		 */
 		$tests = array(
 			array(
 				'simple text string',
-				'<p>simple text string</p>',
+				'simple text string',
 			),
 			array(
 				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
@@ -266,11 +284,11 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			),
 			array(
 				'Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.',
-				'<p>&#7734;&#120644;&#120111;&#120462;&#625; &#301;&#120057;&#7540;&#472;&#625; &#1386;&#1257;&#7739;&#120648;&#589; &#120320;&#120258;&#7451;.</p>',
+				'&#7734;&#120644;&#120111;&#120462;&#625; &#301;&#120057;&#7540;&#472;&#625; &#1386;&#1257;&#7739;&#120648;&#589; &#120320;&#120258;&#7451;.',
 			),
 			array(
 				'Contains &mdash; Char Codes and special – !',
-				'<p>Contains &mdash; Char Codes and special &ndash; !</p>',
+				'Contains &mdash; Char Codes and special &ndash; !',
 			),
 			array(
 				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>And &gt;>&gt; a <b>full</b> HTML docum𝞔nt!</body></html>',
@@ -283,7 +301,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 			$dom = llms_get_dom_document( $test[0] );
 			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
-			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+			$this->assertStringContainsString( $this->normalize_dom_html( sprintf( '<body>%s</body></html>', $test[1] ) ), $this->normalize_dom_html( $dom->saveHTML() ) );
 
 		}
 
@@ -294,7 +312,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 			$dom = llms_get_dom_document( $test[0] );
 			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
-			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+			$this->assertStringContainsString( $this->normalize_dom_html( sprintf( '<body>%s</body></html>', $test[1] ) ), $this->normalize_dom_html( $dom->saveHTML() ) );
 
 		}
 
