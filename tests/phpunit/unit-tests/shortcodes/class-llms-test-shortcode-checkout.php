@@ -244,6 +244,32 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	}
 
 	/**
+	 * Test the checkout form is not displayed for an access plan whose product is not published.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_unpublished_product() {
+
+		$plan = $this->get_mock_plan( 0, 0 );
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'draft' ) );
+
+		$this->mockGetRequest( array( 'plan' => $plan->get( 'id' ) ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString( 'Invalid access plan.', $output );
+		$this->assertStringNotContainsString( 'llms-product-purchase-form', $output );
+
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'publish' ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringNotContainsString( 'Invalid access plan.', $output );
+		$this->assertStringContainsString( 'llms-product-purchase-form', $output );
+
+	}
+
+	/**
 	 * Test checkout wrapper on confirm payment when no order is supplied.
 	 *
 	 * @since 7.0.0

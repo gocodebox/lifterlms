@@ -193,6 +193,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
 	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
+	 * @since [version] Require a published product.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -251,8 +252,8 @@ class LLMS_Shortcode_Checkout {
 
 			$plan_id = llms_filter_input( INPUT_GET, 'plan', FILTER_SANITIZE_NUMBER_INT );
 
-			// Only retrieve if plan is a llms_access_plan and is published.
-			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
+			// Only retrieve if plan is a published llms_access_plan for a published product.
+			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) && 'publish' === get_post_status( get_post_meta( $plan_id, '_llms_product_id', true ) ) ) {
 
 				$coupon = llms()->session->get( 'llms_coupon' );
 

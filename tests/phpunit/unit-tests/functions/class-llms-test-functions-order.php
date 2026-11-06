@@ -372,6 +372,35 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Access plans for an unpublished product cannot be purchased.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_check_access_plan_purchasable_requires_published_product() {
+
+		foreach ( array( 0, 249 ) as $price ) {
+
+			$plan       = $this->get_mock_plan( $price, 0 );
+			$product_id = $plan->get( 'product_id' );
+			$this->assertTrue( llms_check_access_plan_purchasable( $plan ) );
+
+			foreach ( array( 'draft', 'pending', 'private', 'trash' ) as $status ) {
+				wp_update_post( array( 'ID' => $product_id, 'post_status' => $status ) );
+				clean_post_cache( $product_id );
+				$this->assertSame( $status, get_post_status( $product_id ) );
+				$this->assertWPErrorCodeEquals( 'product-not-purchasable', llms_check_access_plan_purchasable( $plan ) );
+			}
+
+			wp_update_post( array( 'ID' => $product_id, 'post_status' => 'publish' ) );
+			$this->assertTrue( llms_check_access_plan_purchasable( $plan ) );
+
+		}
+
+	}
+
+	/**
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0
