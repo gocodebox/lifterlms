@@ -1,0 +1,3 @@
+significance: minor
+type: security
+entry: Additional checks on REST API content restriction.

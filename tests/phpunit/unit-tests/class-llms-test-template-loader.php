@@ -88,21 +88,84 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_restrict_post_content(): for a skipped post type.
+	 * Test maybe_restrict_post_content(): LifterLMS post types are not skipped outside LifterLMS REST API requests
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_post_content_llms_post_type_restricted_outside_llms_rest() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp_query, $post;
+
+		$post = $this->get_post_for_restrictions( 'course' );
+
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_post_content(): for a skipped post type on a LifterLMS REST API request.
 	 *
 	 * @since 3.41.1
+	 * @since [version] Skipped post types are only skipped on LifterLMS REST API requests.
 	 *
 	 * @return void
 	 */
 	public function test_maybe_restrict_post_content_skipped_post_type() {
 
-		global $wp_query;
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp, $wp_query, $post;
+
+		$wp->query_vars['rest_route'] = '/llms/v1/courses/987';
 
 		$post = $this->get_post_for_restrictions( 'course' );
 
 		$this->main->maybe_restrict_post_content( $post, $wp_query );
 
 		$this->assertContentEquals( $post );
+
+		unset( $wp->query_vars['rest_route'] );
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_post_content(): users who can edit the post get its real content.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_post_content_user_can_edit_post() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp_query, $post;
+
+		$post = $this->get_post_for_restrictions( 'lesson' );
+
+		// Another user can't edit the lesson: restricted.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		// The lesson's author can edit it: not restricted.
+		$post = $this->get_post_for_restrictions( 'lesson' );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+		wp_update_post( array( 'ID' => $post->ID, 'post_author' => get_current_user_id() ) );
+		$post = get_post( $post->ID );
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+		$this->assertContentEquals( $post );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
 
 	}
 

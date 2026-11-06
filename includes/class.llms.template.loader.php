@@ -702,6 +702,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
+	 * @since [version] Apply content restriction to LifterLMS post types on non-LifterLMS REST routes and skip it for users who can edit the post.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
@@ -709,7 +710,13 @@ class LLMS_Template_Loader {
 	 */
 	public function maybe_restrict_post_content( $post, $query ) {
 
-		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) ) {
+		// Users who can edit the post must get its real content, otherwise saving it from the editor would overwrite it with the restriction message.
+		if ( current_user_can( 'edit_post', $post->ID ) ) {
+			return;
+		}
+
+		// LifterLMS post types are restricted by the LifterLMS REST API on its own routes.
+		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) && $this->is_llms_rest_request() ) {
 			return;
 		}
 
@@ -757,6 +764,23 @@ class LLMS_Template_Loader {
 				'llms_my_certificate',
 			)
 		);
+	}
+
+	/**
+	 * Determine if the current request is served by the LifterLMS REST API.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	private function is_llms_rest_request() {
+
+		global $wp;
+
+		// The REST route is parsed into the main `WP` object, as read by `rest_api_loaded()`.
+		$route = ! empty( $wp->query_vars['rest_route'] ) ? $wp->query_vars['rest_route'] : '';
+
+		return ! empty( $route ) && 0 === strpos( $route, '/llms' );
 	}
 
 	/**
