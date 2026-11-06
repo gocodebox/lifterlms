@@ -153,6 +153,7 @@ class LLMS_Elementor_Migrate {
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
 	 * @since 7.7.0
+	 * @since [version] Only run for posts the current user can edit.
 	 *
 	 * @return  void
 	 */
@@ -164,12 +165,14 @@ class LLMS_Elementor_Migrate {
 			return;
 		}
 
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		// Only migrate posts the current user can edit.
+		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
-		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		$post    = $post_id ? get_post( $post_id ) : false;
+		$post = get_post( $post_id );
 
 		if ( ! $post || ! isset( $_REQUEST['action'] ) || 'elementor' !== $_REQUEST['action'] || ! $this->should_migrate_post( $post_id ) || 'course' !== get_post_type( $post_id ) ) {
 			return;

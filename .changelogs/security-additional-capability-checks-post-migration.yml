@@ -1,0 +1,3 @@
+significance: minor
+type: security
+entry: Additional capability checks when migrating posts to page builders.
