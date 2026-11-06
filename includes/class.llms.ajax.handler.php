@@ -1303,6 +1303,7 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
+	 * @since [version] Require `manage_lifterlms` capability.
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true
@@ -1314,7 +1315,7 @@ class LLMS_AJAX_Handler {
 			wp_die();
 		}
 
-		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
 			wp_die();
 		}
 
