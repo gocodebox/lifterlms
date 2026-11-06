@@ -295,6 +295,29 @@ class LLMS_Controller_Checkout {
 
 		$this->start_ajax( 'create_pending_order' );
 
+		// This runs before the session is initialized on `init`, validation callbacks need it to add notices.
+		llms()->init_session();
+
+		/** This filter is documented in includes/controllers/class-llms-controller-checkout.php */
+		if ( apply_filters( 'llms_before_checkout_validation', false ) ) {
+
+			// Move the error notices added by validation callbacks into the JSON response.
+			$notices = llms()->session->get( 'llms_notices', array() );
+			$errors  = $notices['error'] ?? array();
+			unset( $notices['error'] );
+			llms()->session->set( 'llms_notices', $notices );
+
+			if ( ! $errors ) {
+				$errors[] = __( 'There was an error creating your order, please try again.', 'lifterlms' );
+			}
+
+			$error = new WP_Error();
+			foreach ( $errors as $message ) {
+				$error->add( 'llms-checkout-validation', $message );
+			}
+			$this->send_json( $error );
+		}
+
 		// Generate the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$order     = $generator->generate( $generator::UA_VALIDATE );

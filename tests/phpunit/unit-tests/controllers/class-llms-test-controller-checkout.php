@@ -772,6 +772,66 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_pending_order_ajax() stops checkout when a `llms_before_checkout_validation` callback fails.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_ajax_before_checkout_validation() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		$orders = wp_count_posts( 'llms_order' );
+
+		$cases = array(
+			'captcha' => array(
+				'setup'   => function () {
+					update_option( 'lifterlms_captcha', 'recaptcha' );
+				},
+				'message' => 'CAPTCHA token missing, please refresh and try again.',
+			),
+			'spammer' => array(
+				'setup'   => function () {
+					add_filter( 'llms_is_spammer', '__return_true' );
+				},
+				'message' => 'Suspicious activity detected. Try again in a few minutes.',
+			),
+		);
+
+		foreach ( $cases as $name => $case ) {
+
+			$case['setup']();
+
+			$this->mockPostRequest(
+				array_merge(
+					$this->get_mock_checkout_data_array(),
+					array(
+						$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+						'action'                 => $this->main::ACTION_CREATE_PENDING_ORDER,
+						'llms_payment_gateway'   => 'manual',
+					),
+				)
+			);
+
+			try {
+				ob_start();
+				$this->main->create_pending_order_ajax();
+			} catch ( WPDieException $e ) {}
+
+			$res = json_decode( ob_get_clean(), true );
+			$this->assertSame( array( $case['message'] ), $res['errors']['llms-checkout-validation'], $name );
+			$this->assertSame( 0, llms_notice_count( 'error' ), $name );
+
+			update_option( 'lifterlms_captcha', '' );
+			remove_filter( 'llms_is_spammer', '__return_true' );
+		}
+
+		$this->assertEquals( $orders, wp_count_posts( 'llms_order' ) );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+	}
+
+	/**
 	 * Test create_pending_order_ajax() when an order validation error is encountered.
 	 *
 	 * @since 7.0.0
