@@ -1,0 +1,79 @@
+###
+#
+# This workflow file is deployed into this repository via the "Sync Organization Files" workflow.
+#
+# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
+# to the source file.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Workflow source {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflows/dependabot-dedupe.yml}
+#
+# Dedupe Dependabot Group PRs
+#
+# When a push lands while several security alerts are open and no group PR exists, Dependabot starts one
+# security job per alert at the same time. None of them sees the others' PRs, so each opens its own PR for
+# the same group (e.g. two "Bump the npm group ..." PRs).
+#
+# When Dependabot opens a group PR, this workflow finds every open Dependabot PR for the same group and
+# directory, keeps the one with the most updates (the oldest on a tie), and closes the rest with a comment
+# that links to the kept PR.
+#
+###
+name: Dedupe Dependabot Group PRs
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+
+permissions:
+  pull-requests: write
+
+# Serialize runs so that two PRs opened together are compared against each other once.
+concurrency:
+  group: dependabot-dedupe
+  cancel-in-progress: false
+
+jobs:
+
+  dedupe:
+    name: Close Duplicate Group PRs
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+    steps:
+      - name: Close duplicates
+        run: |
+          # Group PR branches are "dependabot/<ecosystem>/[<directory>/]<group>-<10 char hash>".
+          key="$( sed -E 's/-[0-9a-f]{10}$//' <<< "$HEAD_REF" )"
+
+          prs="$( gh pr list --author 'app/dependabot' --state open --limit 100 \
+            --json number,title,headRefName \
+            | jq --arg key "$key" '
+              map( select(
+                ( .headRefName | sub( "-[0-9a-f]{10}$"; "" ) ) == $key
+                and ( .title | test( " the \\S+ group " ) )
+              ) )
+              | map( . + { updates: ( ( .title | capture( "with (?<n>[0-9]+) updates?" ).n ) // "1" | tonumber ) } )
+              | sort_by( -.updates, .number )
+            ' )"
+
+          echo "Open Dependabot PRs for ${key}:"
+          jq -r '.[] | "  #\(.number) (\(.updates) updates) \(.title)"' <<< "$prs"
+
+          if [ "$( jq 'length' <<< "$prs" )" -lt 2 ]; then
+            echo "No duplicates."
+            exit 0
+          fi
+
+          keep="$( jq '.[0].number' <<< "$prs" )"
+          echo "Keeping #${keep}."
+
+          for pr in $( jq '.[1:][].number' <<< "$prs" ); do
+            echo "Closing #${pr}."
+            gh pr close "$pr" --comment "Closing as a duplicate of #${keep}, which Dependabot opened for the same group with at least as many updates. Dependabot opened both because it ran separate security jobs at the same time."
+          done
