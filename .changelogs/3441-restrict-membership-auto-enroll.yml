@@ -1,0 +1,5 @@
+significance: minor
+type: changed
+links:
+  - "#3441"
+entry: Restrict membership auto-enroll course editing to administrators and LMS managers.
