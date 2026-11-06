@@ -233,4 +233,52 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 		);
 		$this->assertEquals( 0, count( $response->get_data() ) );
 	}
+
+	/**
+	 * Test users who cannot view others' reports only get grades for courses they can edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_items_scoped_for_instructors() {
+
+		$instructor = $this->factory->instructor->create();
+
+		$own_course   = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$other_course = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		llms_get_post( $own_course )->instructors()->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		llms_enroll_student( $this->user_student, $own_course );
+		llms_enroll_student( $this->user_student, $other_course );
+
+		wp_set_current_user( $instructor );
+
+		// Only the instructor's course is listed, and totals match.
+		$response = $this->perform_mock_request( 'GET', $this->get_route() );
+		$this->assertResponseStatusEquals( 200, $response );
+		$this->assertEquals( array( $own_course ), wp_list_pluck( $response->get_data(), 'post_id' ) );
+		$this->assertEquals( 1, $response->get_headers()['X-WP-Total'] );
+		$this->assertEquals( 1, $response->get_headers()['X-WP-TotalPages'] );
+
+		// Requesting the other course directly returns nothing.
+		$response = $this->perform_mock_request(
+			'GET',
+			$this->get_route(),
+			array(),
+			array(
+				'course' => $own_course . ',' . $other_course,
+			)
+		);
+		$this->assertEquals( array( $own_course ), wp_list_pluck( $response->get_data(), 'post_id' ) );
+		$this->assertEquals( 1, $response->get_headers()['X-WP-Total'] );
+
+		// Users who can view others' reports and the student still get every course.
+		foreach ( array( $this->user_allowed, $this->user_student ) as $user ) {
+			wp_set_current_user( $user );
+			$response = $this->perform_mock_request( 'GET', $this->get_route() );
+			$this->assertEqualSets( array( $own_course, $other_course ), wp_list_pluck( $response->get_data(), 'post_id' ) );
+			$this->assertEquals( 2, $response->get_headers()['X-WP-Total'] );
+		}
+	}
 }
