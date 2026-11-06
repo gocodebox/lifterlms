@@ -26,6 +26,16 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Remove mocked constants after each test.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		llms_tests_reset_constants();
+		parent::tear_down();
+	}
+
+	/**
 	 * Removes actions added by the `init()` method (so that we can test the `init()` method)
 	 *
 	 * @since 4.13.0
@@ -63,16 +73,13 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.13.0
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_init_with_constant() {
 
 		$this->remove_init_actions();
 
-		define( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
+		llms_tests_set_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
 
 		LLMS_Staging::init();
 
@@ -95,6 +102,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 */
 	public function test_init_clone_site_feature_cascade() {
 
+		// init() defines a real constant here, so this test can't use a mock and must stay isolated.
 		define( 'LLMS_SITE_IS_CLONE', true );
 
 		LLMS_Staging::init();

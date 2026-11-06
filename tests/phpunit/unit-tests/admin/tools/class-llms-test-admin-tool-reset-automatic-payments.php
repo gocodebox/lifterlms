@@ -64,7 +64,7 @@ class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_Admin_Tool_Test
 	 * @return void
 	 */
 	public function test_should_load() {
-		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
 	}
 
 	/**
@@ -72,14 +72,11 @@ class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_Admin_Tool_Test
 	 *
 	 * @since 4.13.0
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_should_load_with_site_clone_constant_set() {
-		define( 'LLMS_SITE_IS_CLONE', false );
-		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+		llms_tests_set_constant( 'LLMS_SITE_IS_CLONE', false );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
 	}
 
 	/**
@@ -87,14 +84,11 @@ class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_Admin_Tool_Test
 	 *
 	 * @since 4.13.0
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_should_load_with_recurring_payments_constant_set() {
-		define( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
-		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+		llms_tests_set_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
 	}
 
 }

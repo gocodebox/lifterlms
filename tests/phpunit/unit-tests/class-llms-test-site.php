@@ -109,9 +109,6 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 * @since 3.8.0
 	 * @since 4.12.0 Test against feature constants.
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_get_set_features() {
@@ -135,7 +132,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 		$this->assertFalse( LLMS_Site::get_feature( 'recurring_payments' ) );
 
 		// Constant is set.
-		llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
+		llms_tests_set_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
 		$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
 
 	}
@@ -174,9 +171,6 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 *
 	 * @since 10.3.0
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_get_feature_constant_overrides_clone() {
@@ -189,7 +183,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 			update_option( 'siteurl', 'http://fakeurl.tld' );
 			$this->assertTrue( LLMS_Site::is_clone() );
 
-			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
+			llms_tests_set_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
 			$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
 		} finally {
 			update_option( 'siteurl', $original_siteurl );
@@ -232,9 +226,6 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.13.0
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
 	public function test_is_clone_constant_true() {
@@ -242,7 +233,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 		// Not a clone.
 		$this->assertFalse( LLMS_Site::is_clone() );
 
-		define( 'LLMS_SITE_IS_CLONE', true );
+		llms_tests_set_constant( 'LLMS_SITE_IS_CLONE', true );
 		$this->assertTrue( LLMS_Site::is_clone() );
 
 	}
@@ -251,9 +242,6 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 * Test is_clone() when using a constant set to `false`.
 	 *
 	 * @since 4.13.0
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 *
 	 * @return void
 	 */
@@ -265,7 +253,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 		update_option( 'siteurl', 'http://fakeurl.tld' );
 		$this->assertTrue( LLMS_Site::is_clone() );
 
-		define( 'LLMS_SITE_IS_CLONE', false );
+		llms_tests_set_constant( 'LLMS_SITE_IS_CLONE', false );
 		$this->assertFalse( LLMS_Site::is_clone() );
 
 		update_option( 'siteurl', $original );

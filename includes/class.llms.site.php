@@ -174,8 +174,8 @@ class LLMS_Site {
 	protected static function get_feature_constant( $feature ) {
 
 		$constant = sprintf( 'LLMS_SITE_FEATURE_%s', strtoupper( $feature ) );
-		if ( defined( $constant ) ) {
-			return constant( $constant );
+		if ( llms_defined( $constant ) ) {
+			return llms_constant( $constant );
 		}
 
 		return null;
@@ -239,7 +239,7 @@ class LLMS_Site {
 	 */
 	public static function is_clone() {
 
-		$is_clone = defined( 'LLMS_SITE_IS_CLONE' ) ? LLMS_SITE_IS_CLONE : ( get_site_url() !== self::get_url() );
+		$is_clone = llms_defined( 'LLMS_SITE_IS_CLONE' ) ? llms_constant( 'LLMS_SITE_IS_CLONE' ) : ( get_site_url() !== self::get_url() );
 
 		/**
 		 * Filters whether or not the site is a "cloned" site

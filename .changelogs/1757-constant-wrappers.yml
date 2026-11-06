@@ -1,0 +1,5 @@
+significance: patch
+type: dev
+links:
+  - "#1757"
+entry: Added pluggable `llms_constant()` and `llms_defined()` wrappers so tests can mock constants without running in a separate PHP process.

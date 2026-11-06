@@ -13,6 +13,24 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! function_exists( 'llms_constant' ) ) {
+	/**
+	 * Native php constant() wrapper
+	 *
+	 * This wrapper exists primarily to allow mocking the value of a constant when running phpunit tests.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://www.php.net/manual/en/function.constant.php
+	 *
+	 * @param string $name Constant name.
+	 * @return mixed Constant value.
+	 */
+	function llms_constant( $name ) {
+		return constant( $name );
+	}
+}
+
 if ( ! function_exists( 'llms_current_time' ) ) {
 	/**
 	 * Retrieve the current time based on specified type.
@@ -39,6 +57,24 @@ if ( ! function_exists( 'llms_current_time' ) ) {
 	 */
 	function llms_current_time( $type, $gmt = 0 ) {
 		return current_time( $type, $gmt );
+	}
+}
+
+if ( ! function_exists( 'llms_defined' ) ) {
+	/**
+	 * Native php defined() wrapper
+	 *
+	 * This wrapper exists primarily to allow mocking the existence of a constant when running phpunit tests.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://www.php.net/manual/en/function.defined.php
+	 *
+	 * @param string $name Constant name.
+	 * @return bool Returns `true` if the constant is defined and `false` otherwise.
+	 */
+	function llms_defined( $name ) {
+		return defined( $name );
 	}
 }
 

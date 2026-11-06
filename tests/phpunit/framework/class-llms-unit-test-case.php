@@ -42,6 +42,19 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Teardown tests
+	 * Automatically called after each test
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		llms_tests_reset_constants();
+		parent::tear_down();
+	}
+
+	/**
 	 * Loads a payment gateway class.
 	 *
 	 * @since 7.0.0

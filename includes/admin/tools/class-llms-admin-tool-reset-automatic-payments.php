@@ -102,7 +102,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 */
 	protected function should_load() {
 
-		return ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) && ! defined( 'LLMS_SITE_IS_CLONE' );
+		return ! llms_defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) && ! llms_defined( 'LLMS_SITE_IS_CLONE' );
 
 	}
 
