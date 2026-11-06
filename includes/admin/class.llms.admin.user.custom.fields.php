@@ -343,9 +343,17 @@ class LLMS_Admin_User_Custom_Fields {
 		// Save instructor assistant's parent instructor.
 		if ( in_array( 'instructors_assistant', $user->roles, true ) && ! empty( $_POST['llms_parent_instructors'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
 
-			$instructor = llms_get_instructor( $user );
-			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
+			$parent_ids = array_map( 'absint', (array) llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
 
+			// Only admins & LMS managers choose the parent; instructors can only add themselves to an assistant they create.
+			if ( ! current_user_can( 'manage_lifterlms' ) ) {
+				$parent_ids = 'create' === $action ? array_intersect( $parent_ids, array( get_current_user_id() ) ) : array();
+			}
+
+			if ( $parent_ids ) {
+				$instructor = llms_get_instructor( $user );
+				$instructor->add_parent( $parent_ids );
+			}
 		}
 
 		// Save personal options.
