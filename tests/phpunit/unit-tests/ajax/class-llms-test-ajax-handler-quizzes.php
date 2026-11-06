@@ -303,6 +303,85 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that a student cannot start a quiz when its lesson is restricted by the course time period, drip, or a prerequisite.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_quiz_start_restricted_lesson() {
+
+		wp_set_current_user( $this->student->get( 'id' ) );
+
+		$start = function () {
+			return LLMS_AJAX_Handler::quiz_start(
+				array(
+					'quiz_id'   => $this->quiz->get( 'id' ),
+					'lesson_id' => $this->lesson->get( 'id' ),
+				)
+			);
+		};
+
+		// Course closed.
+		$this->course->set( 'time_period', 'yes' );
+		$this->course->set( 'start_date', date( 'm/d/Y', strtotime( '-7 days' ) ) );
+		$this->course->set( 'end_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$this->assertWPErrorCodeEquals( 403, $start() );
+		$this->course->set( 'time_period', 'no' );
+
+		// Lesson dripped to a future date.
+		$this->lesson->set( 'drip_method', 'date' );
+		$this->lesson->set( 'date_available', date( 'm/d/Y', strtotime( '+1 day' ) ) );
+		$this->assertWPErrorCodeEquals( 403, $start() );
+		$this->lesson->set( 'drip_method', '' );
+
+		// Lesson prerequisite not complete.
+		$prereq_course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$prereq_id     = $prereq_course->get_lessons()[0]->get( 'id' );
+		llms_enroll_student( $this->student->get( 'id' ), $prereq_course->get( 'id' ) );
+		$this->lesson->set( 'has_prerequisite', 'yes' );
+		$this->lesson->set( 'prerequisite', $prereq_id );
+		$this->assertWPErrorCodeEquals( 403, $start() );
+
+		// Allowed once the prerequisite is complete.
+		llms_mark_complete( $this->student->get( 'id' ), $prereq_id, 'lesson' );
+		$this->assertArrayHasKey( 'attempt_key', $start() );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
+	 * Test that a student cannot finish a quiz attempt after its lesson becomes restricted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_quiz_end_restricted_lesson() {
+
+		wp_set_current_user( $this->student->get( 'id' ) );
+
+		$start = LLMS_AJAX_Handler::quiz_start(
+			array(
+				'quiz_id'   => $this->quiz->get( 'id' ),
+				'lesson_id' => $this->lesson->get( 'id' ),
+			)
+		);
+		$this->assertArrayHasKey( 'attempt_key', $start );
+
+		$this->lesson->set( 'drip_method', 'date' );
+		$this->lesson->set( 'date_available', date( 'm/d/Y', strtotime( '+1 day' ) ) );
+
+		$res = LLMS_AJAX_Handler::quiz_end( array( 'attempt_key' => $start['attempt_key'] ) );
+		$this->assertWPErrorCodeEquals( 403, $res );
+		$this->assertFalse( llms_is_complete( $this->student->get( 'id' ), $this->lesson->get( 'id' ), 'lesson' ) );
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test that a student unenrolled mid-session cannot retrieve quiz questions.
 	 *
 	 * @since 10.0.2

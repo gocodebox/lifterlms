@@ -421,8 +421,11 @@ class LLMS_AJAX_Handler {
 	 * Users with the `manage_lifterlms` capability bypass enrollment checks.
 	 * When a quiz_id is provided, also validates that the lesson actually owns
 	 * that quiz to prevent authorization bypass via user-controlled keys.
+	 * The lesson must also be available to the student: the course must be open and
+	 * the lesson must not be restricted by drip settings or prerequisites.
 	 *
 	 * @since 10.0.2
+	 * @since [version] Check the course time period and the lesson's drip and prerequisite restrictions.
 	 *
 	 * @param LLMS_Student $student   Student object.
 	 * @param int          $lesson_id WP Post ID of the lesson.
@@ -452,6 +455,26 @@ class LLMS_AJAX_Handler {
 
 		if ( ! $student->is_enrolled( $course->get( 'id' ) ) ) {
 			return new WP_Error( 403, __( 'You must be enrolled in this course to take this quiz.', 'lifterlms' ) );
+		}
+
+		// Apply the same course time period, drip, and prerequisite restrictions as the quiz page.
+		$lesson_id   = $lesson->get( 'id' );
+		$user_id     = $student->get( 'id' );
+		$restriction = array( 'content_id' => $lesson_id );
+		$prereq      = llms_is_post_restricted_by_prerequisite( $lesson_id, $user_id );
+		if ( llms_is_post_restricted_by_time_period( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'course_time_period';
+			$restriction['restriction_id'] = $course->get( 'id' );
+		} elseif ( llms_is_post_restricted_by_drip_settings( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'lesson_drip';
+			$restriction['restriction_id'] = $lesson_id;
+		} elseif ( $prereq ) {
+			$restriction['reason']         = $prereq['type'] . '_prerequisite';
+			$restriction['restriction_id'] = $prereq['id'];
+		}
+
+		if ( isset( $restriction['reason'] ) ) {
+			return new WP_Error( 403, wp_strip_all_tags( llms_get_restriction_message( $restriction ) ) );
 		}
 
 		return true;
