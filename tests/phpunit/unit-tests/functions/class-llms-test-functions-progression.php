@@ -140,6 +140,7 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	 * Test the llms_can_user_complete_lesson() function.
 	 *
 	 * @since 10.0.7
+	 * @since [version] Test lesson prerequisites.
 	 *
 	 * @return void
 	 */
@@ -169,6 +170,19 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
 
 		$lesson->set( 'drip_method', '' );
+
+		// Enrolled and available, but the lesson's prerequisite is incomplete.
+		$prereq_course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		list( $prereq, $gated ) = $prereq_course->get_lessons();
+		$gated->set( 'has_prerequisite', 'yes' );
+		$gated->set( 'prerequisite', $prereq->get( 'id' ) );
+		$student->enroll( $prereq_course->get( 'id' ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $prereq ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $gated ) );
+
+		// Allowed once the prerequisite is complete.
+		llms_mark_complete( $student->get( 'id' ), $prereq->get( 'id' ), 'lesson' );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $gated ) );
 
 		// An instructor/admin who can edit the lesson is always allowed, even when not enrolled.
 		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );

@@ -36,9 +36,10 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * Used both to decide whether to render the front-end mark complete/incomplete buttons and to
  * authorize the form submission server-side, so the two cannot drift apart. Instructors and
  * admins who can edit the lesson are always allowed; everyone else must be enrolled in the
- * lesson's parent course and the lesson must be available (drip).
+ * lesson's parent course, the lesson must be available (drip), and its prerequisites must be complete.
  *
  * @since 10.0.7
+ * @since [version] Require the lesson's prerequisites to be complete.
  *
  * @param int             $user_id WP User ID of the student.
  * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
@@ -56,8 +57,13 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 		// Instructors / admins able to edit the lesson are always allowed.
 		$allowed = true;
 	} else {
-		// The student must be enrolled in the lesson's parent course and the lesson must be available.
-		$allowed = ( $user_id && llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) && $lesson->is_available() );
+		// The student must be enrolled in the lesson's parent course, the lesson must be available, and its prerequisites complete.
+		$allowed = (
+			$user_id &&
+			llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) &&
+			$lesson->is_available() &&
+			! llms_is_post_restricted_by_prerequisite( $lesson->get( 'id' ), $user_id )
+		);
 	}
 
 	/**
