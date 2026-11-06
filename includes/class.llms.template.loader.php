@@ -66,6 +66,7 @@ class LLMS_Template_Loader {
 
 		// Posts listed on search results, archives, and in query loops are not covered by the single template.
 		add_action( 'template_redirect', array( $this, 'maybe_prepare_listed_content_restriction' ) );
+		add_action( 'rest_api_init', array( $this, 'maybe_prepare_rest_listed_content_restriction' ) );
 
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
@@ -816,12 +817,58 @@ class LLMS_Template_Loader {
 	}
 
 	/**
+	 * Maybe restrict the content of posts listed inside the content of a REST response item.
+	 *
+	 * REST requests never fire `template_redirect`, so without this the content of restricted lessons
+	 * and quizzes listed by a Query Loop block in a page or post is output in full by the REST API.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_prepare_rest_listed_content_restriction() {
+
+		// `rest_api_init` also fires when the block editor preloads REST responses in the admin.
+		if ( llms_is_rest() ) {
+			$this->maybe_prepare_listed_content_restriction();
+		}
+	}
+
+	/**
+	 * Determine whether the content or excerpt being filtered belongs to the item of a REST response.
+	 *
+	 * The item itself is restricted by `maybe_restrict_post_content()` or, for LifterLMS post types, by
+	 * the LifterLMS REST API. Posts listed inside the item's content (such as by a Query Loop block) are
+	 * filtered while the item's own `the_content` filter is running.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private function is_rest_item_content() {
+
+		global $wp_current_filter;
+
+		if ( ! llms_is_rest() ) {
+			return false;
+		}
+
+		$depth = count( array_keys( $wp_current_filter, 'the_content', true ) );
+		if ( 'the_content' === current_filter() ) {
+			--$depth;
+		}
+
+		return $depth < 1;
+	}
+
+	/**
 	 * Replace the content or excerpt of a membership-restricted listed post with the restriction message.
 	 *
 	 * Runs on the `the_content` and `get_the_excerpt` filters: `get_the_content()` reads the global
 	 * `$pages` array and a stored excerpt never passes through `the_content`, so the strings must be
 	 * replaced here. The queried post of a singular request is skipped since the template loader
-	 * already handles it, as are the other LifterLMS post types, whose listings show their public content.
+	 * already handles it, as is the item of a REST response (see `is_rest_item_content()`), and so
+	 * are the other LifterLMS post types, whose listings show their public content.
 	 *
 	 * Lessons and quizzes are checked as their own (singular) page would be. For other posts the
 	 * membership helpers are called directly because `llms_page_restricted()` only applies
@@ -842,7 +889,7 @@ class LLMS_Template_Loader {
 
 		$post_id = $post instanceof WP_Post ? $post->ID : get_the_ID();
 
-		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) ) {
+		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) || $this->is_rest_item_content() ) {
 			return $content;
 		}
 

@@ -423,6 +423,56 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test lessons listed by a Query Loop block in a page are restricted in the page's REST API response.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_rest() {
+
+		global $wp_rest_server, $post;
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		$lessons = $course->get_lessons( 'ids' );
+		llms_get_post( $lessons[0] )->set( 'free_lesson', 'no' );
+		llms_get_post( $lessons[1] )->set( 'free_lesson', 'yes' );
+		foreach ( $lessons as $lesson_id ) {
+			wp_update_post( array( 'ID' => $lesson_id, 'post_status' => 'publish', 'post_content' => 'SECRET_BODY_' . $lesson_id ) );
+		}
+
+		$page_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:query {"queryId":1,"query":{"perPage":10,"postType":"lesson","order":"desc","orderBy":"title","inherit":false}} --><div class="wp-block-query"><!-- wp:post-template --><!-- wp:post-content /--><!-- /wp:post-template --></div><!-- /wp:query --><!-- wp:paragraph --><p>PAGE_TEXT</p><!-- /wp:paragraph -->',
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+		// A new server fires `rest_api_init`, as on a REST request.
+		add_filter( 'llms_is_rest', '__return_true' );
+		$wp_rest_server = null;
+
+		$content = rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/wp/v2/pages/' . $page_id ) )->get_data()['content']['rendered'];
+
+		$this->assertStringNotContainsString( 'SECRET_BODY_' . $lessons[0], $content );
+		$this->assertStringContainsString( 'This content is restricted', $content );
+		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[1], $content );
+		$this->assertStringContainsString( 'PAGE_TEXT', $content );
+
+		// The item of a REST response is left to `maybe_restrict_post_content()` and the LifterLMS REST API.
+		$post = get_post( $lessons[0] );
+		setup_postdata( $post );
+		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[0], apply_filters( 'the_content', $post->post_content ) );
+
+		$wp_rest_server = null;
+		wp_reset_postdata();
+
+	}
+
+	/**
 	 * Test maybe_prepare_feed_content_restriction(): filters are only attached on feed requests.
 	 *
 	 * @since 10.1.0
