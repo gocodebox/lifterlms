@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 3.14.1
- * @version 3.14.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,16 +48,22 @@ class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @since 3.14.1
+	 * @since [version] Only output another user's achievements when the current user can view that student.
 	 *
 	 * @return string
 	 */
 	protected function get_output() {
 
-		if ( ! $this->get_attribute( 'user_id' ) ) {
+		$user_id = absint( $this->get_attribute( 'user_id' ) );
+		if ( ! $user_id ) {
 			return '';
 		}
 
-		$student = llms_get_student( $this->get_attribute( 'user_id' ) );
+		if ( get_current_user_id() !== $user_id && ! current_user_can( 'view_students', $user_id ) ) {
+			return '';
+		}
+
+		$student = llms_get_student( $user_id );
 		if ( ! $student ) {
 			return '';
 		}
