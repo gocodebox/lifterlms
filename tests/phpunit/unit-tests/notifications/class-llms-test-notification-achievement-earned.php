@@ -81,8 +81,9 @@ class LLMS_Test_Notification_Achievement_Earned extends LLMS_NotificationTestCas
 			'{{ACHIEVEMENT_CONTENT}}'   => $achievement->get( 'content' ),
 			// '{{ACHIEVEMENT_IMAGE}}'     => '',
 			// '{{ACHIEVEMENT_IMAGE_URL}}' => '',
-			'{{ACHIEVEMENT_TITLE}}'     => $achievement->get( 'title' ),
-			'{{STUDENT_NAME}}'          => 'you',
+			'{{ACHIEVEMENT_TITLE}}' => $achievement->get( 'title' ),
+			'{{STUDENT_NAME}}'      => 'you',
+			'{{STUDENT_FULL_NAME}}' => $user->get_name(),
 		);
 
 		foreach( $tests as $code => $expected ) {
