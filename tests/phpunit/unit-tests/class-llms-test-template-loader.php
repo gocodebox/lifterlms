@@ -525,9 +525,8 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[1], $content );
 		$this->assertStringContainsString( 'PAGE_TEXT', $content );
 
-		// The item of a REST response is left to `maybe_restrict_post_content()` and the LifterLMS REST API.
+		// The listing filters leave the item of a REST response to `maybe_restrict_post_content()` (on `the_post`) and the LifterLMS REST API.
 		$post = get_post( $lessons[0] );
-		setup_postdata( $post );
 		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[0], apply_filters( 'the_content', $post->post_content ) );
 
 		$wp_rest_server = null;
