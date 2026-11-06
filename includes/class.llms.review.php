@@ -143,9 +143,9 @@ class LLMS_Reviews {
 		}
 
 		/**
-		 * Check to see if reviews are open.
+		 * Check to see if reviews are open and the current user is enrolled in the course.
 		 */
-		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() ) {
+		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), get_the_ID() ) ) {
 
 			/**
 			 * Filters the thank you text.
@@ -251,6 +251,11 @@ class LLMS_Reviews {
 
 		// Check if reviews are disabled.
 		if ( ! get_post_meta( $parent_id, '_llms_reviews_enabled', true ) ) {
+			return false;
+		}
+
+		// Make sure the user is enrolled in the course.
+		if ( ! llms_is_user_enrolled( get_current_user_id(), absint( $parent_id ) ) ) {
 			return false;
 		}
 

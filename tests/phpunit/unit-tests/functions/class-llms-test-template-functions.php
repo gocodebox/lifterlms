@@ -31,6 +31,9 @@ class LLMS_Test_Template_Functions extends LLMS_UnitTestCase {
 		// enable reviews
 		update_post_meta( $post, '_llms_reviews_enabled', 'yes' );
 
+		// enroll the student, only enrolled students can write reviews
+		llms_enroll_student( $student, $post );
+
 		// run the template function
 		ob_start();
 		lifterlms_template_single_reviews();
