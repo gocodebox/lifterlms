@@ -68,6 +68,8 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Hide_Content',
 				'LLMS_Shortcode_Lesson_Mark_Complete',
 				'LLMS_Shortcode_Lesson_Navigation',
+				'LLMS_Shortcode_Lesson_Video',
+				'LLMS_Shortcode_Lesson_Audio',
 				'LLMS_Shortcode_Membership_Link',
 				'LLMS_Shortcode_Membership_Instructors',
 				'LLMS_Shortcode_My_Achievements',
@@ -79,6 +81,8 @@ class LLMS_Shortcodes {
 
 		$hyphenated_file_classes = array(
 			'LLMS_Shortcode_User_Info',
+			'LLMS_Shortcode_Lesson_Video',
+			'LLMS_Shortcode_Lesson_Audio',
 		);
 
 		foreach ( $scs as $class ) {
