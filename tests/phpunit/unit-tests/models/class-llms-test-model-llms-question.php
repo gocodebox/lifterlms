@@ -11,6 +11,7 @@
  * @since 3.16.12
  * @since 3.30.1 Added more tests for `get_next_choice_marker()` and `get_choices()`
  * @since 4.4.0 Add tests for the `grade()` method.
+ * @since [version] Add tests for image, video, and image choice sanitization.
  */
 class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
@@ -49,7 +50,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 			'question_type' => 'string',
 			'title' => 'html',
 			'video_enabled' => 'yesno',
-			'video_src' => 'string',
+			'video_src' => 'url',
 		);
 	}
 
@@ -132,6 +133,60 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
 		$this->obj->set( 'video_src', '' );
 		$this->assertFalse( $this->obj->has_video() );
+
+	}
+
+	/**
+	 * Test that image and video source data is sanitized when set and when a question is created.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_image_and_video_src_sanitized() {
+
+		$bad_src = 'https://example.tld/img.png" onerror="alert(1)';
+		$bad_vid = 'https://example.tld/video" autofocus onfocus="alert(1)';
+		$img     = array(
+			'enabled' => 'yes',
+			'id'      => '12" x="1',
+			'src'     => $bad_src,
+		);
+
+		$this->create( 'title' );
+		$this->obj->set( 'image', $img );
+		$this->obj->set( 'video_src', $bad_vid );
+
+		$created = new LLMS_Question(
+			'new',
+			array(
+				'image'     => $img,
+				'video_src' => $bad_vid,
+			)
+		);
+
+		foreach ( array( $this->obj, $created ) as $question ) {
+			$saved = $question->get( 'image' );
+			$this->assertSame( 'yes', $saved['enabled'] );
+			$this->assertSame( '', $saved['id'] );
+			$this->assertStringNotContainsString( '"', $saved['src'] );
+			$this->assertStringNotContainsString( '"', $question->get( 'video_src' ) );
+		}
+
+		// Valid values are kept.
+		$this->obj->set( 'image', array( 'enabled' => 'yes', 'id' => '34', 'src' => 'https://example.tld/img.png?a=1&b=2' ) );
+		$this->assertSame( array( 'enabled' => 'yes', 'id' => 34, 'src' => 'https://example.tld/img.png?a=1&b=2' ), $this->obj->get( 'image' ) );
+
+		// Image choice data.
+		$choice_id = $this->obj->create_choice(
+			array(
+				'choice_type' => 'image',
+				'choice'      => $img,
+			)
+		);
+		$choice    = $this->obj->get_choice( $choice_id )->get( 'choice' );
+		$this->assertSame( '', $choice['id'] );
+		$this->assertStringNotContainsString( '"', $choice['src'] );
 
 	}
 

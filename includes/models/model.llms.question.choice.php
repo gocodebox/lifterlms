@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version 7.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -224,6 +224,7 @@ class LLMS_Question_Choice {
 	 *
 	 * @since 3.16.0
 	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
+	 * @since [version] Sanitize the image source URL and ID of image choices.
 	 *
 	 * @param string $key Name of the key to set.
 	 * @param mixed  $val Value to set.
@@ -262,6 +263,13 @@ class LLMS_Question_Choice {
 			default:
 				if ( is_array( $val ) ) {
 					$val = array_map( 'sanitize_text_field', $val );
+					// Image choice data.
+					if ( isset( $val['src'] ) ) {
+						$val['src'] = sanitize_url( $val['src'] );
+					}
+					if ( isset( $val['id'] ) ) {
+						$val['id'] = is_numeric( $val['id'] ) ? absint( $val['id'] ) : '';
+					}
 				} else {
 					$val = wp_kses_post( $val );
 				}

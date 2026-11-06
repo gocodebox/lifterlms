@@ -5,7 +5,8 @@
  * @since 3.16.0
  * @since 3.27.0 Unknown.
  * @since 7.4.0 Escaped strings in labels.
- * @version 7.4.0
+ * @since [version] Escaped image and video source attributes.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -99,7 +100,7 @@ defined( 'ABSPATH' ) || exit;
 											<i class="fa fa-times-circle" aria-hidden="true"></i>
 											<span class="screen-reader-text"><?php esc_html_e( 'Remove image', 'lifterlms' ); ?></span>
 										</a>
-										<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{{ data.get( 'image' ).get( 'src' ) }}}">
+										<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{ data.get( 'image' ).get( 'src' ) }}">
 									</div>
 								<# } else { #>
 									<button class="llms-element-button small llms-add-image" data-attribute="image" data-image-size="full">
@@ -121,7 +122,7 @@ defined( 'ABSPATH' ) || exit;
 
 						<# if ( 'yes' === data.get( 'video_enabled' ) ) { #>
 							<div class="llms-editable-video tip--top-right" data-tip="<?php esc_attr_e( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ); ?>">
-								<input class="llms-input standard" data-attribute="video_src" data-original-content="{{{ data.get( 'video_src' ) }}}" placeholder="<?php esc_attr_e( 'https://', 'lifterlms' ); ?>" data-type="video" name="video_src" value="{{{ data.get( 'video_src' ) }}}">
+								<input class="llms-input standard" data-attribute="video_src" data-original-content="{{ data.get( 'video_src' ) }}" placeholder="<?php esc_attr_e( 'https://', 'lifterlms' ); ?>" data-type="video" name="video_src" value="{{ data.get( 'video_src' ) }}">
 							</div>
 						<# } #>
 					</div>

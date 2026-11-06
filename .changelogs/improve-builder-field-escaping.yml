@@ -1,0 +1,3 @@
+significance: patch
+type: security
+entry: "Improved escaping and sanitization of Course Builder fields."

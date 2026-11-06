@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 10.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
  * @since 4.0.0 Remove deprecated class methods.
+ * @since [version] Sanitize the `image` and `video_src` properties when they are set.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -55,7 +56,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		'question'               => 'html',
 		'title'                  => 'html',
 		'video_enabled'          => 'yesno',
-		'video_src'              => 'string',
+		'video_src'              => 'url',
 	);
 
 	/**
@@ -128,6 +129,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.12 Unknown.
+	 * @since [version] Scrub property values before adding them to the post meta input.
 	 *
 	 * @param array $args Args of data to be passed to wp_insert_post.
 	 * @return array
@@ -163,7 +165,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 			if ( isset( $args[ $prop ] ) ) {
 
-				$meta[ $this->meta_prefix . $prop ] = $args[ $prop ];
+				$meta[ $this->meta_prefix . $prop ] = $this->scrub( $prop, $args[ $prop ] );
 				unset( $args[ $prop ] );
 
 			}
@@ -689,6 +691,36 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
+	}
+
+	/**
+	 * Scrub a property value before it is saved.
+	 *
+	 * Adds sanitization of the image data array on top of the default type-based scrubbing.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key Property key.
+	 * @param mixed  $val Property value.
+	 * @return mixed
+	 */
+	protected function scrub( $key, $val ) {
+
+		$val = parent::scrub( $key, $val );
+
+		if ( 'image' === $key && is_array( $val ) ) {
+			foreach ( $val as $img_key => $img_val ) {
+				if ( 'id' === $img_key ) {
+					$val[ $img_key ] = is_numeric( $img_val ) ? absint( $img_val ) : '';
+				} elseif ( 'src' === $img_key ) {
+					$val[ $img_key ] = is_string( $img_val ) ? sanitize_url( $img_val ) : '';
+				} else {
+					$val[ $img_key ] = is_scalar( $img_val ) ? sanitize_text_field( $img_val ) : '';
+				}
+			}
+		}
+
+		return $val;
 	}
 
 	/**
