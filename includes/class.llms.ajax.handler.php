@@ -314,7 +314,7 @@ class LLMS_AJAX_Handler {
 
 				}
 
-				$post->set_instructors( $instructors );
+				$instructors = $post->set_instructors( $instructors );
 
 				break;
 
