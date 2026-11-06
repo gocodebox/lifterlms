@@ -117,10 +117,13 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the IDs of the questions the current user can read.
 	 *
-	 * Matches the `edit_question` check: the user's own questions plus the
-	 * questions of quizzes attached to lessons of the courses they instruct.
+	 * Candidates are the user's own questions plus the questions of quizzes
+	 * attached to lessons of the courses they instruct. They are then filtered
+	 * through {@see LLMS_REST_Questions_Controller::check_read_permission()},
+	 * since `edit_question` does not resolve every candidate to its course.
 	 *
 	 * @since 10.3.1
+	 * @since [version] Filter the candidates through the per-item read check.
 	 *
 	 * @return int[]|null
 	 */
@@ -133,10 +136,12 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 		$lesson_ids = $this->query_post_ids_by_meta( 'lesson', '_llms_parent_course', $this->get_instructor_course_ids() );
 		$quiz_ids   = $this->query_post_ids_by_meta( 'llms_quiz', '_llms_lesson_id', $lesson_ids );
 
-		return array_unique(
-			array_merge(
-				$this->query_own_post_ids( $this->post_type ),
-				$this->query_post_ids_by_meta( $this->post_type, '_llms_parent_id', $quiz_ids )
+		return $this->filter_post_ids_by_read_permission(
+			array_unique(
+				array_merge(
+					$this->query_own_post_ids( $this->post_type ),
+					$this->query_post_ids_by_meta( $this->post_type, '_llms_parent_id', $quiz_ids )
+				)
 			)
 		);
 	}
