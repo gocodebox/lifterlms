@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 7.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -461,6 +461,7 @@ function llms_get_engagement_triggers() {
 			'course_enrollment'               => __( 'Student enrolls in a course', 'lifterlms' ),
 			'course_purchased'                => __( 'Student purchases a course', 'lifterlms' ),
 			'course_completed'                => __( 'Student completes a course', 'lifterlms' ),
+			'certificate_earned'              => __( 'Student earns a certificate', 'lifterlms' ),
 			'course_progress'                 => __( 'Student reaches a percentage of course completion', 'lifterlms' ),
 			'course_grade_below'              => __( 'Student completes a course with a grade below a percentage', 'lifterlms' ),
 			'lesson_completed'                => __( 'Student completes a lesson', 'lifterlms' ),
