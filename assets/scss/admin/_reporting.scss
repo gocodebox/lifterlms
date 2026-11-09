@@ -539,4 +539,20 @@
 		input[type="text"] { display: block; width: 100%; margin-top: 4px; }
 		.llms-due-dates-when { display: flex; gap: 6px; }
 	}
+
+	// Small screens: one card per item, with the column name before each value.
+	@media screen and (max-width: 782px) {
+		.llms-due-dates-table {
+			thead { display: none; }
+			tr, td { display: block; }
+			tr { padding: 8px 0; border-bottom: 1px solid #e0e0e0; }
+			td { padding: 4px 12px; text-align: left; border: 0; }
+			td[data-label]:not(:first-child)::before {
+				content: attr(data-label) ": ";
+				font-weight: 600;
+			}
+		}
+		.llms-due-dates-actions { width: auto; text-align: left; }
+		.llms-due-dates-form { width: 100%; max-width: 400px; }
+	}
 }

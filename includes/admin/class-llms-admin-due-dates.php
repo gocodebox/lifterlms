@@ -158,12 +158,12 @@ class LLMS_Admin_Due_Dates {
 					$by        = $override && $override['by'] ? get_userdata( $override['by'] ) : false;
 					?>
 					<tr>
-						<td>
+						<td data-label="<?php esc_attr_e( 'Item', 'lifterlms' ); ?>">
 							<strong><?php echo esc_html( $item->get( 'title' ) ); ?></strong><br>
 							<small><?php echo esc_html( get_post_type_object( $item->get( 'type' ) )->labels->singular_name . ' · ' . $row['lesson']->get( 'title' ) ); ?></small>
 						</td>
-						<td><?php echo $default ? esc_html( date_i18n( $format, $default ) ) : '&ndash;'; ?></td>
-						<td>
+						<td data-label="<?php esc_attr_e( 'Course due date', 'lifterlms' ); ?>"><?php echo $default ? esc_html( date_i18n( $format, $default ) ) : '&ndash;'; ?></td>
+						<td data-label="<?php esc_attr_e( 'Student due date', 'lifterlms' ); ?>">
 							<?php echo $due ? esc_html( date_i18n( $format, $due ) ) : esc_html__( 'No due date', 'lifterlms' ); ?>
 							<?php $accommodation = ! $override && $default ? $item->get_due_date_accommodation( $student->get_id() ) : false; ?>
 							<?php if ( $accommodation ) : ?>
@@ -192,7 +192,7 @@ class LLMS_Admin_Due_Dates {
 								</small>
 							<?php endif; ?>
 						</td>
-						<td>
+						<td data-label="<?php esc_attr_e( 'Status', 'lifterlms' ); ?>">
 							<?php if ( 'none' !== $status ) : ?>
 								<span class="llms-due-badge llms-due-badge--<?php echo esc_attr( $status ); ?>"><?php echo esc_html( LLMS_Quiz::get_due_status_label( $status ) ); ?></span>
 							<?php endif; ?>
