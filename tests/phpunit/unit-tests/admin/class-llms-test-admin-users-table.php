@@ -105,4 +105,36 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 		), $this->main->add_cols( array() ) );
 	}
 
+	/**
+	 * Test modify_query_args() limits instructors to instructors and assistants, including when a role is requested.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_query_args_instructor() {
+
+		$admin      = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$student    = $this->factory->user->create( array( 'role' => 'student' ) );
+		$assistant  = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		wp_set_current_user( $instructor );
+
+		$get_ids = function ( $args ) {
+			$query = new WP_User_Query( array_merge( $this->main->modify_query_args( $args ), array( 'fields' => 'ID' ) ) );
+			return array_map( 'absint', $query->get_results() );
+		};
+
+		$this->assertEqualSets( array( $assistant, $instructor ), $get_ids( array() ) );
+		$this->assertEquals( array(), $get_ids( array( 'role' => 'student' ) ) );
+		$this->assertEquals( array(), $get_ids( array( 'role' => 'administrator' ) ) );
+		$this->assertEquals( array( $assistant ), $get_ids( array( 'role' => 'instructors_assistant' ) ) );
+
+		// Admins are not limited.
+		wp_set_current_user( $admin );
+		$this->assertEquals( array( $student ), $get_ids( array( 'role' => 'student' ) ) );
+
+	}
+
 }
