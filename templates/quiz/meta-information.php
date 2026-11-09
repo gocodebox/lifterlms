@@ -54,6 +54,7 @@ $passing_percent = $quiz->get( 'passing_percent' );
 	<?php if ( $due_date_html ) : ?>
 	<li class="llms-quiz-meta-item llms-quiz-due-date">
 		<?php echo wp_kses_post( $due_date_html ); ?>
+		<?php echo $quiz->is_open( $student->get_id() ) ? wp_kses_post( $quiz->get_late_submission_notice( $student->get_id() ) ) : ''; ?>
 	</li>
 	<?php endif; ?>
 </ul>

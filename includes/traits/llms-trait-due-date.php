@@ -259,8 +259,27 @@ trait LLMS_Trait_Due_Date {
 		if ( 'short' === $format ) {
 			$format = self::get_short_date_format( $timestamp );
 		}
-		$format = $format ? $format : get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		// Full date and time, with the site's time zone abbreviation (e.g. EST) for students in other zones.
+		$format = $format ? $format : get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) . ' T';
 		return date_i18n( $format, $timestamp );
+	}
+
+	/**
+	 * Retrieve a notice for students whose item is overdue but can still be submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID.
+	 * @return string Empty string unless the item is overdue for the student.
+	 */
+	public function get_late_submission_notice( $student_id ) {
+		if ( 'overdue' !== $this->get_student_due_status( $student_id ) ) {
+			return '';
+		}
+		return sprintf(
+			'<span class="llms-due-notice">%s</span>',
+			esc_html__( 'This is past due. You can still submit it, but it will be marked late.', 'lifterlms' )
+		);
 	}
 
 	/**
