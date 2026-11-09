@@ -88,4 +88,53 @@ class LLMS_Test_Table_Courses_Memberships extends LLMS_UnitTestCase {
 		$this->assertSame( 'Jane (&lt;img src=x onerror=alert(1)&gt;)', LLMS_Unit_Test_Util::call_method( $table, 'get_data', array( 'instructors', get_post( $post_id ) ) ) );
 
 	}
+
+	/**
+	 * Test the instructor filter doesn't let an instructor list another instructor's products.
+	 *
+	 * @since [version]
+	 *
+	 * @dataProvider provider_tables
+	 *
+	 * @param string $table_class Table class name.
+	 * @param string $post_type   Product post type.
+	 * @return void
+	 */
+	public function test_instructor_filter_scoped_to_own_products( $table_class, $post_type ) {
+
+		$instructor_a = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$instructor_b = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$products     = array();
+		foreach ( array( $instructor_a, $instructor_b ) as $instructor_id ) {
+			$post_id = $this->factory->post->create(
+				array(
+					'post_type'   => $post_type,
+					'post_status' => 'private',
+				)
+			);
+			llms_get_post( $post_id )->set_instructors( array( array( 'id' => $instructor_id ) ) );
+			$products[ $instructor_id ] = $post_id;
+		}
+
+		$get_ids = function ( $filter ) use ( $table_class ) {
+			$table = new $table_class();
+			$table->get_results(
+				array(
+					'filter'   => $filter,
+					'filterby' => 'instructor',
+				)
+			);
+			return array_values( wp_list_pluck( (array) $table->get_tbody_data(), 'ID' ) );
+		};
+
+		wp_set_current_user( $instructor_b );
+		$this->assertSame( array(), $get_ids( $instructor_a ) );
+		$this->assertSame( array( $products[ $instructor_b ] ), $get_ids( $instructor_b ) );
+		$this->assertSame( array( $products[ $instructor_b ] ), $get_ids( 'any' ) );
+
+		// Users who can view others' reports can still filter by any instructor.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertSame( array( $products[ $instructor_a ] ), $get_ids( $instructor_a ) );
+
+	}
 }
