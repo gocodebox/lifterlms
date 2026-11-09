@@ -256,8 +256,46 @@ trait LLMS_Trait_Due_Date {
 		if ( ! $timestamp ) {
 			return '';
 		}
+		if ( 'short' === $format ) {
+			$format = self::get_short_date_format( $timestamp );
+		}
 		$format = $format ? $format : get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 		return date_i18n( $format, $timestamp );
+	}
+
+	/**
+	 * Retrieve a compact version of the site's date format, for lists such as the course syllabus.
+	 *
+	 * Keeps the site's date order and separators, abbreviates month and weekday names, and drops the
+	 * year when the date is in the current year. For example, "F j, Y" becomes "M j" (Nov 20) and
+	 * "j \d\e F \d\e Y" becomes "j \d\e M" (20 de nov).
+	 *
+	 * @since [version]
+	 *
+	 * @param int $timestamp Site local timestamp of the date being formatted.
+	 * @return string
+	 */
+	public static function get_short_date_format( $timestamp ) {
+
+		$format = get_option( 'date_format' );
+
+		// Abbreviate unescaped full month (F) and weekday (l) names.
+		$format = preg_replace( array( '/(?<!\\\\)F/', '/(?<!\\\\)l/' ), array( 'M', 'D' ), $format );
+
+		// Drop the year, with the separators and escaped literal text that join it to the rest of the date.
+		if ( gmdate( 'Y', $timestamp ) === current_time( 'Y' ) ) {
+			$format = preg_replace( '/^\s*[Yyo](?:[\s,.\/\-]|\\\\.)*|(?:[\s,.\/\-]|\\\\.)*[Yyo]\s*$/', '', $format );
+		}
+
+		/**
+		 * Filters the compact date format used for due dates in lists, such as the course syllabus.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $format    Date format.
+		 * @param int    $timestamp Site local timestamp of the date being formatted.
+		 */
+		return apply_filters( 'llms_short_date_format', trim( $format ), $timestamp );
 	}
 
 	/**

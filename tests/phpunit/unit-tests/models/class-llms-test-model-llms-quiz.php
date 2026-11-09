@@ -458,4 +458,37 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+
+	/**
+	 * Test get_short_date_format(): keeps the site's date order and drops only the year.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_short_date_format() {
+
+		$this_year = strtotime( current_time( 'Y' ) . '-11-20 23:59:59' );
+		$next_year = strtotime( ( current_time( 'Y' ) + 1 ) . '-01-05 10:00:00' );
+
+		$tests = array(
+			// Site format       => array( this year, another year ).
+			'F j, Y'          => array( 'M j', 'M j, Y' ),
+			'j F Y'           => array( 'j M', 'j M Y' ),
+			'j \\d\\e F \\d\\e Y' => array( 'j \\d\\e M', 'j \\d\\e M \\d\\e Y' ),
+			'd/m/Y'           => array( 'd/m', 'd/m/Y' ),
+			'Y-m-d'           => array( 'm-d', 'Y-m-d' ),
+			'l, F jS, Y'      => array( 'D, M jS', 'D, M jS, Y' ),
+		);
+
+		foreach ( $tests as $site_format => $expected ) {
+			update_option( 'date_format', $site_format );
+			$this->assertSame( $expected[0], LLMS_Quiz::get_short_date_format( $this_year ), $site_format );
+			$this->assertSame( $expected[1], LLMS_Quiz::get_short_date_format( $next_year ), $site_format );
+		}
+
+		// Escaped format characters are left alone.
+		update_option( 'date_format', '\\F\\l j F Y' );
+		$this->assertSame( '\\F\\l j M', LLMS_Quiz::get_short_date_format( $this_year ) );
+	}
 }

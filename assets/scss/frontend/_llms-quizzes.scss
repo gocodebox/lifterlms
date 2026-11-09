@@ -430,7 +430,8 @@
 .llms-due-date {
 	margin-left: 4px;
 	opacity: .85;
-	white-space: nowrap;
+
+	time { white-space: nowrap; }
 }
 .llms-due-badge {
 	display: inline-block;
@@ -442,6 +443,7 @@
 	line-height: 1.6;
 	text-transform: uppercase;
 	vertical-align: middle;
+	white-space: nowrap;
 	color: #fff;
 	background: #6c757d;
 

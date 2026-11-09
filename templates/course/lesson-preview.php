@@ -138,7 +138,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 					<span class="llms-lesson-has-quiz">
 						<i class="fa fa-question-circle"></i>
 					<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
-					<?php echo $due_quiz instanceof LLMS_Quiz ? wp_kses_post( $due_quiz->get_due_date_html( $due_student, get_option( 'date_format' ) ) ) : ''; ?>
+					<?php echo $due_quiz instanceof LLMS_Quiz ? wp_kses_post( $due_quiz->get_due_date_html( $due_student, 'short' ) ) : ''; ?>
 					</span>
 					<?php
 				endif;
@@ -152,7 +152,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 					<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
 					<?php
 					$due_assignment = $due_student && function_exists( 'llms_lesson_get_assignment' ) ? llms_lesson_get_assignment( $lesson ) : false;
-					echo $due_assignment && method_exists( $due_assignment, 'get_due_date_html' ) ? wp_kses_post( $due_assignment->get_due_date_html( $due_student, get_option( 'date_format' ) ) ) : '';
+					echo $due_assignment && method_exists( $due_assignment, 'get_due_date_html' ) ? wp_kses_post( $due_assignment->get_due_date_html( $due_student, 'short' ) ) : '';
 					?>
 					</span>
 					<?php
