@@ -532,17 +532,16 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			$this->assertSame( array(), $res['items'], $role . ' should not receive draft courses' );
 		}
 
-		foreach ( array( 'instructor', 'instructors_assistant', 'lms_manager' ) as $role ) {
-			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
-			$res = $this->do_ajax(
-				'select2_query_posts',
-				array(
-					'post_type' => 'llms_question',
-					'term'      => 'Lookup question',
-				)
-			);
-			$this->assertSame( $question_id, (int) $res['items'][0]['id'], $role . ' should query questions' );
-		}
+		// Instructors only find questions they can edit, see test_select2_query_posts_quizzes_and_questions_of_other_instructors().
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'llms_question',
+				'term'      => 'Lookup question',
+			)
+		);
+		$this->assertSame( $question_id, (int) $res['items'][0]['id'], 'lms_manager should query questions' );
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'contributor' ) ) );
 		$res = $this->do_ajax(
@@ -588,6 +587,79 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$found = array_map( 'intval', wp_list_pluck( $res['items'], 'id' ) );
 		$this->assertContains( $course_id, $found );
 		$this->assertNotContains( $ids['llms_coupon'], $found );
+
+	}
+
+	/**
+	 * Test that LLMS_AJAX_Handler::select2_query_posts() only returns quizzes and questions the user can edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_quizzes_and_questions_of_other_instructors() {
+
+		$ids = array();
+		foreach ( array( 'a', 'b' ) as $key ) {
+
+			$instructor_id = $this->factory->user->create( array( 'role' => 'instructor' ) );
+			wp_set_current_user( $instructor_id );
+
+			$course = $this->factory->course->create_and_get(
+				array(
+					'sections'  => 1,
+					'lessons'   => 1,
+					'quizzes'   => 1,
+					'questions' => 1,
+				)
+			);
+			$course->set_instructors( array( array( 'id' => $instructor_id ) ) );
+
+			$quiz     = $course->get_lessons()[0]->get_quiz();
+			$question = $quiz->get_questions()[0];
+
+			foreach ( array( 'quiz' => $quiz, 'question' => $question ) as $type => $post ) {
+				wp_update_post(
+					array(
+						'ID'          => $post->get( 'id' ),
+						'post_author' => $instructor_id,
+						'post_title'  => sprintf( 'Lookup %1$s %2$s', $key, $type ),
+					)
+				);
+				$ids[ $key ][ $type ] = $post->get( 'id' );
+			}
+
+			$ids[ $key ]['user'] = $instructor_id;
+
+		}
+
+		$search = function ( $post_type ) {
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type' => $post_type,
+					'term'      => 'Lookup',
+				)
+			);
+			return array_map( 'intval', wp_list_pluck( $res['items'], 'id' ) );
+		};
+
+		// Instructor A finds their own quiz and question but not instructor B's.
+		wp_set_current_user( $ids['a']['user'] );
+		$this->assertSame( array( $ids['a']['quiz'] ), $search( 'llms_quiz' ) );
+		$this->assertSame( array( $ids['a']['question'] ), $search( 'llms_question' ) );
+
+		// Instructor B finds only their own.
+		wp_set_current_user( $ids['b']['user'] );
+		$this->assertSame( array( $ids['b']['quiz'] ), $search( 'llms_quiz' ) );
+		$this->assertSame( array( $ids['b']['question'] ), $search( 'llms_question' ) );
+
+		// Managers and administrators find all of them.
+		foreach ( array( 'lms_manager', 'administrator' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$this->assertEqualSets( array( $ids['a']['quiz'], $ids['b']['quiz'] ), $search( 'llms_quiz' ), $role );
+			$this->assertEqualSets( array( $ids['a']['question'], $ids['b']['question'] ), $search( 'llms_question' ), $role );
+		}
 
 	}
 

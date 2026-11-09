@@ -1116,7 +1116,9 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $posts as $post ) {
 
-			if ( ! current_user_can( 'read_post', $post->ID ) ) {
+			// Published quizzes and questions are readable by anyone, but their content is limited to users who can edit them.
+			$cap = in_array( $post->post_type, array( 'llms_quiz', 'llms_question' ), true ) ? 'edit_post' : 'read_post';
+			if ( ! current_user_can( $cap, $post->ID ) ) {
 				continue;
 			}
 
