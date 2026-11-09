@@ -55,6 +55,7 @@ if ( llms_is_favorites_enabled() ) {
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_video', 20 );
 add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single_lesson_audio', 20 );
 
+add_action( 'lifterlms_single_lesson_after_summary', 'llms_template_lesson_due_dates', 9 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_navigation', 20 );
 
@@ -87,13 +88,6 @@ add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_lesson_c
 
 add_action( 'lifterlms_after_loop_item', 'lifterlms_template_loop_featured_pricing_information', 3 );
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
-
-/**
- * Quiz due date below the "Take Quiz" button on lessons.
- *
- * @since [version]
- */
-add_action( 'llms_after_start_quiz_button', 'llms_template_lesson_quiz_due_date' );
 
 /**
  * Course Syllabus

@@ -449,3 +449,12 @@
 	&.llms-due-badge--on-time { background: #2e7d32; }
 }
 .llms-quiz-due-date .llms-due-date { margin-left: 0; opacity: 1; }
+.llms-lesson-due-dates {
+	list-style: none;
+	margin: 1em 0;
+	padding: 0;
+
+	li { margin: 0 0 .25em; padding: 0; }
+	.llms-due-item-type { font-weight: 600; margin-right: .25em; }
+	.llms-due-date { margin-left: 0; opacity: 1; }
+}

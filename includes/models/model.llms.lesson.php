@@ -595,6 +595,46 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the lesson's items that support due dates, such as its quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Post_Model[] Items using {@see LLMS_Trait_Due_Date}.
+	 */
+	public function get_due_date_items() {
+
+		$items = array();
+
+		if ( $this->is_quiz_enabled() ) {
+			$quiz = llms_get_post( $this->get( 'quiz' ) );
+			if ( $quiz instanceof LLMS_Quiz ) {
+				$items[] = $quiz;
+			}
+		}
+
+		/**
+		 * Filters the items with due dates in a lesson.
+		 *
+		 * Add-ons, such as Assignments, add their own items. Items must use {@see LLMS_Trait_Due_Date}.
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Post_Model[] $items  Items.
+		 * @param LLMS_Lesson       $lesson Lesson object.
+		 */
+		$items = apply_filters( 'llms_lesson_due_date_items', $items, $this );
+
+		return array_values(
+			array_filter(
+				$items,
+				function ( $item ) {
+					return is_object( $item ) && method_exists( $item, 'get_due_timestamp' );
+				}
+			)
+		);
+	}
+
+	/**
 	 * Add data to the course model when converted to array
 	 *
 	 * Called before data is sorted and returned by $this->jsonSerialize().

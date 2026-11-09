@@ -44,35 +44,11 @@ class LLMS_Admin_Due_Dates {
 		$items = array();
 
 		foreach ( $course->get_lessons() as $lesson ) {
-
-			$lesson_items = array();
-
-			if ( $lesson->is_quiz_enabled() ) {
-				$quiz = llms_get_post( $lesson->get( 'quiz' ) );
-				if ( $quiz instanceof LLMS_Quiz ) {
-					$lesson_items[] = $quiz;
-				}
-			}
-
-			/**
-			 * Filters the items with due dates in a lesson.
-			 *
-			 * Add-ons, such as Assignments, add their own items. Items must use {@see LLMS_Trait_Due_Date}.
-			 *
-			 * @since [version]
-			 *
-			 * @param LLMS_Post_Model[] $lesson_items Items.
-			 * @param LLMS_Lesson       $lesson       Lesson object.
-			 */
-			$lesson_items = apply_filters( 'llms_lesson_due_date_items', $lesson_items, $lesson );
-
-			foreach ( $lesson_items as $item ) {
-				if ( method_exists( $item, 'get_due_timestamp' ) ) {
-					$items[] = array(
-						'item'   => $item,
-						'lesson' => $lesson,
-					);
-				}
+			foreach ( $lesson->get_due_date_items() as $item ) {
+				$items[] = array(
+					'item'   => $item,
+					'lesson' => $lesson,
+				);
 			}
 		}
 
