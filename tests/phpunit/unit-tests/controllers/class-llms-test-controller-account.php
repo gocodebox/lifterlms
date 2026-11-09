@@ -1033,9 +1033,56 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that the account update form doesn't change the email address without the current password.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_email_change_requires_current_password() {
+
+		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install();
+		LLMS_Unit_Test_Util::call_method( LLMS_Form_Handler::instance(), '__construct' );
+
+		$uid = $this->factory->user->create( array(
+			'user_email' => 'original@mock.tld',
+			'user_pass'  => 'password',
+		) );
+		wp_set_current_user( $uid );
+
+		$this->mockPostRequest( array(
+			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
+			'email_address'             => 'attacker@mock.tld',
+			'email_address_confirm'     => 'attacker@mock.tld',
+			'display_name'              => 'Marshall P.',
+			'first_name'                => 'Marshall',
+			'last_name'                 => 'Pate',
+			'llms_billing_address_1'    => 'Voluptatem',
+			'llms_billing_address_2'    => '#12345',
+			'llms_billing_city'         => 'Harum',
+			'llms_billing_state'        => 'Esse',
+			'llms_billing_zip'          => '72995',
+			'llms_billing_country'      => 'US',
+		) );
+
+		// No redirect (exit) happens: the submission is rejected with an error notice.
+		$this->main->update();
+
+		$this->assertEquals( 1, did_action( 'llms_before_user_account_update_submit' ) );
+		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
+		$this->assertEquals( 1, llms_notice_count( 'error' ) );
+		$this->assertStringContainsString( 'Current Password is a required field.', llms_get_notices() );
+		$this->assertEquals( 'original@mock.tld', get_userdata( $uid )->user_email );
+		llms_clear_notices();
+
+	}
+
+	/**
 	 * Test account update form submission handler
 	 *
 	 * @since 5.0.0
+	 * @since [version] Submit the current password, required when changing the email address.
 	 *
 	 * @return void
 	 */
@@ -1048,7 +1095,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		LLMS_Unit_Test_Util::call_method( LLMS_Form_Handler::instance(), '__construct' );
 
 		// create a user
-		$uid = $this->factory->user->create();
+		$uid = $this->factory->user->create( array( 'user_pass' => 'password' ) );
 		// sign the user in
 		wp_set_current_user( $uid );
 
@@ -1057,6 +1104,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 			'email_address' => 'help+23568@lifterlms.com',
 			'email_address_confirm' => 'help+23568@lifterlms.com',
+			'password_current' => 'password',
 			'display_name' => 'Marshall P.',
 			'first_name' => 'Marshall',
 			'last_name' => 'Pate',
