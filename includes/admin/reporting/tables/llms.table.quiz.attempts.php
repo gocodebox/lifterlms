@@ -134,6 +134,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
 					if ( 'end_date' === $key && $attempt->is_late() ) {
+						// Translators: Badge next to the completion date of a quiz attempt submitted after its due date.
 						$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html__( 'Late', 'lifterlms' ) . '</span>';
 					}
 				}

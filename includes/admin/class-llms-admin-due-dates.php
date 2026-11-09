@@ -137,7 +137,7 @@ class LLMS_Admin_Due_Dates {
 			<table class="llms-table zebra llms-due-dates-table">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Item', 'lifterlms' ); ?></th>
+						<th><?php /* Translators: Table column heading for a quiz or assignment. */ esc_html_e( 'Item', 'lifterlms' ); ?></th>
 						<th><?php esc_html_e( 'Course due date', 'lifterlms' ); ?></th>
 						<th><?php esc_html_e( 'Student due date', 'lifterlms' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'lifterlms' ); ?></th>
@@ -158,7 +158,7 @@ class LLMS_Admin_Due_Dates {
 					$by        = $override && $override['by'] ? get_userdata( $override['by'] ) : false;
 					?>
 					<tr>
-						<td data-label="<?php esc_attr_e( 'Item', 'lifterlms' ); ?>">
+						<td data-label="<?php /* Translators: Table column heading for a quiz or assignment. */ esc_attr_e( 'Item', 'lifterlms' ); ?>">
 							<strong><?php echo esc_html( $item->get( 'title' ) ); ?></strong><br>
 							<small><?php echo esc_html( get_post_type_object( $item->get( 'type' ) )->labels->singular_name . ' · ' . $row['lesson']->get( 'title' ) ); ?></small>
 						</td>
@@ -167,7 +167,7 @@ class LLMS_Admin_Due_Dates {
 							<?php echo $due ? esc_html( date_i18n( $format, $due ) ) : esc_html__( 'No due date', 'lifterlms' ); ?>
 							<?php $accommodation = ! $override && $default ? $item->get_due_date_accommodation( $student->get_id() ) : false; ?>
 							<?php if ( $accommodation ) : ?>
-								<span class="llms-due-badge llms-due-badge--override"><?php esc_html_e( 'Accommodation', 'lifterlms' ); ?></span>
+								<span class="llms-due-badge llms-due-badge--override"><?php /* Translators: Badge on a due date that was extended or removed by an accommodation on the student's profile. */ esc_html_e( 'Accommodation', 'lifterlms' ); ?></span>
 								<br><small>
 								<?php
 								echo 'none' === $accommodation['type'] ?
@@ -178,7 +178,7 @@ class LLMS_Admin_Due_Dates {
 								</small>
 							<?php endif; ?>
 							<?php if ( $override ) : ?>
-								<span class="llms-due-badge llms-due-badge--override"><?php esc_html_e( 'Adjusted', 'lifterlms' ); ?></span>
+								<span class="llms-due-badge llms-due-badge--override"><?php /* Translators: Badge on a due date that an instructor changed for this student only. */ esc_html_e( 'Adjusted', 'lifterlms' ); ?></span>
 								<br><small>
 								<?php
 								echo esc_html(
@@ -218,7 +218,7 @@ class LLMS_Admin_Due_Dates {
 										<label><?php esc_html_e( 'Due date', 'lifterlms' ); ?>
 											<input type="date" name="llms_due_date" value="<?php echo esc_attr( $due ? gmdate( 'Y-m-d', $due ) : '' ); ?>">
 										</label>
-										<label><?php esc_html_e( 'Time', 'lifterlms' ); ?>
+										<label><?php /* Translators: Label for the time of day a quiz or assignment is due. */ esc_html_e( 'Time', 'lifterlms' ); ?>
 											<input type="time" name="llms_due_time" value="<?php echo esc_attr( $due ? gmdate( 'H:i', $due ) : '23:59' ); ?>">
 										</label>
 									</div>
@@ -270,6 +270,7 @@ class LLMS_Admin_Due_Dates {
 				'data'      => $late ?
 					// Translators: %s = Human readable time difference.
 					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, strtotime( $attempt->get( 'end_date' ) ) ) ) :
+					// Translators: The quiz attempt was submitted by its due date.
 					__( 'On time', 'lifterlms' ),
 				'data_type' => 'text',
 				// Translators: %s = Due date.

@@ -405,11 +405,17 @@ trait LLMS_Trait_Due_Date {
 	 */
 	public static function get_due_status_label( $status ) {
 		$labels = array(
+			// Translators: Due date status of a quiz or assignment for a student: it has no due date.
 			'none'     => __( 'No due date', 'lifterlms' ),
+			// Translators: Due date status of a quiz or assignment for a student: not submitted, and the due date is more than a few days away.
 			'upcoming' => __( 'Upcoming', 'lifterlms' ),
+			// Translators: Due date status of a quiz or assignment for a student: not submitted, and due within a few days.
 			'due-soon' => __( 'Due soon', 'lifterlms' ),
+			// Translators: Due date status of a quiz or assignment for a student: not submitted, and the due date has passed.
 			'overdue'  => __( 'Overdue', 'lifterlms' ),
+			// Translators: Due date status of a quiz or assignment for a student: submitted by the due date.
 			'on-time'  => __( 'On time', 'lifterlms' ),
+			// Translators: Due date status of a quiz or assignment for a student: submitted after the due date.
 			'late'     => __( 'Late', 'lifterlms' ),
 		);
 		return isset( $labels[ $status ] ) ? $labels[ $status ] : $status;
@@ -450,7 +456,7 @@ trait LLMS_Trait_Due_Date {
 			'<span class="llms-due-date llms-due-date--%1$s">%2$s</span>%3$s',
 			esc_attr( $status ),
 			sprintf(
-				// Translators: %s = Formatted due date.
+				// Translators: %s = Formatted due date of a quiz or assignment, such as "Oct 25" or "October 25, 2026 11:59 pm EST".
 				esc_html__( 'Due: %s', 'lifterlms' ),
 				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( $datetime->format( DATE_W3C ) ), esc_html( $date ) )
 			),

@@ -44,7 +44,7 @@ if ( empty( $fields ) ) {
 			<label for="llms_due_date_accommodation_extend"><?php esc_html_e( 'Extend every due date', 'lifterlms' ); ?></label>
 			<label for="llms_due_date_extension_days" class="screen-reader-text"><?php esc_html_e( 'Number of days to extend every due date', 'lifterlms' ); ?></label>
 			<input name="llms_due_date_extension_days" id="llms_due_date_extension_days" type="number" min="1" max="365" class="small-text" value="<?php echo esc_attr( $due_extension ? $due_extension : '' ); ?>">
-			<span aria-hidden="true"><?php esc_html_e( 'days', 'lifterlms' ); ?></span>
+			<span aria-hidden="true"><?php /* Translators: Unit shown after the number of days to extend due dates by, as in "7 days". */ esc_html_e( 'days', 'lifterlms' ); ?></span>
 		</div>
 		<div class="llms-due-date-accommodation-option">
 			<input name="llms_due_date_accommodation" type="radio" id="llms_due_date_accommodation_none" value="none"<?php checked( 'none', $due_accommodation ); ?>>
