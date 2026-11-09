@@ -499,6 +499,7 @@
 @import "../_includes/quiz-result-question-list";
 
 // Quiz & assignment due dates.
+.llms-due-sep { display: none; }
 .llms-due-badge {
 	display: inline-block;
 	margin-left: 4px;

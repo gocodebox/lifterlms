@@ -425,6 +425,8 @@
 
 
 // Quiz & assignment due dates.
+// The separator is for themes that don't load these styles; the badge replaces it here.
+.llms-due-sep { display: none; }
 .llms-due-date {
 	margin-left: 4px;
 	opacity: .85;

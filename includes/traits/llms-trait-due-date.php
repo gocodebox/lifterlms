@@ -375,8 +375,10 @@ trait LLMS_Trait_Due_Date {
 		}
 
 		$status = $this->get_student_due_status( $student_id );
-		$badge  = 'upcoming' === $status ? '' : sprintf(
-			' <span class="llms-due-badge llms-due-badge--%1$s">%2$s</span>',
+
+		// The separator reads well when a theme doesn't load LifterLMS styles; styled badges hide it.
+		$badge = 'upcoming' === $status ? '' : sprintf(
+			'<span class="llms-due-sep" aria-hidden="true"> &middot; </span><span class="llms-due-badge llms-due-badge--%1$s">%2$s</span>',
 			esc_attr( $status ),
 			esc_html( self::get_due_status_label( $status ) )
 		);
@@ -384,8 +386,11 @@ trait LLMS_Trait_Due_Date {
 		return sprintf(
 			'<span class="llms-due-date llms-due-date--%1$s">%2$s</span>%3$s',
 			esc_attr( $status ),
-			// Translators: %s = Formatted due date.
-			sprintf( esc_html__( 'Due: %s', 'lifterlms' ), '<time>' . esc_html( $date ) . '</time>' ),
+			sprintf(
+				// Translators: %s = Formatted due date.
+				esc_html__( 'Due: %s', 'lifterlms' ),
+				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( gmdate( 'Y-m-d\TH:i', $this->get_due_timestamp( $student_id ) ) ), esc_html( $date ) )
+			),
 			$badge
 		);
 	}
