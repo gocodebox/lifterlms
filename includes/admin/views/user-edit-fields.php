@@ -33,26 +33,23 @@ if ( empty( $fields ) ) {
 	$due_accommodation = get_user_option( 'llms_due_date_accommodation', $user_id );
 	$due_extension     = absint( get_user_option( 'llms_due_date_extension_days', $user_id ) );
 	?>
-	<fieldset class="llms-due-date-accommodation" style="margin-top: 16px;">
-		<p style="margin: 0 0 6px;"><strong><?php esc_html_e( 'Quiz and assignment due dates', 'lifterlms' ); ?></strong></p>
-		<label>
-			<input name="llms_due_date_accommodation" type="radio" value=""<?php checked( ! in_array( $due_accommodation, array( 'extend', 'none' ), true ) ); ?>>
-			<?php esc_html_e( 'Use the course due dates', 'lifterlms' ); ?>
-		</label><br>
-		<label>
-			<input name="llms_due_date_accommodation" type="radio" value="extend"<?php checked( 'extend', $due_accommodation ); ?>>
-			<?php
-			printf(
-				// Translators: %s = Number input.
-				esc_html__( 'Extend every due date by %s days', 'lifterlms' ),
-				'<input name="llms_due_date_extension_days" type="number" min="1" max="365" class="small-text" value="' . esc_attr( $due_extension ? $due_extension : '' ) . '">'
-			);
-			?>
-		</label><br>
-		<label>
-			<input name="llms_due_date_accommodation" type="radio" value="none"<?php checked( 'none', $due_accommodation ); ?>>
-			<?php esc_html_e( 'No due dates', 'lifterlms' ); ?>
-		</label>
-		<p class="description"><?php esc_html_e( 'For accessibility accommodations. Applies to every course; a due date changed for this student on a single quiz or assignment still takes precedence. Students see only their own due dates.', 'lifterlms' ); ?></p>
+	<fieldset class="llms-due-date-accommodation" aria-describedby="llms-due-date-accommodation-description">
+		<legend><?php esc_html_e( 'Quiz and assignment due dates', 'lifterlms' ); ?></legend>
+		<div class="llms-due-date-accommodation-option">
+			<input name="llms_due_date_accommodation" type="radio" id="llms_due_date_accommodation_course" value=""<?php checked( ! in_array( $due_accommodation, array( 'extend', 'none' ), true ) ); ?>>
+			<label for="llms_due_date_accommodation_course"><?php esc_html_e( 'Use the course due dates', 'lifterlms' ); ?></label>
+		</div>
+		<div class="llms-due-date-accommodation-option">
+			<input name="llms_due_date_accommodation" type="radio" id="llms_due_date_accommodation_extend" value="extend"<?php checked( 'extend', $due_accommodation ); ?>>
+			<label for="llms_due_date_accommodation_extend"><?php esc_html_e( 'Extend every due date', 'lifterlms' ); ?></label>
+			<label for="llms_due_date_extension_days" class="screen-reader-text"><?php esc_html_e( 'Number of days to extend every due date', 'lifterlms' ); ?></label>
+			<input name="llms_due_date_extension_days" id="llms_due_date_extension_days" type="number" min="1" max="365" class="small-text" value="<?php echo esc_attr( $due_extension ? $due_extension : '' ); ?>">
+			<span aria-hidden="true"><?php esc_html_e( 'days', 'lifterlms' ); ?></span>
+		</div>
+		<div class="llms-due-date-accommodation-option">
+			<input name="llms_due_date_accommodation" type="radio" id="llms_due_date_accommodation_none" value="none"<?php checked( 'none', $due_accommodation ); ?>>
+			<label for="llms_due_date_accommodation_none"><?php esc_html_e( 'No due dates', 'lifterlms' ); ?></label>
+		</div>
+		<p class="description" id="llms-due-date-accommodation-description"><?php esc_html_e( 'For accessibility accommodations. Applies to every course; a due date changed for this student on a single quiz or assignment still takes precedence. Students see only their own due dates.', 'lifterlms' ); ?></p>
 	</fieldset>
 </div>

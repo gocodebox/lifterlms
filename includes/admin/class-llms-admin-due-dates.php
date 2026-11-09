@@ -142,7 +142,7 @@ class LLMS_Admin_Due_Dates {
 						<th><?php esc_html_e( 'Student due date', 'lifterlms' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'lifterlms' ); ?></th>
 						<?php if ( $can_edit ) : ?>
-							<th></th>
+							<th><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'lifterlms' ); ?></span></th>
 						<?php endif; ?>
 					</tr>
 				</thead>
@@ -208,7 +208,11 @@ class LLMS_Admin_Due_Dates {
 						<?php if ( $can_edit ) : ?>
 						<td class="llms-due-dates-actions">
 							<details>
-								<summary class="llms-button-secondary small"><?php esc_html_e( 'Change', 'lifterlms' ); ?></summary>
+								<summary class="llms-button-secondary small">
+									<?php esc_html_e( 'Change', 'lifterlms' ); ?>
+									<?php // Translators: %s = Quiz or assignment title. ?>
+									<span class="screen-reader-text"><?php echo esc_html( sprintf( __( 'due date for %s', 'lifterlms' ), $item->get( 'title' ) ) ); ?></span>
+								</summary>
 								<form method="post" class="llms-due-dates-form">
 									<div class="llms-due-dates-when">
 										<label><?php esc_html_e( 'Due date', 'lifterlms' ); ?>
