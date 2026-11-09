@@ -433,6 +433,9 @@ trait LLMS_Trait_Due_Date {
 
 		$status = $this->get_student_due_status( $student_id );
 
+		// Due timestamps are "site local", so read the wall-clock time back in the site's timezone to get the offset.
+		$datetime = date_create( gmdate( 'Y-m-d H:i:s', $this->get_due_timestamp( $student_id ) ), wp_timezone() );
+
 		// The separator reads well when a theme doesn't load LifterLMS styles; styled badges hide it.
 		$badge = 'upcoming' === $status ? '' : sprintf(
 			'<span class="llms-due-sep" aria-hidden="true"> &middot; </span><span class="llms-due-badge llms-due-badge--%1$s">%2$s</span>',
@@ -446,7 +449,7 @@ trait LLMS_Trait_Due_Date {
 			sprintf(
 				// Translators: %s = Formatted due date.
 				esc_html__( 'Due: %s', 'lifterlms' ),
-				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( gmdate( 'Y-m-d\TH:i', $this->get_due_timestamp( $student_id ) ) ), esc_html( $date ) )
+				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( $datetime->format( DATE_W3C ) ), esc_html( $date ) )
 			),
 			$badge
 		);

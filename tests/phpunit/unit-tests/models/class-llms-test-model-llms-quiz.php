@@ -491,4 +491,32 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 		update_option( 'date_format', '\\F\\l j F Y' );
 		$this->assertSame( '\\F\\l j M', LLMS_Quiz::get_short_date_format( $this_year ) );
 	}
+
+	/**
+	 * Test get_due_date_html(): the machine-readable date carries the site's UTC offset on the due date,
+	 * including across daylight saving time.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_due_date_html_datetime_offset() {
+
+		update_option( 'timezone_string', 'America/New_York' );
+		$student_id = $this->factory->student->create();
+		$this->create( 'due date' );
+		$this->obj->set( 'due_method', 'date' );
+		$this->obj->set( 'due_time', '11:59 PM' );
+
+		$tests = array(
+			'2030-07-01' => '2030-07-01T23:59:00-04:00', // Daylight saving time.
+			'2030-01-15' => '2030-01-15T23:59:00-05:00', // Standard time.
+		);
+		foreach ( $tests as $date => $expected ) {
+			$this->obj->set( 'due_date', $date );
+			$this->assertStringContainsString( '<time datetime="' . $expected . '">', $this->obj->get_due_date_html( $student_id ), $date );
+		}
+
+		update_option( 'timezone_string', '' );
+	}
 }
