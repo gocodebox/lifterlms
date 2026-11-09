@@ -437,9 +437,12 @@ trait LLMS_Trait_Due_Date {
 		$datetime = date_create( gmdate( 'Y-m-d H:i:s', $this->get_due_timestamp( $student_id ) ), wp_timezone() );
 
 		// The separator reads well when a theme doesn't load LifterLMS styles; styled badges hide it.
+		// Screen readers hear "Status:" before the badge, so it isn't read as part of the date.
 		$badge = 'upcoming' === $status ? '' : sprintf(
-			'<span class="llms-due-sep" aria-hidden="true"> &middot; </span><span class="llms-due-badge llms-due-badge--%1$s">%2$s</span>',
+			'<span class="llms-due-sep" aria-hidden="true"> &middot; </span><span class="llms-due-badge llms-due-badge--%1$s"><span class="screen-reader-text">%2$s </span>%3$s</span>',
 			esc_attr( $status ),
+			// Translators: Read by screen readers before a due date status, such as "Overdue".
+			esc_html__( 'Status:', 'lifterlms' ),
 			esc_html( self::get_due_status_label( $status ) )
 		);
 
