@@ -939,6 +939,35 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
 		$this->assertEquals( 2, count( $events ) );
 
+		// Events past the per-request limit are not stored.
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+		$request = array(
+			'llms-tracking' => json_encode(
+				array(
+					'events' => array_fill(
+						0,
+						150,
+						array(
+							'object_type' => 'user',
+							'object_id'   => $user_id,
+							'event'       => 'session.start',
+						)
+					),
+					'nonce'  => wp_create_nonce( 'llms-tracking' ),
+				)
+			),
+		);
+
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertTrue( $res['success'] );
+		$events = ( new LLMS_Events_Query( array(
+			'actor'    => array( $user_id ),
+			'per_page' => 500,
+		) ) )->get_events();
+
+		$this->assertEquals( 100, count( $events ) );
+
 	}
 
 	/**

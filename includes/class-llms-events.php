@@ -429,7 +429,19 @@ class LLMS_Events {
 
 			if ( ! empty( $tracking['events'] ) && is_array( $tracking['events'] ) ) {
 
-				foreach ( $tracking['events'] as $event ) {
+				/**
+				 * Filters the maximum number of client-side tracking events stored from a single request.
+				 *
+				 * The client sends the events that fit in the `llms-tracking` cookie, well below this limit.
+				 * Events past the limit are discarded.
+				 *
+				 * @since [version]
+				 *
+				 * @param int $max_events Maximum number of events. Default `100`.
+				 */
+				$max_events = absint( apply_filters( 'llms_tracking_events_max_per_request', 100 ) );
+
+				foreach ( array_slice( $tracking['events'], 0, $max_events ) as $event ) {
 
 					$event = $this->prepare_event( $event );
 
