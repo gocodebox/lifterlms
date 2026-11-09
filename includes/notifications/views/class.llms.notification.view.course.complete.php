@@ -87,8 +87,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
+			'{{COURSE_TITLE}}'      => __( 'Course Title', 'lifterlms' ),
+			'{{STUDENT_NAME}}'      => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}' => __( 'Student Full Name', 'lifterlms' ),
 		);
 	}
 
@@ -110,6 +111,10 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				break;
+
+			case '{{STUDENT_FULL_NAME}}':
+				$code = $this->user->get_name();
 				break;
 
 		}
