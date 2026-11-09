@@ -229,6 +229,66 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that the course info shortcode only outputs info the current user can view.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_course_info_checks_access() {
+
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+
+		$protected_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		wp_update_post(
+			array(
+				'ID'            => $protected_id,
+				'post_title'    => 'Protected Course',
+				'post_content'  => 'Protected course content',
+				'post_password' => 'coursepass123',
+				'post_author'   => $admin_id,
+			)
+		);
+		update_post_meta( $protected_id, '_llms_start_date', '2026-11-06' );
+
+		$draft_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		wp_update_post(
+			array(
+				'ID'           => $draft_id,
+				'post_content' => 'Draft course content',
+				'post_status'  => 'draft',
+				'post_author'  => $admin_id,
+			)
+		);
+
+		$order = $this->get_mock_order();
+		$order->set( 'billing_email', 'buyer@example.com' );
+
+		$info = function ( $id, $key ) {
+			return do_shortcode( sprintf( '[lifterlms_course_info id=%1$d key=%2$s date_format=Y-m-d]', $id, $key ) );
+		};
+
+		// Logged out visitors can view public info of a published course.
+		wp_set_current_user( 0 );
+		$this->assertSame( '2026-11-06', $info( $protected_id, 'start_date' ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'contributor' ) ) );
+
+		$this->assertSame( 'Protected Course', $info( $protected_id, 'title' ) );
+		$this->assertSame( '', $info( $protected_id, 'password' ) );
+		$this->assertSame( '', $info( $protected_id, 'content' ) );
+		$this->assertSame( '', $info( $draft_id, 'content' ) );
+		$this->assertSame( '', $info( $order->get( 'id' ), 'billing_email' ) );
+
+		wp_set_current_user( $admin_id );
+
+		$this->assertSame( 'coursepass123', $info( $protected_id, 'password' ) );
+		$this->assertStringContains( 'Draft course content', $info( $draft_id, 'content' ) );
+		$this->assertSame( '', $info( $order->get( 'id' ), 'billing_email' ) );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0
