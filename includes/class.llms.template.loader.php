@@ -75,6 +75,7 @@ class LLMS_Template_Loader {
 				'course_prerequisite',
 				'course_track_prerequisite',
 				'course_time_period',
+				'course_unavailable',
 				'enrollment_lesson',
 				'lesson_drip',
 				'lesson_prerequisite',
@@ -249,6 +250,32 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_time_period_redirect', $redirect, $info ),
 			'notice'
 		);
+	}
+
+	/**
+	 * Handle messages when a user attempts to access a lesson or quiz of a course they can't view,
+	 * such as a draft, private, or trashed course.
+	 *
+	 * Displays a message without redirecting, since the course itself can't be viewed.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $info Array of restriction info from `llms_page_restricted()`.
+	 * @return void
+	 */
+	public function restricted_by_course_unavailable( $info ) {
+
+		/**
+		 * Filters the message displayed when a lesson or quiz is restricted because its course can't be viewed.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $msg  Restriction message.
+		 * @param array  $info Array of restriction info from `llms_page_restricted()`.
+		 */
+		$msg = apply_filters( 'llms_restricted_by_course_unavailable_message', llms_get_restriction_message( $info ), $info );
+
+		$this->handle_restriction( $msg, '', 'error' );
 	}
 
 	/**
