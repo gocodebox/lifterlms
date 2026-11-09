@@ -20,16 +20,12 @@ import editCertificate from '../edit-certificate';
  * @return {?WPElement[]} Child components list or `null` if the components shouldn't display.
  */
 export function Check( { children } ) {
-	const { getCurrentPostType } = useSelect( editorStore ),
-		{ getInserterItems } = useSelect( blockEditorStore );
+	const { postType, hasTitleBlock } = useSelect( ( select ) => ( {
+		postType: select( editorStore ).getCurrentPostType(),
+		hasTitleBlock: select( blockEditorStore ).getGlobalBlockCount( 'llms/certificate-title' ) > 0,
+	} ), [] );
 
-	if ( 'llms_certificate' !== getCurrentPostType() ) {
-		return null;
-	}
-
-	// Using this method in favor of `canInsertBlockType()` due to this: https://github.com/WordPress/gutenberg/issues/37540.
-	const { isDisabled } = getInserterItems().find( ( { name } ) => 'llms/certificate-title' === name );
-	if ( isDisabled ) {
+	if ( 'llms_certificate' !== postType || hasTitleBlock ) {
 		return null;
 	}
 

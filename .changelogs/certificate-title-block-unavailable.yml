@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the certificate template editor crashing with "The editor has encountered an unexpected error." when the Certificate Title block is hidden or not available in the block inserter.
