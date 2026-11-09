@@ -252,7 +252,7 @@
 			display: grid;
 			grid-gap: 25px;
 			grid-template-areas: "nav header" "nav tab";
-			grid-template-columns: 200px 1fr;
+			grid-template-columns: 200px minmax( 0, 1fr ); // minmax() lets wide content scroll instead of widening the column.
 			grid-template-rows: auto 1fr;
 
 			&:has(> .llms-notice) {
@@ -327,6 +327,12 @@
 	}
 }
 
+// The grades tables scroll sideways when they don't fit, instead of widening the page.
+.llms-sd-grades > .llms-sd-section {
+	overflow-x: auto;
+	position: relative; // Keep positioned content, such as tooltips, inside the scroll area.
+}
+
 // grades table for a single course
 .llms-table.llms-single-course-grades {
 
@@ -386,22 +392,19 @@
 }
 
 .llms-sd-widgets {
-	display: flex;
+	// Wrap onto more rows when there isn't room for every widget side by side.
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat( auto-fit, minmax( 140px, 1fr ) );
+	margin: 10px 0 20px;
 
 	.llms-sd-widget {
 		background: $color-white;
 		border: llms-element-border();
 		border-bottom-right-radius: llms-var( radius-sm );
 		border-bottom-left-radius: llms-var( radius-sm );
-		flex: 1;
-		margin: 10px 10px 20px;
+		min-width: 0;
 		padding: 0 0 20px;
-		&:first-child {
-			margin-left: 0;
-		}
-		&:last-child {
-			margin-right: 0;
-		}
 
 		.llms-sd-widget-title {
 			background: llms-var( color-primary );
