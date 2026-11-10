@@ -98,4 +98,44 @@ class LLMS_Test_Admin_Media_Protection_Attachment_Settings extends LLMS_UnitTest
 
 	}
 
+	/**
+	 * Test moving a scaled image into the protected folder also moves the original full-size image.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_move_attachment_to_protected_dir_moves_original_image() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+
+		$upload_path = wp_get_upload_dir()['basedir'] . '/lifterlms';
+		$name        = 'llms-move-test-' . uniqid();
+
+		// WordPress keeps the original upload next to the "-scaled" file it creates for big images.
+		$scaled   = wp_upload_bits( $name . '-scaled.jpg', null, 'scaled' );
+		$original = dirname( $scaled['file'] ) . '/' . $name . '.jpg';
+		file_put_contents( $original, 'original' );
+
+		$attachment_id = $this->factory->attachment->create_object( $scaled['file'], 0, array( 'post_mime_type' => 'image/jpeg' ) );
+		wp_update_attachment_metadata(
+			$attachment_id,
+			array(
+				'file'           => _wp_relative_upload_path( $scaled['file'] ),
+				'original_image' => $name . '.jpg',
+			)
+		);
+
+		$settings = new LLMS_Admin_Media_Protection_Attachment_Settings();
+		$this->assertTrue( $settings->move_attachment_to_protected_dir( $attachment_id ) );
+
+		$this->assertFileDoesNotExist( $original );
+		$this->assertStringStartsWith( $upload_path . '/', wp_get_original_image_path( $attachment_id ) );
+		$this->assertSame( 'original', file_get_contents( wp_get_original_image_path( $attachment_id ) ) );
+
+		$GLOBALS['wp_filesystem']->rmdir( $upload_path, true );
+
+	}
+
 }

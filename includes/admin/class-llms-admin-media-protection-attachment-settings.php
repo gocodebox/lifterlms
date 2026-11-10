@@ -127,21 +127,26 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		$protector->protect_upload_folder();
 
 		if ( $wp_filesystem->move( $file, $new_file ) ) {
-			// Move thumbnails if they exist.
-			if ( ! empty( $metadata['sizes'] ) ) {
+			// Move thumbnails and the original image of a scaled image if they exist.
+			$related_files = ! empty( $metadata['sizes'] ) ? wp_list_pluck( $metadata['sizes'], 'file' ) : array();
+			if ( ! empty( $metadata['original_image'] ) ) {
+				$related_files[] = $metadata['original_image'];
+			}
+
+			if ( $related_files ) {
 				$base_dir     = dirname( $file );
 				$new_base_dir = dirname( $new_file );
 
 				// Multiple registered sizes can share the same physical file.
 				$moved_files = array();
 
-				foreach ( $metadata['sizes'] as $size => $size_info ) {
-					if ( in_array( $size_info['file'], $moved_files, true ) ) {
+				foreach ( $related_files as $related_file ) {
+					if ( in_array( $related_file, $moved_files, true ) ) {
 						continue;
 					}
 
-					$old_thumb = $base_dir . '/' . $size_info['file'];
-					$new_thumb = $new_base_dir . '/' . $size_info['file'];
+					$old_thumb = $base_dir . '/' . $related_file;
+					$new_thumb = $new_base_dir . '/' . $related_file;
 					if ( ! $wp_filesystem->exists( $old_thumb ) ) {
 						error_log( 'Registered metadata thumbnail file does not exist. Skipping. ' . $old_thumb );
 						continue;
@@ -162,7 +167,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 						return false;
 					}
 
-					$moved_files[] = $size_info['file'];
+					$moved_files[] = $related_file;
 				}
 			}
 
