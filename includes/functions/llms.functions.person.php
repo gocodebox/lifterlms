@@ -451,6 +451,7 @@ function llms_parse_password_reset_cookie() {
  *
  * @since 3.0.0
  * @since 5.0.0 Use `LLMS_Form_Handler()` for registration.
+ * @since [version] Sign on users registered without a password when allowed by the `llms_user_registration_signon_without_password` filter.
  *
  * @param array  $data   Array of registration data.
  * @param string $screen The screen to be used for the validation template, accepts "registration" or "checkout".
@@ -466,8 +467,23 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 		return $user_id;
 	}
 
+	$has_password = ! empty( $data['password'] );
+
+	/**
+	 * Filters whether a new user who didn't submit a password (for example during passwordless checkout) is signed on.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool   $signon_without_password Whether to sign on the user. Default `false`.
+	 * @param string $screen                  Current validation template, either "registration" or "checkout".
+	 * @param int    $user_id                 WP_User ID of the newly registered user.
+	 */
+	if ( $signon && ! $has_password && ! apply_filters( 'llms_user_registration_signon_without_password', false, $screen, $user_id ) ) {
+		$signon = false;
+	}
+
 	// Signon.
-	if ( $signon && ! empty( $data['password'] ) ) {
+	if ( $signon ) {
 
 		$user = get_user_by( 'ID', $user_id );
 
@@ -482,15 +498,23 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 		 */
 		$remember = apply_filters( 'llms_user_registration_remember', true, $screen, $user );
 
-		wp_signon(
-			array(
-				'user_login'    => $user->user_login,
-				'user_password' => $data['password'],
-				'remember'      => $remember,
-			),
-			is_ssl()
-		);
+		if ( $has_password ) {
+			wp_signon(
+				array(
+					'user_login'    => $user->user_login,
+					'user_password' => $data['password'],
+					'remember'      => $remember,
+				),
+				is_ssl()
+			);
+		} else {
+			// The user never saw their generated password, so set the auth cookie directly the way `wp_signon()` would.
+			wp_set_auth_cookie( $user_id, $remember, is_ssl() );
+			wp_set_current_user( $user_id );
 
+			/** This action is documented in wp-includes/user.php */
+			do_action( 'wp_login', $user->user_login, $user );
+		}
 	}
 
 	return $user_id;

@@ -260,6 +260,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-classic-editor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-data.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-dynamic-fields.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-passwordless-checkout.php';
 
 		// Classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.assets.php';
