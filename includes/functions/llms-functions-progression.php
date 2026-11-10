@@ -38,6 +38,9 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * admins who can edit the lesson are always allowed; everyone else must be enrolled in the
  * lesson's parent course, the lesson must be available (drip), and its prerequisites must be complete.
  *
+ * The lesson's course must also be open: a course time period that hasn't started or has ended
+ * blocks students from changing their progress.
+ *
  * @since 10.0.7
  * @since [version] Require the lesson's prerequisites to be complete.
  *
@@ -56,6 +59,9 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	} elseif ( current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
 		// Instructors / admins able to edit the lesson are always allowed.
 		$allowed = true;
+	} elseif ( llms_is_post_restricted_by_time_period( $lesson->get( 'id' ), $user_id ) ) {
+		// The course time period hasn't started or has ended.
+		$allowed = false;
 	} else {
 		// The student must be enrolled in the lesson's parent course, the lesson must be available, and its prerequisites complete.
 		$allowed = (

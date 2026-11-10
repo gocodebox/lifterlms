@@ -171,6 +171,29 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 
 		$lesson->set( 'drip_method', '' );
 
+		// Enrolled but the course time period has ended or hasn't started yet.
+		$course->set( 'time_period', 'yes' );
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '-7 days' ) ) );
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '+1 day' ) ) );
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '+7 days' ) ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		// Allowed while the course is open.
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		// An instructor/admin who can edit the lesson is still allowed after the course ends.
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$instructor = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $instructor );
+		$this->assertTrue( llms_can_user_complete_lesson( $instructor, $lesson_id ) );
+		wp_set_current_user( $student->get( 'id' ) );
+
+		$course->set( 'time_period', 'no' );
+
 		// Enrolled and available, but the lesson's prerequisite is incomplete.
 		$prereq_course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
 		list( $prereq, $gated ) = $prereq_course->get_lessons();
