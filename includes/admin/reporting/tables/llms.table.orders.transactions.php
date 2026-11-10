@@ -20,30 +20,14 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Order_Bulk_Trash_Table;
+
 	/**
 	 * Object cache group for this table's cached aggregate queries.
 	 *
 	 * @var string
 	 */
 	const CACHE_GROUP = 'llms_orders_transactions';
-
-	/**
-	 * HTML ID of the bulk actions form, referenced by each row's checkbox.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	const BULK_FORM_ID = 'llms-orders-transactions-bulk';
-
-	/**
-	 * Nonce action for the bulk actions form.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	const BULK_NONCE_ACTION = 'llms-orders-transactions-bulk';
 
 	/**
 	 * Unique ID for the Table.
@@ -277,44 +261,6 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			default:
 				return '';
 		}
-	}
-
-	/**
-	 * Build the bulk action checkbox for a row.
-	 *
-	 * The checkbox selects the row's order, so every row of an order trashes the same order.
-	 * It's tied to the bulk actions form through the `form` attribute because the table
-	 * body is replaced on AJAX reloads and sits outside the form.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Order $order  Order object.
-	 * @param int        $row_id Post ID of the row (transaction or order), used for a unique input ID.
-	 * @return string
-	 */
-	protected function get_checkbox_html( $order, $row_id ) {
-		$order_id = $order->get( 'id' );
-		$input_id = 'llms-select-' . absint( $row_id );
-		return sprintf(
-			'<input id="%1$s" type="checkbox" name="order_ids[]" value="%2$d" form="%3$s"><label for="%1$s"><span class="screen-reader-text">%4$s</span></label>',
-			esc_attr( $input_id ),
-			$order_id,
-			esc_attr( self::BULK_FORM_ID ),
-			/* translators: %d: order ID */
-			esc_html( sprintf( __( 'Select order #%d', 'lifterlms' ), $order_id ) )
-		);
-	}
-
-	/**
-	 * Whether the current user can trash orders in bulk.
-	 *
-	 * @since [version]
-	 *
-	 * @return bool
-	 */
-	protected function user_can_bulk_trash() {
-		$post_type = get_post_type_object( 'llms_order' );
-		return $post_type && current_user_can( $post_type->cap->delete_posts );
 	}
 
 	/**
@@ -659,29 +605,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_transaction_statuses();
-		if ( $this->user_can_bulk_trash() ) :
-			?>
-		<form class="llms-table-bulk-actions" id="<?php echo esc_attr( self::BULK_FORM_ID ); ?>" method="post">
-			<?php wp_nonce_field( self::BULK_NONCE_ACTION ); ?>
-			<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-bulk-action">
-				<?php esc_html_e( 'Select bulk action', 'lifterlms' ); ?>
-			</label>
-			<select id="<?php echo esc_attr( $this->id ); ?>-bulk-action" name="llms_bulk_action">
-				<option value=""><?php esc_html_e( 'Bulk actions', 'lifterlms' ); ?></option>
-				<option value="trash"><?php esc_html_e( 'Move to Trash', 'lifterlms' ); ?></option>
-			</select>
-			<button class="button action" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
-			<?php
-			$trash_count = absint( wp_count_posts( 'llms_order' )->trash );
-			if ( $trash_count ) :
-				?>
-				<a class="llms-table-trash-link" href="<?php echo esc_url( admin_url( 'edit.php?post_type=llms_order&post_status=trash' ) ); ?>">
-					<?php esc_html_e( 'Trash', 'lifterlms' ); ?> <span class="count">(<?php echo esc_html( number_format_i18n( $trash_count ) ); ?>)</span>
-				</a>
-			<?php endif; ?>
-		</form>
-			<?php
-		endif;
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -1422,17 +1346,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	protected function set_columns() {
 
-		$columns = array();
-
-		if ( $this->user_can_bulk_trash() ) {
-			$columns['cb'] = array(
-				'exportable' => false,
-				'sortable'   => false,
-				'title'      => __( 'Select', 'lifterlms' ),
-			);
-		}
-
-		return $columns + array(
+		return $this->get_bulk_trash_columns() + array(
 			'transaction_id'         => array(
 				'exportable' => true,
 				'sortable'   => false,

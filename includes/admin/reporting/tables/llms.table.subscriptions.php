@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Order_Bulk_Trash_Table;
+
 	/**
 	 * Unique ID for the Table.
 	 *
@@ -111,6 +113,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		$value = '';
 
 		switch ( $key ) {
+
+			case 'cb':
+				$value = $this->get_checkbox_html( $data, $data->get( 'id' ) );
+				break;
 
 			case 'order':
 				$order_id = $data->get( 'id' );
@@ -314,6 +320,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	public function output_table_filters_html() {
 		$statuses = llms_get_order_statuses( 'recurring' );
 		$current  = $this->get_filter();
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
@@ -569,7 +576,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+		return $this->get_bulk_trash_columns() + array(
 			'order'               => array(
 				'exportable' => true,
 				'sortable'   => true,
