@@ -1647,6 +1647,64 @@ class LLMS_REST_Test_Courses extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * The edit context collection lists only the courses the current user can edit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_items_edit_context_limited_to_editable_courses() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$admin      = $this->factory->user->create( array( 'role' => 'administrator' ) );
+
+		$own        = $this->factory->course->create( array( 'sections' => 0 ) );
+		$instructed = $this->factory->course->create( array( 'sections' => 0 ) );
+		$others     = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		wp_update_post( array( 'ID' => $own, 'post_author' => $instructor ) );
+		wp_update_post( array( 'ID' => $instructed, 'post_author' => $admin ) );
+		wp_update_post( array( 'ID' => $others, 'post_author' => $admin, 'post_password' => 'secret', 'post_content' => 'Protected content' ) );
+		llms_get_post( $instructed )->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		wp_set_current_user( $instructor );
+
+		// The single item endpoint refuses the edit context for a course the instructor cannot edit.
+		$res = $this->perform_mock_request( 'GET', $this->route . '/' . $others, array(), array( 'context' => 'edit' ) );
+		$this->assertResponseStatusEquals( 403, $res );
+
+		// The collection only lists, and counts, the courses the instructor can edit.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'context'  => 'edit',
+			'per_page' => 100,
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$ids = wp_list_pluck( $res->get_data(), 'id' );
+		sort( $ids );
+		$this->assertEquals( array( $own, $instructed ), $ids );
+		$this->assertEquals( 2, $res->get_headers()['X-WP-Total'] );
+
+		// The view context still lists every published course, without passwords.
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'per_page' => 100 ) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 3, $res->get_headers()['X-WP-Total'] );
+		$data = array_column( $res->get_data(), null, 'id' );
+		$this->assertArrayNotHasKey( 'password', $data[ $others ] );
+
+		// Administrators still get every course in the edit context.
+		wp_set_current_user( $admin );
+		$res = $this->perform_mock_request( 'GET', $this->route, array(), array(
+			'context'  => 'edit',
+			'per_page' => 100,
+		) );
+		$this->assertResponseStatusEquals( 200, $res );
+		$this->assertEquals( 3, $res->get_headers()['X-WP-Total'] );
+		$data = array_column( $res->get_data(), null, 'id' );
+		$this->assertEquals( 'secret', $data[ $others ]['password'] );
+
+	}
+
+	/**
 	 * Unreleased courses are not counted for callers who cannot read them.
 	 *
 	 * An instructor can request non-public statuses, but the per-item read
