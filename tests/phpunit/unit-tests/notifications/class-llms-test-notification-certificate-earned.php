@@ -81,6 +81,7 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 			'{{CERTIFICATE_TITLE}}'   => $cert->get( 'title' ),
 			'{{CERTIFICATE_URL}}'     => get_permalink( $cert->get( 'id' ) ),
 			'{{STUDENT_NAME}}'        => 'you',
+			'{{STUDENT_FULL_NAME}}'   => $user->get_name(),
 			'{{FAKE_CODE}}'           => '{{FAKE_CODE}}',
 		);
 

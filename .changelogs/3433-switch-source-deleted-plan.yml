@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3433"
+entry: Fixed the "Update Payment Method" and "Reactivate Subscription" buttons missing from a student's subscription when its access plan was permanently deleted.
