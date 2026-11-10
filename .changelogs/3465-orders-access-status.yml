@@ -1,5 +1,5 @@
 significance: patch
-type: added
-entry: "Added an Access column (\"Expires: <date>\", \"Expired: <date>\", or \"Lifetime Access\") to the Orders & Transactions and Subscriptions screens and their exports, and an Access Expired filter to Orders & Transactions."
+type: fixed
+entry: "The Orders & Transactions and Subscriptions screens and their exports show each order's access status again (\"Expires: <date>\", \"Expired: <date>\", or \"Lifetime Access\"), as the Orders screen did before 11.0.0."
 links:
   - "#3465"
