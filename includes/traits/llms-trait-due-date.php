@@ -283,9 +283,11 @@ trait LLMS_Trait_Due_Date {
 		if ( 'overdue' !== $this->get_student_due_status( $student_id ) ) {
 			return '';
 		}
+		// A block element, so the notice sits on its own line under the due date even when a theme doesn't load LifterLMS styles.
 		return sprintf(
-			'<span class="llms-due-notice">%s</span>',
-			esc_html__( 'This is past due. You can still submit it, but it will be marked late.', 'lifterlms' )
+			'<div class="llms-due-notice">%s</div>',
+			// Translators: Shown under the due date of an overdue quiz or assignment, after its "Overdue" status.
+			esc_html__( 'You can still submit it, but it will be marked late.', 'lifterlms' )
 		);
 	}
 
