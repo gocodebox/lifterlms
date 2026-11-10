@@ -318,6 +318,17 @@ class LLMS_Controller_Checkout {
 			$this->send_json( $error );
 		}
 
+		/*
+		 * The AJAX checkout doesn't register the user until the order is confirmed, so only gateways that
+		 * complete orders through that confirmation step can be used here.
+		 */
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( sanitize_text_field( wp_unslash( $_POST['llms_payment_gateway'] ?? 'manual' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+		if ( $gateway && ! $gateway->supports( 'ajax_checkout' ) ) {
+			$this->send_json(
+				new WP_Error( 'llms-checkout-gateway-unsupported', __( 'The selected payment method is not available.', 'lifterlms' ) )
+			);
+		}
+
 		// Generate the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$order     = $generator->generate( $generator::UA_VALIDATE );
