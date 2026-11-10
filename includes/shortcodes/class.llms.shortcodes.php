@@ -460,7 +460,7 @@ class LLMS_Shortcodes {
 			switch ( $type ) {
 
 				case 'date':
-					$ret = $course->get_date( $key, $date_format );
+					$ret = esc_html( $course->get_date( $key, $date_format ) );
 					break;
 
 				case 'price':

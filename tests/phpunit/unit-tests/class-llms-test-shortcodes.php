@@ -289,6 +289,27 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that the course info shortcode escapes date output.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_course_info_escapes_date_output() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		update_post_meta( $course_id, '_llms_start_date', '2026-11-06' );
+
+		// A date format with escaped characters cannot add markup.
+		$this->assertSame(
+			'&lt;b&gt;2026',
+			do_shortcode( sprintf( '[lifterlms_course_info id=%d key=start_date date_format=\\\\<\\\\b\\\\>Y]', $course_id ) )
+		);
+		$this->assertSame( '2026-11-06', do_shortcode( sprintf( '[lifterlms_course_info id=%d key=start_date date_format=Y-m-d]', $course_id ) ) );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0
