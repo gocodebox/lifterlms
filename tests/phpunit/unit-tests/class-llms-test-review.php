@@ -168,4 +168,47 @@ class LLMS_Test_Review extends LLMS_UnitTestCase {
 		wp_set_current_user( $enrolled );
 		$this->assertStringContainsString( 'id="review_box"', $this->get_output( array( 'LLMS_Reviews', 'output' ) ) );
 	}
+
+	/**
+	 * Test that shortcodes in a review's title, content, and author name are stripped when the course content is output.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_does_not_run_review_shortcodes() {
+		add_shortcode(
+			'llms_test_review_shortcode',
+			function ( $atts ) {
+				return 'SHORTCODE_RAN_' . ( $atts['in'] ?? '' );
+			}
+		);
+
+		$student = $this->factory->student->create( array( 'display_name' => 'Jane [llms_test_review_shortcode in=name]' ) );
+		$course  = $this->factory->course->create( array( 'sections' => 0 ) );
+		update_post_meta( $course, '_llms_reviews_enabled', 'yes' );
+		update_post_meta( $course, '_llms_display_reviews', 'yes' );
+
+		$this->factory->post->create(
+			array(
+				'post_type'    => 'llms_review',
+				'post_parent'  => $course,
+				'post_author'  => $student,
+				'post_title'   => 'Great [llms_test_review_shortcode in=title] course',
+				'post_content' => 'Loved it [llms_test_review_shortcode in=content][[llms_test_review_shortcode in=escaped]][[[llms_test_review_shortcode in=escaped_twice]]] a lot',
+			)
+		);
+
+		$this->go_to( get_permalink( $course ) );
+		the_post();
+		$html = apply_filters( 'the_content', get_the_content() );
+
+		remove_shortcode( 'llms_test_review_shortcode' );
+
+		$this->assertStringNotContainsString( 'SHORTCODE_RAN_', $html );
+		$this->assertStringNotContainsString( 'llms_test_review_shortcode', $html );
+		$this->assertStringContainsString( '<strong>Great  course</strong>', $html );
+		$this->assertStringContainsString( '<p>Loved it  a lot</p>', $html );
+		$this->assertStringContainsString( 'By: Jane ', $html );
+	}
 }
