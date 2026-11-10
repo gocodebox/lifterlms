@@ -89,11 +89,13 @@ class LLMS_Admin_Due_Dates {
 		} else {
 			$date = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_date' );
 			$time = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_time' );
-			if ( ! $date || ! strtotime( $date ) ) {
+			// The form's date and time are in the site's timezone.
+			$due = $date ? date_create( $date . ' ' . ( $time ? $time : '23:59:59' ), wp_timezone() ) : false;
+			if ( ! $due ) {
 				wp_safe_redirect( add_query_arg( 'llms_due_error', $item->get( 'id' ), remove_query_arg( 'llms_due_saved', wp_get_referer() ) ) . '#llms-due-dates-notice' );
 				exit;
 			}
-			$item->set_due_date_override( $student_id, $date . ' ' . ( $time ? $time : '23:59:59' ), $reason );
+			$item->set_due_date_override( $student_id, $due->getTimestamp(), $reason );
 		}
 
 		wp_safe_redirect( add_query_arg( 'llms_due_saved', $item->get( 'id' ), remove_query_arg( 'llms_due_error', wp_get_referer() ) ) . '#llms-due-dates-notice' );
@@ -170,9 +172,9 @@ class LLMS_Admin_Due_Dates {
 							<strong><?php echo esc_html( $item->get( 'title' ) ); ?></strong><br>
 							<small><?php echo esc_html( get_post_type_object( $item->get( 'type' ) )->labels->singular_name . ' · ' . $row['lesson']->get( 'title' ) ); ?></small>
 						</td>
-						<td data-label="<?php esc_attr_e( 'Course due date', 'lifterlms' ); ?>"><?php echo $default ? esc_html( date_i18n( $format, $default ) ) : '&ndash;'; ?></td>
+						<td data-label="<?php esc_attr_e( 'Course due date', 'lifterlms' ); ?>"><?php echo $default ? esc_html( wp_date( $format, $default ) ) : '&ndash;'; ?></td>
 						<td data-label="<?php esc_attr_e( 'Student due date', 'lifterlms' ); ?>">
-							<?php echo $due ? esc_html( date_i18n( $format, $due ) ) : esc_html__( 'No due date', 'lifterlms' ); ?>
+							<?php echo $due ? esc_html( wp_date( $format, $due ) ) : esc_html__( 'No due date', 'lifterlms' ); ?>
 							<?php $accommodation = ! $override && $default ? $item->get_due_date_accommodation( $student->get_id() ) : false; ?>
 							<?php if ( $accommodation ) : ?>
 								<span class="llms-due-badge llms-due-badge--override"><?php /* Translators: Badge on a due date that was extended or removed by an accommodation on the student's profile. */ esc_html_e( 'Accommodation', 'lifterlms' ); ?></span>
@@ -193,7 +195,7 @@ class LLMS_Admin_Due_Dates {
 									trim(
 										( $override['reason'] ? $override['reason'] . ' · ' : '' ) .
 										// Translators: %1$s = user name; %2$s = date.
-										sprintf( __( 'by %1$s on %2$s', 'lifterlms' ), $by ? $by->display_name : '?', date_i18n( get_option( 'date_format' ), strtotime( $override['date'] ) ) )
+										sprintf( __( 'by %1$s on %2$s', 'lifterlms' ), $by ? $by->display_name : '?', wp_date( get_option( 'date_format' ), strtotime( $override['date'] . ' UTC' ) ) )
 									)
 								);
 								?>
@@ -208,7 +210,7 @@ class LLMS_Admin_Due_Dates {
 								<br><small>
 								<?php
 								// Translators: %s = submission date.
-								printf( esc_html__( 'Submitted %s', 'lifterlms' ), esc_html( date_i18n( $format, $submitted ) ) );
+								printf( esc_html__( 'Submitted %s', 'lifterlms' ), esc_html( wp_date( $format, $submitted ) ) );
 								?>
 								</small>
 							<?php endif; ?>
@@ -227,10 +229,10 @@ class LLMS_Admin_Due_Dates {
 							<form method="post" class="llms-due-dates-form" id="<?php echo esc_attr( $form_id ); ?>"<?php echo $is_open ? '' : ' hidden'; ?>>
 								<div class="llms-due-dates-when">
 									<label><?php esc_html_e( 'Due date', 'lifterlms' ); ?>
-										<input type="date" name="llms_due_date" value="<?php echo esc_attr( $due ? gmdate( 'Y-m-d', $due ) : '' ); ?>">
+										<input type="date" name="llms_due_date" value="<?php echo esc_attr( $due ? wp_date( 'Y-m-d', $due ) : '' ); ?>">
 									</label>
 									<label><?php /* Translators: Label for the time of day a quiz or assignment is due. */ esc_html_e( 'Time', 'lifterlms' ); ?>
-										<input type="time" name="llms_due_time" value="<?php echo esc_attr( $due ? gmdate( 'H:i', $due ) : '23:59' ); ?>">
+										<input type="time" name="llms_due_time" value="<?php echo esc_attr( $due ? wp_date( 'H:i', $due ) : '23:59' ); ?>">
 									</label>
 								</div>
 								<label><input type="checkbox" name="llms_due_none" value="1"<?php checked( $override && 'none' === $override['due'] ); ?>> <?php esc_html_e( 'No due date for this student', 'lifterlms' ); ?></label>
@@ -326,12 +328,12 @@ JS;
 				'id'        => 'llms-reporting-quiz-attempt-due',
 				'data'      => $late ?
 					// Translators: %s = Human readable time difference.
-					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, strtotime( $attempt->get( 'end_date' ) ) ) ) :
+					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, (int) get_gmt_from_date( $attempt->get( 'end_date' ), 'U' ) ) ) :
 					// Translators: The quiz attempt was submitted by its due date.
 					__( 'On time', 'lifterlms' ),
 				'data_type' => 'text',
 				// Translators: %s = Due date.
-				'text'      => sprintf( __( 'Due %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due ) ),
+				'text'      => sprintf( __( 'Due %s', 'lifterlms' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due ) ),
 			)
 		);
 	}

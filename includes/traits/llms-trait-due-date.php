@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * **Classes that use this trait must call {@see LLMS_Trait_Due_Date::construct_due_date()}
  * in their constructor.**
  *
- * Timestamps follow the same "site local" convention as lesson drip: they are created with `strtotime()`
- * on dates in the site's timezone and compared to `llms_current_time( 'timestamp' )`.
+ * Timestamps are Unix (UTC) timestamps, compared to `time()` and formatted with `wp_date()`. Due dates and
+ * times entered on a quiz or assignment are in the site's timezone; per-student due dates are stored in UTC.
  *
  * @since [version]
  *
@@ -97,16 +97,16 @@ trait LLMS_Trait_Due_Date {
 	 * @since [version]
 	 *
 	 * @param int $student_id WP_User ID. Required for enrollment-based due dates.
-	 * @return int|false Site local timestamp or `false` when there is no due date.
+	 * @return int|false Unix timestamp or `false` when there is no due date.
 	 */
 	public function get_default_due_timestamp( $student_id = null ) {
 
-		$time = $this->get( 'due_time' );
-		$time = $time ? $time : '11:59:59 PM';
-		$days = $this->get( 'due_days' );
-		$day  = false;
+		$method = $this->get( 'due_method' );
+		$time   = $this->get( 'due_time' );
+		$time   = $time ? $time : '11:59:59 PM';
+		$day    = false;
 
-		switch ( $this->get( 'due_method' ) ) {
+		switch ( $method ) {
 
 			case 'date':
 				$day = $this->get( 'due_date' );
@@ -115,26 +115,29 @@ trait LLMS_Trait_Due_Date {
 			case 'enrollment':
 				$course  = $this->get_due_date_course();
 				$student = $student_id ? llms_get_student( $student_id ) : false;
-				$start   = ( $course && $student ) ? $student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'U' ) : false;
-				$day     = $start ? gmdate( 'Y-m-d', $start + ( $days * DAY_IN_SECONDS ) ) : false;
+				$day     = ( $course && $student ) ? $student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'Y-m-d' ) : false;
 				break;
 
 			case 'start':
 				$course = $this->get_due_date_course();
-				$start  = $course ? $course->get_date( 'start_date', 'U' ) : false;
-				$day    = $start ? gmdate( 'Y-m-d', $start + ( $days * DAY_IN_SECONDS ) ) : false;
+				$day    = $course ? $course->get_date( 'start_date', 'Y-m-d' ) : false;
 				break;
 
 		}
 
-		$timestamp = $day ? strtotime( $day . ' ' . $time ) : false;
+		// The day and time are in the site's timezone. Days are added as calendar days so the time of day doesn't shift across daylight saving time.
+		$date = $day ? date_create( $day . ' ' . $time, wp_timezone() ) : false;
+		if ( $date && 'date' !== $method ) {
+			$date->modify( '+' . absint( $this->get( 'due_days' ) ) . ' days' );
+		}
+		$timestamp = $date ? $date->getTimestamp() : false;
 
 		/**
 		 * Filters the default due date timestamp of an item, before student overrides are applied.
 		 *
 		 * @since [version]
 		 *
-		 * @param int|false       $timestamp  Site local timestamp or `false` for no due date.
+		 * @param int|false       $timestamp  Unix timestamp or `false` for no due date.
 		 * @param LLMS_Post_Model $item       Quiz, assignment, etc.
 		 * @param int|null        $student_id WP_User ID.
 		 */
@@ -150,10 +153,10 @@ trait LLMS_Trait_Due_Date {
 	 * @return array|false {
 	 *     Override data or `false` when there is no override.
 	 *
-	 *     @type string $due    Local date (Y-m-d H:i:s) or `none` to remove the due date for this student.
+	 *     @type string $due    UTC date (Y-m-d H:i:s) or `none` to remove the due date for this student.
 	 *     @type string $reason Reason for the override, visible only to instructors.
 	 *     @type int    $by     WP_User ID of the user who created the override.
-	 *     @type string $date   Local date (Y-m-d H:i:s) when the override was created.
+	 *     @type string $date   UTC date (Y-m-d H:i:s) when the override was created.
 	 * }
 	 */
 	public function get_due_date_override( $student_id ) {
@@ -166,9 +169,9 @@ trait LLMS_Trait_Due_Date {
 	 *
 	 * @since [version]
 	 *
-	 * @param int    $student_id WP_User ID.
-	 * @param string $due        Local date (Y-m-d H:i:s), `none` to remove the due date for the student, or empty to delete the override.
-	 * @param string $reason     Optional reason, visible only to instructors.
+	 * @param int        $student_id WP_User ID.
+	 * @param int|string $due    Unix timestamp, `none` to remove the due date for the student, or empty to delete the override.
+	 * @param string     $reason     Optional reason, visible only to instructors.
 	 * @return bool
 	 */
 	public function set_due_date_override( $student_id, $due, $reason = '' ) {
@@ -178,10 +181,10 @@ trait LLMS_Trait_Due_Date {
 		}
 
 		$override = array(
-			'due'    => 'none' === $due ? 'none' : gmdate( 'Y-m-d H:i:s', strtotime( $due ) ),
+			'due'    => 'none' === $due ? 'none' : gmdate( 'Y-m-d H:i:s', (int) $due ),
 			'reason' => sanitize_text_field( $reason ),
 			'by'     => get_current_user_id(),
-			'date'   => llms_current_time( 'mysql' ),
+			'date'   => gmdate( 'Y-m-d H:i:s' ),
 		);
 
 		$res = llms_update_user_postmeta( $student_id, $this->get( 'id' ), '_due_date_override', $override );
@@ -209,19 +212,23 @@ trait LLMS_Trait_Due_Date {
 	 * @since [version]
 	 *
 	 * @param int $student_id WP_User ID.
-	 * @return int|false Site local timestamp or `false` when there is no due date for the student.
+	 * @return int|false Unix timestamp or `false` when there is no due date for the student.
 	 */
 	public function get_due_timestamp( $student_id = null ) {
 
 		$override = $this->get_due_date_override( $student_id );
 		if ( $override ) {
-			return 'none' === $override['due'] ? false : strtotime( $override['due'] );
+			return 'none' === $override['due'] ? false : strtotime( $override['due'] . ' UTC' );
 		}
 
 		$default       = $this->get_default_due_timestamp( $student_id );
 		$accommodation = $default ? $this->get_due_date_accommodation( $student_id ) : false;
 		if ( $accommodation ) {
-			return 'none' === $accommodation['type'] ? false : $default + ( $accommodation['days'] * DAY_IN_SECONDS );
+			if ( 'none' === $accommodation['type'] ) {
+				return false;
+			}
+			// Add calendar days in the site's timezone, so an 11:59 PM due date stays at 11:59 PM across daylight saving time.
+			return date_create( '@' . $default )->setTimezone( wp_timezone() )->modify( '+' . absint( $accommodation['days'] ) . ' days' )->getTimestamp();
 		}
 
 		return $default;
@@ -261,7 +268,7 @@ trait LLMS_Trait_Due_Date {
 		}
 		// Full date and time, with the site's time zone abbreviation (e.g. EST) for students in other zones.
 		$format = $format ? $format : get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) . ' T';
-		return date_i18n( $format, $timestamp );
+		return wp_date( $format, $timestamp );
 	}
 
 	/**
@@ -291,7 +298,7 @@ trait LLMS_Trait_Due_Date {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $timestamp Site local timestamp of the date being formatted.
+	 * @param int $timestamp Unix timestamp of the date being formatted.
 	 * @return string
 	 */
 	public static function get_short_date_format( $timestamp ) {
@@ -302,7 +309,7 @@ trait LLMS_Trait_Due_Date {
 		$format = preg_replace( array( '/(?<!\\\\)F/', '/(?<!\\\\)l/' ), array( 'M', 'D' ), $format );
 
 		// Drop the year, with the separators and escaped literal text that join it to the rest of the date.
-		if ( gmdate( 'Y', $timestamp ) === current_time( 'Y' ) ) {
+		if ( wp_date( 'Y', $timestamp ) === wp_date( 'Y' ) ) {
 			$format = preg_replace( '/^\s*[Yyo](?:[\s,.\/\-]|\\\\.)*|(?:[\s,.\/\-]|\\\\.)*[Yyo]\s*$/', '', $format );
 		}
 
@@ -312,7 +319,7 @@ trait LLMS_Trait_Due_Date {
 		 * @since [version]
 		 *
 		 * @param string $format    Date format.
-		 * @param int    $timestamp Site local timestamp of the date being formatted.
+		 * @param int    $timestamp Unix timestamp of the date being formatted.
 		 */
 		return apply_filters( 'llms_short_date_format', trim( $format ), $timestamp );
 	}
@@ -326,12 +333,12 @@ trait LLMS_Trait_Due_Date {
 	 * @since [version]
 	 *
 	 * @param int        $student_id WP_User ID.
-	 * @param int|string $submitted  Site local timestamp or date string of the submission.
+	 * @param int|string $submitted  Unix timestamp, or a date (Y-m-d H:i:s) in the site's timezone as stored for quiz attempts and submissions.
 	 * @return bool
 	 */
 	public function is_submission_late( $student_id, $submitted ) {
 		$due       = $this->get_due_timestamp( $student_id );
-		$submitted = is_numeric( $submitted ) ? (int) $submitted : strtotime( $submitted );
+		$submitted = is_numeric( $submitted ) ? (int) $submitted : (int) get_gmt_from_date( $submitted, 'U' );
 		return $due && $submitted && $submitted > $due;
 	}
 
@@ -341,7 +348,7 @@ trait LLMS_Trait_Due_Date {
 	 * @since [version]
 	 *
 	 * @param int             $student_id WP_User ID.
-	 * @param int|string|null $submitted  Site local timestamp or date of the student's (first) submission, if any.
+	 * @param int|string|null $submitted  Unix timestamp or site-timezone date of the student's (first) submission, if any.
 	 * @return string One of: none, upcoming, due-soon, overdue, on-time, late.
 	 */
 	public function get_due_status( $student_id, $submitted = null ) {
@@ -355,7 +362,7 @@ trait LLMS_Trait_Due_Date {
 			return $this->is_submission_late( $student_id, $submitted ) ? 'late' : 'on-time';
 		}
 
-		$now = llms_current_time( 'timestamp' );
+		$now = time();
 		if ( $now > $due ) {
 			return 'overdue';
 		}
@@ -379,7 +386,7 @@ trait LLMS_Trait_Due_Date {
 	 * @since [version]
 	 *
 	 * @param int $student_id WP_User ID.
-	 * @return int|false Site local timestamp or `false` when the student hasn't submitted.
+	 * @return int|false Unix timestamp or `false` when the student hasn't submitted.
 	 */
 	abstract public function get_first_submission_time( $student_id );
 
@@ -439,9 +446,6 @@ trait LLMS_Trait_Due_Date {
 
 		$status = $this->get_student_due_status( $student_id );
 
-		// Due timestamps are "site local", so read the wall-clock time back in the site's timezone to get the offset.
-		$datetime = date_create( gmdate( 'Y-m-d H:i:s', $this->get_due_timestamp( $student_id ) ), wp_timezone() );
-
 		// The separator reads well when a theme doesn't load LifterLMS styles; styled badges hide it.
 		// Screen readers hear "Status:" before the badge, so it isn't read as part of the date.
 		$badge = 'upcoming' === $status ? '' : sprintf(
@@ -458,7 +462,7 @@ trait LLMS_Trait_Due_Date {
 			sprintf(
 				// Translators: %s = Formatted due date of a quiz or assignment, such as "Oct 25" or "October 25, 2026 11:59 pm EST".
 				esc_html__( 'Due: %s', 'lifterlms' ),
-				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( $datetime->format( DATE_W3C ) ), esc_html( $date ) )
+				sprintf( '<time datetime="%1$s">%2$s</time>', esc_attr( gmdate( DATE_W3C, $this->get_due_timestamp( $student_id ) ) ), esc_html( $date ) )
 			),
 			$badge
 		);

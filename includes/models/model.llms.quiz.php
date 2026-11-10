@@ -91,7 +91,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since [version]
 	 *
 	 * @param int $student_id WP_User ID.
-	 * @return int|false Site local timestamp or `false` when the student has no completed attempts.
+	 * @return int|false Unix timestamp or `false` when the student has no completed attempts.
 	 */
 	public function get_first_submission_time( $student_id ) {
 
@@ -112,7 +112,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			)
 		);
 
-		return $query->has_results() ? strtotime( $query->get_attempts()[0]->get( 'end_date' ) ) : false;
+		// Attempt dates are stored in the site's timezone.
+		return $query->has_results() ? (int) get_gmt_from_date( $query->get_attempts()[0]->get( 'end_date' ), 'U' ) : false;
 	}
 
 	/**
