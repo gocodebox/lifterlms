@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "The My Grades summary widgets wrap onto more rows on small screens, and the grades table scrolls within its own area instead of widening the page."
+links:
+  - "#3462"

@@ -152,6 +152,29 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_template_view_order_actions() shows the switch source form when the order's access plan was permanently deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_template_view_order_actions_switch_source_deleted_plan() {
+
+		$plan  = $this->get_mock_plan();
+		$order = $this->get_mock_order( $plan );
+		$order->set_status( 'llms-active' );
+
+		wp_delete_post( $plan->get( 'id' ), true );
+		$this->assertNull( get_post( $plan->get( 'id' ) ) );
+
+		$res = $this->get_output( 'llms_template_view_order_actions', array( $order ) );
+
+		$this->assertStringContainsString( 'id="llms_update_payment_method"', $res );
+		$this->assertStringContainsString( 'name="llms_switch_action" type="hidden" value="switch"', $res );
+
+	}
+
+	/**
 	 * Test llms_template_view_order_information().
 	 *
 	 * @since 6.0.0

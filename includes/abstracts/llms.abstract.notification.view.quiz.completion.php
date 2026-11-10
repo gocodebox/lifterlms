@@ -88,15 +88,16 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
-			'{{COURSE_TITLE}}'    => __( 'Course Title', 'lifterlms' ),
-			'{{GRADE}}'           => __( 'Grade', 'lifterlms' ),
-			'{{GRADE_BAR}}'       => __( 'Grade Bar', 'lifterlms' ),
-			'{{LESSON_TITLE}}'    => __( 'Lesson Title', 'lifterlms' ),
-			'{{QUIZ_TITLE}}'      => __( 'Quiz Title', 'lifterlms' ),
-			'{{REVIEW_URL}}'      => __( 'Review URL', 'lifterlms' ),
-			'{{STATUS}}'          => __( 'Quiz Status', 'lifterlms' ),
-			'{{STUDENT_NAME}}'    => __( 'Student Name', 'lifterlms' ),
+			'{{COURSE_PROGRESS}}'   => __( 'Course Progress Bar', 'lifterlms' ),
+			'{{COURSE_TITLE}}'      => __( 'Course Title', 'lifterlms' ),
+			'{{GRADE}}'             => __( 'Grade', 'lifterlms' ),
+			'{{GRADE_BAR}}'         => __( 'Grade Bar', 'lifterlms' ),
+			'{{LESSON_TITLE}}'      => __( 'Lesson Title', 'lifterlms' ),
+			'{{QUIZ_TITLE}}'        => __( 'Quiz Title', 'lifterlms' ),
+			'{{REVIEW_URL}}'        => __( 'Review URL', 'lifterlms' ),
+			'{{STATUS}}'            => __( 'Quiz Status', 'lifterlms' ),
+			'{{STUDENT_NAME}}'      => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}' => __( 'Student Full Name', 'lifterlms' ),
 		);
 	}
 
@@ -167,6 +168,10 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				break;
+
+			case '{{STUDENT_FULL_NAME}}':
+				$code = $this->user->get_name();
 				break;
 
 		}

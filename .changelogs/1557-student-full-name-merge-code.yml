@@ -1,0 +1,5 @@
+significance: minor
+type: added
+entry: "Added the `{{STUDENT_FULL_NAME}}` notification merge code, which always outputs the student's name. The `{{STUDENT_NAME}}` merge code is unchanged and still outputs \"you\" when a student views their own notification."
+links:
+  - "#1557"

@@ -120,7 +120,8 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 			'{{CERTIFICATE_CONTENT}}' => __( 'Certificate Content', 'lifterlms' ),
 			'{{CERTIFICATE_TITLE}}'   => __( 'Certificate Title', 'lifterlms' ),
 			'{{CERTIFICATE_URL}}'     => __( 'Certificate URL', 'lifterlms' ),
-			'{{STUDENT_NAME}}'        => __( 'Student Name', 'lifterlms' ),
+			'{{STUDENT_NAME}}'        => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}'   => __( 'Student Full Name', 'lifterlms' ),
 			'{{MINI_CERTIFICATE}}'    => __( 'Mini Certificate', 'lifterlms' ),
 		);
 	}
@@ -203,6 +204,18 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 */
 	private function set_merge_data_student_name( $cert ) {
 		return $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+	}
+
+	/**
+	 * Get merge data for the {{STUDENT_FULL_NAME}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_student_full_name( $cert ) {
+		return $this->user->get_name();
 	}
 
 	/**

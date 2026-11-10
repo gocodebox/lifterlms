@@ -9,7 +9,8 @@
  * @since 3.10.0
  * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
  * @since 7.5.0 Pass the `LLMS_Order` instance to the form-gateways template.
- * @version 7.0.0
+ * @since [version] Display the form when the order's access plan has been deleted.
+ * @version [version]
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.
  * @var LLMS_Order $order   The order object.
@@ -19,10 +20,6 @@ defined( 'ABSPATH' ) || exit;
 $status        = $order->get( 'status' );
 $gateway       = llms()->payment_gateways()->get_gateway_by_id( $confirm );
 $order_gateway = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
-$plan          = llms_get_post( $order->get( 'plan_id' ) );
-if ( ! $plan ) {
-	return;
-}
 if ( 'llms-active' === $status ) {
 	if ( $order_gateway && $order_gateway->is_external_payment_entry() ) {
 		$submit_text = __( 'Save and Continue', 'lifterlms' );
