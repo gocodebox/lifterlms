@@ -605,6 +605,11 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 
 		// Auto enroll.
 		if ( ! empty( $schema['properties']['auto_enroll'] ) && isset( $request['auto_enroll'] ) ) {
+			if ( ! current_user_can( 'manage_lifterlms' ) ) {
+				return llms_rest_authorization_required_error(
+					__( 'You are not authorized to modify the auto-enroll courses for this membership.', 'lifterlms' )
+				);
+			}
 			$membership->add_auto_enroll_courses( $request['auto_enroll'], true );
 		}
 
