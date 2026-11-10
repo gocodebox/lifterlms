@@ -137,6 +137,15 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	protected $coupon_filter = 0;
 
 	/**
+	 * Currently selected access filter. Accepts 'expired' or an empty string for all orders.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $access_filter = '';
+
+	/**
 	 * Active custom sort mode for the `posts_clauses` filter ('product' or 'amount').
 	 *
 	 * @var string
@@ -210,6 +219,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$value = $this->get_status_html( $data->get( 'status' ) );
 				break;
 
+			case 'access':
+				if ( $order ) {
+					$value = esc_html( $order->get_access_expiration_label() );
+				}
+				break;
+
 			case 'payment_type':
 				$value = $this->get_payment_type_label( $data->get( 'payment_type' ) );
 				break;
@@ -267,6 +282,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 					return $this->get_status_html( $txn_status );
 				}
 				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
+
+			case 'access':
+				return esc_html( $order->get_access_expiration_label() );
 
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
@@ -561,6 +579,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_payment_type_label( $data->get( 'payment_type' ) );
 
+			case 'access':
+				return $order ? $order->get_access_expiration_label( 'Y-m-d' ) : '';
+
 			case 'product':
 				return $order ? $order->get( 'product_title' ) : '';
 
@@ -627,6 +648,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
+
+			case 'access':
+				return $order->get_access_expiration_label( 'Y-m-d' );
 
 			case 'product':
 				return $order->get( 'product_title' );
@@ -730,6 +754,15 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 					<?php endforeach; ?>
 				</select>
 			</div>
+			<div class="llms-table-filter-wrap">
+				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-access-filter">
+					<?php esc_html_e( 'Filter by Access', 'lifterlms' ); ?>
+				</label>
+				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-access-filter" name="access">
+					<option value=""><?php esc_html_e( 'All Access', 'lifterlms' ); ?></option>
+					<option value="expired" <?php selected( $this->access_filter, 'expired' ); ?>><?php esc_html_e( 'Access Expired', 'lifterlms' ); ?></option>
+				</select>
+			</div>
 		</div>
 		<?php
 	}
@@ -829,38 +862,28 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		$search = $this->get_search();
 
-		if ( $search || $this->coupon_filter ) {
+		if ( $search || $this->coupon_filter || $this->access_filter ) {
 
-			// Resolve the search term to the post IDs (transactions and/or
-			// transaction-less orders) that should appear.
-			$search_post_ids = null;
+			// Resolve each constraint (search term, coupon, access) to the post IDs
+			// (transactions and/or transaction-less orders) that should appear, then
+			// intersect them so combined constraints narrow the results.
+			$post_id_sets = array();
+
 			if ( $search ) {
-				$search_post_ids = $this->get_search_post_ids( $search );
-				if ( empty( $search_post_ids ) ) {
-					$this->tbody_data = array();
-					return;
-				}
+				$post_id_sets[] = $this->get_search_post_ids( $search );
 			}
 
-			// Resolve the coupon filter to the same kind of post ID set.
-			$coupon_post_ids = null;
 			if ( $this->coupon_filter ) {
-				$coupon_order_ids = $this->get_order_ids_for_coupon( $this->coupon_filter );
-				if ( empty( $coupon_order_ids ) ) {
-					$this->tbody_data = array();
-					return;
-				}
-				$coupon_post_ids = array_merge(
-					$this->get_transaction_ids_for_orders( $coupon_order_ids ),
-					$this->get_orders_without_transactions( $coupon_order_ids )
-				);
+				$post_id_sets[] = $this->get_post_ids_for_orders( $this->get_order_ids_for_coupon( $this->coupon_filter ) );
 			}
 
-			// Intersect when both constraints are present so they narrow the results.
-			if ( ! is_null( $search_post_ids ) && ! is_null( $coupon_post_ids ) ) {
-				$post_in = array_intersect( $search_post_ids, $coupon_post_ids );
-			} else {
-				$post_in = is_null( $search_post_ids ) ? $coupon_post_ids : $search_post_ids;
+			if ( 'expired' === $this->access_filter ) {
+				$post_id_sets[] = $this->get_post_ids_for_orders( $this->get_order_ids_with_expired_access() );
+			}
+
+			$post_in = array_shift( $post_id_sets );
+			foreach ( $post_id_sets as $post_ids ) {
+				$post_in = array_intersect( $post_in, $post_ids );
 			}
 
 			$post_in = array_map( 'absint', (array) $post_in );
@@ -1311,6 +1334,66 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Retrieve the table rows' post IDs for a set of orders.
+	 *
+	 * Each order is represented by its transactions, or by the order itself when it has none.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $order_ids Array of order IDs.
+	 * @return int[] Array of transaction and order IDs.
+	 */
+	private function get_post_ids_for_orders( $order_ids ) {
+
+		if ( empty( $order_ids ) ) {
+			return array();
+		}
+
+		return array_merge(
+			$this->get_transaction_ids_for_orders( $order_ids ),
+			$this->get_orders_without_transactions( $order_ids )
+		);
+	}
+
+	/**
+	 * Retrieve the IDs of orders whose limited access has expired.
+	 *
+	 * Orders with limited access store the date their access ends when access starts.
+	 * Orders with lifetime access, and orders whose access hasn't started, have no date.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[] Array of order IDs.
+	 */
+	private function get_order_ids_with_expired_access() {
+
+		$query = new WP_Query(
+			array(
+				'post_type'      => 'llms_order',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'post_status'    => 'any',
+				'no_found_rows'  => true,
+				'meta_query'     => array(
+					array(
+						'key'     => '_llms_date_access_expires',
+						'value'   => '',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => '_llms_date_access_expires',
+						'value'   => llms_current_time( 'mysql' ),
+						'compare' => '<',
+						'type'    => 'DATETIME',
+					),
+				),
+			)
+		);
+
+		return $query->posts;
+	}
+
+	/**
 	 * Retrieve the distinct year/month combinations that have transactions.
 	 *
 	 * @since 11.0.0
@@ -1392,6 +1475,10 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			$this->coupon_filter = absint( $args['coupon'] );
 		}
 
+		if ( isset( $args['access'] ) ) {
+			$this->access_filter = 'expired' === $args['access'] ? 'expired' : '';
+		}
+
 		if ( isset( $args['search'] ) ) {
 			$this->search = $args['search'];
 		}
@@ -1410,6 +1497,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			'status'   => $this->status_filter,
 			'date'     => $this->date_filter,
 			'coupon'   => $this->coupon_filter,
+			'access'   => $this->access_filter,
 		);
 	}
 
@@ -1477,6 +1565,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Status', 'lifterlms' ),
+			),
+			'access'                 => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'payment_type'           => array(
 				'exportable' => true,

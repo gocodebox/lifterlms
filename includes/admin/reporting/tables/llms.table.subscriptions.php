@@ -172,6 +172,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				}
 				break;
 
+			case 'access':
+				$value = esc_html( $data->get_access_expiration_label() );
+				break;
+
 			case 'date':
 				$value = $data->get_date( 'date', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 				break;
@@ -272,6 +276,9 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 			case 'next_payment':
 				$next = $data->get_next_payment_due_date( 'Y-m-d H:i:s' );
 				return is_wp_error( $next ) ? '' : $next;
+
+			case 'access':
+				return $data->get_access_expiration_label( 'Y-m-d' );
 
 			case 'date':
 				return $data->get_date( 'date', 'Y-m-d H:i:s' );
@@ -619,6 +626,11 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Next Payment', 'lifterlms' ),
+			),
+			'access'              => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'date'                => array(
 				'exportable' => true,

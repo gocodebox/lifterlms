@@ -1,0 +1,5 @@
+significance: minor
+type: added
+entry: "Added an Access column (\"Expires: <date>\", \"Expired: <date>\", or \"Lifetime Access\") to the Orders & Transactions and Subscriptions screens and their exports, and an Access Expired filter to Orders & Transactions."
+links:
+  - "#3465"
