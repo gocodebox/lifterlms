@@ -320,7 +320,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $slug => $label ) : ?>
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $current, $slug ); ?>>

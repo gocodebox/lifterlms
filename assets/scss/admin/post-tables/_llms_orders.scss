@@ -17,7 +17,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px 12px;
-		margin: 0 0 12px;
+		// The LifterLMS admin header has no bottom margin, so space the filters away from it.
+		margin: 16px 0 12px;
 
 		// The shared header clearfix stretches the row and shoves the table down.
 		&:before,

@@ -688,7 +688,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $status ) : ?>
 						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
@@ -704,7 +704,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-date-filter">
 					<?php esc_html_e( 'Filter by Date', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
 					<option value=""><?php esc_html_e( 'All Dates', 'lifterlms' ); ?></option>
 					<?php
 					foreach ( $this->get_available_months() as $month ) :
@@ -721,7 +721,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-coupon-filter">
 					<?php esc_html_e( 'Filter by Coupon', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
 					<option value=""><?php esc_html_e( 'All Coupons', 'lifterlms' ); ?></option>
 					<?php foreach ( $this->get_coupons() as $coupon ) : ?>
 						<option value="<?php echo esc_attr( $coupon->ID ); ?>" <?php selected( $this->coupon_filter, $coupon->ID ); ?>>
