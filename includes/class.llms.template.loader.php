@@ -264,17 +264,7 @@ class LLMS_Template_Loader {
 	 */
 	public function restricted_by_course_unavailable( $info ) {
 
-		/**
-		 * Filters the message displayed when a lesson or quiz is restricted because its course can't be viewed.
-		 *
-		 * @since [version]
-		 *
-		 * @param string $msg  Restriction message.
-		 * @param array  $info Array of restriction info from `llms_page_restricted()`.
-		 */
-		$msg = apply_filters( 'llms_restricted_by_course_unavailable_message', llms_get_restriction_message( $info ), $info );
-
-		$this->handle_restriction( $msg, '', 'error' );
+		$this->handle_restriction( llms_get_restriction_message( $info ), '', 'error' );
 	}
 
 	/**
