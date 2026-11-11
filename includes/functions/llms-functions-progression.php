@@ -59,14 +59,12 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	} elseif ( current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
 		// Instructors / admins able to edit the lesson are always allowed.
 		$allowed = true;
-	} elseif ( llms_is_post_restricted_by_time_period( $lesson->get( 'id' ), $user_id ) ) {
-		// The course time period hasn't started or has ended.
-		$allowed = false;
 	} else {
-		// The student must be enrolled in the lesson's parent course, the lesson must be available, and its prerequisites complete.
+		// The student must be enrolled in the lesson's parent course, the course must be open, the lesson must be available, and its prerequisites complete.
 		$allowed = (
 			$user_id &&
 			llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) &&
+			! llms_is_post_restricted_by_time_period( $lesson->get( 'id' ), $user_id ) &&
 			$lesson->is_available() &&
 			! llms_is_post_restricted_by_prerequisite( $lesson->get( 'id' ), $user_id )
 		);
