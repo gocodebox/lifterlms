@@ -737,13 +737,13 @@ class LLMS_Template_Loader {
 	 */
 	public function maybe_restrict_post_content( $post, $query ) {
 
-		// Users who can edit the post must get its real content, otherwise saving it from the editor would overwrite it with the restriction message.
-		if ( current_user_can( 'edit_post', $post->ID ) ) {
+		// LifterLMS post types are restricted by the LifterLMS REST API on its own routes.
+		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) && $this->is_llms_rest_request() ) {
 			return;
 		}
 
-		// LifterLMS post types are restricted by the LifterLMS REST API on its own routes.
-		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) && $this->is_llms_rest_request() ) {
+		// Users who can edit the post must get its real content, otherwise saving it from the editor would overwrite it with the restriction message.
+		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			return;
 		}
 
@@ -807,7 +807,7 @@ class LLMS_Template_Loader {
 		// The REST route is parsed into the main `WP` object, as read by `rest_api_loaded()`.
 		$route = ! empty( $wp->query_vars['rest_route'] ) ? $wp->query_vars['rest_route'] : '';
 
-		return ! empty( $route ) && 0 === strpos( $route, '/llms' );
+		return ! empty( $route ) && 0 === strpos( $route, '/llms/' );
 	}
 
 	/**

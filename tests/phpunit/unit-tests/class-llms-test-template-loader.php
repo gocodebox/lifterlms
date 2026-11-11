@@ -98,7 +98,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
 		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
 
-		global $wp_query, $post;
+		global $wp, $wp_query, $post;
 
 		$post = $this->get_post_for_restrictions( 'course' );
 
@@ -106,6 +106,16 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
 		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
 
+		// A namespace that only starts with "llms" is not the LifterLMS REST API.
+		$wp->query_vars['rest_route'] = '/llms-other/v1/items/987';
+
+		$post = $this->get_post_for_restrictions( 'course' );
+
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		unset( $wp->query_vars['rest_route'] );
 		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
 
 	}
