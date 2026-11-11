@@ -194,6 +194,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$value = $this->get_status_html( $data->get( 'status' ) );
 				break;
 
+			case 'access':
+				if ( $order ) {
+					$value = esc_html( $order->get_access_expiration_label() );
+				}
+				break;
+
 			case 'payment_type':
 				$value = $this->get_payment_type_label( $data->get( 'payment_type' ) );
 				break;
@@ -251,6 +257,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 					return $this->get_status_html( $txn_status );
 				}
 				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
+
+			case 'access':
+				return esc_html( $order->get_access_expiration_label() );
 
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
@@ -507,6 +516,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_payment_type_label( $data->get( 'payment_type' ) );
 
+			case 'access':
+				return $order ? $order->get_access_expiration_label( 'Y-m-d' ) : '';
+
 			case 'product':
 				return $order ? $order->get( 'product_title' ) : '';
 
@@ -573,6 +585,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
+
+			case 'access':
+				return $order->get_access_expiration_label( 'Y-m-d' );
 
 			case 'product':
 				return $order->get( 'product_title' );
@@ -1391,6 +1406,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Status', 'lifterlms' ),
+			),
+			'access'                 => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'payment_type'           => array(
 				'exportable' => true,
