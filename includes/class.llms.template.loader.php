@@ -66,7 +66,6 @@ class LLMS_Template_Loader {
 
 		// Posts listed on search results, archives, and in query loops are not covered by the single template.
 		add_action( 'template_redirect', array( $this, 'maybe_prepare_listed_content_restriction' ) );
-		add_action( 'rest_api_init', array( $this, 'maybe_prepare_rest_listed_content_restriction' ) );
 
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
@@ -721,6 +720,15 @@ class LLMS_Template_Loader {
 	public function maybe_prepare_post_content_restriction() {
 		// Fired on `setup_postdata()` see `WP_REST_Posts_Controller::prepare_item_for_response()`.
 		add_action( 'the_post', array( $this, 'maybe_restrict_post_content' ), 9999, 2 );
+
+		/*
+		 * REST requests never fire `template_redirect`, so restrict the content of posts listed inside the content
+		 * of a REST response item, such as lessons listed by a Query Loop block. `rest_api_init` also fires when
+		 * the block editor preloads REST responses in the admin.
+		 */
+		if ( llms_is_rest() ) {
+			$this->maybe_prepare_listed_content_restriction();
+		}
 	}
 
 	/**
@@ -865,24 +873,6 @@ class LLMS_Template_Loader {
 
 		add_filter( 'the_content', array( $this, 'maybe_restrict_listed_content' ), 9999 );
 		add_filter( 'get_the_excerpt', array( $this, 'maybe_restrict_listed_content' ), 9999, 2 );
-	}
-
-	/**
-	 * Maybe restrict the content of posts listed inside the content of a REST response item.
-	 *
-	 * REST requests never fire `template_redirect`, so without this the content of restricted lessons
-	 * and quizzes listed by a Query Loop block in a page or post is output in full by the REST API.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function maybe_prepare_rest_listed_content_restriction() {
-
-		// `rest_api_init` also fires when the block editor preloads REST responses in the admin.
-		if ( llms_is_rest() ) {
-			$this->maybe_prepare_listed_content_restriction();
-		}
 	}
 
 	/**
