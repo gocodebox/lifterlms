@@ -115,19 +115,20 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
-	 * Retrieve the IDs of the questions the current user can read.
+	 * Retrieve the IDs of the questions matched by the collection query that the current user can read.
 	 *
 	 * Candidates are the user's own questions plus the questions of quizzes
-	 * attached to lessons of the courses they instruct. They are then filtered
+	 * attached to lessons of the courses they instruct, limited to the questions
+	 * the query matches (such as the requested quiz). They are then filtered
 	 * through {@see LLMS_REST_Questions_Controller::check_read_permission()},
 	 * since `edit_question` does not resolve every candidate to its course.
 	 *
-	 * @since 10.3.1
-	 * @since [version] Filter the candidates through the per-item read check.
+	 * @since [version]
 	 *
+	 * @param array $query_args Collection query arguments.
 	 * @return int[]|null
 	 */
-	protected function get_readable_post_ids() {
+	protected function constrain_readable_post_ids( $query_args ) {
 
 		if ( $this->can_edit_others_posts() ) {
 			return null;
@@ -136,14 +137,27 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 		$lesson_ids = $this->query_post_ids_by_meta( 'lesson', '_llms_parent_course', $this->get_instructor_course_ids() );
 		$quiz_ids   = $this->query_post_ids_by_meta( 'llms_quiz', '_llms_lesson_id', $lesson_ids );
 
-		return $this->filter_post_ids_by_read_permission(
-			array_unique(
-				array_merge(
-					$this->query_own_post_ids( $this->post_type ),
-					$this->query_post_ids_by_meta( $this->post_type, '_llms_parent_id', $quiz_ids )
-				)
+		$ids = array_unique(
+			array_merge(
+				$this->query_own_post_ids( $this->post_type ),
+				$this->query_post_ids_by_meta( $this->post_type, '_llms_parent_id', $quiz_ids )
 			)
 		);
+		if ( ! empty( $query_args['post__in'] ) ) {
+			$ids = array_intersect( $ids, array_map( 'absint', (array) $query_args['post__in'] ) );
+		}
+		if ( ! $ids ) {
+			return array();
+		}
+
+		// Only run the per-question check on the candidates the query matches.
+		$query_args['post__in'] = array_values( $ids );
+		$ids                    = $this->query_post_ids(
+			array_diff_key( $query_args, array_flip( array( 'paged', 'posts_per_page', 'offset', 'orderby', 'order' ) ) )
+		);
+		_prime_post_caches( $ids );
+
+		return $this->filter_post_ids_by_read_permission( $ids );
 	}
 
 	/**
@@ -166,19 +180,20 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
-	 * Format query arguments to retrieve a collection of objects.
+	 * Map request parameters to the collection query arguments, limited to the requested quiz.
 	 *
-	 * @since 10.2.0
+	 * The quiz is added here, before {@see LLMS_REST_Posts_Controller::limit_query_to_readable_posts()}
+	 * runs, so the readable questions are only computed for the questions of that quiz.
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @return array|WP_Error
+	 * @since [version]
+	 *
+	 * @param array           $prepared_args Array of collection arguments.
+	 * @param WP_REST_Request $request       Request object.
+	 * @return array
 	 */
-	protected function prepare_collection_query_args( $request ) {
+	protected function prepare_items_query( $prepared_args = array(), $request = null ) {
 
-		$query_args = parent::prepare_collection_query_args( $request );
-		if ( is_wp_error( $query_args ) ) {
-			return $query_args;
-		}
+		$query_args = parent::prepare_items_query( $prepared_args, $request );
 
 		// The nested route's quiz_id param takes precedence over the parent collection param.
 		$parent = ! empty( $request['quiz_id'] ) ? $request['quiz_id'] : $request['parent'];
