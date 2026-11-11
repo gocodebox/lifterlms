@@ -122,9 +122,11 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		$new_file = str_replace( wp_upload_dir()['basedir'], wp_upload_dir()['basedir'] . untrailingslashit( $protected_dir ), $file );
 		if ( ! $wp_filesystem->is_dir( dirname( $new_file ) ) ) {
 			wp_mkdir_p( dirname( $new_file ) );
+
+			// Write the protection files to the new folder before the file is moved in, regardless of when the daily check last ran.
+			delete_transient( 'lifterlms_check_media_protection_files' );
+			$protector->save_mod_rewrite_rules();
 		}
-		// Write the protection files before the file is moved in: this may be the move that creates the folder.
-		$protector->protect_upload_folder();
 
 		if ( $wp_filesystem->move( $file, $new_file ) ) {
 			// Move thumbnails and the original image of a scaled image if they exist.

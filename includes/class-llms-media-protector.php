@@ -906,16 +906,16 @@ class LLMS_Media_Protector {
 	}
 
 	/**
-	 * Adds the protection files to the upload directory right after a protected upload or move.
+	 * Adds the protection files to the upload directory right after a protected upload.
 	 *
-	 * The first protected upload (or attachment moved into it) creates the directory, so the daily check of
+	 * The first protected upload creates the directory, so the daily check of
 	 * {@see LLMS_Media_Protector::save_mod_rewrite_rules()} is run again regardless of when it last ran.
 	 *
 	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
-	public function protect_upload_folder() {
+	private function protect_upload_folder() {
 		delete_transient( 'lifterlms_check_media_protection_files' );
 		$this->save_mod_rewrite_rules();
 	}
