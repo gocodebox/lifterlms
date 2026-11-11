@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Order_Bulk_Trash_Table;
+
 	/**
 	 * Unique ID for the Table.
 	 *
@@ -112,6 +114,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
+			case 'cb':
+				$value = $this->get_checkbox_html( $data, $data->get( 'id' ) );
+				break;
+
 			case 'order':
 				$order_id = $data->get( 'id' );
 				$url      = esc_url( admin_url( 'post.php?post=' . $order_id . '&action=edit' ) );
@@ -170,6 +176,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				} else {
 					$value = $next;
 				}
+				break;
+
+			case 'access':
+				$value = esc_html( $data->get_access_expiration_label() );
 				break;
 
 			case 'date':
@@ -273,6 +283,9 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				$next = $data->get_next_payment_due_date( 'Y-m-d H:i:s' );
 				return is_wp_error( $next ) ? '' : $next;
 
+			case 'access':
+				return $data->get_access_expiration_label( 'Y-m-d' );
+
 			case 'date':
 				return $data->get_date( 'date', 'Y-m-d H:i:s' );
 
@@ -314,13 +327,14 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	public function output_table_filters_html() {
 		$statuses = llms_get_order_statuses( 'recurring' );
 		$current  = $this->get_filter();
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $slug => $label ) : ?>
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $current, $slug ); ?>>
@@ -569,7 +583,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+		return $this->get_bulk_trash_columns() + array(
 			'order'               => array(
 				'exportable' => true,
 				'sortable'   => true,
@@ -619,6 +633,11 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Next Payment', 'lifterlms' ),
+			),
+			'access'              => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'date'                => array(
 				'exportable' => true,

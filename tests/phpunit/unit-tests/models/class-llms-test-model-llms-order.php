@@ -527,6 +527,29 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test the get_access_expiration_label() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_access_expiration_label() {
+
+		$this->obj->set( 'access_expiration', 'lifetime' );
+		$this->assertSame( 'Lifetime Access', $this->obj->get_access_expiration_label() );
+
+		$this->obj->set( 'access_expiration', 'limited-period' );
+		$now = llms_current_time( 'timestamp' );
+
+		// One hour on either side of now, so the date alone can't decide expired vs. not.
+		$this->obj->set( 'date_access_expires', gmdate( 'Y-m-d H:i:s', $now - HOUR_IN_SECONDS ) );
+		$this->assertSame( 'Expired: ' . gmdate( 'Y-m-d', $now - HOUR_IN_SECONDS ), $this->obj->get_access_expiration_label( 'Y-m-d' ) );
+
+		$this->obj->set( 'date_access_expires', gmdate( 'Y-m-d H:i:s', $now + HOUR_IN_SECONDS ) );
+		$this->assertSame( 'Expires: ' . gmdate( 'Y-m-d', $now + HOUR_IN_SECONDS ), $this->obj->get_access_expiration_label( 'Y-m-d' ) );
+	}
+
+	/**
 	 * Test get access status function
 	 *
 	 * @since 3.10.0

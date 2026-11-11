@@ -572,6 +572,34 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Get a label describing when the order's access expires.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $format Optional. Date format. Defaults to the site's date format.
+	 * @return string "Expires: {date}" or "Expired: {date}" for limited access, otherwise the
+	 *                non-date value of `get_access_expiration_date()`, such as "Lifetime Access".
+	 */
+	public function get_access_expiration_label( $format = '' ) {
+
+		$expires = $this->get_access_expiration_date( 'U' );
+
+		if ( ! is_numeric( $expires ) ) {
+			return $expires;
+		}
+
+		$date = date_i18n( $format ? $format : get_option( 'date_format' ), $expires );
+
+		if ( $expires < llms_current_time( 'timestamp' ) ) {
+			/* translators: %s: date when access expired */
+			return sprintf( _x( 'Expired: %s', 'access plan expiration', 'lifterlms' ), $date );
+		}
+
+		/* translators: %s: date when access expires */
+		return sprintf( _x( 'Expires: %s', 'access plan expiration', 'lifterlms' ), $date );
+	}
+
+	/**
 	 * Get the current status of a student's access
 	 *
 	 * Based on the access plan data stored on the order at the time of purchase.

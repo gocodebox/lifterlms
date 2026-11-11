@@ -664,7 +664,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	public function output_table_search_form_html() {
 		?>
 		<div class="llms-table-search">
-			<input class="regular-text" id="<?php echo esc_attr( $this->id ); ?>-search-input" placeholder="<?php echo esc_attr( $this->get_table_search_form_placeholder() ); ?>" type="text">
+			<input autocomplete="off" class="regular-text" id="<?php echo esc_attr( $this->id ); ?>-search-input" placeholder="<?php echo esc_attr( $this->get_table_search_form_placeholder() ); ?>" type="text">
 		</div>
 		<?php
 	}

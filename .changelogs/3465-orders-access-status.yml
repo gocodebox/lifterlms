@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "The Orders & Transactions and Subscriptions screens and their exports show each order's access status again (\"Expires: <date>\", \"Expired: <date>\", or \"Lifetime Access\"), as the Orders screen did before 11.0.0."
+links:
+  - "#3465"

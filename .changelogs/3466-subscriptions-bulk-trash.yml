@@ -1,0 +1,5 @@
+significance: patch
+type: added
+entry: "Added bulk Move to Trash to the Subscriptions screen."
+links:
+  - "#3466"
