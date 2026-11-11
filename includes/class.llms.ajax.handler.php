@@ -461,16 +461,18 @@ class LLMS_AJAX_Handler {
 		$lesson_id   = $lesson->get( 'id' );
 		$user_id     = $student->get( 'id' );
 		$restriction = array( 'content_id' => $lesson_id );
-		$prereq      = llms_is_post_restricted_by_prerequisite( $lesson_id, $user_id );
 		if ( llms_is_post_restricted_by_time_period( $lesson_id, $user_id ) ) {
 			$restriction['reason']         = 'course_time_period';
 			$restriction['restriction_id'] = $course->get( 'id' );
 		} elseif ( llms_is_post_restricted_by_drip_settings( $lesson_id, $user_id ) ) {
 			$restriction['reason']         = 'lesson_drip';
 			$restriction['restriction_id'] = $lesson_id;
-		} elseif ( $prereq ) {
-			$restriction['reason']         = $prereq['type'] . '_prerequisite';
-			$restriction['restriction_id'] = $prereq['id'];
+		} else {
+			$prereq = llms_is_post_restricted_by_prerequisite( $lesson_id, $user_id );
+			if ( $prereq ) {
+				$restriction['reason']         = $prereq['type'] . '_prerequisite';
+				$restriction['restriction_id'] = $prereq['id'];
+			}
 		}
 
 		if ( isset( $restriction['reason'] ) ) {
