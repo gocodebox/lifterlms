@@ -843,6 +843,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.17.0
 	 * @since 3.17.5 Unknown.
 	 * @since 7.7.0 Added function to get provider support.
+	 * @since [version] Embed `youtube.com/embed/` and `youtube-nocookie.com/embed/` URLs.
 	 *
 	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
 	 * @param string $prop Optional. Postmeta property name. Default is empty string.
@@ -858,7 +859,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		if ( trim( $url ) && wp_parse_url( $url ) ) {
 			$this->get_provider_support( $url );
 
-			$ret = wp_oembed_get( sanitize_url( $url ) );
+			$ret = $this->get_youtube_embed( $url );
+			if ( ! $ret ) {
+				$ret = wp_oembed_get( sanitize_url( $url ) );
+			}
 
 			if ( ! $ret ) {
 				$ret = apply_filters( 'llms_embed_shortcode_output', do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) ), $type, $this );
@@ -879,6 +883,36 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param string          $prop      Postmeta property name.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_{$type}", $ret, $this, $type, $prop );
+	}
+
+	/**
+	 * Get the oEmbed HTML for a `youtube.com/embed/` or `youtube-nocookie.com/embed/` URL.
+	 *
+	 * YouTube's oEmbed endpoint only accepts watch URLs, so these URLs are embedded via the
+	 * equivalent watch URL. A `youtube-nocookie.com` URL keeps the player on that domain
+	 * (YouTube's "Privacy Enhanced Mode").
+	 *
+	 * @since [version]
+	 *
+	 * @param string $url Embed URL.
+	 * @return string|false Embed HTML, or `false` if the URL isn't a YouTube embed URL or can't be embedded.
+	 */
+	private function get_youtube_embed( $url ) {
+
+		if ( ! preg_match( '#^https?://(?:www\.)?youtube(-nocookie)?\.com/embed/([a-zA-Z0-9_-]{11})#i', $url, $matches ) ) {
+			return false;
+		}
+
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $query );
+		$start = empty( $query['start'] ) ? '' : '&t=' . absint( $query['start'] );
+
+		$html = wp_oembed_get( 'https://www.youtube.com/watch?v=' . $matches[2] . $start );
+
+		if ( $html && $matches[1] ) {
+			$html = str_replace( 'youtube.com/embed/', 'youtube-nocookie.com/embed/', $html );
+		}
+
+		return $html;
 	}
 
 	/**
