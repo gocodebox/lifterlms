@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Course and lesson videos using `youtube.com/embed/` or `youtube-nocookie.com/embed/` URLs now display a video player instead of a link. `youtube-nocookie.com` URLs keep YouTube's Privacy Enhanced Mode."
