@@ -224,7 +224,11 @@ define( [], function() {
 					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
 					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
 					onClose: function( current_time, $input ) {
-						$input.blur();
+						// Blurring runs the picker's own blur handler, which closes it again. Only blur a focused input so that
+						// second close doesn't blur again and recurse until the stack overflows, which left the picker open.
+						if ( $input.is( ':focus' ) ) {
+							$input.trigger( 'blur' );
+						}
 					}
 				} );
 

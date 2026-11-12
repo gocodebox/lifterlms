@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3478"
+entry: Fixed course builder times, such as a lesson's drip time, moving back an hour each time focus left the time field.
