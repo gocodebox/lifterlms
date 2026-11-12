@@ -122,6 +122,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
+
+			// The featured image set from `featured_image` would otherwise get the original's as a second value.
+			if ( '_thumbnail_id' === $custom_key && get_post_meta( $post_id, '_thumbnail_id', true ) ) {
+				continue;
+			}
+
 			foreach ( $custom_vals as $val ) {
 				$this->add_custom_value( $post_id, $custom_key, $val );
 			}

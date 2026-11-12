@@ -192,6 +192,7 @@ HTML;
 
 		$this->assertSame( array( $image_id, $pdf_id, $choice_id ), array_keys( $copies ) );
 		$this->assertSame( $copies[ $image_id ], $image_copy, 'The featured image and the lesson share one copy.' );
+		$this->assertSame( array( (string) $image_copy ), get_post_meta( $clone_id, '_thumbnail_id' ), 'The original featured image is not added as a second value.' );
 		$pdf_copy = $copies[ $pdf_id ];
 
 		// The copies have their own files and are protected to the clone.
