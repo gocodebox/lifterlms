@@ -463,6 +463,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		}
 
 		$this->sideload_images( $question, $raw );
+		$this->copy_protected_media( $question );
 
 		/**
 		 * Action triggered immediately following generation of a new question
@@ -657,9 +658,12 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 			return $choice;
 		}
 
-		$id = $this->sideload_image( $question_id, $choice['choice']['src'], 'id' );
-		if ( is_wp_error( $id ) ) {
-			return $choice;
+		$id = $this->copy_attachment( $this->get_local_attachment_id( $choice['choice']['src'] ), $question_id );
+		if ( ! $id ) {
+			$id = $this->sideload_image( $question_id, $choice['choice']['src'], 'id' );
+			if ( is_wp_error( $id ) ) {
+				return $choice;
+			}
 		}
 
 		$choice['choice']['id']  = $id;
