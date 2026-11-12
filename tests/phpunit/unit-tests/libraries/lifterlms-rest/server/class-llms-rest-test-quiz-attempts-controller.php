@@ -230,6 +230,34 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	}
 
 	/**
+	 * Test that an attempt's score and late penalty are returned alongside the final grade.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_item_late_penalty() {
+
+		$admin   = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$attempt = new LLMS_Quiz_Attempt( $this->create_quiz_attempt( $this->create_quiz_post( $admin ), $this->factory->student->create() ) );
+		$attempt->set( 'status', 'fail' );
+		$attempt->set( 'grade', 60 );
+		$attempt->set( 'late_penalty', 20 );
+		$attempt->set( 'late_penalty_note', 'Submitted late.' );
+		$attempt->save();
+
+		wp_set_current_user( $admin );
+		$response = $this->perform_mock_request( 'GET', $this->route . '/' . $attempt->get( 'id' ) );
+
+		$this->assertResponseStatusEquals( 200, $response );
+		$data = $response->get_data();
+		$this->assertEquals( 60, $data['grade'] );
+		$this->assertEquals( 80, $data['score'] );
+		$this->assertEquals( 20, $data['late_penalty'] );
+		$this->assertSame( 'Submitted late.', $data['late_penalty_note'] );
+	}
+
+	/**
 	 * Assert a collection response status, total, and attempt ids.
 	 *
 	 * @since 11.0.0

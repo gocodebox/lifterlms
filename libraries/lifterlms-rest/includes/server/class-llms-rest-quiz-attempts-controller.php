@@ -571,7 +571,10 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			'end_date'       => $attempt->get( 'end_date' ),
 			'status'         => $attempt->get( 'status' ),
 			'attempt'        => (int) $attempt->get( 'attempt' ),
-			'grade'          => (float) $attempt->get( 'grade' ),
+			'grade'             => (float) $attempt->get( 'grade' ),
+			'score'             => $attempt->get_score(),
+			'late_penalty'      => $attempt->get_late_penalty(),
+			'late_penalty_note' => (string) $attempt->get( 'late_penalty_note' ),
 			'can_be_resumed' => (bool) $attempt->get( 'can_be_resumed' ),
 		);
 
@@ -752,8 +755,26 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 					'readonly'    => true,
 				),
 				'grade'          => array(
-					'description' => __( 'The grade of the quiz attempt.', 'lifterlms' ),
+					'description' => __( 'The grade of the quiz attempt, after any late penalty.', 'lifterlms' ),
 					'type'        => 'number',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'score'             => array(
+					'description' => __( 'The score of the quiz attempt before any late penalty. Null when the attempt has not been graded.', 'lifterlms' ),
+					'type'        => array( 'number', 'null' ),
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'late_penalty'      => array(
+					'description' => __( 'Late penalty taken off the score, in percentage points. 0 when there is no penalty.', 'lifterlms' ),
+					'type'        => 'number',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'late_penalty_note' => array(
+					'description' => __( 'Instructor note to the student about the late penalty.', 'lifterlms' ),
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
