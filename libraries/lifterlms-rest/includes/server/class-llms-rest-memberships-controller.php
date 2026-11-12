@@ -554,6 +554,63 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to create an item.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function create_item_permissions_check( $request ) {
+
+		$check = parent::create_item_permissions_check( $request );
+
+		return true === $check ? $this->check_auto_enroll_permission( $request, true ) : $check;
+	}
+
+	/**
+	 * Check if a given request has access to update an item.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function update_item_permissions_check( $request ) {
+
+		$check = parent::update_item_permissions_check( $request );
+
+		return true === $check ? $this->check_auto_enroll_permission( $request, false ) : $check;
+	}
+
+	/**
+	 * Check if the current user can set the `auto_enroll` field sent in the request.
+	 *
+	 * Runs as part of the permission callbacks so that a forbidden request is rejected before anything is saved.
+	 *
+	 * When creating, the schema default (an empty list) is always present in the request and sets nothing,
+	 * so only a non-empty list requires the capability.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Request $request  Full details about the request.
+	 * @param bool            $creating Whether the request creates a membership.
+	 * @return WP_Error|boolean
+	 */
+	protected function check_auto_enroll_permission( $request, $creating ) {
+
+		$sets_auto_enroll = $creating ? ! empty( $request['auto_enroll'] ) : isset( $request['auto_enroll'] );
+
+		if ( $sets_auto_enroll && ! current_user_can( 'manage_lifterlms' ) ) {
+			return llms_rest_authorization_required_error(
+				__( 'You are not authorized to modify the auto-enroll courses for this membership.', 'lifterlms' )
+			);
+		}
+
+		return true;
+	}
+
+	/**
 	 * Register routes.
 	 *
 	 * @since 1.0.0-beta.9
@@ -603,13 +660,8 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 	protected function update_additional_object_fields( $membership, $request, $schema, $prepared_item, $creating = true ) {
 		$error = new WP_Error();
 
-		// Auto enroll.
+		// Auto enroll. Permission to set it is checked in `check_auto_enroll_permission()`.
 		if ( ! empty( $schema['properties']['auto_enroll'] ) && isset( $request['auto_enroll'] ) ) {
-			if ( ! current_user_can( 'manage_lifterlms' ) ) {
-				return llms_rest_authorization_required_error(
-					__( 'You are not authorized to modify the auto-enroll courses for this membership.', 'lifterlms' )
-				);
-			}
 			$membership->add_auto_enroll_courses( $request['auto_enroll'], true );
 		}
 
