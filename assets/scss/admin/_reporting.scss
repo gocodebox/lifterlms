@@ -518,6 +518,26 @@
 	&.llms-due-badge--on-time { background: #2e7d32; }
 	&.llms-due-badge--override { background: #2271b1; }
 }
+.llms-late-penalty {
+	max-width: 480px;
+	margin: 10px 0 20px;
+	padding: 16px 20px;
+	border-left: 4px solid #c62828;
+	background: #fafafa;
+
+	h3 { margin-top: 0; }
+	label { display: block; font-weight: 600; margin-bottom: 4px; }
+	.llms-late-penalty-input {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		input { width: 100px; }
+	}
+	.description { display: block; margin-top: 4px; }
+	textarea { width: 100%; }
+	.llms-late-penalty-summary { font-size: 14px; font-weight: 600; }
+	.llms-late-penalty-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0; }
+}
 .llms-due-dates-report {
 	margin-top: 30px;
 

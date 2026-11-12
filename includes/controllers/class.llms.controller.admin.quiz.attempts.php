@@ -71,6 +71,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				exit();
 			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] ) ) ) {
 				$this->save_grade( $attempt );
+			} elseif ( in_array( $action, array( 'llms_attempt_late_penalty', 'llms_attempt_late_penalty_remove' ), true ) ) {
+				$this->save_late_penalty( $attempt, 'llms_attempt_late_penalty_remove' === $action );
 			} elseif ( 'llms_disable_resume_attempt' === $action ) {
 				$attempt->set( 'can_be_resumed', false );
 				$attempt->save();
@@ -163,6 +165,56 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		// Update the attempt with new questions.
 		$attempt->set_questions( $questions, true );
 
+		$this->regrade( $attempt );
+
+		// phpcs:enable
+	}
+
+	/**
+	 * Saves the late penalty on a quiz attempt and regrades it.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
+	 * @param bool              $remove  Whether to remove the penalty instead of saving the posted one.
+	 * @return void
+	 */
+	private function save_late_penalty( $attempt, $remove = false ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in `maybe_run_actions()` method.
+
+		$penalty = 0.0;
+		$note    = '';
+		if ( ! $remove ) {
+			$penalty = isset( $_POST['llms_late_penalty'] ) ? (float) sanitize_text_field( wp_unslash( $_POST['llms_late_penalty'] ) ) : 0;
+			$penalty = llms()->grades()->round( max( 0, min( $penalty, 100 ) ) );
+			$note    = $penalty && isset( $_POST['llms_late_penalty_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['llms_late_penalty_note'] ) ) : '';
+		}
+
+		// phpcs:enable
+
+		if ( $penalty === $attempt->get_late_penalty() && $note === (string) $attempt->get( 'late_penalty_note' ) ) {
+			return;
+		}
+
+		$attempt->set( 'late_penalty', $penalty );
+		$attempt->set( 'late_penalty_note', $note );
+
+		$this->regrade( $attempt );
+	}
+
+	/**
+	 * Recalculates a quiz attempt's grade after an instructor changes it, then runs the same actions as a quiz submission.
+	 *
+	 * Completion actions (such as the quiz passed and quiz failed notifications) only run once every question is graded.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
+	 * @return void
+	 */
+	private function regrade( $attempt ) {
+
 		// Attempt to calculate the grade.
 		$attempt->calculate_grade()->save();
 
@@ -172,8 +224,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		}
 
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
-
-		// phpcs:enable
 	}
 }
 

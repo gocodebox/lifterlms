@@ -9,7 +9,8 @@
  * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
  * @since 7.8.0 Add information on whether the attempt can be resumed or not and disable resume attempt button.
  * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height.
- * @version 10.1.0
+ * @since [version] Add the late penalty form.
+ * @version [version]
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -143,6 +144,61 @@ if ( $student ) {
 		</div>
 
 		<div class="clear"></div>
+
+		<?php
+		$late_penalty = $attempt->get_late_penalty();
+		if ( ( $late_penalty || $attempt->is_late() ) && current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) ) ) :
+			$score = $attempt->get_score();
+			?>
+			<form action="" method="POST" class="llms-late-penalty">
+				<h3><?php esc_html_e( 'Late penalty', 'lifterlms' ); ?></h3>
+
+				<?php if ( ! $attempt->is_late() ) : ?>
+					<p class="llms-late-penalty-notice"><?php esc_html_e( 'This attempt is no longer late because its due date changed. Remove the penalty unless you still want it to apply.', 'lifterlms' ); ?></p>
+				<?php endif; ?>
+
+				<?php if ( $late_penalty && null !== $score ) : ?>
+					<p class="llms-late-penalty-summary">
+						<?php
+						echo esc_html(
+							sprintf(
+								// Translators: %1$s = Score before the late penalty; %2$s = Late penalty; %3$s = Final grade; %4$s = Pass or fail status.
+								__( 'Score %1$s%% − Late penalty %2$s%% = Grade %3$s%% (%4$s)', 'lifterlms' ),
+								llms()->grades()->round( $score ),
+								$late_penalty,
+								$attempt->get( 'grade' ),
+								$attempt->l10n( 'status' )
+							)
+						);
+						?>
+					</p>
+				<?php endif; ?>
+
+				<p>
+					<label for="llms-late-penalty"><?php esc_html_e( 'Penalty', 'lifterlms' ); ?></label>
+					<span class="llms-late-penalty-input">
+						<input type="number" id="llms-late-penalty" name="llms_late_penalty" min="0" max="100" step="any" value="<?php echo esc_attr( $late_penalty ? $late_penalty : '' ); ?>" aria-describedby="llms-late-penalty-help">
+						<span aria-hidden="true">%</span>
+					</span>
+					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. The grade is recalculated, and if that changes whether the attempt passes, the student is sent the matching quiz passed or failed notification.', 'lifterlms' ); ?></span>
+				</p>
+
+				<p>
+					<label for="llms-late-penalty-note"><?php esc_html_e( 'Note to the student (optional)', 'lifterlms' ); ?></label>
+					<textarea id="llms-late-penalty-note" name="llms_late_penalty_note" rows="2"><?php echo esc_textarea( (string) $attempt->get( 'late_penalty_note' ) ); ?></textarea>
+				</p>
+
+				<p class="llms-late-penalty-actions">
+					<button class="llms-button-primary small" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_late_penalty"><?php esc_html_e( 'Save penalty', 'lifterlms' ); ?></button>
+					<?php if ( $late_penalty ) : ?>
+						<button class="llms-button-secondary small" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_late_penalty_remove"><?php esc_html_e( 'Remove penalty', 'lifterlms' ); ?></button>
+					<?php endif; ?>
+				</p>
+
+				<input type="hidden" name="llms_attempt_id" value="<?php echo esc_attr( $attempt->get( 'id' ) ); ?>">
+				<input type="hidden" name="_llms_quiz_attempt_nonce" value="<?php echo esc_attr( wp_create_nonce( 'llms_quiz_attempt_actions' ) ); ?>">
+			</form>
+		<?php endif; ?>
 
 		<h3><?php esc_html_e( 'Answers', 'lifterlms' ); ?></h3>
 
