@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3478"
+entry: Fixed course builder date and time pickers staying open and causing a "Maximum call stack size exceeded" error when leaving the field.
