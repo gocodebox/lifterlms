@@ -602,8 +602,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$done  = true;
 		if ( $query->has_results() ) {
 
-			$group_label        = __( 'Quiz Attempts', 'lifterlms' );
-			$group_descriptions = __( 'Student quiz attempt data', 'lifterlms' );
+			$group_label       = __( 'Quiz Attempts', 'lifterlms' );
+			$group_description = __( 'Student quiz attempt data', 'lifterlms' );
 			foreach ( $query->get_attempts() as $attempt ) {
 
 				$data[] = array(
