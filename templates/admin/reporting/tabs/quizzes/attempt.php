@@ -180,12 +180,12 @@ if ( $student ) {
 						<input type="number" id="llms-late-penalty" name="llms_late_penalty" min="0" max="100" step="any" value="<?php echo esc_attr( $late_penalty ? $late_penalty : '' ); ?>" aria-describedby="llms-late-penalty-help">
 						<span aria-hidden="true">%</span>
 					</span>
-					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. The grade is recalculated, and if that changes whether the attempt passes, the student is sent the matching quiz passed or failed notification.', 'lifterlms' ); ?></span>
+					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. If this changes whether the attempt passes, the student is sent the quiz passed or failed notification.', 'lifterlms' ); ?></span>
 				</p>
 
 				<p>
 					<label for="llms-late-penalty-note"><?php esc_html_e( 'Note to the student (optional)', 'lifterlms' ); ?></label>
-					<textarea id="llms-late-penalty-note" name="llms_late_penalty_note" rows="2"><?php echo esc_textarea( (string) $attempt->get( 'late_penalty_note' ) ); ?></textarea>
+					<textarea id="llms-late-penalty-note" name="llms_late_penalty_note" rows="3"><?php echo esc_textarea( (string) $attempt->get( 'late_penalty_note' ) ); ?></textarea>
 				</p>
 
 				<p class="llms-late-penalty-actions">
