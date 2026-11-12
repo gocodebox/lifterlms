@@ -97,4 +97,40 @@ class LLMS_Test_Controller_Admin_Quiz_Attempts extends LLMS_UnitTestCase {
 		$this->assertSame( '', (string) $attempt->get( 'late_penalty_note' ) );
 		$this->assertSame( $passed + 1, did_action( 'lifterlms_quiz_passed' ) );
 	}
+
+	/**
+	 * Test that a penalty on an attempt awaiting review is stored without grading it or running the graded actions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_late_penalty_pending_attempt() {
+
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1, 5 )[0] );
+		$attempt = $this->take_quiz( $course->get_lessons()[0]->get( 'quiz' ), $this->factory->student->create(), 80 );
+
+		// Make the questions manually graded and leave the first one waiting for an instructor, so the attempt can't be graded.
+		$manual = function ( $ret, $feature, $option ) {
+			return 'grading' === $feature ? 'manual' === $option : $ret;
+		};
+		add_filter( 'llms_choice_question_supports', $manual, 10, 3 );
+		$questions               = $attempt->get_questions();
+		$questions[0]['correct'] = null;
+		$attempt->set_questions( $questions );
+		$attempt->calculate_grade()->save();
+		$this->assertEquals( 'pending', $attempt->get( 'status' ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$graded  = did_action( 'llms_quiz_graded' );
+		$attempt = $this->submit_penalty( $attempt, array( 'llms_late_penalty' => '20' ) );
+
+		$this->assertEquals( 'pending', $attempt->get( 'status' ) );
+		$this->assertNull( $attempt->get_score() );
+		$this->assertEquals( 20, $attempt->get_late_penalty() );
+		$this->assertSame( $graded, did_action( 'llms_quiz_graded' ) );
+
+		remove_filter( 'llms_choice_question_supports', $manual, 10 );
+	}
 }

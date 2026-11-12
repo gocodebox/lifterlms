@@ -173,6 +173,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	/**
 	 * Saves the late penalty on a quiz attempt and regrades it.
 	 *
+	 * An attempt awaiting review keeps the penalty until the review finishes, which regrades it.
+	 *
 	 * @since [version]
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
@@ -199,6 +201,12 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		$attempt->set( 'late_penalty', $penalty );
 		$attempt->set( 'late_penalty_note', $note );
+
+		// An attempt awaiting review has no grade yet, so store the penalty for the review to apply without telling the student it was graded.
+		if ( 'pending' === $attempt->get( 'status' ) ) {
+			$attempt->save();
+			return;
+		}
 
 		$this->regrade( $attempt );
 	}

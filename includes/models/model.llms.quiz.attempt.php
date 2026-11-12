@@ -861,7 +861,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function get_score() {
 		$grade = $this->get( 'grade' );
-		return is_numeric( $grade ) ? llms()->grades()->round( (float) $grade + $this->get_late_penalty() ) : null;
+		return in_array( $this->get( 'status' ), array( 'pass', 'fail' ), true ) && is_numeric( $grade ) ? llms()->grades()->round( (float) $grade + $this->get_late_penalty() ) : null;
 	}
 
 	/**
