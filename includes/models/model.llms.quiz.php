@@ -33,6 +33,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
+	use LLMS_Trait_Due_Date;
+
 	/**
 	 * Post Type Database name (as registered via `register_post_type()`).
 	 *
@@ -69,6 +71,50 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'can_be_resumed'      => 'yesno',
 		'disable_retake'      => 'yesno',
 	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 */
+	public function __construct( $model, $args = array() ) {
+		$this->construct_due_date();
+		parent::__construct( $model, $args );
+	}
+
+	/**
+	 * Retrieve the time of a student's first completed attempt.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID.
+	 * @return int|false Unix timestamp or `false` when the student has no completed attempts.
+	 */
+	public function get_first_submission_time( $student_id ) {
+
+		if ( ! $student_id ) {
+			return false;
+		}
+
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'student_id'     => $student_id,
+				'quiz_id'        => $this->get( 'id' ),
+				'per_page'       => 1,
+				'status_exclude' => array( 'incomplete' ),
+				'sort'           => array(
+					'end_date' => 'ASC',
+					'id'       => 'ASC',
+				),
+			)
+		);
+
+		// Attempt dates are stored in the site's timezone.
+		return $query->has_results() ? (int) get_gmt_from_date( $query->get_attempts()[0]->get( 'end_date' ), 'U' ) : false;
+	}
 
 	/**
 	 * Retrieve the LLMS_Course for the quiz.

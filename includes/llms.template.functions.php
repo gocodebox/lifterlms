@@ -438,6 +438,57 @@ if ( ! function_exists( 'llms_template_syllabus_favorite_lesson_preview' ) ) {
 	}
 }
 
+if ( ! function_exists( 'llms_template_lesson_due_dates' ) ) {
+
+	/**
+	 * Output the student's due dates for the current lesson's quiz, assignment, etc.
+	 *
+	 * Displayed above the lesson buttons, so the buttons keep their own layout in every theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function llms_template_lesson_due_dates() {
+
+		$lesson     = llms_get_post( get_the_ID() );
+		$student_id = get_current_user_id();
+		if ( ! $lesson instanceof LLMS_Lesson || ! $student_id || ! llms_is_user_enrolled( $student_id, $lesson->get( 'parent_course' ) ) ) {
+			return;
+		}
+
+		$items = array();
+		foreach ( $lesson->get_due_date_items() as $item ) {
+			$due = $item->get_due_timestamp( $student_id );
+			if ( $due ) {
+				$items[] = array(
+					'item' => $item,
+					'due'  => $due,
+				);
+			}
+		}
+
+		if ( ! $items ) {
+			return;
+		}
+
+		usort(
+			$items,
+			function ( $a, $b ) {
+				return $a['due'] - $b['due'];
+			}
+		);
+
+		llms_get_template(
+			'course/lesson-due-dates.php',
+			array(
+				'items'      => wp_list_pluck( $items, 'item' ),
+				'student_id' => $student_id,
+			)
+		);
+	}
+}
+
 /**
  * Complete Lesson Link Template Include
  *

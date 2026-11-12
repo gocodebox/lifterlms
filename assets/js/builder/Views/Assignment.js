@@ -115,6 +115,7 @@ define( [
 					this.model.set_parent( this.lesson );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 
 				}
 
@@ -143,7 +144,7 @@ define( [
 						model: this.model,
 					} );
 
-					// this.init_datepickers();
+					this.init_datepickers();
 					this.init_selects();
 
 					window.llms_builder.assignments.render_editor( this );
@@ -168,6 +169,7 @@ define( [
 				var view = this.get_subview( 'settings' );
 				if ( view && view.instance ) {
 					view.instance.render();
+					this.init_datepickers();
 					this.init_selects();
 				}
 
@@ -196,6 +198,7 @@ define( [
 					this.lesson.set( 'assignment', this.model );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 					this.render();
 
 				} else {
@@ -242,6 +245,7 @@ define( [
 				this.model = assignment;
 
 				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.listenTo( this.model, 'change:due_method', this.render_settings );
 				this.render();
 
 			},

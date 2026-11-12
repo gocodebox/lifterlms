@@ -247,7 +247,11 @@
             "time_limit": 300,
             "title": "New Lesson Quiz",
             "type": "llms_quiz",
-            "disable_retake": "yes"
+            "disable_retake": "yes",
+            "due_method": "enrollment",
+            "due_date": "",
+            "due_time": "05:00 PM",
+            "due_days": 14
           },
           "quiz_enabled": "yes",
           "require_assignment_passing_grade": "yes",

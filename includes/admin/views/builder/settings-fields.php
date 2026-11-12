@@ -6,7 +6,8 @@
  * @since 3.24.0 Unknown.
  * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
  * @since 10.2.1 Allow settings selects to be rendered disabled.
- * @version 10.2.1
+ * @since [version] Associate field labels and help tips with their select and text inputs.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -51,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
 						<div class="llms-editable-select{{{ field.classes }}}" >
 							<label class="llms-switch">
 								<span class="llms-label">
-									<span class="llms-label-text">{{{ field.label }}}</span>
+									<span class="llms-label-text" id="llms-model-settings-label--{{{ field.id }}}">{{{ field.label }}}</span>
 									<# if ( field.tip ) { #>
 										<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
 									<# } #>
@@ -62,12 +63,17 @@ defined( 'ABSPATH' ) || exit;
 						</div>
 					<# } else if ( field.label ) { #>
 						<span class="llms-label">
-							<span class="llms-label-text">{{{ field.label }}}</span>
+							<span class="llms-label-text" id="llms-model-settings-label--{{{ field.id }}}">{{{ field.label }}}</span>
 							<# if ( field.tip ) { #>
-								<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+								<span class="llms-help-tip tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle" aria-hidden="true"></i><span class="screen-reader-text" id="llms-model-settings-tip--{{{ field.id }}}">{{{ field.tip }}}</span></span>
 							<# } #>
 						</span>
 					<# } #>
+
+					<#
+						var label_id = field.label ? 'llms-model-settings-label--' + field.id : '',
+							tip_id   = field.label && field.tip && ! data.has_switch( field.type ) ? 'llms-model-settings-tip--' + field.id : '';
+					#>
 
 					<# if ( 'permalink' === field.type ) { #>
 
@@ -97,7 +103,7 @@ defined( 'ABSPATH' ) || exit;
 					<# } else if ( 'select' === field.type || ( 'switch-select' === field.type && data.is_switch_condition_met( field ) ) ) { #>
 
 						<div class="llms-editable-select{{{ field.classes }}}" >
-							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}{{{ field.disabled ? ' disabled' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
+							<select name="{{{ field.attribute }}}"<# if ( label_id ) { #> aria-labelledby="{{{ label_id }}}"<# } #><# if ( tip_id ) { #> aria-describedby="{{{ tip_id }}}"<# } #>{{{ field.multiple ? ' multiple' : '' }}}{{{ field.disabled ? ' disabled' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
 						</div>
 
 					<# } else if ( 'radio' === field.type || ( 'switch-radio' === field.type && data.is_switch_condition_met( field ) ) ) { #>
@@ -126,11 +132,17 @@ defined( 'ABSPATH' ) || exit;
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
 							<div class="llms-editable-input{{{ field.classes }}}">
 								<# field_inputs.forEach( input => { #>
+									<#
+										var input_label_id  = field_inputs.length > 1 && input.label ? 'llms-model-settings-label--' + field.id + '-' + input.attribute : '',
+											input_label_ids = _.compact( [ label_id, input_label_id ] ).join( ' ' );
+									#>
 									<div class="llms-input-wrapper">
-										<# if ( field_inputs.length > 1 && input.label ) { #>
-											<span class="label">{{{ input.label }}}</span>
+										<# if ( input_label_id ) { #>
+											<span class="label" id="{{{ input_label_id }}}">{{{ input.label }}}</span>
 										<# } #>
 										<input
+											<# if ( input_label_ids ) { #> aria-labelledby="{{{ input_label_ids }}}" <# } #>
+											<# if ( tip_id ) { #> aria-describedby="{{{ tip_id }}}" <# } #>
 											class="llms-input standard"
 											data-attribute="{{{ input.attribute }}}"
 											data-original-content="{{{ data.model.get( input.attribute ) }}}"

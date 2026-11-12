@@ -162,6 +162,19 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$value = '#' . $attempt->get( $key );
 				break;
 
+			case 'score':
+				$value = $attempt->get_score();
+				$value = null === $value ? '' : $value . '%';
+				break;
+
+			case 'late_penalty':
+				$value = $attempt->get_late_penalty() ? $attempt->get_late_penalty() . '%' : '';
+				break;
+
+			case 'late_penalty_note':
+				$value = (string) $attempt->get( 'late_penalty_note' );
+				break;
+
 			case 'grade':
 				$value      = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
 				$additional = $attempt->l10n( 'status' );
@@ -169,6 +182,10 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
 				}
 				$value .= ' (' . $additional . ')';
+				if ( $attempt->get_late_penalty() ) {
+					// Translators: %s = Late penalty taken off a quiz attempt's score, in percentage points.
+					$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html( sprintf( __( '−%s%% late', 'lifterlms' ), $attempt->get_late_penalty() ) ) . '</span>';
+				}
 				break;
 
 			case 'start_date':
@@ -177,6 +194,10 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$date  = $attempt->get( $key );
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
+					if ( 'end_date' === $key && $attempt->is_late() ) {
+						// Translators: Badge next to the completion date of a quiz attempt submitted after its due date.
+						$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html__( 'Late', 'lifterlms' ) . '</span>';
+					}
 				}
 				break;
 
@@ -297,43 +318,58 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 	protected function set_columns() {
 
 		$cols = array(
-			'id'         => array(
+			'id'                => array(
 				'exportable' => true,
 				'title'      => __( 'ID', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'quiz'       => array(
+			'quiz'              => array(
 				'exportable' => true,
 				'title'      => __( 'Quiz', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'course'     => array(
+			'course'            => array(
 				'exportable' => true,
 				'title'      => __( 'Course', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'lesson'     => array(
+			'lesson'            => array(
 				'exportable' => true,
 				'title'      => __( 'Lesson', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'attempt'    => array(
+			'attempt'           => array(
 				'exportable' => true,
 				'title'      => __( 'Attempt #', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'grade'      => array(
+			'grade'             => array(
 				'filterable' => llms_get_quiz_attempt_statuses(),
 				'exportable' => true,
 				'title'      => __( 'Grade', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'start_date' => array(
+			'score'             => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Score', 'lifterlms' ),
+			),
+			'late_penalty'      => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Late Penalty', 'lifterlms' ),
+			),
+			'late_penalty_note' => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Late Penalty Note', 'lifterlms' ),
+			),
+			'start_date'        => array(
 				'exportable' => true,
 				'title'      => __( 'Start Date', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'end_date'   => array(
+			'end_date'          => array(
 				'exportable' => true,
 				'title'      => __( 'End Date', 'lifterlms' ),
 				'sortable'   => true,

@@ -321,6 +321,21 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			'value' => is_numeric( $grade ) ? $grade . '%' : '&ndash;',
 		);
 
+		if ( $attempt->get_late_penalty() ) {
+			$data[] = array(
+				'name'  => __( 'Score', 'lifterlms' ),
+				'value' => is_numeric( $grade ) ? $attempt->get_score() . '%' : '&ndash;',
+			);
+			$data[] = array(
+				'name'  => __( 'Late Penalty', 'lifterlms' ),
+				'value' => $attempt->get_late_penalty() . '%',
+			);
+			$data[] = array(
+				'name'  => __( 'Late Penalty Note', 'lifterlms' ),
+				'value' => $attempt->get( 'late_penalty_note' ) ? $attempt->get( 'late_penalty_note' ) : '&ndash;',
+			);
+		}
+
 		return $data;
 	}
 

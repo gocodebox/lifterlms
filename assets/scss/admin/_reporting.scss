@@ -497,3 +497,90 @@
 }
 
 @import "../_includes/quiz-result-question-list";
+
+// Quiz & assignment due dates.
+.llms-due-sep { display: none; }
+.llms-due-badge {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-transform: uppercase;
+	color: #fff;
+	background: #6c757d;
+
+	&.llms-due-badge--due-soon { background: #9a5300; }
+	&.llms-due-badge--overdue,
+	&.llms-due-badge--late { background: #c62828; }
+	&.llms-due-badge--on-time { background: #2e7d32; }
+	&.llms-due-badge--override { background: #2271b1; }
+}
+.llms-late-penalty {
+	box-sizing: border-box;
+	max-width: 480px;
+	margin: 10px 0 20px;
+	padding: 16px 20px;
+	border-left: 4px solid #c62828;
+	background: #fafafa;
+
+	h3 { margin: 0 0 12px; }
+	p { margin: 0 0 12px; }
+	label { display: block; font-weight: 600; margin-bottom: 4px; }
+	.llms-late-penalty-input {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		input { width: 100px; margin: 0; }
+	}
+	.description { display: block; margin-top: 4px; }
+	textarea {
+		box-sizing: border-box;
+		display: block;
+		width: 100%;
+		max-width: none;
+		min-height: 4.5em;
+	}
+	.llms-late-penalty-summary { font-size: 14px; font-weight: 600; }
+	.llms-late-penalty-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0; }
+}
+.llms-due-dates-report {
+	margin-top: 30px;
+
+	.llms-due-dates-table td { vertical-align: top; }
+	.llms-due-dates-actions { width: 1%; white-space: nowrap; text-align: right; }
+	.llms-due-dates-form {
+		margin-top: 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		width: 300px;
+		white-space: normal;
+		text-align: left;
+		label { display: block; }
+		input[type="date"],
+		input[type="time"],
+		input[type="text"] { display: block; width: 100%; margin-top: 4px; }
+		.llms-due-dates-when { display: flex; gap: 6px; }
+		&[hidden] { display: none; }
+	}
+	#llms-due-dates-notice:focus { outline: 2px solid #2271b1; outline-offset: 2px; }
+
+	// Small screens: one card per item, with the column name before each value.
+	@media screen and (max-width: 782px) {
+		.llms-due-dates-table {
+			thead { display: none; }
+			tr, td { display: block; }
+			tr { padding: 8px 0; border-bottom: 1px solid #e0e0e0; }
+			td { padding: 4px 12px; text-align: left; border: 0; }
+			td[data-label]:not(:first-child)::before {
+				content: attr(data-label) ": ";
+				font-weight: 600;
+			}
+		}
+		.llms-due-dates-actions { width: auto; text-align: left; }
+		.llms-due-dates-form { width: 100%; max-width: 400px; }
+	}
+}

@@ -355,6 +355,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-help-beacon.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-customers.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-due-dates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';

@@ -77,6 +77,13 @@
 			margin: 10px 0 0;
 			padding: 0
 		}
+
+		// Instructor's note about the late penalty, shown under it.
+		li.llms-late-penalty-note {
+			font-size: 0.9em;
+			font-style: italic;
+			margin-top: 2px;
+		}
 	}
 
 	ul.llms-quiz-meta-info {
@@ -423,3 +430,41 @@
 // }
 
 
+
+// Quiz & assignment due dates.
+// The separator is for themes that don't load these styles; the badge replaces it here.
+.llms-due-sep { display: none; }
+.llms-due-date {
+	time { white-space: nowrap; }
+}
+// Space after the "Has Quiz" / "Has Assignment" label in the syllabus.
+.llms-lesson-has-quiz .llms-due-date,
+.llms-lesson-has-assignment .llms-due-date { margin-left: 4px; }
+.llms-due-badge {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.6;
+	text-transform: uppercase;
+	vertical-align: middle;
+	white-space: nowrap;
+	color: #fff;
+	background: #6c757d;
+
+	&.llms-due-badge--due-soon { background: #9a5300; }
+	&.llms-due-badge--overdue,
+	&.llms-due-badge--late { background: #c62828; }
+	&.llms-due-badge--on-time { background: #2e7d32; }
+}
+.llms-due-notice { display: block; margin-top: .25em; font-size: .875em; line-height: 1.4; }
+.llms-lesson-due-dates {
+	list-style: none;
+	margin: 1em 0;
+	padding: 0;
+
+	li { margin: 0 0 .25em; padding: 0; }
+	.llms-due-item-type { font-weight: 600; margin-right: .25em; }
+}

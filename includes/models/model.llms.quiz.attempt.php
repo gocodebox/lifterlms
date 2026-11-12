@@ -48,6 +48,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		'status'              => '%s',
 		'attempt'             => '%d',
 		'grade'               => '%f',
+		'late_penalty'        => '%f',
+		'late_penalty_note'   => '%s',
 		'questions'           => '%s',
 		'can_be_resumed'      => '%d',
 		'current_question_id' => '%d',
@@ -159,6 +161,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 3.9.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+	 * @since [version] Subtract the late penalty, if any.
 	 *
 	 * @return LLMS_Quiz_Attempt Instance of the current quiz attempt.
 	 */
@@ -168,7 +171,25 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $this->is_auto_gradeable() ) {
 
-			$grade = llms()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
+			$score = llms()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
+
+			/**
+			 * Filters the late penalty taken off a quiz attempt's score, in percentage points.
+			 *
+			 * @since [version]
+			 *
+			 * @param float             $penalty Late penalty set by an instructor, `0` for none.
+			 * @param LLMS_Quiz_Attempt $attempt Quiz attempt.
+			 * @param float             $score   Score before the penalty.
+			 */
+			$penalty = (float) apply_filters( 'llms_quiz_attempt_late_penalty', (float) $this->get( 'late_penalty' ), $this, $score );
+
+			// The penalty can't be more than the score, so the score is always the grade plus the penalty.
+			$penalty = max( 0, min( $penalty, $score ) );
+			if ( $penalty || $this->get( 'late_penalty' ) ) {
+				$this->set( 'late_penalty', $penalty );
+			}
+			$grade = llms()->grades()->round( $score - $penalty );
 
 			$quiz      = $this->get_quiz();
 			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;
@@ -829,6 +850,42 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$last_attempt = $student->quizzes()->get_last_attempt( $this->get( 'quiz_id' ) );
 		return $last_attempt && ( $this->get( 'id' ) === $last_attempt->get( 'id' ) );
+	}
+
+	/**
+	 * Retrieve the attempt's score before any late penalty.
+	 *
+	 * @since [version]
+	 *
+	 * @return float|null `null` when the attempt hasn't been graded.
+	 */
+	public function get_score() {
+		$grade = $this->get( 'grade' );
+		return in_array( $this->get( 'status' ), array( 'pass', 'fail' ), true ) && is_numeric( $grade ) ? llms()->grades()->round( (float) $grade + $this->get_late_penalty() ) : null;
+	}
+
+	/**
+	 * Retrieve the late penalty taken off the attempt's score, in percentage points.
+	 *
+	 * @since [version]
+	 *
+	 * @return float `0` when there is no penalty.
+	 */
+	public function get_late_penalty() {
+		return (float) $this->get( 'late_penalty' );
+	}
+
+	/**
+	 * Determine if the attempt was submitted after the student's due date for the quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function is_late() {
+		$quiz = $this->get_quiz();
+		$end  = $this->get( 'end_date' );
+		return $quiz && $end && $quiz->is_submission_late( $this->get( 'student_id' ), $end );
 	}
 
 	/**

@@ -97,19 +97,16 @@
 
 	.llms-lesson-meta {
 		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 4px 10px;
 		padding: 5px 15px;
 		font-size: 14px;
 
-		div.llms-favorite-wrapper + span.llms-lesson-has-quiz {
-			margin-left: 10px;
-		}
-
-		div.llms-favorite-wrapper + span.llms-lesson-has-assignment {
-			margin-left: 10px;
-		}
-
-		span.llms-lesson-has-quiz + span.llms-lesson-has-assignment {
-			margin-left: 10px;
+		// Wrap between the icon label, due date, and badge, never inside them.
+		.llms-lesson-meta-label,
+		.llms-due-date {
+			white-space: nowrap;
 		}
 	}
 

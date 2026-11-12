@@ -458,4 +458,78 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+
+	/**
+	 * Test get_short_date_format(): keeps the site's date order and drops only the year.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_short_date_format() {
+
+		$this_year = strtotime( current_time( 'Y' ) . '-11-20 23:59:59' );
+		$next_year = strtotime( ( current_time( 'Y' ) + 1 ) . '-01-05 10:00:00' );
+
+		$tests = array(
+			// Site format       => array( this year, another year ).
+			'F j, Y'          => array( 'M j', 'M j, Y' ),
+			'j F Y'           => array( 'j M', 'j M Y' ),
+			'j \\d\\e F \\d\\e Y' => array( 'j \\d\\e M', 'j \\d\\e M \\d\\e Y' ),
+			'd/m/Y'           => array( 'd/m', 'd/m/Y' ),
+			'Y-m-d'           => array( 'm-d', 'Y-m-d' ),
+			'l, F jS, Y'      => array( 'D, M jS', 'D, M jS, Y' ),
+		);
+
+		foreach ( $tests as $site_format => $expected ) {
+			update_option( 'date_format', $site_format );
+			$this->assertSame( $expected[0], LLMS_Quiz::get_short_date_format( $this_year ), $site_format );
+			$this->assertSame( $expected[1], LLMS_Quiz::get_short_date_format( $next_year ), $site_format );
+		}
+
+		// Escaped format characters are left alone.
+		update_option( 'date_format', '\\F\\l j F Y' );
+		$this->assertSame( '\\F\\l j M', LLMS_Quiz::get_short_date_format( $this_year ) );
+	}
+
+	/**
+	 * Test due timestamps: real (UTC) Unix timestamps, with day-based extensions keeping the time of day
+	 * across daylight saving time.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_due_timestamp_utc() {
+
+		update_option( 'timezone_string', 'America/New_York' );
+		$student_id = $this->factory->student->create();
+		$this->create( 'due date' );
+		$this->obj->set( 'due_method', 'date' );
+		$this->obj->set( 'due_time', '11:59 PM' );
+
+		// 11:59 PM EDT (UTC-4) and EST (UTC-5).
+		$this->obj->set( 'due_date', '2030-07-01' );
+		$this->assertSame( gmmktime( 3, 59, 0, 7, 2, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+		$this->assertStringContainsString( '<time datetime="2030-07-02T03:59:00+00:00">', $this->obj->get_due_date_html( $student_id ) );
+		$this->obj->set( 'due_date', '2030-01-15' );
+		$this->assertSame( gmmktime( 4, 59, 0, 1, 16, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+
+		// A 7 day accommodation across the end of daylight saving time (Nov 3, 2030) is still due at 11:59 PM.
+		$this->obj->set( 'due_date', '2030-10-30' );
+		update_user_option( $student_id, 'llms_due_date_accommodation', 'extend' );
+		update_user_option( $student_id, 'llms_due_date_extension_days', 7 );
+		$this->assertSame( gmmktime( 4, 59, 0, 11, 7, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+
+		// Per-student due dates are stored in UTC and take precedence.
+		$this->obj->set_due_date_override( $student_id, gmmktime( 17, 0, 0, 11, 10, 2030 ) );
+		$this->assertSame( '2030-11-10 17:00:00', $this->obj->get_due_date_override( $student_id )['due'] );
+		$this->assertSame( gmmktime( 17, 0, 0, 11, 10, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+
+		// Submission dates are stored in the site's timezone: 12:30 PM EST is 5:30 PM UTC, after the due date.
+		$this->assertFalse( $this->obj->is_submission_late( $student_id, '2030-11-10 11:30:00' ) );
+		$this->assertTrue( $this->obj->is_submission_late( $student_id, '2030-11-10 12:30:00' ) );
+
+		update_option( 'timezone_string', '' );
+	}
 }

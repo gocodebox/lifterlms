@@ -912,6 +912,45 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve the student's due date accommodation, set on their WordPress profile.
+	 *
+	 * Applies to every quiz and assignment due date unless the item has a per-student due date.
+	 *
+	 * @since [version]
+	 *
+	 * @return array|false {
+	 *     Accommodation or `false` when the student uses the course due dates.
+	 *
+	 *     @type string $type `none` (no due dates) or `extend` (due dates extended by `$days`).
+	 *     @type int    $days Number of days due dates are extended by, when `$type` is `extend`.
+	 * }
+	 */
+	public function get_due_date_accommodation() {
+
+		$type = get_user_option( 'llms_due_date_accommodation', $this->get_id() );
+		$days = absint( get_user_option( 'llms_due_date_extension_days', $this->get_id() ) );
+
+		if ( 'none' === $type || ( 'extend' === $type && $days ) ) {
+			$accommodation = array(
+				'type' => $type,
+				'days' => 'extend' === $type ? $days : 0,
+			);
+		} else {
+			$accommodation = false;
+		}
+
+		/**
+		 * Filters a student's due date accommodation.
+		 *
+		 * @since [version]
+		 *
+		 * @param array|false  $accommodation Accommodation data or `false`.
+		 * @param LLMS_Student $student       Student object.
+		 */
+		return apply_filters( 'llms_student_due_date_accommodation', $accommodation, $this );
+	}
+
+	/**
 	 * Retrieve an array of Membership Levels for a user
 	 *
 	 * @return array
