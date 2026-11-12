@@ -125,6 +125,10 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
 				}
 				$value .= ' (' . $additional . ')';
+				if ( $attempt->get_late_penalty() ) {
+					// Translators: %s = Late penalty taken off a quiz attempt's score, in percentage points.
+					$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html( sprintf( __( '−%s%% late', 'lifterlms' ), $attempt->get_late_penalty() ) ) . '</span>';
+				}
 				break;
 
 			case 'start_date':

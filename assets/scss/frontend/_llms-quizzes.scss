@@ -77,6 +77,13 @@
 			margin: 10px 0 0;
 			padding: 0
 		}
+
+		// Instructor's note about the late penalty, shown under it.
+		li.llms-late-penalty-note {
+			font-size: 0.9em;
+			font-style: italic;
+			margin-top: 2px;
+		}
 	}
 
 	ul.llms-quiz-meta-info {
