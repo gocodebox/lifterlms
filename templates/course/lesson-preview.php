@@ -11,6 +11,7 @@
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
  * @since 7.5.0 Added `llms_lesson_preview_before_title` and `llms_lesson_preview_after_title` action hooks.
  * @since [version] Display quiz and assignment due dates for enrolled students.
+ *                  Keep each quiz and assignment icon with its label.
  * @version [version]
  *
  * @var LLMS_Lesson $lesson        The lesson object.
@@ -136,8 +137,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 					$due_quiz = $due_student ? llms_get_post( $lesson->get( 'quiz' ) ) : false;
 					?>
 					<span class="llms-lesson-has-quiz">
-						<i class="fa fa-question-circle"></i>
-					<?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?>
+						<span class="llms-lesson-meta-label"><i class="fa fa-question-circle" aria-hidden="true"></i> <?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?></span>
 					<?php $due_html = $due_quiz instanceof LLMS_Quiz ? $due_quiz->get_due_date_html( $due_student, 'short' ) : ''; ?>
 					<?php if ( $due_html ) : ?>
 						<span class="screen-reader-text">,</span> <?php echo wp_kses_post( $due_html ); ?><span class="screen-reader-text">.</span>
@@ -151,8 +151,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 				if ( function_exists( 'llms_lesson_has_assignment' ) && llms_lesson_has_assignment( $lesson->get( 'id' ) ) ) :
 					?>
 					<span class="llms-lesson-has-assignment">
-						<i class="fa fa-pencil-square"></i>
-					<?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?>
+						<span class="llms-lesson-meta-label"><i class="fa fa-pencil-square" aria-hidden="true"></i> <?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?></span>
 					<?php
 					$due_assignment = $due_student && function_exists( 'llms_lesson_get_assignment' ) ? llms_lesson_get_assignment( $lesson ) : false;
 					$due_html       = $due_assignment && method_exists( $due_assignment, 'get_due_date_html' ) ? $due_assignment->get_due_date_html( $due_student, 'short' ) : '';
