@@ -144,7 +144,7 @@ define( [
 						model: this.model,
 					} );
 
-					// this.init_datepickers();
+					this.init_datepickers();
 					this.init_selects();
 
 					window.llms_builder.assignments.render_editor( this );
@@ -169,6 +169,7 @@ define( [
 				var view = this.get_subview( 'settings' );
 				if ( view && view.instance ) {
 					view.instance.render();
+					this.init_datepickers();
 					this.init_selects();
 				}
 
