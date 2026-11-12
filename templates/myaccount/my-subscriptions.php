@@ -8,8 +8,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  *
  * @var array $subscriptions Result array from {@see LLMS_Student::get_subscriptions()}.
  */

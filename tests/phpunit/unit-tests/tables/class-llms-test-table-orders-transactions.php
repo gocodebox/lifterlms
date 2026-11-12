@@ -6,14 +6,14 @@
  *
  * @group reporting_tables
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * Instructors can view reports but cannot open the Orders screen, so this table is closed to them.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * Amount sorting for transaction-less orders uses the initial (trial) price that is displayed.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * The month filter ignores dates of orders that are hidden because they have transactions.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -130,6 +130,43 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 		$this->assertNotContains( '2001-01', $months );
 		$this->assertContains( '2002-02', $months );
 		$this->assertContains( '2003-03', $months );
+	}
+
+	/**
+	 * Trashing an order removes its transaction rows, while other orders' transactions stay listed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_trashed_order_transactions_are_excluded() {
+
+		$txn_args = array(
+			'amount'       => 10,
+			'status'       => 'llms-txn-succeeded',
+			'payment_type' => 'single',
+		);
+
+		$trashed     = $this->get_mock_order();
+		$trashed_txn = $trashed->record_transaction( $txn_args );
+		$kept        = $this->get_mock_order();
+		$kept_txn    = $kept->record_transaction( $txn_args );
+
+		wp_trash_post( $trashed->get( 'id' ) );
+
+		$table = new LLMS_Table_Orders_Transactions();
+		$table->get_results( array( 'per_page' => 100 ) );
+
+		$ids = array_map(
+			function ( $row ) {
+				return $row->get( 'id' );
+			},
+			$table->get_tbody_data()
+		);
+
+		$this->assertContains( $kept_txn->get( 'id' ), $ids );
+		$this->assertNotContains( $trashed_txn->get( 'id' ), $ids );
+		$this->assertNotContains( $trashed->get( 'id' ), $ids );
 	}
 
 }

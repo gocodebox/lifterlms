@@ -187,6 +187,43 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_admin_table_data() for the StudentManagement table only lists students of courses the user can edit.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_admin_table_data_student_management_permissions() {
+
+		$course_id  = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$student_id = $this->factory->student->create( array( 'user_login' => 'zebracorn_student' ) );
+		llms_enroll_student( $student_id, $course_id );
+
+		$request = array(
+			'handler' => 'StudentManagement',
+			'post_id' => $course_id,
+		);
+
+		// Instructor of another course.
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $instructor );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringNotContainsString( 'zebracorn_student', $res['tbody'] );
+
+		// Instructor of the course.
+		llms_get_post( $course_id )->set_instructors( array( array( 'id' => $instructor ) ) );
+		wp_update_post( array( 'ID' => $course_id, 'post_author' => $instructor ) );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringContainsString( 'zebracorn_student', $res['tbody'] );
+
+		// LMS managers can view all reports.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringContainsString( 'zebracorn_student', $res['tbody'] );
+
+	}
+
+	/**
 	 * Test the select2_query_posts() ajax method.
 	 *
 	 * @since 3.32.0
@@ -830,6 +867,54 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
 		$this->assertEquals( 2, count( $events ) );
 
+	}
+
+	/**
+	 * Test llms_save_membership_autoenroll_courses permissions.
+	 *
+	 * Only users with `manage_lifterlms` and `edit_membership` capabilities can save auto-enroll courses.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_save_membership_autoenroll_courses_permissions() {
+
+		$course     = $this->factory->course->create();
+		$membership = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		$request = array(
+			'post_id' => $membership,
+			'courses' => array( $course ),
+		);
+
+		// Admin (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request ) );
+		$llms_membership = new LLMS_Membership( $membership );
+		$this->assertEquals( array( $course ), $llms_membership->get_auto_enroll_courses() );
+
+		// LMS Manager (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$new_course = $this->factory->course->create();
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( array(
+			'post_id' => $membership,
+			'courses' => array( $new_course ),
+		) ) );
+		$this->assertEquals( array( $new_course ), $llms_membership->get_auto_enroll_courses() );
+
+		// Non-admin/manager roles (instructor, instructors_assistant, subscriber) lack manage_lifterlms and must die.
+		foreach ( array( 'instructor', 'instructors_assistant', 'subscriber' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$caught = false;
+			ob_start();
+			try {
+				LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request );
+			} catch ( WPAjaxDieContinueException $e ) {
+				$caught = true;
+			}
+			$this->assertTrue( $caught, sprintf( 'Expected wp_die() for %s without manage_lifterlms.', $role ) );
+		}
 	}
 
 	/**

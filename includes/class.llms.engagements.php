@@ -43,7 +43,7 @@ class LLMS_Engagements {
 	/**
 	 * Scanner instance handling scan-based (inactivity) engagement triggers.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 * @var LLMS_Engagements_Scanner
 	 */
 	public $scanner;
@@ -51,7 +51,7 @@ class LLMS_Engagements {
 	/**
 	 * Thresholds instance handling threshold-based engagement triggers.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 * @var LLMS_Engagements_Thresholds
 	 */
 	public $thresholds;
@@ -137,7 +137,7 @@ class LLMS_Engagements {
 	 * the engagement, both for delayed engagements and for scan-based triggers which
 	 * run the full processing checks.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param boolean|WP_Error[] $can_process   An array of WP_Errors or `true` if the engagement can be processed.
 	 * @param int                $user_id       WP_User ID of the student earning the engagement.
@@ -160,7 +160,7 @@ class LLMS_Engagements {
 		 * Allows add-ons registering triggers aimed at unenrolled students (e.g. expired
 		 * continuing education credits) to bypass the handler's enrollment check.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param string[] $trigger_types List of trigger type slugs.
 		 */
@@ -749,7 +749,7 @@ class LLMS_Engagements {
 	 * Public entry point used by the engagement scanner and threshold trigger
 	 * listeners which locate candidates outside of the `maybe_trigger_engagement()` flow.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $trigger_type    Name of the trigger to look for.
 	 * @param int|string $related_post_id The WP_Post ID of the related post or an empty string.
@@ -766,7 +766,7 @@ class LLMS_Engagements {
 	 * to fire (or schedule, when the engagement has a delay) an engagement located
 	 * outside of the `maybe_trigger_engagement()` flow.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param object     $engagement      An engagement object, see {@see LLMS_Engagements::get_engagements()} for the object shape.
 	 * @param int        $user_id         WP_User ID of the user to award or send the engagement to.

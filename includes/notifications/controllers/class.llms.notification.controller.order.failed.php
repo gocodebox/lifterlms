@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Notifications/Controllers/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * initial checkout failure and the terminal recurring payment failure that
  * occurs after all retry rules are exhausted.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notification_Controller {
 
@@ -68,7 +68,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Callback function called when an order is marked as failed.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Instance of an LLMS_Order.
 	 * @return void
@@ -96,7 +96,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $subscriber Subscriber type string.
 	 * @return int|false
@@ -135,7 +135,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	 *
 	 * Used on settings screens.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -146,7 +146,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $type Notification type id.
 	 * @return array
@@ -172,7 +172,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Determine what types are supported
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array Associative array, keys are the ID/db type, values should be translated display types.
 	 */
@@ -185,7 +185,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @return array
@@ -239,7 +239,7 @@ class LLMS_Notification_Controller_Order_Failed extends LLMS_Abstract_Notificati
 	/**
 	 * Send a test notification to the currently logged in user
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @param array  $data Array of test notification data as specified by $this->get_test_settings().

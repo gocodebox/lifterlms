@@ -820,7 +820,65 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 		$prepared['id']   = $request['id'];
 		$prepared['page'] = ! isset( $prepared['page'] ) ? 1 : $prepared['page'];
 
-		return $this->prepare_items_query( $prepared, $request );
+		$prepared = $this->prepare_items_query( $prepared, $request );
+
+		if ( ! $prepared['is_students_route'] ) {
+			$prepared = $this->limit_query_to_readable_students( $prepared );
+		}
+
+		return $prepared;
+	}
+
+	/**
+	 * Restrict a course or membership enrollments collection to the students the current user can read.
+	 *
+	 * Pagination totals come from the collection query, before
+	 * {@see LLMS_REST_Enrollments_Controller::check_read_permission()} drops individual rows.
+	 * Callers with `view_others_students` are unrestricted. When a `student` filter is present,
+	 * and for callers without `view_students`, the filter is reduced to the IDs that pass that
+	 * same read check. An instructor listing a course or membership with no `student` filter is
+	 * scoped in {@see LLMS_REST_Enrollments_Controller::get_objects_query()} to themselves and to
+	 * students enrolled in a course or membership they instruct.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @param array $query_args Collection query arguments.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_students( $query_args ) {
+
+		// Callers who can read every student's enrollments need no restriction.
+		if ( current_user_can( 'view_others_students' ) ) {
+			return $query_args;
+		}
+
+		$self = get_current_user_id();
+
+		// A supplied student list, or a caller who cannot view students at all, is resolved
+		// with the same per-student check the response body uses.
+		if ( isset( $query_args['student'] ) || ! current_user_can( 'view_students' ) ) {
+			$requested = isset( $query_args['student'] ) ? array_map( 'absint', (array) $query_args['student'] ) : array( $self );
+			$readable  = array();
+
+			foreach ( $requested as $student_id ) {
+				if ( $self === $student_id || current_user_can( 'view_students', $student_id ) ) {
+					$readable[] = $student_id;
+				}
+			}
+
+			// An empty `student` list would remove the filter entirely, which would count every
+			// enrollment of the course or membership, so force an impossible match instead.
+			$query_args['student'] = $readable ? array_values( array_unique( $readable ) ) : array( 0 );
+
+			return $query_args;
+		}
+
+		$instructor = llms_get_instructor( $self );
+		$post_ids   = $instructor ? $instructor->get_posts( array( 'posts_per_page' => -1 ), 'ids' ) : array();
+
+		$query_args['readable_instructor_posts'] = array_map( 'absint', (array) $post_ids );
+
+		return $query_args;
 	}
 
 	/**
@@ -913,7 +971,7 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 		}
 
 		/**
-		 * Filter the enrollments by user_id or post_id param
+		 * Filter the enrollments by user_id or post_id param.
 		 */
 		if ( isset( $query_args['student'] ) ) {
 			$filter = sprintf( ' AND upm.user_id IN ( %s )', implode( ', ', $query_args['student'] ) );
@@ -921,6 +979,37 @@ class LLMS_REST_Enrollments_Controller extends LLMS_REST_Controller {
 			$filter = sprintf( ' AND upm.post_id IN ( %s )', implode( ', ', $query_args['post'] ) );
 		} else {
 			$filter = '';
+		}
+
+		// Instructor listings with no student filter: the caller, plus students whose latest
+		// status on a course or membership they instruct is enrolled. Same predicate as
+		// LLMS_Student::get_enrollment_status(), which is what view_students uses.
+		if ( isset( $query_args['readable_instructor_posts'] ) ) {
+			$self     = absint( get_current_user_id() );
+			$post_ids = array_filter( array_map( 'absint', (array) $query_args['readable_instructor_posts'] ) );
+
+			if ( $post_ids ) {
+				$in      = implode( ', ', $post_ids );
+				$filter .= " AND ( upm.user_id = {$self} OR EXISTS (
+					SELECT 1
+					FROM {$wpdb->prefix}lifterlms_user_postmeta AS readable
+					WHERE readable.user_id = upm.user_id
+					  AND readable.post_id IN ( {$in} )
+					  AND readable.meta_key = '_status'
+					  AND readable.meta_value = 'enrolled'
+					  AND readable.meta_id = (
+						  SELECT readable2.meta_id
+						  FROM {$wpdb->prefix}lifterlms_user_postmeta AS readable2
+						  WHERE readable2.user_id = readable.user_id
+						    AND readable2.post_id = readable.post_id
+						    AND readable2.meta_key = '_status'
+						  ORDER BY readable2.updated_date DESC, readable2.meta_id DESC
+						  LIMIT 1
+					  )
+				) )";
+			} else {
+				$filter .= " AND upm.user_id = {$self}";
+			}
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

@@ -253,7 +253,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				/**
 				 * Filters the list of triggers which display the percentage threshold field.
 				 *
-				 * @since [version]
+				 * @since 11.0.0
 				 *
 				 * @param string[] $triggers List of trigger type slugs.
 				 */
@@ -278,7 +278,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				 * Add-ons registering scan-based triggers via `llms_scannable_engagement_triggers`
 				 * should also register their trigger slugs here so the period field displays.
 				 *
-				 * @since [version]
+				 * @since 11.0.0
 				 *
 				 * @param string[] $triggers List of trigger type slugs.
 				 */
@@ -311,7 +311,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				 * Add-ons registering scan-based triggers via `llms_scannable_engagement_triggers`
 				 * should also register their trigger slugs here so the date floor field displays.
 				 *
-				 * @since [version]
+				 * @since 11.0.0
 				 *
 				 * @param string[] $triggers List of trigger type slugs.
 				 */
@@ -374,7 +374,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				/**
 				 * Filters the list of triggers which display the failure count field.
 				 *
-				 * @since [version]
+				 * @since 11.0.0
 				 *
 				 * @param string[] $triggers List of trigger type slugs.
 				 */
@@ -545,7 +545,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 				 * Allows add-ons registering custom engagement triggers to reuse the existing
 				 * trigger-post pickers (e.g. return 'course' to store the course picker's value).
 				 *
-				 * @since [version]
+				 * @since 11.0.0
 				 *
 				 * @param string|false $var  The field suffix or `false` when the trigger has no related post.
 				 * @param string       $type The engagement trigger type slug.

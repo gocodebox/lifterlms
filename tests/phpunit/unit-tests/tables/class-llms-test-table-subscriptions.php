@@ -6,14 +6,14 @@
  *
  * @group reporting_tables
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -26,7 +26,7 @@ class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 	/**
 	 * Get the IDs of the orders returned by the table for the given args.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Arguments passed to get_results().
 	 * @return int[]
@@ -45,7 +45,7 @@ class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 	/**
 	 * Sorting by a meta column keeps subscriptions missing that meta and lists them last.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 	/**
 	 * Sorting by product does not drop subscriptions missing a product title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Table_Subscriptions extends LLMS_UnitTestCase {
 	/**
 	 * The plan cell uses a translated period, and the export cell has no HTML entities.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

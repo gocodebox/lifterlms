@@ -4,8 +4,8 @@
  *
  * @since 3.24.0
  * @since 6.0.0 Wrap each section in a <tbody> element.
- * @since [version] Render each section as its own table with a caption.
- * @version [version]
+ * @since 11.0.0 Render each section as its own table with a caption.
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

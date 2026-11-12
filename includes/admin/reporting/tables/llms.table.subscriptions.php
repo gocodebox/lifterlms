@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,9 +16,11 @@ defined( 'ABSPATH' ) || exit;
  * Displays recurring orders (subscriptions) in an LLMS Admin Table
  * with lifetime revenue totals.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
+
+	use LLMS_Trait_Order_Bulk_Trash_Table;
 
 	/**
 	 * Unique ID for the Table.
@@ -100,7 +102,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key  The column id / key.
 	 * @param LLMS_Order $data Order object.
@@ -111,6 +113,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 		$value = '';
 
 		switch ( $key ) {
+
+			case 'cb':
+				$value = $this->get_checkbox_html( $data, $data->get( 'id' ) );
+				break;
 
 			case 'order':
 				$order_id = $data->get( 'id' );
@@ -172,6 +178,10 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				}
 				break;
 
+			case 'access':
+				$value = esc_html( $data->get_access_expiration_label() );
+				break;
+
 			case 'date':
 				$value = $data->get_date( 'date', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 				break;
@@ -186,7 +196,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Build the customer cell HTML: name linked to the user profile, email as a mailto link.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return string
@@ -214,7 +224,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell in an export file.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key  The column id / key.
 	 * @param LLMS_Order $data Order object.
@@ -273,6 +283,9 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				$next = $data->get_next_payment_due_date( 'Y-m-d H:i:s' );
 				return is_wp_error( $next ) ? '' : $next;
 
+			case 'access':
+				return $data->get_access_expiration_label( 'Y-m-d' );
+
 			case 'date':
 				return $data->get_date( 'date', 'Y-m-d H:i:s' );
 
@@ -296,7 +309,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Get the search placeholder text.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -307,20 +320,21 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Get HTML for the filters displayed in the head of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_order_statuses( 'recurring' );
 		$current  = $this->get_filter();
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $slug => $label ) : ?>
 						<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $current, $slug ); ?>>
@@ -336,7 +350,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Subscription data follows the Orders screen capability, not the reporting capability.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -347,7 +361,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -448,7 +462,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	 * or ended subscriptions that have no next payment date. A LEFT JOIN keeps them
 	 * and sorts them after the rows that have a value, in either direction.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array    $clauses Array of SQL clauses.
 	 * @param WP_Query $query   The WP_Query instance.
@@ -472,7 +486,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Search users by name or email.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $term Search term.
 	 * @return int[] Array of matching user IDs.
@@ -517,7 +531,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of arguments.
 	 * @return void
@@ -551,7 +565,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
@@ -564,12 +578,12 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+		return $this->get_bulk_trash_columns() + array(
 			'order'               => array(
 				'exportable' => true,
 				'sortable'   => true,
@@ -619,6 +633,11 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Next Payment', 'lifterlms' ),
+			),
+			'access'              => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'date'                => array(
 				'exportable' => true,
@@ -681,7 +700,7 @@ class LLMS_Table_Subscriptions extends LLMS_Admin_Table {
 	/**
 	 * Set the table's title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */

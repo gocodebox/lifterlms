@@ -224,7 +224,7 @@ if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
  * `role="heading"` rather than a heading element. A falsy level omits the
  * heading role (used when the question text itself contains form controls).
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param LLMS_Question          $question Question object.
  * @param LLMS_Quiz_Attempt|null $attempt  Attempt object.
@@ -237,7 +237,7 @@ function llms_get_quiz_question_heading_level( $question, $attempt = null ) {
 	 *
 	 * Return 0 (or any non 1-6 value) to omit the heading role.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int                    $level    Heading level. Default 2.
 	 * @param LLMS_Question          $question Question object.

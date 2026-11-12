@@ -202,7 +202,7 @@ class LLMS_AJAX_Handler {
 	 * `user_can_access()` when it should follow a different capability, such as
 	 * the Orders screen.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return LLMS_Admin_Table|false
@@ -725,6 +725,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
+	 * @since 11.0.0 End the attempt without recording the answer once the quiz time limit has passed.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -777,6 +778,11 @@ class LLMS_AJAX_Handler {
 				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
+		}
+
+		// Out of time: grade the answers recorded within the limit, as the quiz timer does.
+		if ( $attempt->has_time_limit_expired() ) {
+			return self::quiz_end( $request, $attempt );
 		}
 
 		// record the answer.
@@ -1297,6 +1303,7 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
+	 * @since [version] Require `manage_lifterlms` capability.
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true
@@ -1308,7 +1315,7 @@ class LLMS_AJAX_Handler {
 			wp_die();
 		}
 
-		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
 			wp_die();
 		}
 

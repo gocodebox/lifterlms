@@ -4,8 +4,8 @@
  *
  * @since 1.0.0
  * @since 5.0.0 Utilize fields from LLMS_Forms.
- * @since [version] Use a heading level that follows the dashboard title.
- * @version [version]
+ * @since 11.0.0 Use a heading level that follows the dashboard title.
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

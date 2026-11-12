@@ -457,7 +457,7 @@ define( [], function() {
 		 * permalink matches it, no `change:permalink` fires and the settings panel keeps showing
 		 * the preview text instead of a link. Clearing it silently ensures the change fires.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param {Object} model Instance of a Backbone.Model.
 		 * @param {Object} info  Data for the model processed by the server.

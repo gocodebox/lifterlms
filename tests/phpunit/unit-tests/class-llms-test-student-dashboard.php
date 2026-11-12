@@ -6,14 +6,14 @@
  *
  * @group student_dashboard
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 
 	/**
 	 * Create an order for a student, optionally recurring.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Student $student   The student to create the order for.
 	 * @param bool         $recurring Whether the order should be recurring (a subscription).
@@ -27,7 +27,7 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test LLMS_Student::get_subscriptions() returns only recurring orders.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 	 *
 	 * A student with only a one-time (non-recurring) order should not see the tab.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test that the "My Subscriptions" nav item is visible when the student has a subscription.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -88,7 +88,7 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test that the "My Subscriptions" endpoint is always registered (reachable by direct URL).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Student_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test get_transactions_list() pages transactions and transaction-less orders by date.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

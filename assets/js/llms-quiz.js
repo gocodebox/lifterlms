@@ -7,13 +7,13 @@
  * @type {Object}
  *
  * @since 1.0.0
- * @version [version]
+ * @version 11.0.0
  */( function( $ ) {
 
 	/**
 	 * Same-origin http(s) URL from a quiz attempt select option.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param {string} url Candidate URL.
 	 * @return {string} Safe URL, or an empty string.

@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  *
  * @var LLMS_Transaction $transaction The transaction object.
  * @var LLMS_Order       $order       The parent order object.

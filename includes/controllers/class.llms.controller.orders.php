@@ -250,7 +250,7 @@ class LLMS_Controller_Orders {
 	/**
 	 * Flush the Orders & Transactions admin report's cached aggregate queries.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Controller_Orders {
 	/**
 	 * Flush the Orders & Transactions report cache when an order or transaction is deleted.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $post_id WP_Post ID of the post being deleted.
 	 * @return void
@@ -281,7 +281,7 @@ class LLMS_Controller_Orders {
 	 * The report lists non-trashed transactions plus orders that have none. Trashing
 	 * the last transaction has to drop the flag too, or that order disappears from both sets.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $post_id WP_Post ID of the transaction being deleted or trashed.
 	 * @return void
@@ -324,7 +324,7 @@ class LLMS_Controller_Orders {
 	/**
 	 * Flag an order when one of its transactions is restored from the trash.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $post_id WP_Post ID of the transaction being untrashed.
 	 * @return void

@@ -1220,6 +1220,67 @@ class LLMS_REST_Test_Memberships extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test that only users with the `manage_lifterlms` capability can update a membership's auto enroll courses.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_auto_enroll_courses_permissions() {
+
+		// A course the membership's instructor does not control.
+		$foreign_course_id = $this->factory->course->create();
+
+		// A membership authored by an instructor, so the instructor can edit it.
+		wp_set_current_user( $this->user_allowed );
+		$instructor_id = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$membership    = $this->factory->membership->create_and_get( array( 'post_author' => $instructor_id ) );
+
+		// An instructor who can edit the membership cannot modify its auto enroll courses.
+		wp_set_current_user( $instructor_id );
+		$this->assertTrue( current_user_can( 'edit_membership', $membership->get( 'id' ) ) );
+
+		$original_title = $membership->get( 'title' );
+		$response       = $this->perform_mock_request(
+			'POST',
+			$this->route . '/' . $membership->get( 'id' ),
+			array(
+				'auto_enroll' => array( $foreign_course_id ),
+				'title'       => 'Updated by instructor',
+			)
+		);
+		$this->assertResponseStatusEquals( 403, $response );
+		$this->assertEmpty( $membership->get_auto_enroll_courses() );
+		// Nothing else in the forbidden request is saved.
+		$this->assertEquals( $original_title, get_post_field( 'post_title', $membership->get( 'id' ), 'raw' ) );
+
+		// Creating a membership with auto enroll courses is rejected before the membership is created.
+		$memberships_count = count( get_posts( array( 'post_type' => 'llms_membership', 'post_status' => 'any', 'numberposts' => -1 ) ) );
+		$response          = $this->perform_mock_request(
+			'POST',
+			$this->route,
+			array_merge( $this->sample_membership_args, array( 'auto_enroll' => array( $foreign_course_id ) ) )
+		);
+		$this->assertResponseStatusEquals( 403, $response );
+		$this->assertCount( $memberships_count, get_posts( array( 'post_type' => 'llms_membership', 'post_status' => 'any', 'numberposts' => -1 ) ) );
+
+		// Without auto enroll courses (the field defaults to an empty list), the instructor can create a membership.
+		$response = $this->perform_mock_request( 'POST', $this->route, $this->sample_membership_args );
+		$this->assertResponseStatusEquals( 201, $response );
+
+		// A user with `manage_lifterlms` can modify the auto enroll courses.
+		wp_set_current_user( $this->user_allowed );
+		$response = $this->perform_mock_request(
+			'POST',
+			$this->route . '/' . $membership->get( 'id' ),
+			array( 'auto_enroll' => array( $foreign_course_id ) )
+		);
+		$this->assertResponseStatusEquals( 200, $response );
+		$this->assertEqualSets( array( $foreign_course_id ), $membership->get_auto_enroll_courses() );
+
+	}
+
+	/**
 	 * Test updating a membership.
 	 *
 	 * @since 1.0.0-beta.9

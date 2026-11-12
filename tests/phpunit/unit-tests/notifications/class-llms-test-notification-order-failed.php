@@ -6,7 +6,7 @@
  *
  * @group notifications
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 
@@ -41,7 +41,7 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	/**
 	 * Function used to setup arguments passed to a notification controller's `action_callback()` function.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
@@ -71,7 +71,7 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	/**
 	 * Test set_merge_data()
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	/**
 	 * Test that the controller exposes a title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Notification_Order_Failed extends LLMS_NotificationTestCase {
 	 * for the same order in a single request (e.g. terminal retry failure
 	 * cascading into the `llms-failed` status transition).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

@@ -3,8 +3,8 @@
  * Student Dashboard: Notifications Tab
  *
  * @since 3.8.0
- * @since [version] Use a heading level that follows the dashboard title.
- * @version [version]
+ * @since 11.0.0 Use a heading level that follows the dashboard title.
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

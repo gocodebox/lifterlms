@@ -1,5 +1,0 @@
-significance: minor
-type: added
-links:
-  - "#3365"
-entry: Added an admin notice for sites on WP Engine with protected media, linking to instructions for more efficient file serving.

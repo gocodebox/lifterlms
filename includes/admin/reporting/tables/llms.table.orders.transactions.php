@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,9 +16,11 @@ defined( 'ABSPATH' ) || exit;
  * Displays individual transactions across all orders in an LLMS Admin Table,
  * joining parent order data for customer/product context.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
+
+	use LLMS_Trait_Order_Bulk_Trash_Table;
 
 	/**
 	 * Object cache group for this table's cached aggregate queries.
@@ -128,7 +130,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string           $key  The column id / key.
 	 * @param LLMS_Transaction $data Transaction object.
@@ -145,6 +147,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		$value = '';
 
 		switch ( $key ) {
+
+			case 'cb':
+				if ( $order ) {
+					$value = $this->get_checkbox_html( $order, $data->get( 'id' ) );
+				}
+				break;
 
 			case 'transaction_id':
 				$txn_id      = $data->get( 'id' );
@@ -186,6 +194,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$value = $this->get_status_html( $data->get( 'status' ) );
 				break;
 
+			case 'access':
+				if ( $order ) {
+					$value = esc_html( $order->get_access_expiration_label() );
+				}
+				break;
+
 			case 'payment_type':
 				$value = $this->get_payment_type_label( $data->get( 'payment_type' ) );
 				break;
@@ -204,7 +218,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve cell data for a transaction-less order row (free, trial, or pending-payment order).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key   The column id / key.
 	 * @param LLMS_Order $order Order object.
@@ -213,6 +227,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	protected function get_order_row_data( $key, $order ) {
 
 		switch ( $key ) {
+
+			case 'cb':
+				return $this->get_checkbox_html( $order, $order->get( 'id' ) );
 
 			case 'transaction_id':
 				$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
@@ -241,6 +258,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				}
 				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
 
+			case 'access':
+				return esc_html( $order->get_access_expiration_label() );
+
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
 
@@ -255,7 +275,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Build a linked order number.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order   Order object.
 	 * @param int        $txn_id Optional. Transaction post ID the link originated from. Default 0.
@@ -274,7 +294,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * surface a "you're viewing the parent order for transaction #x" note with a
 	 * jump link to the transactions list.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $order_id Order post ID.
 	 * @param int $txn_id   Optional. Transaction post ID the link originated from.
@@ -294,7 +314,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Build the customer cell HTML: name linked to the user profile, email as a mailto link.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return string
@@ -322,7 +342,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Build the product cell HTML.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return string
@@ -338,7 +358,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Build a status badge.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $status Status slug (transaction or order post status).
 	 * @param string $label  Optional. Pre-resolved label. Defaults to the registered post status label.
@@ -362,7 +382,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * on-hold, pending cancellation, expired, etc.) intentionally live in the
 	 * Subscriptions table -- a transaction itself is never "pending cancellation".
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array Map of transaction status slug => array of equivalent order status slugs.
 	 */
@@ -378,7 +398,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Resolve the transaction status that an order status maps to in this table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $order_status Order post status slug.
 	 * @return string The equivalent transaction status slug, or empty string if there's no mapping.
@@ -395,7 +415,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Get the human-readable payment type label for a transaction.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $type Transaction payment type.
 	 * @return string
@@ -412,7 +432,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Derive a payment type label for a transaction-less order row.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return string
@@ -430,7 +450,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell in an export file.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string           $key  The column id / key.
 	 * @param LLMS_Transaction $data Transaction object.
@@ -496,6 +516,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_payment_type_label( $data->get( 'payment_type' ) );
 
+			case 'access':
+				return $order ? $order->get_access_expiration_label( 'Y-m-d' ) : '';
+
 			case 'product':
 				return $order ? $order->get( 'product_title' ) : '';
 
@@ -510,7 +533,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve export cell data for a transaction-less order row.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string     $key   The column id / key.
 	 * @param LLMS_Order $order Order object.
@@ -563,6 +586,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
 
+			case 'access':
+				return $order->get_access_expiration_label( 'Y-m-d' );
+
 			case 'product':
 				return $order->get( 'product_title' );
 
@@ -577,7 +603,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Get the search placeholder text.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */
@@ -588,19 +614,20 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Get HTML for the filters displayed in the head of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_transaction_statuses();
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $status ) : ?>
 						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
@@ -616,7 +643,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-date-filter">
 					<?php esc_html_e( 'Filter by Date', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
 					<option value=""><?php esc_html_e( 'All Dates', 'lifterlms' ); ?></option>
 					<?php
 					foreach ( $this->get_available_months() as $month ) :
@@ -633,7 +660,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-coupon-filter">
 					<?php esc_html_e( 'Filter by Coupon', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
 					<option value=""><?php esc_html_e( 'All Coupons', 'lifterlms' ); ?></option>
 					<?php foreach ( $this->get_coupons() as $coupon ) : ?>
 						<option value="<?php echo esc_attr( $coupon->ID ); ?>" <?php selected( $this->coupon_filter, $coupon->ID ); ?>>
@@ -649,7 +676,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve coupons available to filter by.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return WP_Post[]
 	 */
@@ -669,7 +696,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Orders data follows the Orders screen capability, not the reporting capability.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -680,7 +707,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -810,12 +837,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		if ( $this->sort_mode ) {
 			add_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10, 2 );
 		}
+		add_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$query = new WP_Query( $query_args );
 
 		if ( $this->sort_mode ) {
 			remove_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10 );
 		}
+		remove_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
@@ -834,7 +863,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve the IDs of all orders that have at least one transaction.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return int[] Array of order IDs.
 	 */
@@ -864,7 +893,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * rows -- e.g. an order showing both as its own row and as a transaction row
 	 * after its first payment is recorded.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -876,7 +905,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve transaction IDs belonging to a set of orders.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $order_ids Array of order IDs.
 	 * @return int[] Array of transaction IDs.
@@ -916,7 +945,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * plus the order itself when it has none). A text term matches customers and
 	 * expands to their orders' rows.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $term Search term.
 	 * @return int[] Array of matching post IDs.
@@ -961,7 +990,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * `_llms_order_id` on the bounded set rather than the global flag, so it stays
 	 * correct regardless of `_llms_has_transaction` backfill state.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $order_ids Bounded set of order IDs to test.
 	 * @return int[] Subset of `$order_ids` that have no transaction.
@@ -993,7 +1022,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * only after the backfill returns false. New installs report the current db
 	 * version and use the flag path immediately.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return bool
 	 */
@@ -1011,7 +1040,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Search orders by number or customer name/email.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $term Search term.
 	 * @return int[] Array of matching order IDs.
@@ -1101,7 +1130,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Get the LLMS_Order for a given transaction (with basic caching).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Transaction $txn Transaction object.
 	 * @return LLMS_Order|false
@@ -1131,7 +1160,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * `_llms_order_id` meta (for transaction rows). A `COALESCE` over the row's own
 	 * ID and that meta value resolves the correct order in both cases.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array    $clauses Array of SQL clauses.
 	 * @param WP_Query $query   The WP_Query instance (passed by reference).
@@ -1166,9 +1195,35 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve order IDs associated with a given coupon.
+	 * Hide transactions whose parent order is in the trash.
+	 *
+	 * Trashed orders already drop out of the `any` post status, but their
+	 * transactions keep their own status, so they're excluded here.
 	 *
 	 * @since [version]
+	 *
+	 * @param string $where SQL WHERE clause.
+	 * @return string
+	 */
+	public function exclude_trashed_order_transactions( $where ) {
+
+		global $wpdb;
+
+		$where .= " AND ( {$wpdb->posts}.post_type <> 'llms_transaction' OR NOT EXISTS (
+			SELECT 1 FROM {$wpdb->postmeta} AS llms_toid
+			INNER JOIN {$wpdb->posts} AS llms_torder ON llms_torder.ID = llms_toid.meta_value
+			WHERE llms_toid.post_id = {$wpdb->posts}.ID
+			  AND llms_toid.meta_key = '_llms_order_id'
+			  AND llms_torder.post_status = 'trash'
+		) )";
+
+		return $where;
+	}
+
+	/**
+	 * Retrieve order IDs associated with a given coupon.
+	 *
+	 * @since 11.0.0
 	 *
 	 * @param int $coupon_id WP_Post ID of the coupon.
 	 * @return int[] Array of matching order IDs.
@@ -1197,7 +1252,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve the distinct year/month combinations that have transactions.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return object[] Array of objects with `year` and `month` properties.
 	 */
@@ -1238,7 +1293,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param array $args Array of arguments.
 	 * @return void
@@ -1284,7 +1339,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
@@ -1300,12 +1355,13 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+
+		return $this->get_bulk_trash_columns() + array(
 			'transaction_id'         => array(
 				'exportable' => true,
 				'sortable'   => false,
@@ -1350,6 +1406,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Status', 'lifterlms' ),
+			),
+			'access'                 => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'payment_type'           => array(
 				'exportable' => true,
@@ -1402,7 +1463,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	/**
 	 * Set the table's title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */

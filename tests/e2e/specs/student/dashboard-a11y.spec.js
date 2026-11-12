@@ -1,7 +1,7 @@
 /**
  * Student dashboard and catalog accessibility.
  *
- * @since [version]
+ * @since 11.0.0
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

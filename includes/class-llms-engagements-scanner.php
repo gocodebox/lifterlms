@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * Add-ons can register additional scan-based triggers via the
  * `llms_scannable_engagement_triggers` filter.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Engagements_Scanner {
 
@@ -93,7 +93,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Determine whether an engagement is paused pending large-send-volume confirmation.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
 	 * @return boolean
@@ -143,7 +143,7 @@ class LLMS_Engagements_Scanner {
 	 * A candidate only fires when its anchor is newer than the previously recorded marker,
 	 * implementing "fire once, re-arm on new activity" semantics.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array Associative array mapping trigger type slugs to callables.
 	 */
@@ -163,7 +163,7 @@ class LLMS_Engagements_Scanner {
 		 * Allows add-ons to register their own scan-based triggers which are located
 		 * by the daily batched engagement scan without requiring their own cron.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param array $triggers Associative array mapping trigger type slugs to candidate-query callables.
 		 *                        See {@see LLMS_Engagements_Scanner::get_scannable_triggers()} for the callback signature.
@@ -174,7 +174,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Schedule the daily recurring scan action.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -213,7 +213,7 @@ class LLMS_Engagements_Scanner {
 	 * When that count is over the threshold the engagement is paused, the site admin
 	 * is emailed, and no batch is queued.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -285,7 +285,7 @@ class LLMS_Engagements_Scanner {
 	 * daily scans hit the already-paused skip in {@see LLMS_Engagements_Scanner::do_scan()}
 	 * and do not email again.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
 	 * @return boolean `true` when the engagement was paused and must not be scanned.
@@ -328,7 +328,7 @@ class LLMS_Engagements_Scanner {
 	 * The engagement author is copied when that user still exists, has an email
 	 * address, can `manage_lifterlms`, and is not already the site admin recipient.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
 	 * @param int $threshold     Send count threshold that was exceeded.
@@ -382,7 +382,7 @@ class LLMS_Engagements_Scanner {
 	 * correctness (the re-arm markers prevent duplicate fires) so this is purely a
 	 * load guard.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return array Associative array mapping engagement post IDs to `true`.
 	 */
@@ -416,7 +416,7 @@ class LLMS_Engagements_Scanner {
 	 * Schedules the next page as a new async action when the candidate query
 	 * reports more results, keeping every batch short.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
 	 * @param int $cursor        Keyset pagination cursor (last processed key) or `0` for the first page.
@@ -450,7 +450,7 @@ class LLMS_Engagements_Scanner {
 		/**
 		 * Filters the number of candidates processed per engagement scan batch.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param int    $per_page      Batch size. Default 200.
 		 * @param int    $engagement_id WP_Post ID of the `llms_engagement` post.
@@ -493,7 +493,7 @@ class LLMS_Engagements_Scanner {
 	 * returned count is then only a lower bound. A return value greater than `$limit`
 	 * means "more than $limit", not an exact total.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post|int $engagement Engagement post object or post ID.
 	 * @param int         $limit      Stop counting once this many candidates is exceeded.
@@ -569,7 +569,7 @@ class LLMS_Engagements_Scanner {
 	 * Notices are stored in a user-keyed transient consumed by
 	 * {@see LLMS_Engagements_Scanner::output_send_volume_notice()} after the post-save redirect.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int     $post_id WP_Post ID of the `llms_engagement` post.
 	 * @param WP_Post $post    Post object.
@@ -593,7 +593,7 @@ class LLMS_Engagements_Scanner {
 		/**
 		 * Filters the predicted send count above which an unconfirmed scan-based engagement is paused on save.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param int $threshold Send count threshold. Default 200.
 		 * @param int $post_id   WP_Post ID of the `llms_engagement` post.
@@ -605,7 +605,7 @@ class LLMS_Engagements_Scanner {
 		 *
 		 * `0` reads until the predicted count passes the threshold or the candidate list ends.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param int $max_pages Maximum number of pages. Default 0 (no page cap).
 		 * @param int $post_id   WP_Post ID of the `llms_engagement` post.
@@ -639,7 +639,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Store the send-volume notice for the current user, rendered after the post-save redirect.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int    $post_id   WP_Post ID of the `llms_engagement` post.
 	 * @param string $status    Either `paused` or `enabled`.
@@ -666,7 +666,7 @@ class LLMS_Engagements_Scanner {
 	 * are also listed on every wp-admin screen until sending is turned back on, so a
 	 * pause applied by the daily scan is visible the next time an administrator logs in.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -679,7 +679,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Output the one-time post-save send-volume notice.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -719,7 +719,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Output the standing notice listing engagements paused for send volume.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -779,7 +779,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Add a red "sending disabled" post state to paused engagements in the admin list table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string[] $states Post state labels.
 	 * @param WP_Post  $post   Post object for the current row.
@@ -806,7 +806,7 @@ class LLMS_Engagements_Scanner {
 	 * anchor is newer than the recorded one, i.e. the student became active again and
 	 * then went idle again.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param object $engagement An engagement object, see {@see LLMS_Engagements::get_engagements()} for the object shape.
 	 * @param array  $candidate  {
@@ -846,7 +846,7 @@ class LLMS_Engagements_Scanner {
 	 * is newer than the recorded one (the student became active again and later went
 	 * idle again).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int   $engagement_id WP_Post ID of the `llms_engagement` post.
 	 * @param array $candidate     Candidate data, see {@see LLMS_Engagements_Scanner::maybe_fire()}.
@@ -880,7 +880,7 @@ class LLMS_Engagements_Scanner {
 	 * anchor recorded by `maybe_fire()`, so repeat sends can be traced back to the
 	 * activity which re-armed the engagement.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param boolean    $is_duplicate  Whether the email is considered a duplicate.
 	 * @param int        $person_id     WP_User ID of the recipient.
@@ -923,7 +923,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Delete re-arm markers when an engagement post is deleted.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int          $post_id WP_Post ID.
 	 * @param WP_Post|null $post    Post object of the deleted post.
@@ -949,7 +949,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Retrieve the configured inactivity period (in days) for an engagement.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @return int
@@ -964,7 +964,7 @@ class LLMS_Engagements_Scanner {
 	 * User postmeta `updated_date`, quiz attempt dates, and `llms_last_login` are all
 	 * recorded via `llms_current_time()`, so cutoffs must use the same clock.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $days Number of days.
 	 * @return string MySQL datetime string.
@@ -981,7 +981,7 @@ class LLMS_Engagements_Scanner {
 	 * so a newly-created engagement doesn't email students who went inactive long
 	 * before it existed. An empty value means no lower bound (scan the full backlog).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @return string Start-of-day MySQL datetime string in the site's timezone, or an empty string when unset or invalid.
@@ -1005,7 +1005,7 @@ class LLMS_Engagements_Scanner {
 	 * Joins against the users table because deleting a WP user does not remove their
 	 * LifterLMS user postmeta rows, and deleted users must never become candidates.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int|int[] $post_id  WP_Post ID of the course or membership, or a list of them.
 	 * @param int       $cursor   Last processed WP_User ID.
@@ -1056,7 +1056,7 @@ class LLMS_Engagements_Scanner {
 	 * Joins against the users table because deleting a WP user does not remove their
 	 * LifterLMS user postmeta rows, and deleted users must never become candidates.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int|int[] $course_id WP_Post ID of the course, a list of course IDs, or `0` for all courses.
 	 * @param int       $cursor    Last processed `meta_id` or `0` for the first page.
@@ -1123,7 +1123,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Retrieve the list of WP_Post IDs comprising a course tree (course, sections, lessons, quizzes).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $course_id WP_Post ID of the course.
 	 * @return int[]
@@ -1168,7 +1168,7 @@ class LLMS_Engagements_Scanner {
 	 * send itself would re-arm the engagement and it would refire every period with
 	 * no real student activity.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $user_ids  List of WP_User IDs.
 	 * @param int   $course_id WP_Post ID of the course.
@@ -1188,7 +1188,7 @@ class LLMS_Engagements_Scanner {
 		 * Add-ons recording their own student progress in the user postmeta table can add
 		 * their keys here so that progress counts as activity for inactivity scans.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param string[] $activity_keys List of user postmeta keys.
 		 */
@@ -1248,7 +1248,7 @@ class LLMS_Engagements_Scanner {
 		/**
 		 * Filters the computed last-activity dates used by scan-based engagement triggers.
 		 *
-		 * @since [version]
+		 * @since 11.0.0
 		 *
 		 * @param array $last      Associative array mapping WP_User IDs to MySQL datetime strings.
 		 * @param int[] $user_ids  The list of user IDs being scanned.
@@ -1260,7 +1260,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Retrieve enrollment (start) dates for a set of users in a course or membership.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $user_ids List of WP_User IDs.
 	 * @param int   $post_id  WP_Post ID of the course or membership.
@@ -1298,7 +1298,7 @@ class LLMS_Engagements_Scanner {
 	 * A user has "started" when at least one `_is_complete` row exists for any
 	 * post in the course tree.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $user_ids List of WP_User IDs.
 	 * @param int[] $tree     Course tree post IDs.
@@ -1329,7 +1329,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Retrieve the set of users (from a given list) who have completed a course.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $user_ids  List of WP_User IDs.
 	 * @param int   $course_id WP_Post ID of the course.
@@ -1386,7 +1386,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Retrieve the trigger post ID configured for an engagement, if it's a specific post.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @return int WP_Post ID, the first ID when several are selected, or `0` when set to "any" or empty.
@@ -1409,7 +1409,7 @@ class LLMS_Engagements_Scanner {
 	 * candidates, matching the trigger's "student" labeling. Users who have never
 	 * logged in fall back to their registration date.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed WP_User ID.
@@ -1542,7 +1542,7 @@ class LLMS_Engagements_Scanner {
 	 * Uses the same latest-`_status`-row pattern as {@see LLMS_Engagements_Scanner::get_enrolled_user_ids()}
 	 * and preserves the order of the input list.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int[] $user_ids List of WP_User IDs.
 	 * @param int[] $post_ids Optional. Limit the check to these course IDs. Default empty, which checks every course.
@@ -1627,7 +1627,7 @@ class LLMS_Engagements_Scanner {
 	 * Mutually exclusive with `course_never_started` by construction, since only
 	 * students with at least one completion row are considered.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed enrollment row `meta_id`.
@@ -1641,7 +1641,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Candidate query: enrolled students who never started a course N days after enrolling.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed enrollment row `meta_id`.
@@ -1661,7 +1661,7 @@ class LLMS_Engagements_Scanner {
 	 * is grouped by course so the course-tree and last-activity queries run once
 	 * per course in the page.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed enrollment row `meta_id`.
@@ -1745,7 +1745,7 @@ class LLMS_Engagements_Scanner {
 	/**
 	 * Group a page of enrollment rows into user ID lists keyed by course ID.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param object[] $rows Enrollment rows, see {@see LLMS_Engagements_Scanner::get_enrollments()}.
 	 * @return array Associative array mapping course IDs to lists of WP_User IDs.
@@ -1766,7 +1766,7 @@ class LLMS_Engagements_Scanner {
 	 * Pages over (user, course) enrollment pairs so "any course" engagements check
 	 * every enrollment independently.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed enrollment row `meta_id`.
@@ -1824,7 +1824,7 @@ class LLMS_Engagements_Scanner {
 	 * Paged by attempt ID; the attempt ID doubles as the re-arm anchor so a newer
 	 * abandoned attempt re-fires while the same attempt never fires twice.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param WP_Post $engagement Engagement post object.
 	 * @param int     $cursor     Last processed attempt ID.

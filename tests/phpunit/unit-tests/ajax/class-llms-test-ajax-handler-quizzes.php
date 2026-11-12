@@ -213,6 +213,70 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test quiz_answer_question() does not record a correct answer sent after the quiz time limit.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_quiz_answer_question_time_limit() {
+
+		wp_set_current_user( $this->student->get( 'id' ) );
+
+		$this->quiz->set( 'limit_time', 'yes' );
+		$this->quiz->set( 'time_limit', 1 );
+		$this->quiz->set( 'passing_percent', 65 );
+
+		$question = $this->quiz->get_questions()[0];
+		$answer   = array(
+			'attempt_key'   => '',
+			'question_id'   => $question->get( 'id' ),
+			'question_type' => $question->get( 'type' ),
+			'answer'        => $question->get_correct_choice(),
+		);
+		$start    = array(
+			'quiz_id'   => $this->quiz->get( 'id' ),
+			'lesson_id' => $this->lesson->get( 'id' ),
+		);
+
+		// Answered within the limit (including the grace period): graded.
+		$answer['attempt_key'] = LLMS_AJAX_Handler::quiz_start( $start )['attempt_key'];
+		$attempt               = $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] );
+		$attempt->set( 'start_date', wp_date( 'Y-m-d H:i:s', time() - 62 ), true );
+
+		$this->assertArrayHasKey( 'redirect', LLMS_AJAX_Handler::quiz_answer_question( $answer ) );
+		$attempt = $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] );
+		$this->assertEquals( 'pass', $attempt->get( 'status' ) );
+		$this->assertEquals( 100, $attempt->get( 'grade' ) );
+
+		// Answered 11 seconds after the limit: the attempt ends without the answer.
+		$answer['attempt_key'] = LLMS_AJAX_Handler::quiz_start( $start )['attempt_key'];
+		$attempt               = $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] );
+		$attempt->set( 'start_date', wp_date( 'Y-m-d H:i:s', time() - 71 ), true );
+
+		$this->assertArrayHasKey( 'redirect', LLMS_AJAX_Handler::quiz_answer_question( $answer ) );
+		$attempt = $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] );
+		$this->assertEquals( 'fail', $attempt->get( 'status' ) );
+		$this->assertEquals( 0, $attempt->get( 'grade' ) );
+		$this->assertNotEmpty( $attempt->get( 'end_date' ) );
+
+		// Students allowed unlimited quiz time are graded.
+		update_user_option( $this->student->get( 'id' ), 'llms_allow_unlimited_quiz_time', 'yes' );
+		$answer['attempt_key'] = LLMS_AJAX_Handler::quiz_start( $start )['attempt_key'];
+		$attempt               = $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] );
+		$attempt->set( 'start_date', wp_date( 'Y-m-d H:i:s', time() - 600 ), true );
+
+		LLMS_AJAX_Handler::quiz_answer_question( $answer );
+		$this->assertEquals( 'pass', $this->student->quizzes()->get_attempt_by_key( $answer['attempt_key'] )->get( 'status' ) );
+
+		// Reset.
+		delete_user_option( $this->student->get( 'id' ), 'llms_allow_unlimited_quiz_time' );
+		$this->quiz->set( 'limit_time', 'no' );
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test that a student not enrolled in the course cannot start a quiz.
 	 *
 	 * @since 10.0.2

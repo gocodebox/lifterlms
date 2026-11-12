@@ -1,6 +1,108 @@
 LifterLMS Changelog
 ===================
 
+v11.0.1 - 2026-11-04
+--------------------
+
+##### Bug Fixes
+
++ Adding missing ActionScheduler file. [#3444](https://github.com/gocodebox/lifterlms/issues/3444)
+
+
+v11.0.0 - 2026-11-03
+--------------------
+
+##### New Features
+
++ Added an admin notice for sites on WP Engine with protected media, linking to instructions for more efficient file serving. [#3365](https://github.com/gocodebox/lifterlms/issues/3365)
++ Added CSS custom properties for frontend colors and corner radius so a single override updates related hovers, focus styles, and tinted backgrounds. [#2286](https://github.com/gocodebox/lifterlms/issues/2286)
++ Added a {related_post_title} merge code for engagement emails and certificates which outputs the title of the post that triggered the engagement. [#3064](https://github.com/gocodebox/lifterlms/issues/3064)
++ Added new engagement triggers: course progress percentage reached, course completed with a low grade, quiz failed multiple times, enrollment cancelled or expired, order failed/refunded/cancelled, and daily-scanned inactivity triggers for no course progress, course never started, days since last login, course completion deadline, and abandoned quiz attempts. [#3051](https://github.com/gocodebox/lifterlms/issues/3051)
++ Added unenrollment notification trigger (popup and email) for courses and memberships, disabled by default.
++ Added a new 'Order Failed' email notification for when an order fails at checkout or after recurring payment retries are exhausted. It is disabled by default and can be enabled for the customer, the product author, and custom recipients.
++ Adds a "My Subscriptions" student dashboard tab and per-transaction receipt downloads.
+
+##### Updates and Enhancements
+
++ Orders now lists transactions (and free orders) with a separate Subscriptions listing, allowing export of transactions and subscriptions to csv.
++ Added CSS custom properties for element border width, border style, and surface hover, using the current values as defaults.
++ Updated the default password strength message so it no longer says a weak password is required. [#3370](https://github.com/gocodebox/lifterlms/issues/3370)
++ Add-on updates are no longer installed from Add-ons & more. Available updates now link to the WordPress Plugins or Themes screen. [#3371](https://github.com/gocodebox/lifterlms/issues/3371)
++ Explained when a password is rejected because it includes other information from the form. [#3401](https://github.com/gocodebox/lifterlms/issues/3401)
++ Course and membership loop tiles and certificate cards now link only the title, and achievement cards open from a title button. The whole card stays clickable. Featured image alt text uses the image's alt text, or is left empty. Themes that override the loop template keep the previous wrapping link until that template is updated.
++ Improved heading structure, labels, tables, and page titles for quizzes, focus mode, and the student dashboard.
++ Updated the bundled Action Scheduler library to version 3.9.3, improving compatibility with PHP 8.4.
++ Clarified the help text for course enrollment, course time period, and access plan sale dates to show the exact time each date starts or ends. [#3341](https://github.com/gocodebox/lifterlms/issues/3341)
+
+##### Bug Fixes
+
++ Fixed a blank Scheduled Actions tab on the LifterLMS Status page after searching or running a row or bulk action. [#3418](https://github.com/gocodebox/lifterlms/issues/3418)
++ Fixed a "headers already sent" PHP warning when a logged-out visitor views the checkout page and another plugin has already flushed the page output. [#3425](https://github.com/gocodebox/lifterlms/issues/3425)
++ Fixed a PHP warning on REST API instructors collection requests that return no results. [#3439](https://github.com/gocodebox/lifterlms/issues/3439)
++ Display an error message when the checkout form is submitted with an expired security nonce instead of silently reloading the form. [#3422](https://github.com/gocodebox/lifterlms/issues/3422)
++ Fixed the permalink of a newly created quiz not being clickable in the Course Builder after saving. [#3414](https://github.com/gocodebox/lifterlms/issues/3414)
++ Fixed icon spacing on LifterLMS buttons rendered with an icon and no supporting CSS from a theme or plugin.
++ Fixed the student dashboard mobile navigation not navigating to the selected endpoint when the Go button is clicked.
++ Fixed manual entry of datepicker dates being mis-parsed on sites using a non-US date format.
++ Fixed lesson progression button layout and text alignment in the block editor.
++ Course and membership loop titles use their previous size and weight again now that they are h2 or h3 headings.
++ Fixed a PHP fatal error when viewing a course's grades page on the student dashboard using the course ID instead of its slug.
++ Fixed frontend notification toasts overlapping when several are displayed at once.
++ Fixed frontend notification toasts stacking with extra space between them when the theme adds margins to notifications.
++ Improved customer search in the combined orders and transactions table to match a customer's full name.
++ On the order update payment method form, only the submit button is now labeled "Reactivate Subscription" for subscriptions pending cancellation.
++ Fixed a PHP 8.1+ "Automatic conversion of false to array is deprecated" notice when uploading a protected non-image file.
+
+##### Developer Notes
+
++ Updated `AGENTS.md` with the add-on and theme repositories agents can clone and how to build them.
++ Replaced `[version]` placeholders left in deprecation and `_doing_it_wrong()` notices with the versions they refer to, and release tooling now replaces any `'[version]'` string, including in multi-line calls.
++ Release preparation bumps the REST API library version when the library changed since the last release, and replaces its `[version]` placeholders with that version.
+
+##### Performance Improvements
+
++ Replaced the unbounded order exclusion list in the Orders & Transactions report with an indexed `_llms_has_transaction` order flag, backfilled via a batched background migration, for better performance on large stores.
++ Improved performance of REST API collection requests and of the protected media folder check in the admin.
+
+##### Security Fixes
+
++ Additional checks when serving protected media.
++ Additional checks on reporting collection requests.
++ Additional checks on REST enrollment collection requests.
++ Additional checks on quiz attempt answers.
++ Additional checks on REST API collection requests.
++ Additional checks when authorizing access to protected media.
++ Additional checks when protecting the media uploads folder.
++ Additional checks on restricted content in post type listings.
++ Additional checks on restricted content in feeds.
++ Additional checks on restricted content in search results and archives.
++ Additional checks on timed quiz answers.
++ Additional checks on REST API sections and access plans requests.
++ Additional checks on student management table requests.
++ Additional checks on webhook topics.
+
+##### Updated Templates
+
++ [templates/achievements/template.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/achievements/template.php)
++ [templates/admin/receipt-transaction.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/admin/receipt-transaction.php)
++ [templates/certificates/preview.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/certificates/preview.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/checkout/form-switch-source.php)
++ [templates/content-single-question.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/content-single-question.php)
++ [templates/loop/content.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/loop/content.php)
++ [templates/myaccount/form-edit-account.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/form-edit-account.php)
++ [templates/myaccount/my-grades-single-table.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/my-grades-single-table.php)
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/my-notifications.php)
++ [templates/myaccount/my-subscriptions.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/my-subscriptions.php)
++ [templates/myaccount/my-transactions.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/my-transactions.php)
++ [templates/myaccount/navigation.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/navigation.php)
++ [templates/myaccount/receipt-transaction.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/receipt-transaction.php)
++ [templates/myaccount/view-order-transactions.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/myaccount/view-order-transactions.php)
++ [templates/quiz/questions/content-choice.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/quiz/questions/content-choice.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/quiz/questions/content-picture_choice.php)
++ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/quiz/results.php)
++ [templates/single-lesson-focus.php](https://github.com/gocodebox/lifterlms/blob/11.0.0/templates/single-lesson-focus.php)
+
+
 v10.3.2 - 2026-10-09
 --------------------
 

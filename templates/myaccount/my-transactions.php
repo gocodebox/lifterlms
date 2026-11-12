@@ -8,8 +8,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  *
  * @var array $transactions Result array from {@see LLMS_Student_Dashboard::get_transactions_list()}.
  */

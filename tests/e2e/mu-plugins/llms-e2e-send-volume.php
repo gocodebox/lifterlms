@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Tests/E2E
  *
- * @since [version]
+ * @since 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Lower the send-volume threshold so a handful of students trips the pause gate.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return int
  */
@@ -27,7 +27,7 @@ add_filter(
 /**
  * Register fixture routes used by the send-volume end-to-end spec.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return void
  */
@@ -82,7 +82,7 @@ add_action( 'rest_api_init', 'llms_e2e_register_send_volume_routes' );
 /**
  * Create a published email template the engagement editor can select.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param WP_REST_Request $request Request object.
  * @return array|WP_Error
@@ -115,7 +115,7 @@ function llms_e2e_create_email_template( $request ) {
  *
  * A REST enrollment is stamped "now", so a 14-day inactivity trigger would not match it.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param WP_REST_Request $request Request object.
  * @return array
@@ -148,7 +148,7 @@ function llms_e2e_backdate_enrollment( $request ) {
  * `admin_email`. The wp-env admin user is usually both, so the spec needs a distinct author.
  * The author is written directly so this does not run the save-time send-volume gate.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param WP_REST_Request $request Request object.
  * @return array|WP_Error
@@ -186,7 +186,7 @@ function llms_e2e_set_engagement_author( $request ) {
 /**
  * Run the daily engagement scan and return the emails it tried to send.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return array
  */

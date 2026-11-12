@@ -69,7 +69,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	 *
 	 * WordPress points the top-level Orders menu at the first submenu item.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

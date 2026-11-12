@@ -3,8 +3,8 @@
  * My Account Navigation Links
  *
  * @since    2.?.?
- * @since [version] Mark the current dashboard tab with aria-current.
- * @version [version]
+ * @since 11.0.0 Mark the current dashboard tab with aria-current.
+ * @version 11.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

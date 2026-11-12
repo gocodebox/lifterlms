@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page: REST API: Webhooks
  *
  * @since 1.0.0-beta.1
+ * @since [version] Explain the status of a webhook disabled by delivery failures.
  */
 class LLMS_Rest_Admin_Settings_Webhooks {
 
@@ -22,6 +23,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 	 * Get settings fields for the Keys tab.
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since 1.1.3 Keep the "Action" topic option when editing an existing action webhook.
 	 *
 	 * @return array
 	 */
@@ -67,15 +69,19 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 
 				$settings[] = array(
 					'title'   => __( 'Status', 'lifterlms' ),
+					'desc'    => $hook && $hook->is_disabled_by_delivery_failures() ? '<br>' . __( 'Disabled automatically because deliveries kept failing after every retry. Check that the delivery URL is reachable, then set the status to Active to resume deliveries.', 'lifterlms' ) : '',
 					'id'      => 'llms_rest_webhook_status',
 					'type'    => 'select',
 					'options' => LLMS_REST_API()->webhooks()->get_statuses(),
 					'value'   => $hook ? $hook->get( 'status' ) : '',
 				);
 
-				$topic = '';
+				$topic  = '';
+				$topics = LLMS_REST_API()->webhooks()->get_topics();
 				if ( $hook && 'action' === $hook->get_resource() ) {
 					$topic = 'action';
+					// Keep the existing topic selected; saving it is only allowed for administrators.
+					$topics['action'] = __( 'Action', 'lifterlms' );
 				} elseif ( $hook ) {
 					$topic = $hook->get( 'topic' );
 				}
@@ -84,7 +90,7 @@ class LLMS_Rest_Admin_Settings_Webhooks {
 					'id'      => 'llms_rest_webhook_topic',
 					'type'    => 'select',
 					'class'   => 'llms-select2',
-					'options' => LLMS_REST_API()->webhooks()->get_topics(),
+					'options' => $topics,
 					'value'   => $topic,
 				);
 

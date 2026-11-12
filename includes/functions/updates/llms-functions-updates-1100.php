@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 namespace LLMS\Updates\Version_11_0_0;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @access private
  *
@@ -34,7 +34,7 @@ function _get_db_version() {
  * English and in the current locale. Custom descriptions, and medium or
  * strong requirements, are left as they are.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return false Always returns `false` because every matching form is updated in one pass.
  */
@@ -105,7 +105,7 @@ function replace_weak_password_meter_descriptions() {
  * otherwise `false`. Re-running is safe. `update_db_version()` runs only after this
  * returns `false`, which is what turns on the report's indexed query.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return bool
  */
@@ -158,7 +158,7 @@ function backfill_has_transaction_flag() {
 /**
  * Update db version to 11.0.0.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return false
  */
