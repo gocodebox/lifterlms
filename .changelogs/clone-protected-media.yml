@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "When cloning a course, media protected to the course or its quizzes is copied and protected to the new course, and the new course's content and quizzes use the copies."

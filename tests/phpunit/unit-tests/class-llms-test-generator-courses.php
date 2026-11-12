@@ -116,6 +116,125 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test clone_course() gives the clone its own copies of media protected to the original course and its quizzes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_clone_course_copies_protected_media() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1, 'questions' => 1 ) );
+		$course    = llms_get_post( $course_id );
+		$lesson    = llms_get_post( $course->get_lessons( 'ids' )[0] );
+		$quiz_id   = $lesson->get( 'quiz' );
+
+		$protect = function ( $media_id, $meta ) {
+			update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_attachment_is_access_allowed' );
+			foreach ( $meta as $key => $value ) {
+				update_post_meta( $media_id, $key, $value );
+			}
+		};
+		$protected_url = function ( $media_id, $size = '' ) {
+			return add_query_arg( array_filter( array( LLMS_Media_Protector::URL_PARAMETER_ID => $media_id, LLMS_Media_Protector::URL_PARAMETER_SIZE => $size ) ), trailingslashit( home_url() ) );
+		};
+
+		// Protected to the course: the course's featured image, also shown in the lesson, and a PDF in the lesson.
+		$image_id = $this->factory->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg' );
+		$pdf_id   = $this->factory->attachment->create_upload_object( DIR_TESTDATA . '/images/test-alpha.pdf' );
+		$protect( $image_id, array( '_llms_media_protection_product_id' => $course_id ) );
+		$protect( $pdf_id, array( '_llms_media_protection_product_id' => $course_id ) );
+		set_post_thumbnail( $course_id, $image_id );
+
+		// Not protected: stays shared.
+		$public_id  = $this->factory->attachment->create_upload_object( DIR_TESTDATA . '/images/test-image.jpg' );
+		$public_url = wp_get_attachment_url( $public_id );
+
+		// Protected to the quiz, like images uploaded in the quiz builder.
+		$choice_id = $this->factory->attachment->create_upload_object( DIR_TESTDATA . '/images/test-image.png' );
+		$protect( $choice_id, array( '_llms_quiz_id' => array( $quiz_id ) ) );
+		llms_get_post( $quiz_id )->get_questions()[0]->create_choice(
+			array(
+				'choice_type' => 'image',
+				'choice'      => array(
+					'id'  => $choice_id,
+					'src' => $protected_url( $choice_id ),
+				),
+			)
+		);
+
+		// Markup saved by the block editor, see `?llms_media_id=` URLs from `LLMS_Media_Protector`.
+		$image_src = esc_url( $protected_url( $image_id, 'full' ) );
+		$pdf_url   = $protected_url( $pdf_id );
+		$content   = <<<HTML
+<!-- wp:image {"id":{$image_id},"sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="{$image_src}" alt="" class="wp-image-{$image_id}"/></figure>
+<!-- /wp:image -->
+
+<!-- wp:file {"id":{$pdf_id},"href":"{$pdf_url}","displayPreview":true} -->
+<div class="wp-block-file"><object class="wp-block-file__embed" data="{$pdf_url}" type="application/pdf"></object><a href="{$pdf_url}">handout</a><a href="{$pdf_url}" class="wp-block-file__button wp-element-button" download>Download</a></div>
+<!-- /wp:file -->
+
+<!-- wp:image {"id":{$public_id}} -->
+<figure class="wp-block-image"><img src="{$public_url}" alt="" class="wp-image-{$public_id}"/></figure>
+<!-- /wp:image -->
+HTML;
+		wp_update_post( array( 'ID' => $lesson->get( 'id' ), 'post_content' => $content ) );
+
+		$clone_id     = $this->main->clone_course( $course->toArray() );
+		$clone_lesson = llms_get_post( llms_get_post( $clone_id )->get_lessons( 'ids' )[0] );
+		$clone_quiz   = llms_get_post( $clone_lesson->get( 'quiz' ) );
+		$image_copy   = (int) get_post_thumbnail_id( $clone_id );
+		$copies       = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'tempids' )['attachment'];
+		$clone_html   = $clone_lesson->get( 'content', true );
+
+		$this->assertSame( array( $image_id, $pdf_id, $choice_id ), array_keys( $copies ) );
+		$this->assertSame( $copies[ $image_id ], $image_copy, 'The featured image and the lesson share one copy.' );
+		$this->assertSame( array( (string) $image_copy ), get_post_meta( $clone_id, '_thumbnail_id' ), 'The original featured image is not added as a second value.' );
+		$pdf_copy = $copies[ $pdf_id ];
+
+		// The copies have their own files and are protected to the clone.
+		foreach ( array( $image_id => $image_copy, $pdf_id => $pdf_copy ) as $source_id => $copy_id ) {
+			$this->assertNotSame( get_attached_file( $source_id ), get_attached_file( $copy_id ) );
+			$this->assertFileExists( get_attached_file( $copy_id ) );
+			$this->assertSame( 'llms_attachment_is_access_allowed', get_post_meta( $copy_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, true ) );
+			$this->assertEquals( $clone_id, get_post_meta( $copy_id, '_llms_media_protection_product_id', true ) );
+			$this->assertEquals( $course_id, get_post_meta( $source_id, '_llms_media_protection_product_id', true ) );
+		}
+
+		// The lesson's content points at the copies, and unprotected media is unchanged.
+		$source_html  = get_post_field( 'post_content', $lesson->get( 'id' ) );
+		$copy_pdf_url = $protected_url( $pdf_copy );
+		$this->assertStringContainsString( '<!-- wp:image {"id":' . $image_copy . ',"sizeSlug":"full"', $clone_html );
+		$this->assertStringContainsString( 'src="' . esc_url( $protected_url( $image_copy, 'full' ) ) . '"', $clone_html );
+		$this->assertStringContainsString( 'class="wp-image-' . $image_copy . '"', $clone_html );
+		$this->assertStringContainsString( '<!-- wp:file {"id":' . $pdf_copy . ',"href":"' . $copy_pdf_url . '"', $clone_html );
+		$this->assertSame( substr_count( $source_html, '"' . $pdf_url . '"' ), substr_count( $clone_html, '"' . $copy_pdf_url . '"' ) );
+		$this->assertStringNotContainsString( '"' . $pdf_url . '"', $clone_html );
+		$this->assertStringNotContainsString( 'wp-image-' . $image_id . '"', $clone_html );
+		$this->assertStringContainsString( '<!-- wp:image {"id":' . $public_id . '} -->', $clone_html );
+		$this->assertStringContainsString( 'src="' . $public_url . '"', $clone_html );
+		$this->assertStringContainsString( 'class="wp-image-' . $public_id . '"', $clone_html );
+
+		// The quiz's image choice has a copy that the cloned quiz can show.
+		$choices = $clone_quiz->get_questions()[0]->get_choices();
+		$choice  = end( $choices )->get( 'choice' );
+		$this->assertEquals( $copies[ $choice_id ], $choice['id'] );
+		$this->assertSame( array( $clone_quiz->get( 'id' ) ), get_post_meta( $choice['id'], '_llms_quiz_id', true ) );
+		$this->assertSame( array( $quiz_id ), get_post_meta( $choice_id, '_llms_quiz_id', true ) );
+
+		// A user who can't view the protected media doesn't get copies of it.
+		wp_set_current_user( $this->factory->student->create() );
+		$generator    = new LLMS_Generator_Courses();
+		$clone_id     = $generator->clone_course( $course->toArray() );
+		$clone_lesson = llms_get_post( llms_get_post( $clone_id )->get_lessons( 'ids' )[0] );
+		$this->assertArrayNotHasKey( 'attachment', LLMS_Unit_Test_Util::get_private_property_value( $generator, 'tempids' ) );
+		$this->assertStringContainsString( '<!-- wp:file {"id":' . $pdf_id . ',"href":"' . $pdf_url . '"', $clone_lesson->get( 'content', true ) );
+	}
+
+	/**
 	 * Test clone_lesson()
 	 *
 	 * @since 4.7.0

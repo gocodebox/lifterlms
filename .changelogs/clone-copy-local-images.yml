@@ -1,0 +1,3 @@
+significance: patch
+type: performance
+entry: "When cloning or importing content, featured images and quiz image choices from the same site are copied on the server instead of downloaded again."
