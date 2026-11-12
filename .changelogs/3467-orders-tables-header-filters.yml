@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "On the Orders & Transactions and Subscriptions screens, the filters no longer sit flush against the LifterLMS header, and going back to the page no longer shows a filter or search value that the table isn't using."
+links:
+  - "#3467"

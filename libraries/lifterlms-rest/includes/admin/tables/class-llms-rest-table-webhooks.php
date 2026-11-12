@@ -60,6 +60,7 @@ class LLMS_REST_Table_Webhooks extends LLMS_Admin_Table {
 	 *
 	 * @since 1.0.0-beta.1
 	 * @since 1.0.0-beta.3 Output translated status instead of the database value; trim the delivery URL to 40 characters.
+	 * @since [version] Note when the webhook was disabled by delivery failures.
 	 *
 	 * @param string            $key the column id / key.
 	 * @param LLMS_REST_API_Key $webhook API key object.
@@ -77,6 +78,9 @@ class LLMS_REST_Table_Webhooks extends LLMS_Admin_Table {
 				$statuses = LLMS_REST_API()->webhooks()->get_statuses();
 				$value    = $webhook->get( $key );
 				$value    = isset( $statuses[ $value ] ) ? $statuses[ $value ] : $value;
+				if ( $webhook->is_disabled_by_delivery_failures() ) {
+					$value .= '<br><small>' . esc_html__( 'Too many failed deliveries', 'lifterlms' ) . '</small>';
+				}
 				break;
 
 			case 'delivery_url':
