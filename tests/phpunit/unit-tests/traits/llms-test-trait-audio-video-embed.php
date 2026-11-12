@@ -97,6 +97,35 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that `youtube.com/embed/` and `youtube-nocookie.com/embed/` URLs are embedded via the watch URL.
+	 *
+	 * @since [version]
+	 */
+	public function test_get_embed_youtube_embed_urls() {
+
+		$requested = array();
+		$handler   = function ( $result, $url ) use ( &$requested ) {
+			$requested[] = $url;
+			return 0 === strpos( $url, 'https://www.youtube.com/watch' )
+				? '<iframe src="https://www.youtube.com/embed/8S0FDjFBj8o?feature=oembed"></iframe>'
+				: $result;
+		};
+		add_filter( 'pre_oembed_result', $handler, 10, 2 );
+
+		// Privacy Enhanced Mode URL keeps the nocookie domain; `start` maps to `t`.
+		$this->mock->set( 'video_embed', 'https://www.youtube-nocookie.com/embed/8S0FDjFBj8o?start=5' );
+		$this->assertEquals( '<iframe src="https://www.youtube-nocookie.com/embed/8S0FDjFBj8o?feature=oembed"></iframe>', $this->mock->get_video() );
+		$this->assertEquals( 'https://www.youtube.com/watch?v=8S0FDjFBj8o&t=5', end( $requested ) );
+
+		// A youtube.com embed URL stays on youtube.com.
+		$this->mock->set( 'video_embed', 'https://www.youtube.com/embed/8S0FDjFBj8o' );
+		$this->assertEquals( '<iframe src="https://www.youtube.com/embed/8S0FDjFBj8o?feature=oembed"></iframe>', $this->mock->get_video() );
+		$this->assertEquals( 'https://www.youtube.com/watch?v=8S0FDjFBj8o', end( $requested ) );
+
+		remove_filter( 'pre_oembed_result', $handler, 10 );
+	}
+
+	/**
 	 * Test the {@see LLMS_Trait_Audio_Video_Embed::get_video()} method.
 	 *
 	 * @since 5.3.0

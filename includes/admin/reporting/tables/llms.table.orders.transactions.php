@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Order_Bulk_Trash_Table;
+
 	/**
 	 * Object cache group for this table's cached aggregate queries.
 	 *
@@ -146,6 +148,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
+			case 'cb':
+				if ( $order ) {
+					$value = $this->get_checkbox_html( $order, $data->get( 'id' ) );
+				}
+				break;
+
 			case 'transaction_id':
 				$txn_id      = $data->get( 'id' );
 				$receipt_url = LLMS_Admin_Page_Orders::get_receipt_url( $txn_id );
@@ -186,6 +194,12 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				$value = $this->get_status_html( $data->get( 'status' ) );
 				break;
 
+			case 'access':
+				if ( $order ) {
+					$value = esc_html( $order->get_access_expiration_label() );
+				}
+				break;
+
 			case 'payment_type':
 				$value = $this->get_payment_type_label( $data->get( 'payment_type' ) );
 				break;
@@ -214,6 +228,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 
 		switch ( $key ) {
 
+			case 'cb':
+				return $this->get_checkbox_html( $order, $order->get( 'id' ) );
+
 			case 'transaction_id':
 				$order_url = admin_url( 'post.php?post=' . $order->get( 'id' ) . '&action=edit' );
 				$value     = '&ndash;';
@@ -240,6 +257,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 					return $this->get_status_html( $txn_status );
 				}
 				return $this->get_status_html( $order->get( 'status' ), llms_get_order_status_name( $order->get( 'status' ) ) );
+
+			case 'access':
+				return esc_html( $order->get_access_expiration_label() );
 
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
@@ -496,6 +516,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_payment_type_label( $data->get( 'payment_type' ) );
 
+			case 'access':
+				return $order ? $order->get_access_expiration_label( 'Y-m-d' ) : '';
+
 			case 'product':
 				return $order ? $order->get( 'product_title' ) : '';
 
@@ -563,6 +586,9 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			case 'payment_type':
 				return $this->get_order_payment_type_label( $order );
 
+			case 'access':
+				return $order->get_access_expiration_label( 'Y-m-d' );
+
 			case 'product':
 				return $order->get( 'product_title' );
 
@@ -594,13 +620,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 */
 	public function output_table_filters_html() {
 		$statuses = llms_get_transaction_statuses();
+		$this->output_bulk_actions_html();
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-status-filter">
 					<?php esc_html_e( 'Filter by Status', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-status-filter" name="status">
 					<option value=""><?php esc_html_e( 'All Statuses', 'lifterlms' ); ?></option>
 					<?php foreach ( $statuses as $status ) : ?>
 						<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $this->status_filter, $status ); ?>>
@@ -616,7 +643,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-date-filter">
 					<?php esc_html_e( 'Filter by Date', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-date-filter" name="date">
 					<option value=""><?php esc_html_e( 'All Dates', 'lifterlms' ); ?></option>
 					<?php
 					foreach ( $this->get_available_months() as $month ) :
@@ -633,7 +660,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo esc_attr( $this->id ); ?>-coupon-filter">
 					<?php esc_html_e( 'Filter by Coupon', 'lifterlms' ); ?>
 				</label>
-				<select class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
+				<select autocomplete="off" class="llms-table-filter" id="<?php echo esc_attr( $this->id ); ?>-coupon-filter" name="coupon">
 					<option value=""><?php esc_html_e( 'All Coupons', 'lifterlms' ); ?></option>
 					<?php foreach ( $this->get_coupons() as $coupon ) : ?>
 						<option value="<?php echo esc_attr( $coupon->ID ); ?>" <?php selected( $this->coupon_filter, $coupon->ID ); ?>>
@@ -810,12 +837,14 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 		if ( $this->sort_mode ) {
 			add_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10, 2 );
 		}
+		add_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$query = new WP_Query( $query_args );
 
 		if ( $this->sort_mode ) {
 			remove_filter( 'posts_clauses', array( $this, 'mixed_orderby_clauses' ), 10 );
 		}
+		remove_filter( 'posts_where', array( $this, 'exclude_trashed_order_transactions' ) );
 
 		$this->max_pages    = $query->max_num_pages;
 		$this->is_last_page = ( $query->max_num_pages <= $this->get_current_page() );
@@ -1166,6 +1195,32 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Hide transactions whose parent order is in the trash.
+	 *
+	 * Trashed orders already drop out of the `any` post status, but their
+	 * transactions keep their own status, so they're excluded here.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $where SQL WHERE clause.
+	 * @return string
+	 */
+	public function exclude_trashed_order_transactions( $where ) {
+
+		global $wpdb;
+
+		$where .= " AND ( {$wpdb->posts}.post_type <> 'llms_transaction' OR NOT EXISTS (
+			SELECT 1 FROM {$wpdb->postmeta} AS llms_toid
+			INNER JOIN {$wpdb->posts} AS llms_torder ON llms_torder.ID = llms_toid.meta_value
+			WHERE llms_toid.post_id = {$wpdb->posts}.ID
+			  AND llms_toid.meta_key = '_llms_order_id'
+			  AND llms_torder.post_status = 'trash'
+		) )";
+
+		return $where;
+	}
+
+	/**
 	 * Retrieve order IDs associated with a given coupon.
 	 *
 	 * @since 11.0.0
@@ -1305,7 +1360,8 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * @return array
 	 */
 	protected function set_columns() {
-		return array(
+
+		return $this->get_bulk_trash_columns() + array(
 			'transaction_id'         => array(
 				'exportable' => true,
 				'sortable'   => false,
@@ -1350,6 +1406,11 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => false,
 				'title'      => __( 'Status', 'lifterlms' ),
+			),
+			'access'                 => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Access', 'lifterlms' ),
 			),
 			'payment_type'           => array(
 				'exportable' => true,

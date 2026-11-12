@@ -21,6 +21,15 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Page_Orders {
 
 	/**
+	 * Nonce action for the bulk actions forms of the Orders & Transactions and Subscriptions tables.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	const BULK_NONCE_ACTION = 'llms-orders-bulk';
+
+	/**
 	 * Hook suffixes for the registered pages.
 	 *
 	 * These match the `WP_Screen::$id` values and are used to enqueue the
@@ -154,7 +163,7 @@ class LLMS_Admin_Page_Orders {
 		// Same capability as the Orders screen, including the lifterlms_admin_order_access filter.
 		$capability = apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' );
 
-		$this->page_hooks[] = add_submenu_page(
+		$orders_hook = add_submenu_page(
 			$parent_slug,
 			__( 'Orders & Transactions', 'lifterlms' ),
 			__( 'Orders & Transactions', 'lifterlms' ),
@@ -163,7 +172,12 @@ class LLMS_Admin_Page_Orders {
 			array( $this, 'render_orders_transactions_page' )
 		);
 
-		$this->page_hooks[] = add_submenu_page(
+		if ( $orders_hook ) {
+			$this->page_hooks[] = $orders_hook;
+			add_action( 'load-' . $orders_hook, array( $this, 'maybe_handle_bulk_action' ) );
+		}
+
+		$subscriptions_hook = add_submenu_page(
 			$parent_slug,
 			__( 'Subscriptions', 'lifterlms' ),
 			__( 'Subscriptions', 'lifterlms' ),
@@ -171,6 +185,11 @@ class LLMS_Admin_Page_Orders {
 			'llms-subscriptions',
 			array( $this, 'render_subscriptions_page' )
 		);
+
+		if ( $subscriptions_hook ) {
+			$this->page_hooks[] = $subscriptions_hook;
+			add_action( 'load-' . $subscriptions_hook, array( $this, 'maybe_handle_bulk_action' ) );
+		}
 	}
 
 	/**
@@ -189,6 +208,44 @@ class LLMS_Admin_Page_Orders {
 	}
 
 	/**
+	 * Process a bulk action submitted from the Orders & Transactions or Subscriptions table.
+	 *
+	 * Rows are selected by their order, so "Move to Trash" trashes each selected
+	 * order (and hides its transactions), matching the bulk trash action of the
+	 * orders post type list.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_handle_bulk_action() {
+
+		if ( 'trash' !== llms_filter_input( INPUT_POST, 'llms_bulk_action' ) ) {
+			return;
+		}
+
+		check_admin_referer( self::BULK_NONCE_ACTION );
+
+		$order_ids = llms_filter_input( INPUT_POST, 'order_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		$order_ids = array_unique( array_filter( array_map( 'absint', (array) $order_ids ) ) );
+
+		$trashed = 0;
+		foreach ( $order_ids as $order_id ) {
+			if ( 'llms_order' !== get_post_type( $order_id ) || ! current_user_can( 'delete_post', $order_id ) ) {
+				continue;
+			}
+			if ( wp_trash_post( $order_id ) ) {
+				++$trashed;
+			}
+		}
+
+		$page = 'llms-subscriptions' === llms_filter_input( INPUT_GET, 'page' ) ? 'llms-subscriptions' : 'llms-orders-transactions';
+
+		wp_safe_redirect( add_query_arg( 'trashed', $trashed, admin_url( 'edit.php?post_type=llms_order&page=' . $page ) ) );
+		exit;
+	}
+
+	/**
 	 * Render the Orders & Transactions page.
 	 *
 	 * @since 11.0.0
@@ -201,6 +258,7 @@ class LLMS_Admin_Page_Orders {
 		echo '<div class="wrap lifterlms llms-orders-transactions-wrap">';
 		// Hidden heading gives admin notices a home; the table renders its own visible title.
 		echo '<h1 class="screen-reader-text">' . esc_html__( 'Orders & Transactions', 'lifterlms' ) . '</h1>';
+		$this->output_trashed_notice();
 		$table->output_table_html();
 		echo '</div>';
 	}
@@ -218,8 +276,37 @@ class LLMS_Admin_Page_Orders {
 		echo '<div class="wrap lifterlms llms-subscriptions-wrap">';
 		// Hidden heading gives admin notices a home; the table renders its own visible title.
 		echo '<h1 class="screen-reader-text">' . esc_html__( 'Subscriptions', 'lifterlms' ) . '</h1>';
+		$this->output_trashed_notice();
 		$table->output_table_html();
 		echo '</div>';
+	}
+
+	/**
+	 * Output the notice shown after the bulk action moved orders to the Trash.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function output_trashed_notice() {
+
+		$trashed = absint( llms_filter_input( INPUT_GET, 'trashed', FILTER_SANITIZE_NUMBER_INT ) );
+		if ( ! $trashed ) {
+			return;
+		}
+
+		printf(
+			'<div class="notice notice-success is-dismissible"><p>%1$s <a href="%2$s">%3$s</a></p></div>',
+			esc_html(
+				sprintf(
+					/* translators: %d: number of orders moved to the trash */
+					_n( '%d order moved to the Trash.', '%d orders moved to the Trash.', $trashed, 'lifterlms' ),
+					$trashed
+				)
+			),
+			esc_url( admin_url( 'edit.php?post_type=llms_order&post_status=trash' ) ),
+			esc_html__( 'View Trash', 'lifterlms' )
+		);
 	}
 
 	/**

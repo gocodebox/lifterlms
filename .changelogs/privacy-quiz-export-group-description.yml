@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "Fixed a PHP warning when exporting a student's personal data, and the missing description for their quiz attempt data in the export."
+links:
+  - "#3476"
