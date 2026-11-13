@@ -708,7 +708,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 */
 	public function set_enrollment_trigger( $product_id, $trigger ) {
 
-		return (bool) llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger, false );
+		llms_delete_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger' );
+
+		return (bool) llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger );
 	}
 
 	/**
