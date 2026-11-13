@@ -934,6 +934,15 @@
 
 			} );
 
+			// Remember the cursor position of input targets, which is lost when the merge code button is clicked.
+			$wrappers.find( '.llms-merge-codes[data-target^="#"]' ).each( function() {
+
+				$( $( this ).attr( 'data-target' ) ).on( 'blur', function() {
+					$( this ).data( 'llms-merge-code-pos', this.selectionEnd );
+				} );
+
+			} );
+
 			$wrappers.find( '.llms-merge-codes li' ).on( 'click', function() {
 
 				var $el     = $( this ),
@@ -956,7 +965,17 @@
 				// dealing with a DOM id
 				else {
 
-					$( target ).val( $( target ).val() + code );
+					var $input = $( target ),
+						val    = $input.val(),
+						pos    = $input.data( 'llms-merge-code-pos' );
+
+					// Insert where the cursor was when the input last lost focus, or at the end if it was never focused.
+					if ( 'number' !== typeof pos || pos > val.length ) {
+						pos = val.length;
+					}
+
+					$input.val( val.slice( 0, pos ) + code + val.slice( pos ) ).trigger( 'focus' );
+					$input[0].setSelectionRange( pos + code.length, pos + code.length );
 
 				}
 
