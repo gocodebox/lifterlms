@@ -236,4 +236,112 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( $result_all['more'] );
 	}
 
+	/**
+	 * Test set_enrollment_trigger() updates user postmeta trigger.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_enrollment_trigger() {
+
+		$this->student->enroll( $this->course_id, 'test_trigger' );
+		$this->assertEquals( 'test_trigger', $this->student->get_enrollment_trigger( $this->course_id ) );
+
+		$this->assertTrue( $this->student->set_enrollment_trigger( $this->course_id, 'order_999' ) );
+		$this->assertEquals( 'order_999', $this->student->get_enrollment_trigger( $this->course_id ) );
+	}
+
+	/**
+	 * Test get_active_order_for_product() returns active order and respects exclusions.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_active_order_for_product() {
+
+		$plan    = $this->get_mock_plan();
+		$order_a = $this->get_mock_order( $plan, false, $this->student );
+		$order_b = $this->get_mock_order( $plan, false, $this->student );
+
+		$product_id = $plan->get( 'product_id' );
+
+		// Initially neither is active.
+		$order_a->set( 'status', 'llms-failed' );
+		$order_b->set( 'status', 'llms-pending' );
+		$this->assertFalse( $this->student->get_active_order_for_product( $product_id ) );
+
+		// Set Order B active.
+		$order_b->set( 'status', 'llms-active' );
+		$active_order = $this->student->get_active_order_for_product( $product_id );
+		$this->assertInstanceOf( 'LLMS_Order', $active_order );
+		$this->assertEquals( $order_b->get( 'id' ), $active_order->get( 'id' ) );
+
+		// Exclude Order B.
+		$this->assertFalse( $this->student->get_active_order_for_product( $product_id, $order_b->get( 'id' ) ) );
+	}
+
+	/**
+	 * Test unenroll() preserves access when enrollment trigger is missing but another active order exists.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_unenroll_with_missing_trigger_and_active_order() {
+
+		$plan       = $this->get_mock_plan();
+		$product_id = $plan->get( 'product_id' );
+
+		$order_failed = $this->get_mock_order( $plan, false, $this->student );
+		$order_active = $this->get_mock_order( $plan, false, $this->student );
+
+		$order_failed->set( 'status', 'llms-failed' );
+		$order_active->set( 'status', 'llms-active' );
+
+		// Remove enrollment trigger.
+		llms_delete_user_postmeta( $this->student->get_id(), $product_id, '_enrollment_trigger' );
+		$this->assertFalse( $this->student->get_enrollment_trigger( $product_id ) );
+
+		// Unenroll attempt targeting the failed order.
+		$result = $this->student->unenroll( $product_id, 'cancelled', 'order_' . $order_failed->get( 'id' ) );
+		$this->assertFalse( $result );
+		$this->assertTrue( $this->student->is_enrolled( $product_id ) );
+		$this->assertEquals( 'order_' . $order_active->get( 'id' ), $this->student->get_enrollment_trigger( $product_id ) );
+	}
+
+	/**
+	 * Test delete_enrollment() preserves access when enrollment trigger is missing but another active order exists.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_delete_enrollment_with_missing_trigger_and_active_order() {
+
+		$plan       = $this->get_mock_plan();
+		$product_id = $plan->get( 'product_id' );
+
+		$order_failed = $this->get_mock_order( $plan, false, $this->student );
+		$order_active = $this->get_mock_order( $plan, false, $this->student );
+
+		$order_failed->set( 'status', 'llms-failed' );
+		$order_active->set( 'status', 'llms-active' );
+
+		// Remove enrollment trigger.
+		llms_delete_user_postmeta( $this->student->get_id(), $product_id, '_enrollment_trigger' );
+		$this->assertFalse( $this->student->get_enrollment_trigger( $product_id ) );
+
+		// Delete enrollment attempt targeting the failed order.
+		$result = $this->student->delete_enrollment( $product_id, 'order_' . $order_failed->get( 'id' ) );
+		$this->assertFalse( $result );
+		$this->assertTrue( $this->student->is_enrolled( $product_id ) );
+		$this->assertEquals( 'order_' . $order_active->get( 'id' ), $this->student->get_enrollment_trigger( $product_id ) );
+	}
+
 }

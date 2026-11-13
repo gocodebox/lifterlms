@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "Prevented trashing or deleting an order from unenrolling a student or deleting their enrollment when another active or completed order exists for the same product."
+links:
+  - "#3464"

@@ -249,6 +249,55 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve an active or completed order for the given product.
+	 *
+	 * @since [version]
+	 *
+	 * @param int      $product_id WP Post ID of the LifterLMS Product (course, lesson, or membership).
+	 * @param int|null $exclude_id Optional. Order ID to exclude from query. Default null.
+	 * @return LLMS_Order|false Instance of the LLMS_Order or false if none found.
+	 */
+	public function get_active_order_for_product( $product_id, $exclude_id = null ) {
+
+		// If a lesson id was passed in, cascade up to the course for order retrieval.
+		if ( 'lesson' === get_post_type( $product_id ) ) {
+			$lesson     = new LLMS_Lesson( $product_id );
+			$product_id = $lesson->get( 'parent_course' );
+		}
+
+		$query_args = array(
+			'order'          => 'DESC',
+			'orderby'        => 'date',
+			'post_status'    => array( 'llms-active', 'llms-completed' ),
+			'post_type'      => 'llms_order',
+			'posts_per_page' => 1,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'   => '_llms_user_id',
+					'value' => $this->get_id(),
+				),
+				array(
+					'key'   => '_llms_product_id',
+					'value' => $product_id,
+				),
+			),
+		);
+
+		if ( ! empty( $exclude_id ) ) {
+			$query_args['post__not_in'] = array( absint( $exclude_id ) );
+		}
+
+		$q = new WP_Query( $query_args );
+
+		if ( $q->have_posts() ) {
+			return new LLMS_Order( $q->posts[0] );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Retrieve IDs of user's courses based on supplied criteria
 	 *
 	 * @param    array $args   see `get_enrollments`
@@ -646,6 +695,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
 		return $trigger ? $trigger : false;
+	}
+
+	/**
+	 * Set the enrollment trigger for a student's enrollment in a course or membership.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    Enrollment trigger string.
+	 * @return bool Whether the postmeta was updated.
+	 */
+	public function set_enrollment_trigger( $product_id, $trigger ) {
+
+		llms_delete_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger' );
+
+		return (bool) llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger );
 	}
 
 	/**
@@ -1654,28 +1719,40 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
+			// Check if another active or completed order exists for this product.
+			$excluded_id  = ( 0 === strpos( $trigger, 'order_' ) ) ? absint( str_replace( array( 'order_', 'wc_order_' ), '', $trigger ) ) : null;
+			$active_order = $this->get_active_order_for_product( $product_id, $excluded_id );
+
 			// No enrollment trigger exists b/c pre 3.0.0 enrollment, unenroll the user as if it was an 'any' trigger.
 			if ( ! $enrollment_trigger ) {
 
-				/**
-				 * This filter allows customization of enrollments created prior to version 3.0.0
-				 *
-				 * Prior to 3.0.0 enrollments did not track an enrollment trigger so any unenrollments
-				 * performed on an enrollment in this state will automatically be unenrolled.
-				 *
-				 * Returning `false` will prevent unenrollments against enrollments which don't have
-				 * an enrollment trigger.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param bool $allow_unenrollment If true, allows unenrollment, otherwise prevents unenrollment.
-				 */
-				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
-
+				if ( $active_order ) {
+					$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
+					$update = false;
+				} else {
+					/**
+					 * This filter allows customization of enrollments created prior to version 3.0.0
+					 *
+					 * Prior to 3.0.0 enrollments did not track an enrollment trigger so any unenrollments
+					 * performed on an enrollment in this state will automatically be unenrolled.
+					 *
+					 * Returning `false` will prevent unenrollments against enrollments which don't have
+					 * an enrollment trigger.
+					 *
+					 * @since 3.0.0
+					 *
+					 * @param bool $allow_unenrollment If true, allows unenrollment, otherwise prevents unenrollment.
+					 */
+					$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
+				}
 			} elseif ( $enrollment_trigger === $trigger ) {
 
-				$update = true;
-
+				if ( $active_order ) {
+					$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
+					$update = false;
+				} else {
+					$update = true;
+				}
 			}
 		}
 
@@ -1746,30 +1823,46 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// Get the stored trigger.
 		$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
+		// Check if another active or completed order exists for this product.
+		$excluded_id  = ( 'any' !== $trigger && 0 === strpos( $trigger, 'order_' ) ) ? absint( str_replace( array( 'order_', 'wc_order_' ), '', $trigger ) ) : null;
+		$active_order = ( 'any' !== $trigger ) ? $this->get_active_order_for_product( $product_id, $excluded_id ) : false;
+
 		// Okay to delete if trigger is "any" or if it matches the stored enrollment trigger.
-		if ( 'any' === $trigger || $enrollment_trigger === $trigger ) {
+		if ( 'any' === $trigger ) {
 
 			$delete = true;
 
+		} elseif ( $enrollment_trigger === $trigger ) {
+
+			if ( $active_order ) {
+				$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
+				$delete = false;
+			} else {
+				$delete = true;
+			}
 		} elseif ( ! $enrollment_trigger ) {
 
-			/**
-			 * Customize the behavior of enrollment deletion for "legacy" orders.
-			 *
-			 * These orders were created before version 3.0.0 when there was no stored
-			 * enrollment trigger.
-			 *
-			 * By default, we'll automatically delete these enrollments regardless of trigger.
-			 *
-			 * @since 3.33.0
-			 *
-			 * @param boolean $delete Whether or not to delete the enrollment.
-			 */
-			$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
+			if ( $active_order ) {
+				$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
+				$delete = false;
+			} else {
+				/**
+				 * Customize the behavior of enrollment deletion for "legacy" orders.
+				 *
+				 * These orders were created before version 3.0.0 when there was no stored
+				 * enrollment trigger.
+				 *
+				 * By default, we'll automatically delete these enrollments regardless of trigger.
+				 *
+				 * @since 3.33.0
+				 *
+				 * @param boolean $delete Whether or not to delete the enrollment.
+				 */
+				$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
 
-			// Ensure we have an `$enrollment_trigger` when firing the `llms_user_enrollment_deleted` hook.
-			$enrollment_trigger = $trigger;
-
+				// Ensure we have an `$enrollment_trigger` when firing the `llms_user_enrollment_deleted` hook.
+				$enrollment_trigger = $trigger;
+			}
 		}
 
 		// Delete the enrollment.
