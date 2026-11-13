@@ -937,7 +937,7 @@
 			// Remember the cursor position of input targets, which is lost when the merge code button is clicked.
 			$wrappers.find( '.llms-merge-codes[data-target^="#"]' ).each( function() {
 
-				$( $( this ).attr( 'data-target' ) ).on( 'blur', function() {
+				$( document.getElementById( $( this ).attr( 'data-target' ).slice( 1 ) ) ).on( 'blur', function() {
 					$( this ).data( 'llms-merge-code-pos', this.selectionEnd );
 				} );
 
@@ -965,7 +965,8 @@
 				// dealing with a DOM id
 				else {
 
-					var $input = $( target ),
+					// Look the input up by ID rather than passing `target` to jQuery, which would parse HTML.
+					var $input = $( document.getElementById( target.slice( 1 ) ) ),
 						val    = $input.val(),
 						pos    = $input.data( 'llms-merge-code-pos' );
 
