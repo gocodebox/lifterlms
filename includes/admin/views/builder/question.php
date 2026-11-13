@@ -87,7 +87,7 @@ defined( 'ABSPATH' ) || exit;
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
 							<span class="llms-label"><?php esc_html_e( 'Image', 'lifterlms' ); ?></span>
-							<input type="checkbox" name="image.enabled"<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { print( ' checked' ) } #>>
+							<input data-rerender="no" type="checkbox" name="image.enabled"<# if ( 'yes' === data.get( 'image' ).get( 'enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
 
@@ -115,7 +115,7 @@ defined( 'ABSPATH' ) || exit;
 					<div class="llms-editable-toggle-group">
 						<label class="llms-switch">
 							<span class="llms-label"><?php esc_html_e( 'Video', 'lifterlms' ); ?></span>
-							<input type="checkbox" name="video_enabled"<# if ( 'yes' === data.get( 'video_enabled' ) ) { print( ' checked' ) } #>>
+							<input data-rerender="no" type="checkbox" name="video_enabled"<# if ( 'yes' === data.get( 'video_enabled' ) ) { print( ' checked' ) } #>>
 							<div class="llms-switch-slider"></div>
 						</label>
 

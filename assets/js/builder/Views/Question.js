@@ -72,7 +72,13 @@ define( [
 				this.listenTo( this.model, event, this.render );
 			}, this );
 
-			this.listenTo( this.model.get( 'image' ), 'change', this.render );
+			// Re-render only the image and video settings so the question's editors aren't rebuilt.
+			this.listenTo( this.model.get( 'image' ), 'change', function() {
+				this.render_toggle_group( 'image.enabled' );
+			} );
+			this.listenTo( this.model, 'change:video_enabled', function() {
+				this.render_toggle_group( 'video_enabled' );
+			} );
 
 			this.listenTo( this.model.get_parent(), 'change:_points', this.render_points_percentage );
 
@@ -140,6 +146,23 @@ define( [
 			this.init_selects();
 
 			return this;
+		},
+
+		/**
+		 * Re-renders the toggle group of a feature switch, such as the image or video settings, without re-rendering the question.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} name Name attribute of the feature's switch input.
+		 * @return {Void}
+		 */
+		render_toggle_group: function( name ) {
+
+			var selector = 'input[name="' + name + '"]',
+				$group   = $( '<div>' ).html( this.template( this.model ) ).find( selector ).first().closest( '.llms-editable-toggle-group' );
+
+			this.$el.find( selector ).first().closest( '.llms-editable-toggle-group' ).replaceWith( $group );
+
 		},
 
 		/**

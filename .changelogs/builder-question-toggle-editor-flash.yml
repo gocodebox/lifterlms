@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed a quiz question's description editor flashing in the course builder when the question's Image or Video setting is toggled.
