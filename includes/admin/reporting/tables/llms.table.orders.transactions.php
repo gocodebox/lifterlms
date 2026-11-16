@@ -1278,17 +1278,19 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 			} else {
 				// An `ID NOT IN ( SELECT meta_value ... )` subquery runs once per order and takes minutes on
 				// large stores, so exclude the already-resolved list of order IDs instead.
+				// With no such orders, exclude ID 0, which matches no post, so the list always has a placeholder.
 				$orders_with_txns = $this->get_order_ids_with_transactions();
-				$exclude_orders   = $orders_with_txns ? 'AND p.ID NOT IN ( ' . implode( ',', $orders_with_txns ) . ' )' : '';
-				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- The IDs are cast with absint().
-				$months = $wpdb->get_results(
-					"SELECT DISTINCT YEAR( p.post_date ) AS year, MONTH( p.post_date ) AS month
-					 FROM {$wpdb->posts} AS p
-					 WHERE p.post_status NOT IN ( 'auto-draft', 'trash' )
-					   AND ( p.post_type = 'llms_transaction' OR ( p.post_type = 'llms_order' {$exclude_orders} ) )
-					 ORDER BY year DESC, month DESC"
+				$orders_with_txns = $orders_with_txns ? $orders_with_txns : array( 0 );
+				$months           = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT DISTINCT YEAR( p.post_date ) AS year, MONTH( p.post_date ) AS month
+						 FROM {$wpdb->posts} AS p
+						 WHERE p.post_status NOT IN ( 'auto-draft', 'trash' )
+						   AND ( p.post_type = 'llms_transaction' OR ( p.post_type = 'llms_order' AND p.ID NOT IN ( " . implode( ',', array_fill( 0, count( $orders_with_txns ), '%d' ) ) . ' ) ) )
+						 ORDER BY year DESC, month DESC',
+						$orders_with_txns
+					)
 				);
-				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			}
 			wp_cache_set( $cache_key, $months, self::CACHE_GROUP, HOUR_IN_SECONDS );
 		}
