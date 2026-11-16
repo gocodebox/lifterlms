@@ -224,11 +224,16 @@ define( [], function() {
 					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
 					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
 					onClose: function( current_time, $input ) {
-						// Blurring runs the picker's own blur handler, which closes it again. Only blur a focused input so that
-						// second close doesn't blur again and recurse until the stack overflows, which left the picker open.
-						if ( $input.is( ':focus' ) ) {
-							$input.trigger( 'blur' );
-						}
+						// Pressing Tab closes the picker from its keydown handler. Blurring there saves the value and re-renders
+						// the view before the browser moves focus, so Tab lands on the view's first field and the model keeps
+						// `_has_focus`, which holds back the change. Wait until Tab has moved focus away on its own.
+						setTimeout( function() {
+							// Blurring runs the picker's own blur handler, which closes it again. Only blur a focused input so that
+							// second close doesn't blur again and recurse until the stack overflows, which left the picker open.
+							if ( $input.is( ':focus' ) ) {
+								$input.trigger( 'blur' );
+							}
+						} );
 					}
 				} );
 
