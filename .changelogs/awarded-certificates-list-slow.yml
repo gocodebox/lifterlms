@@ -1,0 +1,3 @@
+significance: patch
+type: performance
+entry: "Improved the speed of the awarded certificates and achievements lists, which could time out on sites with a lot of student data."
