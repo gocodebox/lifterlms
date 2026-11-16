@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed merge codes being added to the end of text fields, such as a notification's title or an email's subject, instead of where the cursor is.

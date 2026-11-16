@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the Payment Status column showing "trash" for orders in the Trash. It now shows the order's status from before it was trashed.

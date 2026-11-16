@@ -104,6 +104,10 @@ class LLMS_Admin_Post_Table_Orders {
 
 			case 'payment_status':
 				$status = $order->get( 'status' );
+				// Show a trashed order's status from before it was trashed.
+				if ( 'trash' === $status ) {
+					$status = get_post_meta( $post_id, '_wp_trash_meta_status', true );
+				}
 				echo '<span class="llms-status llms-size--large ' . esc_attr( $status ) . ' ">' . esc_html( llms_get_order_status_name( $status ) ) . '</span>';
 
 				break;
