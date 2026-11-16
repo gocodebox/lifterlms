@@ -608,6 +608,7 @@ class LLMS_REST_Ability_Factory {
 	 * `properties`, `items`, and `additionalProperties`.
 	 *
 	 * @since 10.1.0
+	 * @since [version] Omit `properties` when it would be empty so it isn't encoded as a JSON list.
 	 *
 	 * @param array $schema A JSON Schema node (or a WP REST arg definition).
 	 * @return array Sanitized schema node.
@@ -662,6 +663,11 @@ class LLMS_REST_Ability_Factory {
 
 			if ( ! empty( $required ) ) {
 				$sanitized['required'] = array_values( array_unique( $required ) );
+			}
+
+			// An empty PHP array encodes as a JSON list (`[]`), which is not a valid `properties` value.
+			if ( empty( $sanitized['properties'] ) ) {
+				unset( $sanitized['properties'] );
 			}
 		}
 
