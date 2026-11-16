@@ -4,6 +4,8 @@
  * An open Select2 dropdown pins scroll on #llms-editor-lesson. Choosing a drip
  * method re-renders that panel; the pin must be released or the panel jumps
  * back to the drip field. See #3376.
+ *
+ * Course Builder — a drip time typed into the field and confirmed with Tab is saved.
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
@@ -105,6 +107,45 @@ test.describe( 'Course Builder / Drip scroll', () => {
 			return el.scrollTop;
 		} );
 		expect( scrollTop ).toBe( 0 );
+	} );
+
+	test( 'a drip time typed and confirmed with Tab is saved', async ( {
+		page,
+		requestUtils,
+	} ) => {
+
+		const { course, lesson } = await createCourseWithLesson( requestUtils );
+
+		await requestUtils.rest( {
+			method: 'POST',
+			path: `/llms/v1/lessons/${ lesson.id }`,
+			data: {
+				drip_method: 'date',
+				drip_date: '2030-12-12 14:00:00',
+			},
+		} );
+
+		await page.goto(
+			`/wp-admin/admin.php?page=llms-course-builder&course_id=${ course.id }#lesson:${ lesson.id }`
+		);
+
+		const time = page.locator( '#llms-editor-lesson input[data-attribute="time_available"]' );
+		await expect( time ).toBeVisible( { timeout: 15000 } );
+
+		const save = page.locator( '#llms-save-button' );
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		await time.click();
+		await time.press( 'ControlOrMeta+a' );
+		await time.pressSequentially( '05:15 PM' );
+		await time.press( 'Tab' );
+
+		await expect( save ).toHaveAttribute( 'data-status', 'unsaved' );
+		await save.click();
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		const saved = await requestUtils.rest( { path: `/llms/v1/lessons/${ lesson.id }` } );
+		expect( saved.drip_date ).toBe( '2030-12-12 17:15:00' );
 	} );
 
 } );

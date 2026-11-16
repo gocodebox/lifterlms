@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "In the Course Builder, a lesson's drip date or time typed into the field and confirmed with Tab now marks the lesson as having unsaved changes and saves, instead of being held back until another field loses focus."
+links:
+  - "#3485"
