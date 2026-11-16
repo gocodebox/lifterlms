@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "Fixed the create and update course and lesson abilities being rejected by MCP clients because the `meta` input schema encoded its empty `properties` as a JSON list."
+links:
+  - "#3484"
