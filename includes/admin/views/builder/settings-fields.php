@@ -133,7 +133,7 @@ defined( 'ABSPATH' ) || exit;
 										<input
 											class="llms-input standard"
 											data-attribute="{{{ input.attribute }}}"
-											data-original-content="{{{ data.model.get( input.attribute ) }}}"
+											data-original-content="{{{ data.get_input_value( input ) }}}"
 											<# if ( 'datepicker' === input.type ) { #>
 												<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
 												<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
@@ -144,7 +144,7 @@ defined( 'ABSPATH' ) || exit;
 											name="{{{ input.attribute }}}"
 											<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
 											type="{{{ input.input_type }}}"
-											value="{{{ data.model.get( input.attribute ) }}}"
+											value="{{{ data.get_input_value( input ) }}}"
 										>
 										<# if ( input.input_description ) { #>
 											<small class="llms-description">{{{ input.input_description }}}</small>

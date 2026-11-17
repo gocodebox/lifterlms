@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "In the Course Builder, a lesson's drip Date and Time are now standard browser date and time fields shown in the user's own date and time format. They no longer save text that isn't a date or time, no longer change when scrolling over them, and show drip dates saved in the older mm/dd/yyyy format instead of today's date."
+links:
+  - "#3492"
