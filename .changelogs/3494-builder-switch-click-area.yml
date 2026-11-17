@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed course builder settings toggling when clicking the empty space next to a setting's label, and added more space between a quiz question's Description, Image, and Video settings.

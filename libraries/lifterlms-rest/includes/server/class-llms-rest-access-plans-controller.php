@@ -915,6 +915,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * @since 1.0.0-beta.20
 	 * @since 1.0.0-beta-24 Made sure we can update an access plan of a product even if its access plan limit has already been reached.
+	 * @since [version] Skip the check when the product ID is not a single course or membership ID.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -926,7 +927,18 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 			return true;
 		}
 
-		$product_id           = isset( $request['post_id'] ) ? $request['post_id'] : $this->get_object( (int) $request['id'] )->get( 'product_id' );
+		$product_id = isset( $request['post_id'] ) ? $request['post_id'] : $this->get_object( (int) $request['id'] )->get( 'product_id' );
+
+		/*
+		 * There is no limit to check when the ID is not a single course or membership: for example the list of IDs
+		 * passed to the collection when WordPress computes the `Allow` header, or a product that was deleted.
+		 * When creating or updating, the `post_id` argument is already validated by its schema.
+		 */
+		if ( ! is_numeric( $product_id ) || ! llms_rest_validate_products( (int) $product_id ) ) {
+			return true;
+		}
+
+		$product_id           = (int) $product_id;
 		$product              = new LLMS_Product( $product_id );
 		$limit                = $product->get_access_plan_limit();
 		$product_access_plans = $product->get_access_plans( false, false );

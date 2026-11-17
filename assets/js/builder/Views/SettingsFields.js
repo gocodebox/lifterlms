@@ -130,8 +130,63 @@ define( [], function() {
 		 */
 		is_default_field: function( type ) {
 
-			var types = [ 'audio_embed', 'datepicker', 'number', 'text', 'video_embed' ];
+			var types = [ 'audio_embed', 'date', 'datepicker', 'number', 'text', 'time', 'video_embed' ];
 			return ( -1 !== types.indexOf( type.replace( 'switch-', '' ) ) );
+
+		},
+
+		/**
+		 * Retrieve the value to display in a default field's input.
+		 *
+		 * Date and time inputs only accept `Y-m-d` and 24-hour `H:i` values. Drip dates stored as `m/d/Y`
+		 * (saved by the lesson metabox before 8.0.7) and times stored as `h:i A` (builder), `H:i:s` (REST API),
+		 * or other text typed into the lesson metabox are converted the way `strtotime()` reads them on the server.
+		 * A stored value that can't be read displays as empty.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} input Field input data.
+		 * @return {String}
+		 */
+		get_input_value: function( input ) {
+
+			var val = this.model.get( input.attribute ),
+				pad = function( num ) {
+					return ( '0' + num ).slice( -2 );
+				},
+				parts, hour, min;
+
+			if ( ! val || ( 'date' !== input.type && 'time' !== input.type ) ) {
+				return val;
+			}
+
+			if ( 'date' === input.type ) {
+
+				if ( /^\d{4}-\d{2}-\d{2}$/.test( val ) ) {
+					return val;
+				}
+
+				parts = val.match( /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/ );
+				return parts ? parts[3] + '-' + pad( parts[1] ) + '-' + pad( parts[2] ) : '';
+
+			}
+
+			parts = val.trim().match( /^(\d{1,2})(?::(\d{2})(?::\d{2})?)?\s*(?:([ap])\.?m\.?)?$/i );
+			if ( ! parts || ( ! parts[2] && ! parts[3] ) ) {
+				return '';
+			}
+
+			hour = parseInt( parts[1], 10 );
+			min  = parts[2] ? parseInt( parts[2], 10 ) : 0;
+
+			if ( parts[3] ) {
+				if ( hour < 1 || hour > 12 ) {
+					return '';
+				}
+				hour = ( hour % 12 ) + ( 'p' === parts[3].toLowerCase() ? 12 : 0 );
+			}
+
+			return ( hour > 23 || min > 59 ) ? '' : pad( hour ) + ':' + pad( min );
 
 		},
 
@@ -318,6 +373,16 @@ define( [], function() {
 					defaults.placeholder = 'https://';
 					defaults.tip         = LLMS.l10n.translate( 'Use SoundCloud or Spotify audio URLS.' );
 					defaults.input_type  = 'url';
+				break;
+
+				case 'date':
+					defaults.input_type = 'date';
+					// Without a max, browsers accept years with up to 6 digits.
+					defaults.max = '9999-12-31';
+				break;
+
+				case 'time':
+					defaults.input_type = 'time';
 				break;
 
 				case 'datepicker':
