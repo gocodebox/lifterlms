@@ -531,7 +531,7 @@ body.admin_page_llms-course-builder {
 		min-width: 0;
 
 		.llms-label-text {
-			flex: 0 1 auto;
+			flex: 1 1 auto;
 			min-width: 0;
 		}
 
@@ -612,22 +612,13 @@ body.admin_page_llms-course-builder {
 		position: relative;
 		margin: 0;
 
-		// The same gap separates every label, with or without a switch, from the control below it.
-		> .llms-label {
-			margin-bottom: 6px;
-		}
-		> .llms-editable-select:first-child {
-			margin: 0 0 6px;
-		}
-
 		&.has-label-after {
 			align-items: center;
 			display: flex;
 			flex-wrap: wrap;
-			gap: 4px 8px;
+			gap: 8px;
 
 			.llms-label {
-				margin-bottom: 0;
 				min-width: 100%;
 			}
 			.llms-editable-input {
@@ -642,45 +633,28 @@ body.admin_page_llms-course-builder {
 			}
 		}
 
-		// Lay the label out as text and reserve room for its help icon and switch after the last word, so they
-		// sit beside their own label, follow the last word when the label wraps, and don't make the line taller.
 		.llms-switch {
-			display: inline;
-			padding-right: 48px;
-			position: relative;
-			white-space: nowrap;
+			align-items: flex-start;
+			display: flex;
+			gap: 12px;
+			justify-content: space-between;
+			width: 100%;
 
-			.llms-label,
-			.llms-label-text {
-				display: inline;
-			}
-
-			// Only the label text wraps.
-			.llms-label-text {
-				white-space: normal;
-				&:not( :last-child ) {
-					padding-right: 17px;
-				}
-			}
-
-			.llms-help-tip {
-				bottom: 3px;
-				position: absolute;
-				right: 48px;
+			.llms-label {
+				flex: 1 1 auto;
+				min-width: 0;
+				width: auto;
 			}
 
 			.llms-switch-slider {
-				bottom: -3px;
-				margin: 0;
-				position: absolute;
-				right: 0;
+				flex-shrink: 0;
 			}
 		}
 
 		.llms-editable-image,
 		.llms-editable-video,
 		.llms-editable-editor {
-			margin-top: 6px;
+			margin-top: 2px;
 		}
 
 		.llms-input.standard {
