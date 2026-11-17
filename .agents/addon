@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# Prepares LifterLMS add-on repositories (or themes) for development in an Amp orb.
+#
+# Usage: .agents/addon <repo> [<repo>...]
+#   e.g. .agents/addon lifterlms-advanced-quizzes sky-pilot
+#
+# For each gocodebox/<repo>:
+#   1. Clones it into ../repos/<repo> if it is not there yet (see AGENTS.md for the list).
+#   2. Installs Composer and npm dependencies and runs `npm run build` (same steps as core).
+#   3. Mounts WordPress plugins and themes into wp-env via .wp-env.override.json.
+#
+# Then run `npx wp-env start` and activate it, e.g.
+#   npx wp-env run cli wp plugin activate lifterlms lifterlms-advanced-quizzes
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+	sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'
+	exit 1
+fi
+
+core_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+repos_dir="$(dirname "$core_root")/repos"
+override="$core_root/.wp-env.override.json"
+export PATH="$HOME/.local/bin:$PATH"
+
+for name in "$@"; do
+	dir="$repos_dir/$name"
+	echo "==> $name"
+
+	if [ ! -d "$dir/.git" ]; then
+		mkdir -p "$repos_dir"
+		git clone --filter=blob:none "https://github.com/gocodebox/$name.git" "$dir"
+	fi
+
+	if [ -f "$dir/composer.json" ]; then
+		# Some add-ons still declare PHP 7 constraints; like core's `install-php8` script,
+		# install anyway on the orb's PHP 8.
+		(cd "$dir" && composer install --no-interaction --prefer-dist --no-progress --ignore-platform-req=php)
+	fi
+
+	if [ -f "$dir/package.json" ]; then
+		# Skip the slow reinstall when the lockfile and Node version are unchanged.
+		stamp="$dir/node_modules/.amp-setup-stamp"
+		fingerprint="$(node --version) $(cat "$dir/package-lock.json" "$dir/package.json" 2>/dev/null | sha256sum | cut -d' ' -f1)"
+		if [ "$(cat "$stamp" 2>/dev/null)" != "$fingerprint" ]; then
+			if [ -f "$dir/package-lock.json" ]; then
+				(cd "$dir" && npm ci --no-audit --no-fund)
+			else
+				(cd "$dir" && npm install --no-audit --no-fund --no-save)
+			fi
+			echo "$fingerprint" > "$stamp"
+		fi
+		if jq -e '.scripts.build' "$dir/package.json" >/dev/null; then
+			(cd "$dir" && npm run build)
+		fi
+	fi
+
+	# Mount into wp-env only real plugins (<repo>/<repo>.php) and themes (style.css header).
+	# lifterlms-security is a copy of core and must not be mounted next to it.
+	if [ -f "$dir/$name.php" ] && grep -q 'Plugin Name:' "$dir/$name.php"; then
+		target="wp-content/plugins/$name"
+	elif [ -f "$dir/style.css" ] && grep -q 'Theme Name:' "$dir/style.css"; then
+		target="wp-content/themes/$name"
+	else
+		echo "    Not a WordPress plugin or theme entry point; not mounted in wp-env."
+		continue
+	fi
+	[ -f "$override" ] || echo '{}' > "$override"
+	jq --arg target "$target" --arg source "../repos/$name" \
+		'.mappings = ((.mappings // {}) + {($target): $source})' "$override" > "$override.tmp"
+	mv "$override.tmp" "$override"
+	echo "    Mounted at $target. Run \`npx wp-env start\` to apply."
+done

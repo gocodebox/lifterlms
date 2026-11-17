@@ -1,0 +1,79 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique question identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a question
+  description: Retrieve the details of an existing quiz question.
+  tags:
+    - Quiz Questions
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the question.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizQuestionResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update a question
+  description: >-
+    Update the specified question by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+  tags:
+    - Quiz Questions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/QuizQuestionRequest'
+  responses:
+    200:
+      description: Successfully updated the question.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizQuestionResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a question
+  description: Delete an existing quiz question.
+  tags:
+    - Quiz Questions
+  parameters:
+    - name: force
+      description: Bypass the trash and force question deletion.
+      in: query
+      schema:
+        type: boolean
+        default: false
+  responses:
+    204:
+      description: Successfully deleted the question.
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

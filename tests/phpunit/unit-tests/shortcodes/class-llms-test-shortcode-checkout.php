@@ -135,7 +135,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example.com" />';
 		$this->assertStringContainsString( $contained, $atts['form_fields'] );
 
-		// INPUT_GET wins over plan's setting.
+		// Untrusted off-site INPUT_GET is ignored; plan setting remains.
 		$this->mockGetRequest(
 			array(
 				'redirect' => 'https://example-redirect-get.com',
@@ -149,7 +149,25 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 				array(),
 			)
 		);
-		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example-redirect-get.com" />';
+		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="https://example.com" />';
+		$this->assertStringContainsString( $contained, $atts['form_fields'] );
+
+		// Same-origin INPUT_GET wins over plan setting.
+		$local_redirect = home_url( '/local-thanks/' );
+		$this->mockGetRequest(
+			array(
+				'redirect' => $local_redirect,
+			)
+		);
+		$atts = LLMS_Unit_Test_Util::call_method(
+			'LLMS_Shortcode_Checkout',
+			'setup_plan_and_form_atts',
+			array(
+				$plan->get('id'),
+				array(),
+			)
+		);
+		$contained = '<input class="llms-field-input" id="llms-redirect" name="redirect" type="hidden" value="' . esc_attr( $local_redirect ) . '" />';
 		$this->assertStringContainsString( $contained, $atts['form_fields'] );
 	}
 
@@ -222,6 +240,32 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 		);
 		$this->assertContainsOpeningWrapper( $output );
 		$this->assertContainsClosingWrapper( $output );
+
+	}
+
+	/**
+	 * Test the checkout form is not displayed for an access plan whose product is not published.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_output_unpublished_product() {
+
+		$plan = $this->get_mock_plan( 0, 0 );
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'draft' ) );
+
+		$this->mockGetRequest( array( 'plan' => $plan->get( 'id' ) ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString( 'Invalid access plan.', $output );
+		$this->assertStringNotContainsString( 'llms-product-purchase-form', $output );
+
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'publish' ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringNotContainsString( 'Invalid access plan.', $output );
+		$this->assertStringContainsString( 'llms-product-purchase-form', $output );
 
 	}
 
@@ -306,6 +350,49 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
 		$wp = $wpt;
 
+	}
+
+	/**
+	 * Checkout shortcode attributes cannot choose the included template.
+	 *
+	 * @since 10.3.2
+	 *
+	 * @return void
+	 */
+	public function test_output_ignores_template_attributes() {
+		global $wp;
+		unset( $wp->query_vars['confirm-payment'] );
+
+		$plan   = $this->get_mock_plan();
+		$secret = get_temp_dir() . 'llms-checkout-secret-' . wp_generate_password( 8, false ) . '.php';
+		file_put_contents( $secret, '<?php echo "LLMS_SECRET_MARKER";' );
+
+		$this->mockGetRequest(
+			array(
+				'plan' => $plan->get( 'id' ),
+			)
+		);
+
+		$output = $this->get_output(
+			array(
+				'LLMS_Shortcode_Checkout',
+				'output',
+			),
+			array(
+				array(
+					'cols'          => 1,
+					'template_name' => ltrim( wp_normalize_path( $secret ), '/' ),
+					'default_path'  => '/',
+					'template_path' => '/',
+				),
+			)
+		);
+
+		unlink( $secret );
+
+		$this->assertStringContainsString( 'llms-checkout-cols-1', $output );
+		$this->assertStringNotContainsString( 'LLMS_SECRET_MARKER', $output );
+		$this->assertDoesNotMatchRegularExpression( '/root:.*:0:0:/', $output );
 	}
 
 }

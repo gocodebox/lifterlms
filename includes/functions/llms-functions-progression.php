@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @version 10.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,9 +36,13 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * Used both to decide whether to render the front-end mark complete/incomplete buttons and to
  * authorize the form submission server-side, so the two cannot drift apart. Instructors and
  * admins who can edit the lesson are always allowed; everyone else must be enrolled in the
- * lesson's parent course and the lesson must be available (drip).
+ * lesson's parent course, the lesson must be available (drip), and its prerequisites must be complete.
+ *
+ * The lesson's course must also be open: a course time period that hasn't started or has ended
+ * blocks students from changing their progress.
  *
  * @since 10.0.7
+ * @since 11.1.0 Require the lesson's prerequisites to be complete.
  *
  * @param int             $user_id WP User ID of the student.
  * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
@@ -56,8 +60,14 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 		// Instructors / admins able to edit the lesson are always allowed.
 		$allowed = true;
 	} else {
-		// The student must be enrolled in the lesson's parent course and the lesson must be available.
-		$allowed = ( $user_id && llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) && $lesson->is_available() );
+		// The student must be enrolled in the lesson's parent course, the course must be open, the lesson must be available, and its prerequisites complete.
+		$allowed = (
+			$user_id &&
+			llms_is_user_enrolled( $user_id, $lesson->get( 'parent_course' ) ) &&
+			! llms_is_post_restricted_by_time_period( $lesson->get( 'id' ), $user_id ) &&
+			$lesson->is_available() &&
+			! llms_is_post_restricted_by_prerequisite( $lesson->get( 'id' ), $user_id )
+		);
 	}
 
 	/**
@@ -70,6 +80,119 @@ function llms_can_user_complete_lesson( $user_id, $lesson ) {
 	 * @param LLMS_Lesson|bool $lesson  LLMS_Lesson instance, or `false` for an invalid lesson.
 	 */
 	return apply_filters( 'llms_can_user_complete_lesson', $allowed, $user_id, $lesson );
+}
+
+/**
+ * Determine whether a student has met a lesson's minimum time requirement.
+ *
+ * Returns true when the lesson has no minimum time, or when the student's
+ * accumulated time is at least the required number of seconds.
+ *
+ * @since 10.2.1
+ *
+ * @param int             $user_id WP User ID of the student.
+ * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.
+ * @return bool
+ */
+function llms_has_met_lesson_minimum_time( $user_id, $lesson ) {
+
+	if ( ! $lesson instanceof LLMS_Lesson ) {
+		$lesson = llms_get_post( $lesson );
+	}
+
+	if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) || ! $lesson->has_minimum_time() ) {
+		return true;
+	}
+
+	$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson->get( 'id' ) );
+	$required = absint( $lesson->get( 'minimum_time' ) );
+
+	return $total >= $required;
+}
+
+/**
+ * Retrieve the student progress cache keys affected by a change to a given object.
+ *
+ * Student progress is cached in user meta under deterministic keys (e.g. `course_123_progress`,
+ * stored prefixed as `llms_course_123_progress`). This returns the (unprefixed) keys for the
+ * object's ancestor tree: the parent section (for lessons), the section itself (for sections),
+ * the parent course, and the course's tracks.
+ *
+ * @since 10.2.0
+ *
+ * @param int         $object_id   WP Post ID of a lesson, section, or course.
+ * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
+ * @return string[] List of unprefixed user meta cache keys.
+ */
+function llms_get_progress_cache_keys( $object_id, $object_type = null ) {
+
+	$object_type = $object_type ? $object_type : get_post_type( $object_id );
+
+	$section_id = 0;
+	$course_id  = 0;
+
+	if ( 'lesson' === $object_type ) {
+		$lesson = llms_get_post( $object_id );
+		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			return array();
+		}
+		$section_id = absint( $lesson->get( 'parent_section' ) );
+		$course_id  = absint( $lesson->get( 'parent_course' ) );
+	} elseif ( 'section' === $object_type ) {
+		$section = llms_get_post( $object_id );
+		if ( ! $section || ! is_a( $section, 'LLMS_Section' ) ) {
+			return array();
+		}
+		$section_id = absint( $object_id );
+		$course_id  = absint( $section->get( 'parent_course' ) );
+	} elseif ( 'course' === $object_type ) {
+		$course_id = absint( $object_id );
+	} else {
+		return array();
+	}
+
+	$keys = array();
+
+	if ( $section_id ) {
+		$keys[] = sprintf( 'section_%d_progress', $section_id );
+	}
+
+	if ( $course_id ) {
+		$keys[] = sprintf( 'course_%d_progress', $course_id );
+
+		$course = llms_get_post( $course_id );
+		if ( $course && is_a( $course, 'LLMS_Course' ) ) {
+			foreach ( wp_list_pluck( $course->get_tracks(), 'term_id' ) as $track_id ) {
+				$keys[] = sprintf( 'course_track_%d_progress', $track_id );
+			}
+		}
+	}
+
+	return $keys;
+}
+
+/**
+ * Reset the cached student progress for an object's ancestor tree, for all students.
+ *
+ * Used when a structural change (trash, delete, untrash, reparent) invalidates the cached
+ * progress of every student at once, in contrast to `LLMS_Student::update_completion_status()`
+ * which resets the cache for a single student when their own completion changes.
+ *
+ * @since 10.2.0
+ *
+ * @param int         $object_id   WP Post ID of a lesson, section, or course.
+ * @param string|null $object_type Optional. Object post type (`lesson`, `section`, or `course`). Derived from the post when omitted.
+ * @return string[] List of unprefixed cache keys that were reset.
+ */
+function llms_reset_progress_cache( $object_id, $object_type = null ) {
+
+	$keys = llms_get_progress_cache_keys( $object_id, $object_type );
+
+	foreach ( $keys as $key ) {
+		delete_metadata( 'user', 0, 'llms_' . $key, '', true );
+	}
+
+	return $keys;
 }
 
 /**

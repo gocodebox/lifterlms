@@ -24,18 +24,23 @@ export default function SequentialIdControl( { sequentialId } ) {
 	}
 
 	return (
-		<TextControl
-			id="llms-certificate-title-control"
-			label={ __( 'Next Sequential ID', 'lifterlms' ) }
-			value={ currId }
-			type="number"
-			step="1"
-			min={ minSequentialId }
-			onChange={ ( val ) => {
-				setId( val );
-				editCertificate( 'sequential_id', val );
-			} }
-			help={ __( 'Used for the {sequential_id} merge code when generating a certificate from this template.', 'lifterlms' ) }
-		/>
+		<div className="llms-certificate-sequential-id-control">
+			<TextControl
+				id="llms-certificate-title-control"
+				label={ __( 'Next Sequential ID', 'lifterlms' ) }
+				value={ currId }
+				type="number"
+				step="1"
+				min={ minSequentialId }
+				onChange={ ( val ) => {
+					setId( val );
+					editCertificate( 'sequential_id', val );
+				} }
+				help={ __(
+					'Used for the {sequential_id} merge code when generating a certificate from this template.',
+					'lifterlms'
+				) }
+			/>
+		</div>
 	);
 }

@@ -1,0 +1,31 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique assignment submission identifier.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve an assignment submission
+  description: |
+    Retrieve the details of an existing assignment submission, including the submitted content, current grade, and remarks. Upload submissions include the file URL so the submitted artifact can be retrieved and reviewed.
+
+    _Available when the [LifterLMS Assignments](https://lifterlms.com/product/lifterlms-assignments/) add-on is active._
+  tags:
+    - Assignment Submissions
+  responses:
+    200:
+      description: Successfully retrieved the assignment submission.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssignmentSubmission'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

@@ -54,6 +54,10 @@ class LLMS_Query {
 		$this->init_query_vars();
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
+		add_filter( 'the_posts', array( $this, 'exclude_protected_posts_from_feeds' ), 10, 2 );
+		add_filter( 'is_post_embeddable', array( $this, 'maybe_disable_certificate_embed' ), 10, 2 );
+		add_filter( 'oembed_response_data', array( $this, 'maybe_hide_certificate_oembed' ), 20, 2 );
+		add_filter( 'redirect_canonical', array( $this, 'maybe_prevent_certificate_canonical_redirect' ), 10, 2 );
 		add_filter( 'get_previous_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 		add_filter( 'get_next_post_where', array( $this, 'exclude_hidden_llms_products' ) );
 	}
@@ -273,8 +277,170 @@ class LLMS_Query {
 				status_header( 404 );
 				nocache_headers();
 
+				// set_404() keeps is_feed and the posts do_feed() would print.
+				if ( $wp_query->is_feed() ) {
+					$wp_query->is_feed       = false;
+					$wp_query->posts         = array();
+					$wp_query->post_count    = 0;
+					$wp_query->found_posts   = 0;
+					$wp_query->max_num_pages = 0;
+				}
 			}
 		}
+	}
+
+	/**
+	 * Keep an awarded certificate out of embeds unless the current user can view it.
+	 *
+	 * `maybe_404_certificate()` runs on `wp`. oEmbed is a REST request and never gets there.
+	 * `is_post_embeddable` exists since WordPress 6.8; older versions rely on `maybe_hide_certificate_oembed()`.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param bool    $is_embeddable Whether the post is embeddable.
+	 * @param WP_Post $post          Post object.
+	 * @return bool
+	 */
+	public function maybe_disable_certificate_embed( $is_embeddable, $post ) {
+
+		if ( $this->is_unviewable_awarded_certificate( $post ) ) {
+			return false;
+		}
+
+		return $is_embeddable;
+	}
+
+	/**
+	 * Remove oEmbed data for an awarded certificate the current user cannot view.
+	 *
+	 * Runs after WordPress adds the embed HTML. A false value becomes a 404 from the oEmbed endpoint.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param array|false $data Response data.
+	 * @param WP_Post     $post Post object.
+	 * @return array|false
+	 */
+	public function maybe_hide_certificate_oembed( $data, $post ) {
+
+		if ( $this->is_unviewable_awarded_certificate( $post ) ) {
+			return false;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Stop a canonical redirect to an awarded certificate the current user cannot view.
+	 *
+	 * `redirect_canonical()` runs on `template_redirect`, after `maybe_404_certificate()` has already
+	 * set a 404, and still redirects a public post to its permalink.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string|false $redirect_url  Redirect URL.
+	 * @param string       $requested_url Requested URL.
+	 * @return string|false
+	 */
+	public function maybe_prevent_certificate_canonical_redirect( $redirect_url, $requested_url ) {
+
+		if ( ! $redirect_url ) {
+			return $redirect_url;
+		}
+
+		$post_ids = array(
+			url_to_postid( $redirect_url ),
+			url_to_postid( $requested_url ),
+			(int) get_query_var( 'p' ),
+			(int) get_query_var( 'page_id' ),
+			(int) get_query_var( 'attachment_id' ),
+		);
+
+		foreach ( array_unique( array_filter( $post_ids ) ) as $post_id ) {
+			if ( $this->is_unviewable_awarded_certificate( $post_id ) ) {
+				return false;
+			}
+		}
+
+		return $redirect_url;
+	}
+
+	/**
+	 * Whether the post is an awarded certificate the current user cannot view.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param int|WP_Post|null $post Post ID or object.
+	 * @return bool
+	 */
+	private function is_unviewable_awarded_certificate( $post ) {
+
+		$post = get_post( $post );
+		if ( ! $post instanceof WP_Post || 'llms_my_certificate' !== $post->post_type ) {
+			return false;
+		}
+
+		return ! ( new LLMS_User_Certificate( $post->ID ) )->can_user_view();
+	}
+
+	/**
+	 * Drop restricted LifterLMS post types from feed queries.
+	 *
+	 * These types are publicly queryable so their permalinks work, which also makes them
+	 * appear in list feeds. Feeds are commonly page or object cached with no per-user key,
+	 * so a check against the current user cannot be trusted here. The content is only
+	 * viewable on its own URL.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param WP_Post[] $posts Array of post objects.
+	 * @param WP_Query  $query Query object.
+	 * @return WP_Post[]
+	 */
+	public function exclude_protected_posts_from_feeds( $posts, $query ) {
+
+		if ( is_admin() || ! $query instanceof WP_Query || ! $query->is_feed() || ! $posts ) {
+			return $posts;
+		}
+
+		$filtered = array();
+
+		foreach ( $posts as $post ) {
+			if ( $post instanceof WP_Post && in_array( $post->post_type, self::get_feed_excluded_post_types(), true ) ) {
+				continue;
+			}
+			$filtered[] = $post;
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Retrieve post types that are never output in feeds.
+	 *
+	 * Courses and memberships are not listed: their sales page description is public.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return string[]
+	 */
+	public static function get_feed_excluded_post_types() {
+		/**
+		 * Filters the post types that are never output in feeds.
+		 *
+		 * @since 10.3.0
+		 *
+		 * @param string[] $post_types Post type names.
+		 */
+		return apply_filters(
+			'llms_feed_excluded_post_types',
+			array(
+				'lesson',
+				'llms_quiz',
+				'llms_certificate',
+				'llms_my_certificate',
+			)
+		);
 	}
 
 	/**

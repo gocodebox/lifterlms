@@ -490,7 +490,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		), false );
 
 		$this->assertStringContains( '<div class="llms-form-field type-button', $html );
-		$this->assertStringContains( '<button class="llms-field-button"', $html );
+		$this->assertStringContains( '<button class="llms-field-button wp-element-button"', $html );
 		$this->assertStringContains( 'type="button"', $html );
 		$this->assertStringContains( '>Button Text</button>', $html );
 
@@ -511,7 +511,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		), false );
 
 		$this->assertStringContains( '<div class="llms-form-field type-submit', $html );
-		$this->assertStringContains( '<button class="llms-field-button"', $html );
+		$this->assertStringContains( '<button class="llms-field-button wp-element-button"', $html );
 		$this->assertStringContains( 'type="submit"', $html );
 		$this->assertStringContains( '>Button Text</button>', $html );
 
@@ -532,7 +532,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		), false );
 
 		$this->assertStringContains( '<div class="llms-form-field type-reset', $html );
-		$this->assertStringContains( '<button class="llms-field-button"', $html );
+		$this->assertStringContains( '<button class="llms-field-button wp-element-button"', $html );
 		$this->assertStringContains( 'type="reset"', $html );
 		$this->assertStringContains( '>Button Text</button>', $html );
 	}

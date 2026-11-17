@@ -19,8 +19,7 @@
 		"phpSrc": [
 			"./*.php", "./**/*.php",
 			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**", "!wordpress/**",
-			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php",
-			"./vendor/lifterlms/lifterlms-rest/*.php", "./vendor/lifterlms/lifterlms-rest/**/*.php"
+			"!libraries/**/vendor/**", "!libraries/**/vendor-prefixed/**", "!libraries/**/node_modules/**"
 		]
 	},
 	"publish": {

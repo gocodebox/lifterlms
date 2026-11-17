@@ -1,0 +1,53 @@
+# {{full_name}}()
+
+{{phpdoc.short_description}}
+
+***
+
+## Usage
+
+    {{signature}}
+
+<div>
+{{#phpdoc.parameters.param}}
+<strong>{{1}}</strong> ({{0}}) {{{2}}}<br />
+{{/phpdoc.parameters.param}}
+{{#phpdoc.parameters.return}}
+<strong>@return</strong> ({{0}}) {{2}}<br />
+{{/phpdoc.parameters.return}}
+</div>
+
+{{#phpdoc.long_description}}
+
+***
+
+## Notes
+
+{{{phpdoc.long_description}}}
+
+{{/phpdoc.long_description}}
+
+*Internal API documentation is generated from the WP-CLI codebase on every release. To suggest improvements, please submit a pull request.*
+
+{{#has_related}}
+
+***
+
+## Related
+
+<ul>
+
+{{/has_related}}
+
+{{#related}}
+
+<li><strong><a href="https://make.wordpress.org/cli/handbook/internal-api/{{api_slug}}/">{{full_name}}()</a></strong> - {{phpdoc.short_description}}</li>
+
+{{/related}}
+
+{{#has_related}}
+
+</ul>
+
+{{/has_related}}
+

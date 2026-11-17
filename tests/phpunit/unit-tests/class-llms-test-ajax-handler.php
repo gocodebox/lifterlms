@@ -187,6 +187,43 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_admin_table_data() for the StudentManagement table only lists students of courses the user can edit.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_admin_table_data_student_management_permissions() {
+
+		$course_id  = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$student_id = $this->factory->student->create( array( 'user_login' => 'zebracorn_student' ) );
+		llms_enroll_student( $student_id, $course_id );
+
+		$request = array(
+			'handler' => 'StudentManagement',
+			'post_id' => $course_id,
+		);
+
+		// Instructor of another course.
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $instructor );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringNotContainsString( 'zebracorn_student', $res['tbody'] );
+
+		// Instructor of the course.
+		llms_get_post( $course_id )->set_instructors( array( array( 'id' => $instructor ) ) );
+		wp_update_post( array( 'ID' => $course_id, 'post_author' => $instructor ) );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringContainsString( 'zebracorn_student', $res['tbody'] );
+
+		// LMS managers can view all reports.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$res = LLMS_AJAX_Handler::get_admin_table_data( $request );
+		$this->assertStringContainsString( 'zebracorn_student', $res['tbody'] );
+
+	}
+
+	/**
 	 * Test the select2_query_posts() ajax method.
 	 *
 	 * @since 3.32.0
@@ -389,6 +426,240 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertSame( $course, (int) $res['items'][0]['id'] );
 		$this->assertSame( 'search title with this quotes:\'" - :)' .  " (ID# $course)", $res['items'][0]['name'] );
+
+	}
+
+	/**
+	 * Non-public post types that inherit the generic post capability stay hidden
+	 * from roles that do not manage LifterLMS. Public types, and non-public types
+	 * with their own capability map, stay available to roles that can edit them.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_non_public_post_types() {
+
+		$restricted = array(
+			'llms_coupon',
+			'llms_order',
+			'llms_voucher',
+			'llms_transaction',
+			'llms_access_plan',
+			'llms_achievement',
+			'llms_certificate',
+			'llms_my_certificate',
+			'section',
+		);
+
+		$ids = array();
+		foreach ( $restricted as $post_type ) {
+			$ids[ $post_type ] = $this->factory->post->create(
+				array(
+					'post_title'  => 'Lookup ' . $post_type,
+					'post_type'   => $post_type,
+					'post_status' => 'publish',
+				)
+			);
+		}
+
+		$course_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup course',
+				'post_type'   => 'course',
+				'post_status' => 'publish',
+			)
+		);
+
+		$draft_course_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup draft course',
+				'post_type'   => 'course',
+				'post_status' => 'draft',
+			)
+		);
+
+		$question_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Lookup question',
+				'post_type'   => 'llms_question',
+				'post_status' => 'publish',
+			)
+		);
+
+		wp_set_current_user( $this->factory->student->create() );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'course',
+			)
+		);
+		$this->assertNull( $res );
+
+		foreach ( array( 'contributor', 'editor', 'instructor', 'instructors_assistant' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+
+			foreach ( $restricted as $post_type ) {
+				$res = $this->do_ajax(
+					'select2_query_posts',
+					array(
+						'post_type'     => $post_type,
+						'post_statuses' => 'publish',
+						'term'          => 'Lookup ' . $post_type,
+					)
+				);
+				$this->assertSame( array(), $res['items'], $role . ' should not receive ' . $post_type );
+				$this->assertTrue( $res['success'] );
+			}
+
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type' => 'course',
+					'term'      => 'Lookup course',
+				)
+			);
+			$this->assertSame( $course_id, (int) $res['items'][0]['id'], $role . ' should still query courses' );
+
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type'     => 'course',
+					'post_statuses' => 'draft',
+					'term'          => 'Lookup draft course',
+				)
+			);
+			$this->assertSame( array(), $res['items'], $role . ' should not receive draft courses' );
+		}
+
+		// Instructors only find questions they can edit, see test_select2_query_posts_quizzes_and_questions_of_other_instructors().
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'llms_question',
+				'term'      => 'Lookup question',
+			)
+		);
+		$this->assertSame( $question_id, (int) $res['items'][0]['id'], 'lms_manager should query questions' );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'contributor' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'llms_question',
+				'term'      => 'Lookup question',
+			)
+		);
+		$this->assertSame( array(), $res['items'] );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		foreach ( $restricted as $post_type ) {
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type'     => $post_type,
+					'post_statuses' => 'publish',
+					'term'          => 'Lookup ' . $post_type,
+				)
+			);
+			$this->assertSame( $ids[ $post_type ], (int) $res['items'][0]['id'], 'lms_manager should query ' . $post_type );
+		}
+
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type'     => 'course',
+				'post_statuses' => 'draft',
+				'term'          => 'Lookup draft course',
+			)
+		);
+		$this->assertSame( $draft_course_id, (int) $res['items'][0]['id'] );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+		$res = $this->do_ajax(
+			'select2_query_posts',
+			array(
+				'post_type' => 'course,llms_coupon',
+				'term'      => 'Lookup',
+			)
+		);
+		$found = array_map( 'intval', wp_list_pluck( $res['items'], 'id' ) );
+		$this->assertContains( $course_id, $found );
+		$this->assertNotContains( $ids['llms_coupon'], $found );
+
+	}
+
+	/**
+	 * Test that LLMS_AJAX_Handler::select2_query_posts() only returns quizzes and questions the user can edit.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_quizzes_and_questions_of_other_instructors() {
+
+		$ids = array();
+		foreach ( array( 'a', 'b' ) as $key ) {
+
+			$instructor_id = $this->factory->user->create( array( 'role' => 'instructor' ) );
+			wp_set_current_user( $instructor_id );
+
+			$course = $this->factory->course->create_and_get(
+				array(
+					'sections'  => 1,
+					'lessons'   => 1,
+					'quizzes'   => 1,
+					'questions' => 1,
+				)
+			);
+			$course->set_instructors( array( array( 'id' => $instructor_id ) ) );
+
+			$quiz     = $course->get_lessons()[0]->get_quiz();
+			$question = $quiz->get_questions()[0];
+
+			foreach ( array( 'quiz' => $quiz, 'question' => $question ) as $type => $post ) {
+				wp_update_post(
+					array(
+						'ID'          => $post->get( 'id' ),
+						'post_author' => $instructor_id,
+						'post_title'  => sprintf( 'Lookup %1$s %2$s', $key, $type ),
+					)
+				);
+				$ids[ $key ][ $type ] = $post->get( 'id' );
+			}
+
+			$ids[ $key ]['user'] = $instructor_id;
+
+		}
+
+		$search = function ( $post_type ) {
+			$res = $this->do_ajax(
+				'select2_query_posts',
+				array(
+					'post_type' => $post_type,
+					'term'      => 'Lookup',
+				)
+			);
+			return array_map( 'intval', wp_list_pluck( $res['items'], 'id' ) );
+		};
+
+		// Instructor A finds their own quiz and question but not instructor B's.
+		wp_set_current_user( $ids['a']['user'] );
+		$this->assertSame( array( $ids['a']['quiz'] ), $search( 'llms_quiz' ) );
+		$this->assertSame( array( $ids['a']['question'] ), $search( 'llms_question' ) );
+
+		// Instructor B finds only their own.
+		wp_set_current_user( $ids['b']['user'] );
+		$this->assertSame( array( $ids['b']['quiz'] ), $search( 'llms_quiz' ) );
+		$this->assertSame( array( $ids['b']['question'] ), $search( 'llms_question' ) );
+
+		// Managers and administrators find all of them.
+		foreach ( array( 'lms_manager', 'administrator' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$this->assertEqualSets( array( $ids['a']['quiz'], $ids['b']['quiz'] ), $search( 'llms_quiz' ), $role );
+			$this->assertEqualSets( array( $ids['a']['question'], $ids['b']['question'] ), $search( 'llms_question' ), $role );
+		}
 
 	}
 
@@ -668,6 +939,83 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
 		$this->assertEquals( 2, count( $events ) );
 
+		// Events past the per-request limit are not stored.
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+		$request = array(
+			'llms-tracking' => json_encode(
+				array(
+					'events' => array_fill(
+						0,
+						150,
+						array(
+							'object_type' => 'user',
+							'object_id'   => $user_id,
+							'event'       => 'session.start',
+						)
+					),
+					'nonce'  => wp_create_nonce( 'llms-tracking' ),
+				)
+			),
+		);
+
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertTrue( $res['success'] );
+		$events = ( new LLMS_Events_Query( array(
+			'actor'    => array( $user_id ),
+			'per_page' => 500,
+		) ) )->get_events();
+
+		$this->assertEquals( 100, count( $events ) );
+
+	}
+
+	/**
+	 * Test llms_save_membership_autoenroll_courses permissions.
+	 *
+	 * Only users with `manage_lifterlms` and `edit_membership` capabilities can save auto-enroll courses.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_save_membership_autoenroll_courses_permissions() {
+
+		$course     = $this->factory->course->create();
+		$membership = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+
+		$request = array(
+			'post_id' => $membership,
+			'courses' => array( $course ),
+		);
+
+		// Admin (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request ) );
+		$llms_membership = new LLMS_Membership( $membership );
+		$this->assertEquals( array( $course ), $llms_membership->get_auto_enroll_courses() );
+
+		// LMS Manager (has manage_lifterlms and edit_membership).
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$new_course = $this->factory->course->create();
+		$this->assertTrue( LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( array(
+			'post_id' => $membership,
+			'courses' => array( $new_course ),
+		) ) );
+		$this->assertEquals( array( $new_course ), $llms_membership->get_auto_enroll_courses() );
+
+		// Non-admin/manager roles (instructor, instructors_assistant, subscriber) lack manage_lifterlms and must die.
+		foreach ( array( 'instructor', 'instructors_assistant', 'subscriber' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$caught = false;
+			ob_start();
+			try {
+				LLMS_AJAX_Handler::llms_save_membership_autoenroll_courses( $request );
+			} catch ( WPAjaxDieContinueException $e ) {
+				$caught = true;
+			}
+			$this->assertTrue( $caught, sprintf( 'Expected wp_die() for %s without manage_lifterlms.', $role ) );
+		}
 	}
 
 	/**

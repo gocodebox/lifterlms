@@ -259,7 +259,20 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 		$this->max_pages    = $query->get_max_pages();
 		$this->is_last_page = $query->is_last_page();
 
-		$this->tbody_data = $query->get_attempts();
+		$attempts = $query->get_attempts();
+
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) ) {
+			$attempts = array_values(
+				array_filter(
+					$attempts,
+					function ( $attempt ) {
+						return current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) );
+					}
+				)
+			);
+		}
+
+		$this->tbody_data = $attempts;
 	}
 
 	/**

@@ -1,0 +1,60 @@
+allOf:
+  - $ref: '#/components/schemas/Certificate'
+  - type: object
+    properties:
+      title:
+        description: Certificate template title, used for administrative purposes.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered title.
+            example: Certificate of Completion Template
+          raw:
+            type: string
+            description: Raw title. Only returned in `edit` context.
+            example: Certificate of Completion Template
+      content:
+        description: Certificate body content. May contain LifterLMS merge codes which are resolved when the certificate is awarded.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered content.
+            example: <p>Awarded to {first_name} {last_name} on {current_date}.</p>
+          raw:
+            type: string
+            description: Raw content. Only returned in `edit` context.
+            example: <p>Awarded to {first_name} {last_name} on {current_date}.</p>
+      _links:
+        description: A map of links to other related API resources.
+        type: object
+        readOnly: true
+        properties:
+          self:
+            description: REST URI to the certificate template.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/certificates/345
+          collection:
+            description: REST URI to the certificate template collection.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/certificates
+          awarded_certificates:
+            description: REST URI to the certificates awarded from this template.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/awarded-certificates?template=345

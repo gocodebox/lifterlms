@@ -142,8 +142,8 @@ class LLMS_Admin_Users_Table {
 	/**
 	 * Modify the query arguments of the users table query.
 	 *
-	 * If the current user is an instructor and no `role` argument is provided will limit the query to users
-	 * with the `instructors_assistant` and `instructor` roles.
+	 * If the current user is an instructor will limit the query to users with the `instructors_assistant`
+	 * and `instructor` roles.
 	 *
 	 * @since 3.34.0
 	 *
@@ -152,7 +152,7 @@ class LLMS_Admin_Users_Table {
 	 */
 	public function modify_query_args( $args ) {
 
-		if ( LLMS_User_Permissions::is_current_user_instructor() && empty( $args['role'] ) ) {
+		if ( LLMS_User_Permissions::is_current_user_instructor() ) {
 			$args['role__in'] = array( 'instructors_assistant', 'instructor' );
 		}
 

@@ -1,0 +1,65 @@
+.edit-post-post-status {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+
+	h2 {
+		order: -2;
+	}
+}
+
+.llms-launch-course-builder {
+	order: -1;
+	margin: 0 0 16px;
+}
+
+.llms-primary-background-color {
+	background-color: #466dd8 !important;
+	color: #fff !important;
+
+	&:hover,
+	&.clicked {
+		background-color: #2b55cb !important;
+	}
+}
+
+.llms-course-builder-panel {
+
+	&--close {
+
+		.components-panel__body-title {
+			margin-bottom: -16px !important;
+		}
+
+		.components-panel__arrow {
+			transform: rotate(180deg) translateY(50%) !important;
+		}
+
+		> div {
+			display: none;
+		}
+	}
+}
+
+#side-sortables #course_builder {
+	display: none;
+}
+
+// Scope to the Launch Course Builder controls. Gutenberg copies any stylesheet
+// whose selectors contain `.wp-block` into the editor iframe; this file is
+// bundled with block editor.scss that does, so a bare `.llms-button-primary`
+// rule restyles Access Plan / other canvas buttons.
+.llms-launch-course-builder .llms-button-primary,
+#llms-launch-course-builder-top-button {
+	-webkit-appearance: none;
+	border-radius: 2px;
+	display: inline-flex;
+	font-size: 14px;
+	font-weight: 400;
+	height: 38px;
+	justify-content: center;
+}
+
+.llms-launch-course-builder .llms-button-primary {
+	width: 100%;
+}

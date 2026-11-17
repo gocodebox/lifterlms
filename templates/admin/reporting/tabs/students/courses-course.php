@@ -10,7 +10,9 @@
  *               Add edit link tooltip and update icon.
  *               Add a link to view full course reporting screen.
  * @since 6.0.0 Provide existing hooks with more information and add a new hook.
- * @version 6.0.0
+ * @since 10.1.0 Added "Total Course Time" widget.
+ * @since 10.1.0 Wrapped stat tiles in a flexbox grid so they stay aligned regardless of count/height and rebalanced them to thirds.
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -85,6 +87,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 			</h3>
 
 		</header>
+		<div class="llms-reporting-widgets-grid">
 		<?php
 		/**
 		 * Action run before the default widgets on the student course reporting screen.
@@ -99,7 +102,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'calendar',
 				'id'        => 'llms-reporting-student-course-enrollment-date',
 				'data'      => $student->get_enrollment_date( $course_id, 'enrolled' ),
@@ -111,7 +114,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$enrollment_status = $student->get_enrollment_status( $course_id );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'enrolled' === $enrollment_status ? 'check-circle' : 'exclamation-triangle',
 				'id'        => 'llms-reporting-student-course-enrollment-status',
 				'data'      => llms_get_enrollment_status_name( $enrollment_status ),
@@ -123,7 +126,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$is_complete = $student->is_complete( $course_id, 'course' );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'calendar',
 				'id'        => 'llms-reporting-student-course-completed-date',
 				'data'      => $is_complete ? $student->get_completion_date( $course_id ) : $student->get_enrollment_date( $course_id, 'updated' ),
@@ -134,7 +137,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'line-chart',
 				'id'        => 'llms-reporting-student-course-progress',
 				'data'      => $student->get_progress( $course_id, 'course' ),
@@ -146,12 +149,42 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		$grade = $student->get_grade( $course_id );
 		LLMS_Admin_Reporting::output_widget(
 			array(
-				'cols'      => 'd-1of5',
+				'cols'      => 'd-1of3',
 				'icon'      => 'graduation-cap',
 				'id'        => 'llms-reporting-student-course-grade',
 				'data'      => $grade,
 				'data_type' => is_numeric( $grade ) ? 'percentage' : 'text',
 				'text'      => __( 'Grade', 'lifterlms' ),
+			)
+		);
+
+		$course_time     = LLMS_Lesson_Time_Tracking::instance()->get_course_time( $student->get_id(), $course_id );
+		$global_tracking = 'yes' === get_option( 'lifterlms_track_time_all_lessons', 'no' );
+		$time_label      = __( 'Total Course Time', 'lifterlms' );
+
+		if ( ! $global_tracking && $course && is_a( $course, 'LLMS_Course' ) ) {
+			$lessons     = $course->get_lessons( 'ids' );
+			$all_tracked = true;
+			foreach ( $lessons as $lid ) {
+				$l = llms_get_post( $lid );
+				if ( $l && is_a( $l, 'LLMS_Lesson' ) && ! $l->has_minimum_time() ) {
+					$all_tracked = false;
+					break;
+				}
+			}
+			if ( ! $all_tracked ) {
+				$time_label .= ' (' . __( 'Partial', 'lifterlms' ) . ')';
+			}
+		}
+
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of3',
+				'icon'      => 'clock-o',
+				'id'        => 'llms-reporting-student-course-total-time',
+				'data'      => LLMS_Lesson_Time_Tracking::instance()->format_time( $course_time ),
+				'data_type' => 'text',
+				'text'      => $time_label,
 			)
 		);
 
@@ -166,6 +199,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		 */
 		do_action( 'llms_reporting_single_student_course_after_widgets', $student, $course );
 		?>
+		</div>
 
 		<?php $table->output_table_html(); ?>
 

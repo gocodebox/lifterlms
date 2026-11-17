@@ -1,0 +1,930 @@
+{
+  "_generator": "LifterLMS/BulkCourseExporter",
+  "_source": "https://academy.lifterlms.com",
+  "_version": "11.0.1",
+  "courses": {
+    "33579": {
+      "_version": "11.0.1",
+      "_created": "2026-11-17 02:02:39",
+      "access_plans": [
+        {
+          "access_expiration": "lifetime",
+          "access_expires": "",
+          "access_length": 0,
+          "access_period": "",
+          "availability": "open",
+          "availability_restrictions": [],
+          "checkout_redirect_forced": "no",
+          "checkout_redirect_page": 0,
+          "checkout_redirect_type": "self",
+          "checkout_redirect_url": "",
+          "comment_status": "closed",
+          "content": "",
+          "enroll_text": "Sign Me Up!",
+          "excerpt": "",
+          "frequency": 0,
+          "id": 33581,
+          "is_free": "yes",
+          "length": 0,
+          "menu_order": 1,
+          "name": "free-instant-access",
+          "on_sale": "no",
+          "parent": 0,
+          "password": "",
+          "period": "",
+          "ping_status": "closed",
+          "price": 0,
+          "product_id": 33579,
+          "sale_end": "",
+          "sale_price": 0,
+          "sale_start": "",
+          "sku": "",
+          "status": "publish",
+          "title": "Free Instant Access",
+          "trial_length": 0,
+          "trial_offer": "no",
+          "trial_period": "",
+          "trial_price": 0,
+          "type": "llms_access_plan"
+        }
+      ],
+      "audio_embed": "",
+      "av_vimeo_player_disable_controls": "global",
+      "av_vimeo_player_disable_speed": "global",
+      "av_wistia_player_disable_controls": "global",
+      "av_wistia_player_disable_fullscreen": "global",
+      "av_wistia_player_disable_playbar": "global",
+      "av_wistia_player_disable_speed": "global",
+      "av_youtube_player_disable_controls": "global",
+      "av_youtube_player_disable_fullscreen": "global",
+      "av_youtube_player_disable_privacy": "global",
+      "capacity": 0,
+      "capacity_message": "Enrollment has closed because the maximum number of allowed students has been reached.",
+      "categories": [
+        "Technology"
+      ],
+      "comment_status": "closed",
+      "completion_page_id": 0,
+      "content": "<!-- wp:group {\"style\":{\"spacing\":{\"padding\":{\"top\":\"var:preset|spacing|50\",\"right\":\"var:preset|spacing|50\",\"bottom\":\"var:preset|spacing|50\",\"left\":\"var:preset|spacing|50\"}},\"border\":{\"radius\":\"15px\"},\"color\":{\"background\":\"#abb7c221\"}},\"layout\":{\"type\":\"constrained\"},\"llms_visibility\":\"enrolled\",\"llms_visibility_in\":\"this\"} -->\n<div class=\"wp-block-group has-background\" style=\"border-radius:15px;background-color:#abb7c221;padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)\"><!-- wp:heading {\"textAlign\":\"center\"} -->\n<h2 class=\"wp-block-heading has-text-align-center\">Course Progress</h2>\n<!-- /wp:heading -->\n\n<!-- wp:llms/course-progress /-->\n\n<!-- wp:llms/course-continue-button -->\n<div class=\"wp-block-llms-course-continue-button\" style=\"text-align:center\">[lifterlms_course_continue_button]</div>\n<!-- /wp:llms/course-continue-button --></div>\n<!-- /wp:group -->\n\n<!-- wp:paragraph -->\n<p>Use this Free Course Lead Magnet Template as the basis for your own free course using the <a href=\"https://lifterlms.com/blog/best-wordpress-lms-plugins/\">best WordPress LMS plugins</a>. A free course lets you start<strong> building your email list</strong>, <strong>gets users on your site</strong>, and <strong>encourages learners to enroll in other courses or memberships</strong>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph {\"align\":\"left\"} -->\n<p class=\"has-text-align-left\" id=\"block-87651e8c-a55c-48b0-9bf7-4d2aa6577530\">&#x1f449;  <a href=\"https://lifterlms.com/docs/getting-started-with-the-free-course-lead-magnet-template/\" target=\"_blank\" rel=\"noreferrer noopener\">Learn how to use this template in the LifterLMS documentation area</a></p>\n<!-- /wp:paragraph -->\n\n<!-- wp:spacer {\"height\":\"20px\"} -->\n<div style=\"height:20px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:heading {\"textAlign\":\"left\"} -->\n<h2 class=\"wp-block-heading has-text-align-left\">Mini Course Headline</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {\"align\":\"left\"} -->\n<p class=\"has-text-align-left\">Discover how to get [RESULT] without [COMMOM PROBLEM / OBJECTION]. Expand on this section with a short description of your free course.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:spacer {\"height\":\"20px\"} -->\n<div style=\"height:20px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:llms/pricing-table /-->\n\n<!-- wp:spacer {\"height\":\"20px\"} -->\n<div style=\"height:20px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:group {\"style\":{\"color\":{\"background\":\"#abb7c221\"},\"border\":{\"radius\":\"15px\"},\"spacing\":{\"padding\":{\"top\":\"var:preset|spacing|20\",\"right\":\"var:preset|spacing|20\",\"bottom\":\"var:preset|spacing|20\",\"left\":\"var:preset|spacing|20\"}}},\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group has-background\" style=\"border-radius:15px;background-color:#abb7c221;padding-top:var(--wp--preset--spacing--20);padding-right:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)\"><!-- wp:llms/course-information {\"title_size\":\"h2\"} /-->\n\n<!-- wp:separator {\"backgroundColor\":\"primary-lighter\",\"className\":\"is-style-wide\"} -->\n<hr class=\"wp-block-separator has-text-color has-primary-lighter-color has-alpha-channel-opacity has-primary-lighter-background-color has-background is-style-wide\"/>\n<!-- /wp:separator -->\n\n<!-- wp:columns -->\n<div class=\"wp-block-columns\"><!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3} -->\n<h3 class=\"wp-block-heading\">Who is this course for?</h3>\n<!-- /wp:heading -->\n\n<!-- wp:list -->\n<ul><!-- wp:list-item -->\n<li>Target audience #1</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>Target audience #2</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li>Target audience #3</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->\n\n<!-- wp:paragraph -->\n<p>Synopsis of who this course is for.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:column -->\n\n<!-- wp:column -->\n<div class=\"wp-block-column\"><!-- wp:heading {\"level\":3} -->\n<h3 class=\"wp-block-heading\">Why choose this course?</h3>\n<!-- /wp:heading -->\n\n<!-- wp:list {\"ordered\":true} -->\n<ol><!-- wp:list-item -->\n<li><strong>Course Benefit:</strong> Description of course benefit.</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li><strong>Course Benefit:</strong> Description of course benefit.</li>\n<!-- /wp:list-item -->\n\n<!-- wp:list-item -->\n<li><strong>Course Benefit:</strong> Description of course benefit.</li>\n<!-- /wp:list-item --></ol>\n<!-- /wp:list --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns --></div>\n<!-- /wp:group -->\n\n<!-- wp:spacer {\"height\":\"20px\"} -->\n<div style=\"height:20px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:llms/course-syllabus {\"llms_visibility_in\":\"this\"} /-->",
+      "content_restricted_message": "You must enroll in this course to access course content.",
+      "course_closed_message": "This course closed on [lifterlms_course_info id=\"48\" key=\"end_date\"].",
+      "course_opens_message": "This course opens on [lifterlms_course_info id=\"48\" key=\"start_date\"].",
+      "custom": {
+        "_thumbnail_id": [
+          "38778",
+          "38778"
+        ],
+        "_llms_blocks_migrated": [
+          "yes"
+        ],
+        "_llms_reviews_enabled": [
+          ""
+        ],
+        "_llms_display_reviews": [
+          ""
+        ],
+        "_llms_num_reviews": [
+          "0"
+        ],
+        "_llms_multiple_reviews_disabled": [
+          ""
+        ],
+        "site-sidebar-layout": [
+          "no-sidebar"
+        ],
+        "site-content-layout": [
+          "default"
+        ],
+        "theme-transparent-header-meta": [
+          "default"
+        ],
+        "_kad_post_transparent": [
+          ""
+        ],
+        "_kad_post_title": [
+          "show"
+        ],
+        "_kad_post_layout": [
+          "narrow"
+        ],
+        "_kad_post_sidebar_id": [
+          ""
+        ],
+        "_kad_post_content_style": [
+          ""
+        ],
+        "_kad_post_vertical_padding": [
+          ""
+        ],
+        "_kad_post_feature": [
+          "show"
+        ],
+        "_kad_post_feature_position": [
+          ""
+        ],
+        "_kad_post_header": [
+          ""
+        ],
+        "_kad_post_footer": [
+          ""
+        ],
+        "affwp_affiliate_submission_forms": [
+          []
+        ],
+        "_llms_av_prog_require_completion": [
+          "global"
+        ],
+        "_llms_av_prog_auto_advance": [
+          "global"
+        ],
+        "_llms_av_prog_auto_play": [
+          "global"
+        ],
+        "_affwp_enable_referral_overrides": [
+          ""
+        ],
+        "_affwp_disable_referrals": [
+          ""
+        ],
+        "_affwp_lifterlms_product_rate": [
+          ""
+        ],
+        "course_options": [
+          ""
+        ],
+        "launchpad_course_excerpt": [
+          ""
+        ],
+        "layout_options": [
+          ""
+        ],
+        "launchpad_page_menu": [
+          "default"
+        ],
+        "launchpad_hide_page_title": [
+          "no"
+        ],
+        "launchpad_hide_page_header": [
+          "no"
+        ],
+        "launchpad_hide_page_footer_widgets": [
+          "no"
+        ],
+        "launchpad_default_layout": [
+          "sidebar_content"
+        ],
+        "launchpad_header_content": [
+          ""
+        ],
+        "_yoast_wpseo_primary_course_cat": [
+          "25"
+        ],
+        "_yoast_wpseo_content_score": [
+          "90"
+        ],
+        "_yoast_wpseo_estimated-reading-time-minutes": [
+          "1"
+        ],
+        "_yoast_wpseo_wordproof_timestamp": [
+          ""
+        ],
+        "_yoast_wpseo_primary_course_track": [
+          ""
+        ],
+        "om_disable_all_campaigns": [
+          ""
+        ],
+        "_mi_skip_tracking": [
+          ""
+        ]
+      },
+      "days_before_available": 0,
+      "difficulty": "Beginner",
+      "drip_method": "",
+      "enable_capacity": "no",
+      "end_date": "",
+      "enrollment_closed_message": "Enrollment in this course closed on [lifterlms_course_info id=\"48\" key=\"enrollment_end_date\"].",
+      "enrollment_end_date": "",
+      "enrollment_opens_message": "Enrollment in this course opens on [lifterlms_course_info id=\"48\" key=\"enrollment_start_date\"].",
+      "enrollment_period": "no",
+      "enrollment_start_date": "",
+      "excerpt": "",
+      "featured_image": "https://academy.lifterlms.com/wp-content/uploads/2020/06/free-course-lead-magnet-template.jpg",
+      "featured_pricing": "",
+      "has_prerequisite": "no",
+      "id": 33579,
+      "ignore_lessons": 0,
+      "length": "1 Day",
+      "lesson_drip": "no",
+      "menu_order": 2,
+      "name": "free-course-lead-magnet-template",
+      "parent": 0,
+      "password": "",
+      "permalink": "https://academy.lifterlms.com/course/free-course-lead-magnet-template/",
+      "ping_status": "closed",
+      "prerequisite": 0,
+      "prerequisite_track": 0,
+      "sales_page_content_page_id": 0,
+      "sales_page_content_type": "none",
+      "sales_page_content_url": "",
+      "sections": [
+        {
+          "comment_status": "closed",
+          "content": "",
+          "custom": [],
+          "excerpt": "",
+          "id": 33582,
+          "lessons": [
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33583,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "youre-in-the-right-place",
+              "order": 1,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33582,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/youre-in-the-right-place/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "You're In The Right Place",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121900"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33584,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "learning-objective",
+              "order": 2,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33582,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/learning-objective/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Learning Objective",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121781"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33585,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "website-orientation",
+              "order": 3,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33582,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/website-orientation/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Website Orientation",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121822"
+            }
+          ],
+          "menu_order": 0,
+          "name": "introduction-4",
+          "order": 1,
+          "parent": 0,
+          "parent_course": 33579,
+          "password": "",
+          "ping_status": "closed",
+          "status": "publish",
+          "title": "Introduction",
+          "type": "section"
+        },
+        {
+          "comment_status": "closed",
+          "content": "",
+          "custom": [],
+          "excerpt": "",
+          "id": 33586,
+          "lessons": [
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33587,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "step-1-learn-and-do",
+              "order": 1,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33586,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/step-1-learn-and-do/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Step 1: Learn And Do",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121641"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33588,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "step-2-learn-and-do",
+              "order": 2,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33586,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/step-2-learn-and-do/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Step 2: Learn And Do",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121641"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33589,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "step-3-learn-and-do",
+              "order": 3,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33586,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/step-3-learn-and-do/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Step 3: Learn And Do",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121641"
+            }
+          ],
+          "menu_order": 0,
+          "name": "result-method",
+          "order": 2,
+          "parent": 0,
+          "parent_course": 33579,
+          "password": "",
+          "ping_status": "closed",
+          "status": "publish",
+          "title": "Result Method",
+          "type": "section"
+        },
+        {
+          "comment_status": "closed",
+          "content": "",
+          "custom": [],
+          "excerpt": "",
+          "id": 33590,
+          "lessons": [
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33591,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "celebrate-achieving-result-2",
+              "order": 1,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33590,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/celebrate-achieving-result-2/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Celebrate Achieving Result",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121580"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33592,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "course-feedback",
+              "order": 2,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33590,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/course-feedback/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Course Feedback ",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121609"
+            },
+            {
+              "assignment": 0,
+              "assignment_enabled": "no",
+              "audio_embed": "",
+              "av_vimeo_player_disable_controls": "course",
+              "av_vimeo_player_disable_speed": "course",
+              "av_wistia_player_disable_controls": "course",
+              "av_wistia_player_disable_fullscreen": "course",
+              "av_wistia_player_disable_playbar": "course",
+              "av_wistia_player_disable_speed": "course",
+              "av_youtube_player_disable_controls": "course",
+              "av_youtube_player_disable_fullscreen": "course",
+              "av_youtube_player_disable_privacy": "course",
+              "comment_status": "closed",
+              "content": "<!-- wp:llms/lesson-progression /-->\n\n<!-- wp:llms/lesson-navigation /-->",
+              "content_added_in_builder": "no",
+              "custom": {
+                "_llms_blocks_migrated": [
+                  "yes"
+                ],
+                "_llms_reviews_enabled": [
+                  ""
+                ],
+                "_llms_display_reviews": [
+                  ""
+                ],
+                "_llms_num_reviews": [
+                  "0"
+                ],
+                "_llms_multiple_reviews_disabled": [
+                  ""
+                ],
+                "_yoast_wpseo_estimated-reading-time-minutes": [
+                  ""
+                ],
+                "_yoast_wpseo_wordproof_timestamp": [
+                  ""
+                ]
+              },
+              "date_available": "",
+              "days_before_available": 0,
+              "drip_method": "",
+              "excerpt": "",
+              "featured_image": "",
+              "free_lesson": "no",
+              "has_minimum_time": "no",
+              "has_prerequisite": "no",
+              "id": 33593,
+              "menu_order": 0,
+              "minimum_time": 0,
+              "name": "call-to-action",
+              "order": 3,
+              "parent": 0,
+              "parent_course": 33579,
+              "parent_section": 33590,
+              "password": "",
+              "permalink": "https://academy.lifterlms.com/lesson/call-to-action/",
+              "ping_status": "closed",
+              "points": 1,
+              "prerequisite": 0,
+              "quiz": 0,
+              "quiz_enabled": "no",
+              "require_assignment_passing_grade": "yes",
+              "require_passing_grade": "yes",
+              "status": "publish",
+              "time_available": "",
+              "title": "Call To Action",
+              "type": "lesson",
+              "video_embed": "https://vimeo.com/855121495"
+            }
+          ],
+          "menu_order": 0,
+          "name": "next-steps-4",
+          "order": 3,
+          "parent": 0,
+          "parent_course": 33579,
+          "password": "",
+          "ping_status": "closed",
+          "status": "publish",
+          "title": "Next Steps",
+          "type": "section"
+        }
+      ],
+      "start_date": "",
+      "status": "publish",
+      "tags": [],
+      "tile_featured_video": "no",
+      "time_period": "no",
+      "title": "Free Course Lead Magnet Template",
+      "tracks": [],
+      "type": "course",
+      "video_embed": ""
+    }
+  }
+}
