@@ -1,0 +1,4 @@
+description: Total number of results found in the collection.
+schema:
+  type: integer
+  example: 275

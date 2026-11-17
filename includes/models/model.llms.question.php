@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 7.8.0
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
  * @since 4.0.0 Remove deprecated class methods.
+ * @since 11.1.0 Sanitize the `image` and `video_src` properties when they are set.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -55,7 +56,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		'question'               => 'html',
 		'title'                  => 'html',
 		'video_enabled'          => 'yesno',
-		'video_src'              => 'string',
+		'video_src'              => 'url',
 	);
 
 	/**
@@ -128,6 +129,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.12 Unknown.
+	 * @since 11.1.0 Scrub property values before adding them to the post meta input.
 	 *
 	 * @param array $args Args of data to be passed to wp_insert_post.
 	 * @return array
@@ -163,7 +165,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 			if ( isset( $args[ $prop ] ) ) {
 
-				$meta[ $this->meta_prefix . $prop ] = $args[ $prop ];
+				$meta[ $this->meta_prefix . $prop ] = $this->scrub( $prop, $args[ $prop ] );
 				unset( $args[ $prop ] );
 
 			}
@@ -367,7 +369,54 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param LLMS_Question     $question Question object.
 		 * @param LLMS_Quiz_Attempt $attempt  Attempt object.
 		 */
-		return apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
+		$title = apply_filters( "llms_{$this->get( 'question_type' )}_question_get_question", $this->get( 'title' ), $format, $this, $attempt );
+
+		if ( 'html' === $format ) {
+			$title = $this->format_question_html( $title );
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Convert br-separated question title lines into paragraph tags for front-end display.
+	 *
+	 * The course builder stores multi-line question titles with `<br>` tags after stripping
+	 * Quill's wrapping `<p>` elements. Converting those breaks back to paragraphs restores
+	 * normal block spacing that cannot be achieved by styling `<br>` alone.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param string $html Question title HTML.
+	 * @return string
+	 */
+	protected function format_question_html( $html ) {
+
+		if ( ! is_string( $html ) || '' === $html ) {
+			return $html;
+		}
+
+		// Already has block-level structure; leave alone.
+		if ( preg_match( '/<(p|div|ul|ol|h[1-6])\b/i', $html ) ) {
+			return $html;
+		}
+
+		if ( ! preg_match( '/<br\s*\/?>/i', $html ) ) {
+			return $html;
+		}
+
+		$parts  = preg_split( '/<br\s*\/?>/i', $html );
+		$output = '';
+
+		foreach ( $parts as $part ) {
+			if ( '' === trim( $part ) ) {
+				$output .= '<p><br></p>';
+			} else {
+				$output .= '<p>' . $part . '</p>';
+			}
+		}
+
+		return $output;
 	}
 
 	/**
@@ -642,6 +691,36 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
+	}
+
+	/**
+	 * Scrub a property value before it is saved.
+	 *
+	 * Adds sanitization of the image data array on top of the default type-based scrubbing.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param string $key Property key.
+	 * @param mixed  $val Property value.
+	 * @return mixed
+	 */
+	protected function scrub( $key, $val ) {
+
+		$val = parent::scrub( $key, $val );
+
+		if ( 'image' === $key && is_array( $val ) ) {
+			foreach ( $val as $img_key => $img_val ) {
+				if ( 'id' === $img_key ) {
+					$val[ $img_key ] = is_numeric( $img_val ) ? absint( $img_val ) : '';
+				} elseif ( 'src' === $img_key ) {
+					$val[ $img_key ] = is_string( $img_val ) ? sanitize_url( $img_val ) : '';
+				} else {
+					$val[ $img_key ] = is_scalar( $img_val ) ? sanitize_text_field( $img_val ) : '';
+				}
+			}
+		}
+
+		return $val;
 	}
 
 	/**

@@ -337,6 +337,70 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Unpublished access plans cannot be purchased. The error matches an unavailable plan.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_llms_check_access_plan_purchasable_requires_published_status() {
+
+		$free = $this->get_mock_plan( 0, 0 );
+		$paid = $this->get_mock_plan( 249, 0 );
+
+		$this->assertTrue( llms_check_access_plan_purchasable( $free ) );
+		$this->assertTrue( llms_check_access_plan_purchasable( $paid ) );
+
+		foreach ( array( 'draft', 'pending', 'private' ) as $status ) {
+			$free->set( 'status', $status );
+			$paid->set( 'status', $status );
+
+			$free_result = llms_check_access_plan_purchasable( $free );
+			$paid_result = llms_check_access_plan_purchasable( $paid );
+
+			$this->assertWPErrorCodeEquals( 'plan-not-available', $free_result );
+			$this->assertWPErrorCodeEquals( 'plan-not-available', $paid_result );
+			$this->assertSame( 'This access plan is not available.', $free_result->get_error_message() );
+			$this->assertSame( 'This access plan is not available.', $paid_result->get_error_message() );
+		}
+
+		$free->set( 'status', 'publish' );
+		$paid->set( 'status', 'publish' );
+		$this->assertTrue( llms_check_access_plan_purchasable( $free ) );
+		$this->assertTrue( llms_check_access_plan_purchasable( $paid ) );
+
+	}
+
+	/**
+	 * Access plans for an unpublished product cannot be purchased.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_check_access_plan_purchasable_requires_published_product() {
+
+		foreach ( array( 0, 249 ) as $price ) {
+
+			$plan       = $this->get_mock_plan( $price, 0 );
+			$product_id = $plan->get( 'product_id' );
+			$this->assertTrue( llms_check_access_plan_purchasable( $plan ) );
+
+			foreach ( array( 'draft', 'pending', 'private', 'trash' ) as $status ) {
+				wp_update_post( array( 'ID' => $product_id, 'post_status' => $status ) );
+				clean_post_cache( $product_id );
+				$this->assertSame( $status, get_post_status( $product_id ) );
+				$this->assertWPErrorCodeEquals( 'product-not-purchasable', llms_check_access_plan_purchasable( $plan ) );
+			}
+
+			wp_update_post( array( 'ID' => $product_id, 'post_status' => 'publish' ) );
+			$this->assertTrue( llms_check_access_plan_purchasable( $plan ) );
+
+		}
+
+	}
+
+	/**
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0

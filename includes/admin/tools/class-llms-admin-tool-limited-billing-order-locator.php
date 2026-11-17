@@ -70,7 +70,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		return array_filter( $csv );
-
 	}
 
 	/**
@@ -101,12 +100,12 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		ob_start();
 		$fh = fopen( 'php://output', 'w' );
 		foreach ( $csv as $line ) {
-			fputcsv( $fh, $line );
+			// The `$escape` arg is passed explicitly because relying on its default is deprecated as of PHP 8.4.
+			fputcsv( $fh, $line, ',', '"', '\\' );
 		}
 		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 
 		return ob_get_clean();
-
 	}
 
 	/**
@@ -141,7 +140,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		);
 
 		return $desc;
-
 	}
 
 	/**
@@ -192,7 +190,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		return array();
-
 	}
 
 	/**
@@ -215,7 +212,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		);
 
 		return $txns['total'];
-
 	}
 
 	/**
@@ -241,11 +237,10 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		$csv = wp_cache_get( $this->id, 'llms_tool_data' );
 		if ( ! $csv ) {
 			$csv = $this->generate_csv();
-			wp_cache_set( $this->id, $csv, 'llms_tool_data' );
+			wp_cache_set( $this->id, $csv, 'llms_tool_data', HOUR_IN_SECONDS );
 		}
 
 		return $csv;
-
 	}
 
 	/**
@@ -259,6 +254,9 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 
 		$file = $this->get_csv_file();
 
+		// Ensure the next tool run re-queries instead of serving a stale report from a persistent object cache.
+		wp_cache_delete( $this->id, 'llms_tool_data' );
+
 		if ( ! headers_sent() ) { // This makes the method testable via phpunit.
 			header( 'Content-Type: text/csv' );
 			header( 'Content-Disposition: attachment; filename=orders.csv' );
@@ -267,7 +265,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		}
 
 		llms_exit( $file );
-
 	}
 
 	/**
@@ -282,7 +279,6 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	protected function should_load() {
 		return count( $this->get_csv() ) > 0;
 	}
-
 }
 
 return new LLMS_Admin_Tool_Limited_Billing_Order_Locator();

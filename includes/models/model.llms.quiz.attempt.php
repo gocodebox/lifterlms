@@ -118,6 +118,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
 	 *              Exit the loop as soon as we find our question.
 	 *              Use strict comparison for IDs.
+	 * @since 11.0.0 Don't record answers for question types that can't be answered, like content.
 	 *
 	 * @param int      $question_id WP_Post ID of the LLMS_Question.
 	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
@@ -133,7 +134,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				continue;
 			}
 
-			$question                     = llms_get_post( $question_id );
+			$question = llms_get_post( $question_id );
+			$type     = $question->get_question_type();
+			if ( $type && empty( $type['grading'] ) ) {
+				$answer = array();
+			}
+
 			$graded                       = $question->grade( $answer );
 			$questions[ $key ]['answer']  = $answer;
 			$questions[ $key ]['correct'] = $graded;
@@ -548,7 +554,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$ids   = array_map( 'intval', array_column( $this->get_questions(), 'id' ) );
 		$index = array_search( (int) $question_id, $ids, true );
-		return $index >= 0 ?
+		return false !== $index ?
 			'id' === $return ? $question_id : $this->get_questions()[ $index ]
 			:
 			false;
@@ -887,6 +893,47 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Determine if the quiz time limit for this attempt has passed.
+	 *
+	 * Always `false` for quizzes without a time limit and for students allowed unlimited quiz time.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return bool
+	 */
+	public function has_time_limit_expired() {
+
+		$quiz    = $this->get_quiz();
+		$student = $this->get_student();
+
+		if ( ! $quiz || ! $quiz->has_time_limit() || ! $this->get( 'start_date' ) || ( $student && $student->has_unlimited_quiz_time() ) ) {
+			return false;
+		}
+
+		$minutes = absint( $quiz->get( 'time_limit' ) );
+		if ( ! $minutes ) {
+			return false;
+		}
+
+		/**
+		 * Filters the seconds allowed past a quiz time limit before answers are rejected.
+		 *
+		 * Covers the delay between the browser timer running out and its request reaching the server.
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param int               $grace_period Grace period in seconds.
+		 * @param LLMS_Quiz_Attempt $attempt      Quiz attempt.
+		 */
+		$grace_period = absint( apply_filters( 'llms_quiz_attempt_time_limit_grace_period', 5, $this ) );
+
+		$deadline = new DateTime( $this->get( 'start_date' ), wp_timezone() );
+		$deadline->modify( sprintf( '+%d seconds', $minutes * MINUTE_IN_SECONDS + $grace_period ) );
+
+		return current_datetime() > $deadline;
+	}
+
+	/**
 	 * Translate attempt related strings.
 	 *
 	 * @since 3.9.0
@@ -985,6 +1032,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		if ( ! $this->id ) {
 			return false;
 		}
+
+		/*
+		 * Deleting an attempt can change the computed quiz/lesson/course grade even when the
+		 * lesson remains complete (no `llms_mark_incomplete` fires), so the per-student grade
+		 * cache must be invalidated directly.
+		 */
+		llms()->grades()->clear_student_cache( $this->get( 'student_id' ) );
 
 		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
 

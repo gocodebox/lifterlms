@@ -1,0 +1,8 @@
+name: per_page
+in: query
+description: Specify the number of results per paginated collection page.
+required: false
+schema:
+  type: integer
+  minimum: 1
+  default: 10

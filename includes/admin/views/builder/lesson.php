@@ -5,8 +5,11 @@
  * @since 3.16.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 7.2.0 Added lesson id.
- * @version 7.2.0
+ * @since 10.1.0 Escaped lesson, quiz, and assignment title output.
+ * @since 10.1.0 Added quiz id display in lesson listing.
+ * @version 10.1.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
 
@@ -14,7 +17,7 @@
 
 	<header class="llms-builder-header">
 		<h3 class="llms-headline">
-			<span>{{{ data.get( 'title' ) }}}</span>
+			<span>{{ _.unescape( data.get( 'title' ) ) }}</span>
 		</h3>
 
 		<div class="llms-action-icons">
@@ -95,7 +98,7 @@
 				'action'           => 'edit-assignment',
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip'              => esc_attr__( 'Add an assignment', 'lifterlms' ),
-				'tip_active'       => sprintf( esc_attr__( 'Edit assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
+				'tip_active'       => sprintf( esc_attr__( 'Edit assignment: %s', 'lifterlms' ), "{{ _.unescape( _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) ) }}" ),
 				'icon'             => '<i class="fa fa-check-square-o"></i> ' . esc_html__( 'Add assignment', 'lifterlms' ),
 				'icon_active'      => '<i class="fa fa-check-square-o"></i>' . esc_html__( 'Edit assignment', 'lifterlms' ),
 			),
@@ -104,9 +107,9 @@
 				'action'           => 'edit-quiz',
 				'active_condition' => "'yes' === data.get( 'quiz_enabled' )",
 				'tip'              => esc_attr__( 'Add a quiz', 'lifterlms' ),
-				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' }}}" ),
+				'tip_active'       => sprintf( esc_attr__( 'Edit quiz: %s', 'lifterlms' ), "{{ _.unescape( ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'title' ) : '' ) }}" ),
 				'icon'             => '<i class="fa fa-question-circle"></i> ' . esc_html__( 'Add quiz', 'lifterlms' ),
-				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ),
+				'icon_active'      => '<i class="fa fa-question-circle"></i>' . esc_html__( 'Edit quiz', 'lifterlms' ) . ' <span class="llms-item-id">' . esc_html__( 'ID:', 'lifterlms' ) . " {{{ ( 'yes' === data.get( 'quiz_enabled' ) ) ? data.get( 'quiz' ).get( 'id' ) : '' }}}</span>",
 			),
 
 			'video'       => array(

@@ -1,0 +1,12 @@
+allOf:
+  - $ref: '#/components/schemas/QuizQuestion'
+  - type: object
+    properties:
+      title:
+        description: Raw question title. Most likely in the form of a question.
+        type: string
+        example: What is your favorite color?
+      content:
+        description: Raw question description content. Useful for providing additional information or context to the question.
+        type: string
+        example: <p>Expectoque quid ad id, quod quaerebam, respondeas.</p>

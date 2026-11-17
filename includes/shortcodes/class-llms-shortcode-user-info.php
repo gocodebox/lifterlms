@@ -90,13 +90,13 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 
 		// No user OR no key provided.
 		if ( ! $user_id || ! $key ) {
-			return $default;
+			return wp_kses_post( $default );
 		}
 
 		$user = new WP_User( $user_id );
 		$val  = $user->exists() ? $user->get( $key ) : null;
 
-		return ! empty( $val ) && is_scalar( $val ) ? $val : $default;
+		return wp_kses_post( ! empty( $val ) && is_scalar( $val ) ? $val : $default );
 
 	}
 

@@ -534,9 +534,10 @@ function llms_setup_lesson_data( $post ) {
 			if ( empty( $post->post_type ) ) {
 				return; }
 
-			$courseid = get_post_meta( $post->ID, '_llms_parent_course' );
+			$parent_course = null;
+			$courseid      = get_post_meta( $post->ID, '_llms_parent_course', true );
 
-			if ( isset( $courseid ) ) {
+			if ( $courseid ) {
 				$parent_course = get_post( $courseid );
 			}
 
@@ -687,7 +688,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 		$html = llms_get_progress_bar_html( $progress );
 
 		if ( $button ) {
-			$html .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
+			$html .= '<' . $tag . ' class="llms-button-primary llms-purchase-button wp-element-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
 		}
 
 		if ( $echo ) {
@@ -768,7 +769,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 			$lesson = apply_filters( 'llms_course_continue_button_next_lesson', $student->get_next_lesson( $course->get( 'id' ) ), $course, $student );
 			if ( $lesson ) { ?>
 
-				<a class="llms-button-primary llms-course-continue-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
+				<a class="llms-button-primary llms-course-continue-button wp-element-button" href="<?php echo esc_url( get_permalink( $lesson ) ); ?>">
 
 					<?php if ( 0 == $progress ) : ?>
 
@@ -843,7 +844,7 @@ function llms_placeholder_img_src() {
  * @return string
  */
 function llms_placeholder_img( $size = 'full' ) {
-	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . esc_url( llms_placeholder_img_src() ) . '" alt="placeholder" class="llms-placeholder llms-featured-image wp-post-image" />' );
+	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . esc_url( llms_placeholder_img_src() ) . '" alt="" class="llms-placeholder llms-featured-image wp-post-image" />' );
 }
 
 /**
@@ -863,7 +864,8 @@ function llms_featured_img( $post_id, $size ) {
 	$html = '';
 
 	if ( isset( $img[0] ) ) {
-		$html = '<img src="' . esc_url( $img[0] ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="llms-featured-image wp-post-image">';
+		$alt  = get_post_meta( get_post_thumbnail_id( $post_id ), '_wp_attachment_image_alt', true );
+		$html = '<img src="' . esc_url( $img[0] ) . '" alt="' . esc_attr( $alt ) . '" class="llms-featured-image wp-post-image">';
 	}
 
 	/**

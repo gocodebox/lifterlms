@@ -1,0 +1,114 @@
+$color-red: #e5554e;
+$color-danger: $color-red;
+
+.wrap.lifterlms-addons {
+
+	.llms-licenses {
+		display: block;
+		position: relative;
+		vertical-align: middle;
+		z-index: 1;
+
+		.llms-button-primary {
+			width: 100%;
+		}
+
+		.llms-license-header {
+			margin: 0 0 5px 0;
+		}
+
+		label {
+			display: block;
+			margin-top: 20px;
+			&:first-child { margin-top: 0; }
+		}
+
+		.llms-active-keys {
+			list-style-type: none;
+			margin: 15px 0;
+			padding: 0;
+			li {
+				margin: 0 0 10px;
+				padding: 0;
+				input:checked + span {
+					color: $color-danger;
+					font-style: italic;
+				}
+			}
+		}
+
+		.fa-chevron-down { margin-left: 10px; }
+
+		.llms-key-field {
+			background: #fff;
+			border: 1px solid #ddd;
+			display: none;
+			margin-left: 0;
+			position: absolute;
+			left: -1px;
+			padding: 20px;
+			top: calc( 100% - 2px );
+			width: 90%;
+
+			textarea {
+				display: inline-block;
+				height: 86px;
+				font-size: 14px;
+				font-family: monospace;
+				line-height: 1.8;
+				margin: 5px 0;
+				padding: 5px 10px;
+				resize: none;
+				vertical-align: middle;
+				width: 100%;
+			}
+
+		}
+
+	}
+
+	@media only screen and (min-width: 782px) {
+		.llms-licenses {
+			display: inline-block;
+			margin-left: 20px;
+
+			.llms-button-primary {
+				width: auto;
+			}
+
+			.llms-key-field {
+				width: 340px;
+			}
+		}
+	}
+
+}
+
+.llms-status--betas {
+
+	@media only screen and ( min-width: 800px ) {
+
+		.llms-beta-main {
+			display: flex;
+		}
+		.llms-beta-table {
+			flex: 2;
+		}
+		.llms-beta-aside {
+			flex: 1;
+			margin-right: 20px;
+		}
+
+	}
+
+	.llms-beta-aside {
+		background: lighten( $color-red, 38 );
+		border: 1px solid $color-red;
+		padding: 20px;
+
+		h1 {
+			padding-top: 0;
+		}
+	}
+
+}

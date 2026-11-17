@@ -13,10 +13,12 @@ const { resolve } = require( 'path' ),
 	config = generate( {
 		js: [
 			'admin-addons',
+			'admin-addon-promo',
 			'admin-award-certificate',
 			'admin-certificate-editor',
 			'admin-media-protection-block-protect',
 			'admin-elementor-editor',
+			'lesson-timer',
 			'quill-wordcount',
 
 			// Module packages.
@@ -26,7 +28,8 @@ const { resolve } = require( 'path' ),
 			'utils',
 		],
 		css: [
-			'admin-addons'
+			'admin-addons',
+			'lesson-timer',
 		],
 	} );
 

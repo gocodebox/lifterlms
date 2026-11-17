@@ -96,7 +96,8 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			'{{ACHIEVEMENT_IMAGE}}'     => __( 'Achievement Image', 'lifterlms' ),
 			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievement Image URL', 'lifterlms' ),
 			'{{ACHIEVEMENT_TITLE}}'     => __( 'Achievement Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}'          => __( 'Student Name', 'lifterlms' ),
+			'{{STUDENT_NAME}}'          => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}'     => __( 'Student Full Name', 'lifterlms' ),
 		);
 	}
 
@@ -140,6 +141,10 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				break;
+
+			case '{{STUDENT_FULL_NAME}}':
+				$code = $this->user->get_name();
 				break;
 
 		}

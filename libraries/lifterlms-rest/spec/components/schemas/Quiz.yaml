@@ -1,0 +1,102 @@
+description: Base quiz post object.
+type: object
+properties:
+  id:
+    description: Unique quiz identifer. The WordPress Post `ID`.
+    type: integer
+    example: 234
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  slug:
+    description: Quiz URL slug.
+    type: string
+    example: final-exam
+  permalink:
+    description: Quiz URL.
+    type: string
+    example: https://example.tld/quiz/final-exam
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_quiz
+  status:
+    description: The publication status of the quiz.
+    type: string
+    enum:
+      - publish
+      - draft
+    default: publish
+  lesson_id:
+    description: WordPress post ID of the quiz's parent lesson. `0` indicates an "orphaned" quiz which can be edited and viewed by instructors and admins but cannot be taken by students.
+    type: integer
+    minimum: 0
+    example: 789
+  passing_percent:
+    description: Determines the grade required to consider an attempt "passing".
+    type: number
+    minimum: 0
+    maximum: 100
+    default: 65
+  limit_attempts:
+    description: |
+      Determine if attempt limiting is enabled.
+
+      When enabled, students are locked out after the number of attempts specified by `allowed_attempts`.
+    type: boolean
+    default: false
+    example: true
+  allowed_attempts:
+    description: Limit the number of times a student can attempt the quiz before the quiz is locked. Only used when `limit_attempts` is `true`. `null` when `limit_attempts` is `false`.
+    type: integer
+    nullable: true
+    minimum: 1
+    example: 5
+  limit_time:
+    description: |
+      Determine if a time limit is enforced for each attempt.
+
+      When enabled, a quiz attempt is automatically ended after the time period specified by `time_limit` has passed.
+    type: boolean
+    default: false
+    example: true
+  time_limit:
+    description: Determines the number of minutes allowed for each quiz attempt. Only used when `limit_time` is `true`. `null` when `limit_time` is `false`.
+    type: integer
+    nullable: true
+    minimum: 1
+    example: 90
+  show_correct_answer:
+    description: When enabled, students will be shown the correct answers to questions they answered incorrectly during quiz reviews.
+    type: boolean
+    default: false
+  random_questions:
+    description: When enabled, questions will be shuffled into a random order for each new quiz attempt.
+    type: boolean
+    default: false
+  can_be_resumed:
+    description: When enabled, an incomplete quiz attempt can be paused and resumed by the student.
+    type: boolean
+    default: false
+  disable_retake:
+    description: When enabled, students cannot retake the quiz after completing it.
+    type: boolean
+    default: false

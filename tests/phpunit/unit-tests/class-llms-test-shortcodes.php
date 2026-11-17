@@ -138,6 +138,178 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test access plan button output allows safe HTML in custom label text.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_allows_safe_html() {
+
+		$plan = $this->get_mock_plan();
+		$html = LLMS_Shortcodes::access_plan_button(
+			array( 'id' => $plan->get( 'id' ) ),
+			'Custom <b>Label</b>'
+		);
+
+		$this->assertStringContains( '<b>Label</b>', $html );
+
+	}
+
+	/**
+	 * Test access plan button output strips disallowed markup from custom label text.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_strips_unsafe_html() {
+
+		$plan = $this->get_mock_plan();
+		$html = LLMS_Shortcodes::access_plan_button(
+			array( 'id' => $plan->get( 'id' ) ),
+			'Buy <script>bad</script><img src="x" onerror="bad">'
+		);
+
+		$this->assertStringNotContains( '<script>', $html );
+		$this->assertStringNotContains( 'onerror', $html );
+		$this->assertStringContains( '<img', $html );
+
+	}
+
+	/**
+	 * Test access plan button output sanitizes the plan enroll text fallback.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_sanitizes_enroll_text() {
+
+		$plan = $this->get_mock_plan();
+
+		$handler = function ( $text ) {
+			return 'Enroll <b>Now</b><script>bad</script>';
+		};
+		add_filter( 'llms_plan_get_enroll_text', $handler );
+
+		$html = LLMS_Shortcodes::access_plan_button( array( 'id' => $plan->get( 'id' ) ) );
+
+		remove_filter( 'llms_plan_get_enroll_text', $handler );
+
+		$this->assertStringContains( '<b>Now</b>', $html );
+		$this->assertStringNotContains( '<script>', $html );
+
+	}
+
+	/**
+	 * Test the access plan button block sanitizes its text attribute.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_button_block_sanitizes_text_attribute() {
+
+		$plan   = $this->get_mock_plan();
+		$markup = sprintf(
+			'<!-- wp:llms/access-plan-button %s /-->',
+			wp_json_encode(
+				array(
+					'id'   => (string) $plan->get( 'id' ),
+					'text' => 'Buy <b>Now</b><script>bad</script>',
+				)
+			)
+		);
+		$html = do_blocks( $markup );
+
+		$this->assertStringContains( '<b>Now</b>', $html );
+		$this->assertStringNotContains( '<script>', $html );
+
+	}
+
+	/**
+	 * Test that the course info shortcode only outputs info the current user can view.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_course_info_checks_access() {
+
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+
+		$protected_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		wp_update_post(
+			array(
+				'ID'            => $protected_id,
+				'post_title'    => 'Protected Course',
+				'post_content'  => 'Protected course content',
+				'post_password' => 'coursepass123',
+				'post_author'   => $admin_id,
+			)
+		);
+		update_post_meta( $protected_id, '_llms_start_date', '2026-11-06' );
+
+		$draft_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		wp_update_post(
+			array(
+				'ID'           => $draft_id,
+				'post_content' => 'Draft course content',
+				'post_status'  => 'draft',
+				'post_author'  => $admin_id,
+			)
+		);
+
+		$order = $this->get_mock_order();
+		$order->set( 'billing_email', 'buyer@example.com' );
+
+		$info = function ( $id, $key ) {
+			return do_shortcode( sprintf( '[lifterlms_course_info id=%1$d key=%2$s date_format=Y-m-d]', $id, $key ) );
+		};
+
+		// Logged out visitors can view public info of a published course.
+		wp_set_current_user( 0 );
+		$this->assertSame( '2026-11-06', $info( $protected_id, 'start_date' ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'contributor' ) ) );
+
+		$this->assertSame( 'Protected Course', $info( $protected_id, 'title' ) );
+		$this->assertSame( '', $info( $protected_id, 'password' ) );
+		$this->assertSame( '', $info( $protected_id, 'content' ) );
+		$this->assertSame( '', $info( $draft_id, 'content' ) );
+		$this->assertSame( '', $info( $order->get( 'id' ), 'billing_email' ) );
+
+		wp_set_current_user( $admin_id );
+
+		$this->assertSame( 'coursepass123', $info( $protected_id, 'password' ) );
+		$this->assertStringContains( 'Draft course content', $info( $draft_id, 'content' ) );
+		$this->assertSame( '', $info( $order->get( 'id' ), 'billing_email' ) );
+
+	}
+
+	/**
+	 * Test that the course info shortcode escapes date output.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_course_info_escapes_date_output() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		update_post_meta( $course_id, '_llms_start_date', '2026-11-06' );
+
+		// A date format with escaped characters cannot add markup.
+		$this->assertSame(
+			'&lt;b&gt;2026',
+			do_shortcode( sprintf( '[lifterlms_course_info id=%d key=start_date date_format=\\\\<\\\\b\\\\>Y]', $course_id ) )
+		);
+		$this->assertSame( '2026-11-06', do_shortcode( sprintf( '[lifterlms_course_info id=%d key=start_date date_format=Y-m-d]', $course_id ) ) );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0

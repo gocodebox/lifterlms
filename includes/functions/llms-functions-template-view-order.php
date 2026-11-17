@@ -8,6 +8,8 @@
  * @version 6.0.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 if ( ! function_exists( 'llms_template_view_order' ) ) {
 
 	/**

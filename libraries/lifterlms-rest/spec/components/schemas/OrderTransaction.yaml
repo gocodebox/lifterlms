@@ -1,0 +1,61 @@
+description: A payment transaction recorded for an order. Transactions are read-only via the REST API.
+type: object
+properties:
+  id:
+    description: Unique transaction identifer. The WordPress Post `ID`.
+    type: integer
+    example: 988
+    readOnly: true
+  order_id:
+    description: The WordPress post ID of the parent order.
+    type: integer
+    example: 987
+    readOnly: true
+  status:
+    description: The transaction status, with the `llms-txn-` prefix stripped.
+    type: string
+    example: succeeded
+    enum:
+      - failed
+      - pending
+      - refunded
+      - succeeded
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+    readOnly: true
+  payment_type:
+    description: The payment type.
+    type: string
+    example: single
+    readOnly: true
+  payment_gateway:
+    description: The LifterLMS payment gateway ID used to process the transaction.
+    type: string
+    example: manual
+    readOnly: true
+  currency:
+    description: The transaction currency code.
+    type: string
+    example: USD
+    readOnly: true
+  amount:
+    description: The transaction amount.
+    type: number
+    example: 99.99
+    readOnly: true
+  refund_amount:
+    description: The total amount refunded on this transaction.
+    type: number
+    example: 0
+    readOnly: true
+  gateway_transaction_id:
+    description: The transaction ID assigned by the payment gateway.
+    type: string
+    readOnly: true
+  gateway_source_description:
+    description: A description of the payment source (e.g. a credit card type and last 4 digits).
+    type: string
+    readOnly: true

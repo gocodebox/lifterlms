@@ -219,7 +219,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $gateway_confirm;
-
 	}
 
 
@@ -245,7 +244,6 @@ class LLMS_Order_Generator {
 		$order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
 
 		return $order;
-
 	}
 
 	/**
@@ -270,14 +268,12 @@ class LLMS_Order_Generator {
 		}
 
 		return $user_id;
-
 	}
 
 	/**
 	 * Returns an error object.
 	 *
-	 * This method accepts an error code and message and passes them directly to `WP_Error` and
-	 * adds all class variables to the error objects `$data` parameter.
+	 * Passes the error code, message, and optional extra data through to `WP_Error`.
 	 *
 	 * @since 7.0.0
 	 *
@@ -287,39 +283,7 @@ class LLMS_Order_Generator {
 	 * @return WP_Error
 	 */
 	protected function error( $code, $message, $extra_data = array() ) {
-
-		$data = get_class_vars( __CLASS__ );
-		foreach ( $data as $key => &$val ) {
-			$val = $this->{$key};
-		}
-
-		return new WP_Error( $code, $message, array_merge( $data, $extra_data ) );
-
-	}
-
-	/**
-	 * Attempts to locate a user ID.
-	 *
-	 * Uses the logged in user's information and falls back to a lookup by email address if available.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param string|null $email An email address, if available.
-	 * @return null|integer Returns the WP_User ID or null if not found.
-	 */
-	private function find_user_id( $email = null ) {
-
-		if ( is_user_logged_in() ) {
-			return get_current_user_id();
-		}
-
-		if ( $email ) {
-			$user = get_user_by( 'email', $email );
-			return $user ? $user->ID : null;
-		}
-
-		return null;
-
+		return new WP_Error( $code, $message, $extra_data );
 	}
 
 	/**
@@ -348,7 +312,6 @@ class LLMS_Order_Generator {
 		}
 
 		return $this->create();
-
 	}
 
 	/**
@@ -376,8 +339,8 @@ class LLMS_Order_Generator {
 	/**
 	 * Retrieves the order id to use for the order.
 	 *
-	 * Attempts to locate an existing pending order by order key if it was submitted,
-	 * otherwise returns `new` which denotes a new order should be created.
+	 * Uses a submitted order key when one is present. A logged-in user can also resume their
+	 * own pending order for the submitted access plan. Otherwise returns `new`.
 	 *
 	 * @since 7.0.0
 	 *
@@ -387,29 +350,22 @@ class LLMS_Order_Generator {
 
 		$order_id = null;
 		$key      = $this->data['llms_order_key'] ?? null;
-		$email    = $this->data['email_address'] ?? null;
 		$plan_id  = $this->data['llms_plan_id'] ?? null;
 
 		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
 			$order_id = $this->sanitize_retrieved_order_id( llms_get_order_by_key( $key, 'id' ) );
+			if ( $order_id && ! $this->is_order_resumable( $order_id ) ) {
+				$order_id = null;
+			}
 		}
 
-		// Try to lookup by user ID.
-		if ( ! $order_id ) {
-
-			$user_id  = $this->find_user_id( $email );
-			$order_id = $user_id ? $this->sanitize_retrieved_order_id( llms_locate_order_for_user_and_plan( $user_id, $plan_id ) ) : null;
-
-		}
-
-		// Lookup by email address.
-		if ( ! $order_id && $email ) {
-			$order_id = $this->sanitize_retrieved_order_id( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+		// Logged-in buyers can resume their own pending order. Logged-out requests must present the order key.
+		if ( ! $order_id && is_user_logged_in() ) {
+			$order_id = $this->sanitize_retrieved_order_id( llms_locate_order_for_user_and_plan( get_current_user_id(), $plan_id ) );
 		}
 
 		return $order_id ? $order_id : 'new';
-
 	}
 
 	/**
@@ -485,7 +441,24 @@ class LLMS_Order_Generator {
 		$data['user_id'] = $this->student ? $this->student->get( 'id' ) : '';
 
 		return $data;
+	}
 
+	/**
+	 * Determines whether the order located by its key can be resumed by the current request.
+	 *
+	 * An order that has not been assigned to a user yet can be resumed with its key alone.
+	 * An order that already belongs to a user can only be resumed by that same logged-in user.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param integer $order_id The located order ID.
+	 * @return boolean
+	 */
+	private function is_order_resumable( $order_id ) {
+
+		$owner_id = absint( ( new LLMS_Order( $order_id ) )->get( 'user_id' ) );
+
+		return ! $owner_id || get_current_user_id() === $owner_id;
 	}
 
 	/**
@@ -555,7 +528,6 @@ class LLMS_Order_Generator {
 		 * @param boolean|WP_Error $validation_error Halts checkout and returns the supplied error.
 		 */
 		return apply_filters( 'llms_after_generate_order_validation', true );
-
 	}
 
 	/**
@@ -627,7 +599,6 @@ class LLMS_Order_Generator {
 
 		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 		return true;
-
 	}
 
 	/**
@@ -660,7 +631,6 @@ class LLMS_Order_Generator {
 
 		$this->order = $order;
 		return true;
-
 	}
 
 	/**
@@ -692,7 +662,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -716,7 +685,6 @@ class LLMS_Order_Generator {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -749,5 +717,4 @@ class LLMS_Order_Generator {
 
 		return true;
 	}
-
 }

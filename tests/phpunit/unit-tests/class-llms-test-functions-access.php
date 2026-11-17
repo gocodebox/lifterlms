@@ -448,4 +448,75 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test that lessons and quizzes are restricted while their course can't be viewed by the user.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_course_not_viewable() {
+
+		$course_id = $this->generate_mock_courses( 1, 1, 2, 1 )[0];
+		$course    = llms_get_post( $course_id );
+		$lessons   = $course->get_lessons();
+		$lesson_id = $lessons[0]->get( 'id' );
+		$quiz_id   = $course->get_quizzes()[0];
+		$free_id   = $lessons[1]->get( 'id' );
+		$lessons[1]->set( 'free_lesson', 'yes' );
+
+		$student = $this->get_mock_student();
+		$student->enroll( $course_id );
+		wp_set_current_user( $student->get_id() );
+
+		$is_restricted = function ( $post_id ) {
+			$this->go_to( get_permalink( $post_id ) );
+			return llms_page_restricted( $post_id )['is_restricted'];
+		};
+
+		// Published course: the enrolled student can view its lesson and quiz.
+		$this->assertFalse( $is_restricted( $lesson_id ) );
+		$this->assertFalse( $is_restricted( $quiz_id ) );
+
+		foreach ( array( 'draft', 'pending', 'private', 'future', 'trash' ) as $status ) {
+			wp_update_post(
+				array(
+					'ID'            => $course_id,
+					'post_status'   => $status,
+					'post_date'     => 'future' === $status ? gmdate( 'Y-m-d H:i:s', time() + DAY_IN_SECONDS ) : '',
+					'post_date_gmt' => 'future' === $status ? gmdate( 'Y-m-d H:i:s', time() + DAY_IN_SECONDS ) : '',
+				)
+			);
+			$this->assertSame( $status, get_post_status( $course_id ) );
+
+			$this->assertTrue( $is_restricted( $lesson_id ), $status );
+			$this->assertSame( 'course_unavailable', llms_page_restricted( $lesson_id )['reason'], $status );
+			$this->assertSame( $course_id, llms_page_restricted( $lesson_id )['restriction_id'], $status );
+			$this->assertTrue( $is_restricted( $quiz_id ), $status );
+			$this->assertTrue( $is_restricted( $free_id ), $status );
+
+			// Visitors can't view the free lesson either.
+			wp_set_current_user( 0 );
+			$this->assertTrue( $is_restricted( $free_id ), $status );
+			wp_set_current_user( $student->get_id() );
+
+			wp_untrash_post( $course_id );
+		}
+
+		// Users who can read the private course can view its lessons.
+		wp_update_post( array( 'ID' => $course_id, 'post_status' => 'private' ) );
+		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		llms_enroll_student( $admin, $course_id );
+		wp_set_current_user( $admin );
+		$this->assertFalse( $is_restricted( $lesson_id ) );
+
+		// Published again: access is restored, and the free lesson is open to visitors.
+		wp_update_post( array( 'ID' => $course_id, 'post_status' => 'publish' ) );
+		wp_set_current_user( $student->get_id() );
+		$this->assertFalse( $is_restricted( $lesson_id ) );
+		$this->assertFalse( $is_restricted( $quiz_id ) );
+		wp_set_current_user( 0 );
+		$this->assertFalse( $is_restricted( $free_id ) );
+	}
+
 }
