@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed the course builder showing a quiz question's Image switch next to the Video label.

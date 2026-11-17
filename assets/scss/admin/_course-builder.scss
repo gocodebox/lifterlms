@@ -1626,6 +1626,12 @@ body.admin_page_llms-course-builder {
 				.llms-switch {
 					margin-right: 15px;
 				}
+				// Keep each switch beside its own label; at full width it lines up with the next column's label.
+				.llms-editable-toggle-group .llms-switch {
+					display: inline-flex;
+					max-width: 100%;
+					width: auto;
+				}
 			}
 
 			.llms-editable-video {
