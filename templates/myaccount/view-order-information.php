@@ -6,6 +6,7 @@
  *
  * @since 6.0.0
  * @since [version] Made the trial total label filterable via `llms_order_trial_total_label`.
+ *                 Hide the recurring original total and coupon discount when the coupon discount is zero.
  * @version [version]
  *
  * @var LLMS_Order                    $order   Current order object.
@@ -81,7 +82,8 @@ defined( 'ABSPATH' ) || exit;
 				</tr>
 			<?php endif; ?>
 
-			<?php if ( $order->has_discount() ) : ?>
+			<?php $has_recurring_coupon_discount = $order->has_coupon() && $order->get( 'coupon_value' ); ?>
+			<?php if ( $order->has_sale() || $has_recurring_coupon_discount ) : ?>
 				<tr>
 					<th><?php esc_html_e( 'Original Total', 'lifterlms' ); ?></th>
 					<td><?php echo wp_kses( $order->get_price( 'original_total' ), LLMS_ALLOWED_HTML_PRICES ); ?></td>
@@ -97,7 +99,7 @@ defined( 'ABSPATH' ) || exit;
 					</tr>
 				<?php endif; ?>
 
-				<?php if ( $order->has_coupon() ) : ?>
+				<?php if ( $has_recurring_coupon_discount ) : ?>
 					<tr>
 						<th><?php esc_html_e( 'Coupon Discount', 'lifterlms' ); ?></th>
 						<td>
