@@ -43,6 +43,10 @@ define( [], function() {
 			// warn when users attempt to leave the page
 			$( window ).on( 'beforeunload', function() {
 
+				// A focused field holds back its model's changes (see get_changed_attributes()) and only stores its own
+				// value on blur, so blur it first to include those changes.
+				$( document.activeElement ).filter( '.llms-input' ).trigger( 'blur' );
+
 				if ( self.has_unsaved_changes() ) {
 					check_for_changes();
 					return 'Are you sure you want to abandon your changes?';
