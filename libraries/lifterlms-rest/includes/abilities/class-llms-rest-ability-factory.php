@@ -608,7 +608,7 @@ class LLMS_REST_Ability_Factory {
 	 * `properties`, `items`, and `additionalProperties`.
 	 *
 	 * @since 10.1.0
-	 * @since [version] Omit `properties` when it would be empty so it isn't encoded as a JSON list.
+	 * @since 1.1.4 Omit `properties` when it would be empty so it isn't encoded as a JSON list.
 	 *
 	 * @param array $schema A JSON Schema node (or a WP REST arg definition).
 	 * @return array Sanitized schema node.

@@ -275,7 +275,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * time input. Values are read the way `strtotime()` reads them in `LLMS_Lesson::get_available_date()`, and a
 	 * value that can't be read returns an empty string. Matches `get_input_value()` in the Course Builder.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $type  Input type, `date` or `time`.
 	 * @param string $value Stored value.
@@ -316,7 +316,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * the format the Course Builder saves. Anything else, including an empty input, is stored as an empty string;
 	 * an empty time makes the lesson available at 12:00 AM.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param int   $post_id WP Post ID of the lesson.
 	 * @param array $field   Metabox field array.

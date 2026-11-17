@@ -774,7 +774,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() stops checkout when a `llms_before_checkout_validation` callback fails.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -834,7 +834,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order_ajax() rejects gateways that don't support the AJAX checkout.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

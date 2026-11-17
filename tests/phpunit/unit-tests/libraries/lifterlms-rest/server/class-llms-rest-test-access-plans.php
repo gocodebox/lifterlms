@@ -1093,7 +1093,7 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	 *
 	 * WordPress runs the create permission check with the collection request when it computes the `Allow` header.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

@@ -423,7 +423,7 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 	/**
 	 * Test that an object with no properties (e.g. `meta`) doesn't encode `properties` as a JSON list.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/3484
 	 *

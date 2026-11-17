@@ -90,7 +90,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): LifterLMS post types are not skipped outside LifterLMS REST API requests
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -124,7 +124,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Test maybe_restrict_post_content(): for a skipped post type on a LifterLMS REST API request.
 	 *
 	 * @since 3.41.1
-	 * @since [version] Skipped post types are only skipped on LifterLMS REST API requests.
+	 * @since 11.1.0 Skipped post types are only skipped on LifterLMS REST API requests.
 	 *
 	 * @return void
 	 */
@@ -150,7 +150,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): users who can edit the post get its real content.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -498,7 +498,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test lessons listed by a Query Loop block in a page are restricted in the page's REST API response.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

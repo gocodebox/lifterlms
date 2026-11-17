@@ -143,7 +143,7 @@ define( [], function() {
 		 * or other text typed into the lesson metabox are converted the way `strtotime()` reads them on the server.
 		 * A stored value that can't be read displays as empty.
 		 *
-		 * @since [version]
+		 * @since 11.1.0
 		 *
 		 * @param {Object} input Field input data.
 		 * @return {String}

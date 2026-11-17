@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -224,7 +224,7 @@ class LLMS_Question_Choice {
 	 *
 	 * @since 3.16.0
 	 * @since 7.4.1 Check `$type['choices']` is an array before trying to access it as such.
-	 * @since [version] Sanitize the image source URL and ID of image choices.
+	 * @since 11.1.0 Sanitize the image source URL and ID of image choices.
 	 *
 	 * @param string $key Name of the key to set.
 	 * @param mixed  $val Value to set.

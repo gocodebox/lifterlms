@@ -915,7 +915,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 *
 	 * @since 1.0.0-beta.20
 	 * @since 1.0.0-beta-24 Made sure we can update an access plan of a product even if its access plan limit has already been reached.
-	 * @since [version] Skip the check when the product ID is not a single course or membership ID.
+	 * @since 1.1.4 Skip the check when the product ID is not a single course or membership ID.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error

@@ -42,7 +42,7 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * blocks students from changing their progress.
  *
  * @since 10.0.7
- * @since [version] Require the lesson's prerequisites to be complete.
+ * @since 11.1.0 Require the lesson's prerequisites to be complete.
  *
  * @param int             $user_id WP User ID of the student.
  * @param LLMS_Lesson|int $lesson  LLMS_Lesson instance or WP Post ID of a lesson.

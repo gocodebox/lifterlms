@@ -6,7 +6,7 @@
  *
  * @group elementor_migrate
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 
@@ -27,7 +27,7 @@ class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 	/**
 	 * Simulate a request to `post.php?post={id}&action=elementor`.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return void
@@ -84,7 +84,7 @@ class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 	/**
 	 * Meta is written for a user who can edit the course.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Elementor_Migrate extends LLMS_UnitTestCase {
 	 * Meta is not written for a user who has the generic `edit_posts` capability
 	 * but cannot edit the requested course.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

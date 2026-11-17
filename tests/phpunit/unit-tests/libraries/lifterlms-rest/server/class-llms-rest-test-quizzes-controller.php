@@ -279,7 +279,7 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	/**
 	 * Question collection totals for a course's instructors match the questions returned to them.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

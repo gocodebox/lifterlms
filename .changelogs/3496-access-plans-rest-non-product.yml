@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3496"
-entry: Fixed PHP warnings from the access plans REST API endpoint when the requested `post_id` is not a single course or membership.

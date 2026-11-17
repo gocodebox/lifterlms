@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
  * @since 4.0.0 Remove deprecated class methods.
- * @since [version] Sanitize the `image` and `video_src` properties when they are set.
+ * @since 11.1.0 Sanitize the `image` and `video_src` properties when they are set.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -129,7 +129,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.12 Unknown.
-	 * @since [version] Scrub property values before adding them to the post meta input.
+	 * @since 11.1.0 Scrub property values before adding them to the post meta input.
 	 *
 	 * @param array $args Args of data to be passed to wp_insert_post.
 	 * @return array
@@ -698,7 +698,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * Adds sanitization of the image data array on top of the default type-based scrubbing.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $key Property key.
 	 * @param mixed  $val Property value.

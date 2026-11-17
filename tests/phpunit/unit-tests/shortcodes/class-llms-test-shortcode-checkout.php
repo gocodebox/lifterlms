@@ -246,7 +246,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test the checkout form is not displayed for an access plan whose product is not published.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

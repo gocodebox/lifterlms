@@ -1200,7 +1200,7 @@ class LLMS_Table_Orders_Transactions extends LLMS_Admin_Table {
 	 * Trashed orders already drop out of the `any` post status, but their
 	 * transactions keep their own status, so they're excluded here.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $where SQL WHERE clause.
 	 * @return string

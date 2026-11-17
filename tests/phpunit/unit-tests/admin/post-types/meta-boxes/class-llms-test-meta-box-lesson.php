@@ -68,7 +68,7 @@ class LLMS_Test_Meta_Box_Lesson extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the drip date and time inputs show stored values in every stored format and save them in the builder's formats.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

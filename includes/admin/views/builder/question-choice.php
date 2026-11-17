@@ -4,8 +4,8 @@
  *
  * @since   3.16.0
  * @since   10.1.0 Escaped choice content in the original-content attribute.
- * @since   [version] Escaped the image source attribute.
- * @version [version]
+ * @since   11.1.0 Escaped the image source attribute.
+ * @version 11.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

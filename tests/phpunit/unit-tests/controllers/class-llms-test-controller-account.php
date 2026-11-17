@@ -1035,7 +1035,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test that the account update form doesn't change the email address without the current password.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -1082,7 +1082,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Test account update form submission handler
 	 *
 	 * @since 5.0.0
-	 * @since [version] Submit the current password, required when changing the email address.
+	 * @since 11.1.0 Submit the current password, required when changing the email address.
 	 *
 	 * @return void
 	 */

@@ -257,7 +257,7 @@ class LLMS_Template_Loader {
 	 *
 	 * Displays a message without redirecting, since the course itself can't be viewed.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void
@@ -727,7 +727,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
-	 * @since [version] Apply content restriction to LifterLMS post types on non-LifterLMS REST routes and skip it for users who can edit the post.
+	 * @since 11.1.0 Apply content restriction to LifterLMS post types on non-LifterLMS REST routes and skip it for users who can edit the post.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
@@ -794,7 +794,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Determine if the current request is served by the LifterLMS REST API.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return boolean
 	 */
@@ -872,7 +872,7 @@ class LLMS_Template_Loader {
 	 * the LifterLMS REST API. Posts listed inside the item's content (such as by a Query Loop block) are
 	 * filtered while the item's own `the_content` filter is running.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return bool
 	 */

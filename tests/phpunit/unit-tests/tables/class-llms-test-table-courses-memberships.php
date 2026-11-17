@@ -6,14 +6,14 @@
  *
  * @group admin_tables
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Table_Courses_Memberships extends LLMS_UnitTestCase {
 
 	/**
 	 * Load the table classes.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Table_Courses_Memberships extends LLMS_UnitTestCase {
 	/**
 	 * Data provider: table class and product post type.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return array[]
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Table_Courses_Memberships extends LLMS_UnitTestCase {
 	/**
 	 * Test instructor labels are sanitized when saved and escaped in the instructors column.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @dataProvider provider_tables
 	 *
@@ -92,7 +92,7 @@ class LLMS_Test_Table_Courses_Memberships extends LLMS_UnitTestCase {
 	/**
 	 * Test the instructor filter doesn't let an instructor list another instructor's products.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @dataProvider provider_tables
 	 *

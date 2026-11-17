@@ -153,7 +153,7 @@ class LLMS_Elementor_Migrate {
 	 * Migrate posts created prior to the elementor updates to have default LifterLMS widgets.
 	 *
 	 * @since 7.7.0
-	 * @since [version] Only run for posts the current user can edit.
+	 * @since 11.1.0 Only run for posts the current user can edit.
 	 *
 	 * @return  void
 	 */

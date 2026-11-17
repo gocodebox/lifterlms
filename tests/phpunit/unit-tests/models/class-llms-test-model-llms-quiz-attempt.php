@@ -714,7 +714,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Test get_question() only returns questions that belong to the attempt.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

@@ -5,8 +5,8 @@
  * @since 3.16.0
  * @since 3.27.0 Unknown.
  * @since 7.4.0 Escaped strings in labels.
- * @since [version] Escaped image and video source attributes.
- * @version [version]
+ * @since 11.1.0 Escaped image and video source attributes.
+ * @version 11.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

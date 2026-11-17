@@ -67,7 +67,7 @@ class LLMS_Test_Admin_Media_Protection_Attachment_Settings extends LLMS_UnitTest
 	/**
 	 * Test moving an attachment into a protected folder that doesn't exist yet writes the protection files.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Admin_Media_Protection_Attachment_Settings extends LLMS_UnitTest
 	/**
 	 * Test moving a scaled image into the protected folder also moves the original full-size image.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

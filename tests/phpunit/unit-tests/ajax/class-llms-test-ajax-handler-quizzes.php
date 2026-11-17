@@ -305,7 +305,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student cannot start a quiz when its lesson is restricted by the course time period, drip, or a prerequisite.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -354,7 +354,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student cannot finish a quiz attempt after its lesson becomes restricted.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

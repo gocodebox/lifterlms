@@ -108,7 +108,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	/**
 	 * Test modify_query_args() limits instructors to instructors and assistants, including when a role is requested.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

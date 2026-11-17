@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_user_custom_fields
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Admin_User_Custom_Fields extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Saves the profile of `$user_id` as `$current_user_id` submitting `$parent_ids` as parent instructors.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param int   $current_user_id WP_User ID of the user saving the profile.
 	 * @param int   $user_id         WP_User ID of the instructor's assistant being saved.
@@ -37,7 +37,7 @@ class LLMS_Test_Admin_User_Custom_Fields extends LLMS_Unit_Test_Case {
 	/**
 	 * Test who can set an instructor's assistant's parent instructors.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

@@ -87,7 +87,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
 	 * @since 3.30.3 Removed duplicate array keys.
 	 * @since 3.36.0 Allow some fields to store values with quotes.
-	 * @since [version] Restrict auto-enrollment fields to users with `manage_lifterlms` capability.
+	 * @since 11.1.0 Restrict auto-enrollment fields to users with `manage_lifterlms` capability.
 	 *
 	 * @return array
 	 */

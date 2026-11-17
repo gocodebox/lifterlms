@@ -451,7 +451,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * Test that lessons and quizzes are restricted while their course can't be viewed by the user.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

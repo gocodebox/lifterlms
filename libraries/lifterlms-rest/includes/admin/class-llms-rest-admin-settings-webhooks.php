@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page: REST API: Webhooks
  *
  * @since 1.0.0-beta.1
- * @since [version] Explain the status of a webhook disabled by delivery failures.
+ * @since 1.1.4 Explain the status of a webhook disabled by delivery failures.
  */
 class LLMS_Rest_Admin_Settings_Webhooks {
 

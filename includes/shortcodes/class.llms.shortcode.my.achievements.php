@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 3.14.1
- * @version [version]
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,7 +48,7 @@ class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @since 3.14.1
-	 * @since [version] Only output another user's achievements when the current user can view that student.
+	 * @since 11.1.0 Only output another user's achievements when the current user can view that student.
 	 *
 	 * @return string
 	 */

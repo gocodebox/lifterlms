@@ -9,14 +9,14 @@
  * @group metaboxes
  * @group metaboxes_post_type
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Meta_Box_Membership extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Meta_Box_Membership extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test screens property.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Meta_Box_Membership extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test get_fields() includes Auto Enrollment tab for users with manage_lifterlms capability.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Test_Meta_Box_Membership extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test get_fields() omits Auto Enrollment tab for users without manage_lifterlms capability.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

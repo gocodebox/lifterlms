@@ -110,7 +110,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_admin_managment_forms() as an instructor, for enrolled and non-enrolled students.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

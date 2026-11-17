@@ -87,7 +87,7 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 *
 	 * Lets the total count query of {@see LLMS_REST_Controller::get_items()} reuse the IDs instead of checking every post again.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @var array
 	 */

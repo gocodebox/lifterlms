@@ -425,7 +425,7 @@ class LLMS_AJAX_Handler {
 	 * the lesson must not be restricted by drip settings or prerequisites.
 	 *
 	 * @since 10.0.2
-	 * @since [version] Check the course time period and the lesson's drip and prerequisite restrictions.
+	 * @since 11.1.0 Check the course time period and the lesson's drip and prerequisite restrictions.
 	 *
 	 * @param LLMS_Student $student   Student object.
 	 * @param int          $lesson_id WP Post ID of the lesson.
@@ -1330,7 +1330,7 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
-	 * @since [version] Require `manage_lifterlms` capability.
+	 * @since 11.1.0 Require `manage_lifterlms` capability.
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true

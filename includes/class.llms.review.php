@@ -198,7 +198,7 @@ class LLMS_Reviews {
 	 * this output is generated. `strip_shortcodes()` turns an escaped `[[shortcode]]` into
 	 * `[shortcode]`, so it runs until nothing is left to strip.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $text Review text.
 	 * @return string

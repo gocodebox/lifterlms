@@ -151,7 +151,7 @@ define( [
 		/**
 		 * Re-renders the toggle group of a feature switch, such as the image or video settings, without re-rendering the question.
 		 *
-		 * @since [version]
+		 * @since 11.1.0
 		 *
 		 * @param {String} name Name attribute of the feature's switch input.
 		 * @return {Void}

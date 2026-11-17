@@ -109,7 +109,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Do not allow submitting a password change without providing a `password_current`
-	 * @since [version] Do not allow submitting an email address change without providing a `password_current`
+	 * @since 11.1.0 Do not allow submitting an email address change without providing a `password_current`
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.

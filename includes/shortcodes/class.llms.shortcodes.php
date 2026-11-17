@@ -419,7 +419,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.1 Unknown.
-	 * @since [version] Only output info of courses the current user can view.
+	 * @since 11.1.0 Only output info of courses the current user can view.
 	 *
 	 * @param array $atts Array of user-submitted shortcode attributes.
 	 * @return string

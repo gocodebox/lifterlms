@@ -1649,7 +1649,7 @@ class LLMS_REST_Test_Courses extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * The edit context collection lists only the courses the current user can edit.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

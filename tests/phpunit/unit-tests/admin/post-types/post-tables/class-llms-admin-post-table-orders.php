@@ -8,14 +8,14 @@
  * @group post_tables
  * @group post_table_orders
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Admin_Post_Table_Orders extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up before class.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Admin_Post_Table_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test manage_columns() shows a trashed order's status from before it was trashed.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

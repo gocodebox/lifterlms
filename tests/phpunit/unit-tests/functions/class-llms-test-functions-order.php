@@ -374,7 +374,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Access plans for an unpublished product cannot be purchased.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

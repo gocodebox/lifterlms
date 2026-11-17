@@ -94,7 +94,7 @@ class LLMS_Test_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test that only logged-in users enrolled in a course with reviews enabled can write a review.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_Test_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test that the review form is only output for students enrolled in the course.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -172,7 +172,7 @@ class LLMS_Test_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test that shortcodes in a review's title, content, and author name are stripped when the course content is output.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

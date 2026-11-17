@@ -231,7 +231,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test that the course info shortcode only outputs info the current user can view.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test that the course info shortcode escapes date output.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

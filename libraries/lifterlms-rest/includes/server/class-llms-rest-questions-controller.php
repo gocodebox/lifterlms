@@ -123,7 +123,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * through {@see LLMS_REST_Questions_Controller::check_read_permission()},
 	 * since `edit_question` does not resolve every candidate to its course.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param array $query_args Collection query arguments.
 	 * @return int[]|null
@@ -185,7 +185,7 @@ class LLMS_REST_Questions_Controller extends LLMS_REST_Posts_Controller {
 	 * The quiz is added here, before {@see LLMS_REST_Posts_Controller::limit_query_to_readable_posts()}
 	 * runs, so the readable questions are only computed for the questions of that quiz.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param array           $prepared_args Array of collection arguments.
 	 * @param WP_REST_Request $request       Request object.

@@ -209,7 +209,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{STUDENT_FULL_NAME}} merge code.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string

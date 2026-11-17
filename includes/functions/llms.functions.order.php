@@ -312,7 +312,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
  *
  * @since 10.0.8
- * @since [version] Require a published product.
+ * @since 11.1.0 Require a published product.
  *
  * @param LLMS_Access_Plan $plan    The access plan being purchased.
  * @param int|null         $user_id Optional. WP_User ID of the purchasing user. Defaults to the current user.

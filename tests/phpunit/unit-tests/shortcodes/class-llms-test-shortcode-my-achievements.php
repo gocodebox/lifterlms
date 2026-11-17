@@ -7,7 +7,7 @@
  * @group shortcodes
  * @group shortcode_my_achievements
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Shortcode_My_Achievements extends LLMS_ShortcodeTestCase {
 
@@ -21,7 +21,7 @@ class LLMS_Test_Shortcode_My_Achievements extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test that another user's achievements are only output to users who can view that student.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

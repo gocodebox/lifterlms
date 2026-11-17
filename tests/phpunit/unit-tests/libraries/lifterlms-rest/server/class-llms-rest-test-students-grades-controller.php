@@ -237,7 +237,7 @@ class LLMS_REST_Test_Students_Grades_Controller extends LLMS_REST_Unit_Test_Case
 	/**
 	 * Test users who cannot view others' reports only get grades for courses they can edit.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

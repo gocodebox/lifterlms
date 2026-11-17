@@ -242,7 +242,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * libxml2 < 2.14 wraps bare body text in an implied `<p>` element and encodes non-ASCII characters
 	 * as entities, while newer versions don't add the `<p>` and may output the characters as UTF-8.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $html HTML string.
 	 * @return string

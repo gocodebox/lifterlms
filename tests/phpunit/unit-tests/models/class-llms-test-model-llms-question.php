@@ -11,7 +11,7 @@
  * @since 3.16.12
  * @since 3.30.1 Added more tests for `get_next_choice_marker()` and `get_choices()`
  * @since 4.4.0 Add tests for the `grade()` method.
- * @since [version] Add tests for image, video, and image choice sanitization.
+ * @since 11.1.0 Add tests for image, video, and image choice sanitization.
  */
 class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
@@ -139,7 +139,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test that image and video source data is sanitized when set and when a question is created.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

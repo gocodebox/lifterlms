@@ -593,7 +593,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test that LLMS_AJAX_Handler::select2_query_posts() only returns quizzes and questions the user can edit.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -975,7 +975,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 *
 	 * Only users with `manage_lifterlms` and `edit_membership` capabilities can save auto-enroll courses.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

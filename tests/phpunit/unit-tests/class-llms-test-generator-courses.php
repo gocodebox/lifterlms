@@ -118,7 +118,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test clone_course() gives the clone its own copies of media protected to the original course and its quizzes.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

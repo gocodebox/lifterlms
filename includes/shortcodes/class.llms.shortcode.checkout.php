@@ -193,7 +193,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 7.0.0 Fixed unclosed `div.llms-checkout-wrapper` on empty cart.
 	 * @since 7.0.1 Fixed issue encountered when trying to confirm payment for a non-existent order.
-	 * @since [version] Require a published product.
+	 * @since 11.1.0 Require a published product.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void

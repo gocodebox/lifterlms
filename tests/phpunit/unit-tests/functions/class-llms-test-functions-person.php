@@ -131,7 +131,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_enroll_student() refuses to enroll without a user.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_unenroll_student() and llms_delete_student_enrollment() don't fall back to the current user without a user.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

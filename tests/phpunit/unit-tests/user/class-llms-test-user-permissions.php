@@ -150,7 +150,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the `promote_user` capability follows the same rules as `edit_user`.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

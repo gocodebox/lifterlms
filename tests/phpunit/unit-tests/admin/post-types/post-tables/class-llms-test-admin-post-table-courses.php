@@ -8,14 +8,14 @@
  * @group post_tables
  * @group post_table_courses
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Admin_Post_Table_Courses extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up before class.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Admin_Post_Table_Courses extends LLMS_UnitTestCase {
 	 *
 	 * Runs in a separate process because the export sends headers.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

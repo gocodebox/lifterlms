@@ -443,7 +443,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submitting an email address change without providing, or with wrong current password
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -493,7 +493,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submitting an account update with an unchanged email address and no current password
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
