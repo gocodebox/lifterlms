@@ -8,7 +8,8 @@
  * @since 5.4.0 Inform about deleted products.
  * @since 6.1.0 Add validation to the remaining payments input.
  *              Allow the number of remaining payments to be `0` for already-completed payment plans.
- * @version 7.0.0
+ * @since [version] Hide the recurring original total and coupon discount when the coupon discount is zero.
+ * @version [version]
  *
  * @property LLMS_Order           $order                     Order object.
  * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.
@@ -146,7 +147,8 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 			<?php endif; ?>
 		</h4>
 
-		<?php if ( $order->has_discount() ) : ?>
+		<?php $has_recurring_coupon_discount = $order->has_coupon() && $order->get( 'coupon_value' ); ?>
+		<?php if ( $order->has_sale() || $has_recurring_coupon_discount ) : ?>
 			<div class="llms-metabox-field">
 				<label><?php esc_html_e( 'Original Total:', 'lifterlms' ); ?></label>
 				<?php echo wp_kses( $order->get_price( 'original_total' ), LLMS_ALLOWED_HTML_PRICES ); ?>
@@ -160,7 +162,7 @@ $supports_modify_recurring_payments = $order->supports_modify_recurring_payments
 				</div>
 			<?php endif; ?>
 
-			<?php if ( $order->has_coupon() ) : ?>
+			<?php if ( $has_recurring_coupon_discount ) : ?>
 				<div class="llms-metabox-field">
 					<label><?php esc_html_e( 'Coupon Discount:', 'lifterlms' ); ?></label>
 					<?php echo wp_kses( $order->get_coupon_amount( 'regular' ), LLMS_ALLOWED_HTML_PRICES ); ?>

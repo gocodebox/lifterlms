@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: "The admin order details no longer show the recurring original total and a $0.00 coupon discount when the coupon does not discount recurring payments, such as a coupon that only discounts the first payment."
