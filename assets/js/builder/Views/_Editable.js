@@ -116,6 +116,11 @@ define( [], function() {
 				return false;
 			}
 
+			// A partly filled date or time input has an empty value, and a date can be out of range; keep the previous value.
+			if ( -1 !== [ 'date', 'time' ].indexOf( $el.attr( 'type' ) ) && ! $el[0].validity.valid ) {
+				return false;
+			}
+
 			if ( 'url' === type || 'video' === type ) {
 				if ( ! this._validate_url( this.get_content( $el ) ) ) {
 					return false;
@@ -616,7 +621,14 @@ define( [], function() {
 		save_edits: function( event ) {
 
 			var $el = $( event.target ),
-				val = this.get_content( $el );
+				val = this.get_content( $el ),
+				hour;
+
+			// Time inputs return 24-hour `H:i`; keep storing times as `h:i A`, the format the builder has always saved.
+			if ( 'time' === $el.attr( 'type' ) && val ) {
+				hour = parseInt( val, 10 );
+				val  = ( '0' + ( hour % 12 || 12 ) ).slice( -2 ) + val.substr( 2, 3 ) + ( hour < 12 ? ' AM' : ' PM' );
+			}
 
 			this.model.set( $el.attr( 'data-attribute' ), val );
 
