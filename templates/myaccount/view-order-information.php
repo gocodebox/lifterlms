@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 6.0.0
- * @since [version] Made the trial total label filterable via `llms_order_trial_label`.
+ * @since [version] Made the trial total label filterable via `llms_order_trial_total_label`.
  * @version [version]
  *
  * @var LLMS_Order                    $order   Current order object.
