@@ -60,7 +60,10 @@ class LLMS_Blocks_Migrate {
 
 	/**
 	 * Don't remove core template actions when a sales page is enabled and the page is restricted.
-
+	 *
+	 * The sales page (the post excerpt) only replaces the post's blocks when it has content, see `llms_get_post_sales_page_content()`.
+	 * Without an excerpt the blocks are displayed, so the template actions are still removed.
+	 *
 	 * @since 1.2.0
 	 * @since 1.3.1 Unknown.
 	 *
@@ -71,7 +74,7 @@ class LLMS_Blocks_Migrate {
 	public static function check_sales_page( $ret, $post_id ) {
 
 		$page_restricted = llms_page_restricted( $post_id );
-		if ( $page_restricted['is_restricted'] ) {
+		if ( $page_restricted['is_restricted'] && get_post_field( 'post_excerpt', $post_id ) ) {
 			$sales_page = get_post_meta( $post_id, '_llms_sales_page_content_type', true );
 			if ( '' === $sales_page || 'content' === $sales_page ) {
 				$ret = false;
