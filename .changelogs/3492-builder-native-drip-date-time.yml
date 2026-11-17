@@ -1,5 +1,5 @@
 significance: patch
 type: fixed
-entry: Fixed course builder lesson drip dates and times saving invalid values or changing on scroll by using standard date and time fields.
+entry: Fixed lesson drip dates and times in the course builder and lesson settings saving invalid values or changing on scroll by using standard date and time fields.
 links:
   - "#3492"
