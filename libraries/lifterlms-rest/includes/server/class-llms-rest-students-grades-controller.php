@@ -134,18 +134,39 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 		$student    = llms_get_student( $student_id );
 		$page       = isset( $prepared['page'] ) ? max( 1, absint( $prepared['page'] ) ) : 1;
 		$per_page   = isset( $prepared['per_page'] ) ? absint( $prepared['per_page'] ) : 10;
+		$enrollment = array(
+			'limit'   => $per_page,
+			'skip'    => ( $page - 1 ) * $per_page,
+			'orderby' => isset( $prepared['orderby'] ) ? $prepared['orderby'] : 'date',
+			'order'   => isset( $prepared['order'] ) ? strtoupper( $prepared['order'] ) : 'DESC',
+		);
 
-		if ( ! empty( $prepared['course'] ) ) {
+		// Users other than the student who cannot view others' reports only see courses they can edit.
+		$restricted = get_current_user_id() !== $student_id && ! current_user_can( 'view_others_lifterlms_reports' );
+
+		if ( ! empty( $prepared['course'] ) || $restricted ) {
+
+			if ( ! empty( $prepared['course'] ) ) {
+				$course_ids = array_map( 'absint', $prepared['course'] );
+			} else {
+				$enrollment['limit'] = PHP_INT_MAX;
+				$enrollment['skip']  = 0;
+				$course_ids          = array_map( 'absint', $student->get_courses( $enrollment )['results'] );
+			}
 
 			$course_ids = array_values(
 				array_filter(
-					array_map( 'absint', $prepared['course'] ),
-					function ( $course_id ) use ( $student_id ) {
+					$course_ids,
+					function ( $course_id ) use ( $student_id, $restricted ) {
 						if ( 'course' !== get_post_type( $course_id ) ) {
 							return false;
 						}
 
-						return llms_is_user_enrolled( $student_id, $course_id ) || current_user_can( 'edit_post', $course_id );
+						if ( current_user_can( 'edit_post', $course_id ) ) {
+							return true;
+						}
+
+						return ! $restricted && llms_is_user_enrolled( $student_id, $course_id );
 					}
 				)
 			);
@@ -155,14 +176,7 @@ class LLMS_REST_Students_Grades_Controller extends LLMS_REST_Controller {
 
 		} else {
 
-			$enrollments = $student->get_courses(
-				array(
-					'limit'   => $per_page,
-					'skip'    => ( $page - 1 ) * $per_page,
-					'orderby' => isset( $prepared['orderby'] ) ? $prepared['orderby'] : 'date',
-					'order'   => isset( $prepared['order'] ) ? strtoupper( $prepared['order'] ) : 'DESC',
-				)
-			);
+			$enrollments = $student->get_courses( $enrollment );
 
 			$found      = absint( $enrollments['found'] );
 			$course_ids = array_map( 'absint', $enrollments['results'] );

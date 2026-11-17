@@ -58,6 +58,17 @@
 					self.export( $table, $( this ) );
 				} );
 
+				$table.on( 'change', 'thead .llms-table-select-all', function() {
+					$table.find( 'tbody td.cb input[type="checkbox"]' ).prop( 'checked', this.checked );
+				} );
+
+				// Rows that share a value (e.g. transactions of one order) select the same item, so keep them in sync.
+				$table.on( 'change', 'tbody td.cb input[type="checkbox"]', function() {
+					var $boxes = $table.find( 'tbody td.cb input[type="checkbox"]' );
+					$boxes.filter( '[value="' + this.value + '"]' ).prop( 'checked', this.checked );
+					$table.find( 'thead .llms-table-select-all' ).prop( 'checked', $boxes.length === $boxes.filter( ':checked' ).length );
+				} );
+
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
 					e.preventDefault();
 					self.change_order( $table, $( this ) );

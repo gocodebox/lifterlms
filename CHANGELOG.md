@@ -1,6 +1,58 @@
 LifterLMS Changelog
 ===================
 
+v11.1.0 - 2026-11-17
+--------------------
+
+##### New Features
+
++ Added the `{{STUDENT_FULL_NAME}}` notification merge code, which always outputs the student's name. The `{{STUDENT_NAME}}` merge code is unchanged and still outputs "you" when a student views their own notification. [#1557](https://github.com/gocodebox/lifterlms/issues/1557)
++ Added bulk Move to Trash to the Subscriptions screen. [#3466](https://github.com/gocodebox/lifterlms/issues/3466)
++ Failed webhook deliveries are retried on a delay before the webhook is disabled, and an admin notice explains when a webhook has been disabled. [#3247](https://github.com/gocodebox/lifterlms/issues/3247)
++ Added a bulk "Move to Trash" action to the Orders & Transactions screen.
+
+##### Updates and Enhancements
+
++ Restrict membership auto-enroll course editing to administrators and LMS managers. [#3441](https://github.com/gocodebox/lifterlms/issues/3441)
++ Changing the account email address now requires the current password.
+
+##### Bug Fixes
+
++ Fixed the "Update Payment Method" and "Reactivate Subscription" buttons missing from a student's subscription when its access plan was permanently deleted. [#3433](https://github.com/gocodebox/lifterlms/issues/3433)
++ The My Grades summary widgets wrap onto more rows on small screens, and the grades table scrolls within its own area instead of widening the page. [#3462](https://github.com/gocodebox/lifterlms/issues/3462)
++ The Orders & Transactions and Subscriptions screens and their exports show each order's access status again ("Expires: <date>", "Expired: <date>", or "Lifetime Access"), as the Orders screen did before 11.0.0. [#3465](https://github.com/gocodebox/lifterlms/issues/3465)
++ On the Orders & Transactions and Subscriptions screens, the filters no longer sit flush against the LifterLMS header, and going back to the page no longer shows a filter or search value that the table isn't using. [#3467](https://github.com/gocodebox/lifterlms/issues/3467)
++ Fixed lesson drip dates and times in the course builder and lesson settings saving invalid values or changing on scroll by using standard date and time fields. [#3492](https://github.com/gocodebox/lifterlms/issues/3492)
++ Fixed course builder settings toggling when clicking the empty space next to a setting's label, and added more space between a quiz question's Description, Image, and Video settings.
++ Fixed PHP warnings from the access plans REST API endpoint when the requested `post_id` is not a single course or membership. [#3496](https://github.com/gocodebox/lifterlms/issues/3496)
++ Fixed the create and update course and lesson abilities being rejected by MCP clients because the `meta` input schema encoded its empty `properties` as a JSON list. [#3484](https://github.com/gocodebox/lifterlms/issues/3484)
++ Fixed a quiz question's description editor flashing in the course builder when the question's Image or Video setting is toggled.
++ Fixed the certificate template editor crashing with "The editor has encountered an unexpected error." when the Certificate Title block is hidden or not available in the block inserter.
++ When cloning a course, media protected to the course or its quizzes is copied and protected to the new course, and the new course's content and quizzes use the copies.
++ Fixed merge codes being added to the end of text fields, such as a notification's title or an email's subject, instead of where the cursor is.
++ Fixed the Orders & Transactions screen timing out on large stores while the 11.0.0 database update is still pending.
++ Fixed the Payment Status column showing "trash" for orders in the Trash. It now shows the order's status from before it was trashed.
++ Fixed a PHP warning when exporting a student's personal data, and the missing description for their quiz attempt data in the export. [#3476](https://github.com/gocodebox/lifterlms/issues/3476)
++ Course and lesson videos using `youtube.com/embed/` or `youtube-nocookie.com/embed/` URLs now display a video player instead of a link. `youtube-nocookie.com` URLs keep YouTube's Privacy Enhanced Mode.
+
+##### Breaking Changes
+
++ Removed the Beta Testing tab from the LifterLMS Status screen.
+
+##### Performance Improvements
+
++ Improved the speed of the awarded certificates and achievements lists, which could time out on sites with a lot of student data.
++ When cloning or importing content, featured images and quiz image choices from the same site are copied on the server instead of downloaded again.
+
+##### Security Fixes
+
++ Additional security enhancements.
+
+##### Updated Templates
+
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/11.1.0/templates/checkout/form-switch-source.php)
+
+
 v11.0.1 - 2026-11-04
 --------------------
 

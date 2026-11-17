@@ -314,7 +314,7 @@ class LLMS_AJAX_Handler {
 
 				}
 
-				$post->set_instructors( $instructors );
+				$instructors = $post->set_instructors( $instructors );
 
 				break;
 
@@ -421,8 +421,11 @@ class LLMS_AJAX_Handler {
 	 * Users with the `manage_lifterlms` capability bypass enrollment checks.
 	 * When a quiz_id is provided, also validates that the lesson actually owns
 	 * that quiz to prevent authorization bypass via user-controlled keys.
+	 * The lesson must also be available to the student: the course must be open and
+	 * the lesson must not be restricted by drip settings or prerequisites.
 	 *
 	 * @since 10.0.2
+	 * @since 11.1.0 Check the course time period and the lesson's drip and prerequisite restrictions.
 	 *
 	 * @param LLMS_Student $student   Student object.
 	 * @param int          $lesson_id WP Post ID of the lesson.
@@ -452,6 +455,28 @@ class LLMS_AJAX_Handler {
 
 		if ( ! $student->is_enrolled( $course->get( 'id' ) ) ) {
 			return new WP_Error( 403, __( 'You must be enrolled in this course to take this quiz.', 'lifterlms' ) );
+		}
+
+		// Apply the same course time period, drip, and prerequisite restrictions as the quiz page.
+		$lesson_id   = $lesson->get( 'id' );
+		$user_id     = $student->get( 'id' );
+		$restriction = array( 'content_id' => $lesson_id );
+		if ( llms_is_post_restricted_by_time_period( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'course_time_period';
+			$restriction['restriction_id'] = $course->get( 'id' );
+		} elseif ( llms_is_post_restricted_by_drip_settings( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'lesson_drip';
+			$restriction['restriction_id'] = $lesson_id;
+		} else {
+			$prereq = llms_is_post_restricted_by_prerequisite( $lesson_id, $user_id );
+			if ( $prereq ) {
+				$restriction['reason']         = $prereq['type'] . '_prerequisite';
+				$restriction['restriction_id'] = $prereq['id'];
+			}
+		}
+
+		if ( isset( $restriction['reason'] ) ) {
+			return new WP_Error( 403, wp_strip_all_tags( llms_get_restriction_message( $restriction ) ) );
 		}
 
 		return true;
@@ -1093,7 +1118,9 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $posts as $post ) {
 
-			if ( ! current_user_can( 'read_post', $post->ID ) ) {
+			// Published quizzes and questions are readable by anyone, but their content is limited to users who can edit them.
+			$cap = in_array( $post->post_type, array( 'llms_quiz', 'llms_question' ), true ) ? 'edit_post' : 'read_post';
+			if ( ! current_user_can( $cap, $post->ID ) ) {
 				continue;
 			}
 
@@ -1303,6 +1330,7 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
+	 * @since 11.1.0 Require `manage_lifterlms` capability.
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true
@@ -1314,7 +1342,7 @@ class LLMS_AJAX_Handler {
 			wp_die();
 		}
 
-		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
 			wp_die();
 		}
 

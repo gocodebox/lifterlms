@@ -77,16 +77,10 @@ function applyBlockVisualFixes() {
  *
  * @since 6.0.0
  *
- * @see {@link https://github.com/WordPress/gutenberg/issues/37540}
- *
  * @return {boolean} Returns `true` if the post has the block and `false` if it doesn't.
  */
 function hasCertificateTitle() {
-	const { getInserterItems } = select( blockEditorStore );
-
-	// Using this method in favor of `canInsertBlockType()` due to this: https://github.com/WordPress/gutenberg/issues/37540.
-	const { isDisabled } = getInserterItems().find( ( { name } ) => 'llms/certificate-title' === name );
-	return isDisabled;
+	return select( blockEditorStore ).getGlobalBlockCount( 'llms/certificate-title' ) > 0;
 }
 
 /**

@@ -6,7 +6,8 @@
  * @since 3.24.0 Unknown.
  * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
  * @since 10.2.1 Allow settings selects to be rendered disabled.
- * @version 10.2.1
+ * @since 11.1.0 Escaped input field values.
+ * @version 11.1.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -133,7 +134,7 @@ defined( 'ABSPATH' ) || exit;
 										<input
 											class="llms-input standard"
 											data-attribute="{{{ input.attribute }}}"
-											data-original-content="{{{ data.model.get( input.attribute ) }}}"
+											data-original-content="{{ data.get_input_value( input ) }}"
 											<# if ( 'datepicker' === input.type ) { #>
 												<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
 												<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
@@ -144,7 +145,7 @@ defined( 'ABSPATH' ) || exit;
 											name="{{{ input.attribute }}}"
 											<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
 											type="{{{ input.input_type }}}"
-											value="{{{ data.model.get( input.attribute ) }}}"
+											value="{{ data.get_input_value( input ) }}"
 										>
 										<# if ( input.input_description ) { #>
 											<small class="llms-description">{{{ input.input_description }}}</small>

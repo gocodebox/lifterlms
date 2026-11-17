@@ -638,6 +638,8 @@ body.admin_page_llms-course-builder {
 			display: flex;
 			gap: 12px;
 			justify-content: space-between;
+			// Only the label text, help icon, and switch toggle the setting, not the empty space between them.
+			pointer-events: none;
 			width: 100%;
 
 			.llms-label {
@@ -646,9 +648,29 @@ body.admin_page_llms-course-builder {
 				width: auto;
 			}
 
+			.llms-label-text {
+				flex: 0 1 auto;
+			}
+
+			.llms-help-tip {
+				margin-left: auto;
+			}
+
+			.llms-label-text,
+			.llms-help-tip,
+			.llms-switch-slider {
+				pointer-events: auto;
+			}
+
 			.llms-switch-slider {
 				flex-shrink: 0;
 			}
+		}
+
+		// Question toggle labels are plain text without a help icon, so the label itself only spans its text.
+		&.llms-editable-toggle-group .llms-switch .llms-label {
+			flex: 0 1 auto;
+			pointer-events: auto;
 		}
 
 		.llms-editable-image,
@@ -1622,6 +1644,10 @@ body.admin_page_llms-course-builder {
 				margin: 10px 0 0;
 				&:last-child {
 					margin: 0;
+				}
+				// Keep each switch well away from the next setting's label.
+				.llms-settings-row {
+					column-gap: 48px;
 				}
 				.llms-switch {
 					margin-right: 15px;

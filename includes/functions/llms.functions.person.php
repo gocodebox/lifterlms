@@ -133,6 +133,12 @@ function llms_current_user_can( $cap, $obj_id = null ) {
  * @return bool Whether or not the enrollment records have been successfully removed.
  */
 function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
+
+	// Without a user, `LLMS_Student` would fall back to the current user.
+	if ( ! $user_id ) {
+		return false;
+	}
+
 	$student = new LLMS_Student( $user_id );
 	return $student->delete_enrollment( $product_id, $trigger );
 }
@@ -178,6 +184,12 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10 );
  * @return bool
  */
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
+
+	// Without a user, `LLMS_Student` would fall back to the current user (or write an enrollment for user ID 0).
+	if ( ! $user_id ) {
+		return false;
+	}
+
 	$student = new LLMS_Student( $user_id );
 	return $student->enroll( $product_id, $trigger );
 }
@@ -542,6 +554,12 @@ add_action( 'wp_login', 'llms_set_user_login_time', 10, 2 );
  * @return bool
  */
 function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', $trigger = 'any' ) {
+
+	// Without a user, `LLMS_Student` would fall back to the current user.
+	if ( ! $user_id ) {
+		return false;
+	}
+
 	$student = new LLMS_Student( $user_id );
 	return $student->unenroll( $product_id, $trigger, $new_status );
 }
