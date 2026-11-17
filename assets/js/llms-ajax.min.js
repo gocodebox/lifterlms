@@ -1,0 +1,2 @@
+function Ajax(t,a,c){this.type=t,this.data=a,this.cache=c,this.dataType="json",this.url=window.ajaxurl||window.llms.ajaxurl}Ajax.prototype.check_voucher_duplicate=function(){jQuery.ajax({type:this.type,url:this.url,data:this.data,cache:this.cache,dataType:this.dataType,success:function(t){llms_on_voucher_duplicate(t.duplicates)}})};
+//# sourceMappingURL=../maps/js/llms-ajax.min.js.map

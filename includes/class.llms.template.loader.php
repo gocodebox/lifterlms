@@ -74,6 +74,7 @@ class LLMS_Template_Loader {
 				'course_prerequisite',
 				'course_track_prerequisite',
 				'course_time_period',
+				'course_unavailable',
 				'enrollment_lesson',
 				'lesson_drip',
 				'lesson_prerequisite',
@@ -248,6 +249,22 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_time_period_redirect', $redirect, $info ),
 			'notice'
 		);
+	}
+
+	/**
+	 * Handle messages when a user attempts to access a lesson or quiz of a course they can't view,
+	 * such as a draft, private, or trashed course.
+	 *
+	 * Displays a message without redirecting, since the course itself can't be viewed.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param array $info Array of restriction info from `llms_page_restricted()`.
+	 * @return void
+	 */
+	public function restricted_by_course_unavailable( $info ) {
+
+		$this->handle_restriction( llms_get_restriction_message( $info ), '', 'error' );
 	}
 
 	/**
@@ -693,6 +710,15 @@ class LLMS_Template_Loader {
 	public function maybe_prepare_post_content_restriction() {
 		// Fired on `setup_postdata()` see `WP_REST_Posts_Controller::prepare_item_for_response()`.
 		add_action( 'the_post', array( $this, 'maybe_restrict_post_content' ), 9999, 2 );
+
+		/*
+		 * REST requests never fire `template_redirect`, so restrict the content of posts listed inside the content
+		 * of a REST response item, such as lessons listed by a Query Loop block. `rest_api_init` also fires when
+		 * the block editor preloads REST responses in the admin.
+		 */
+		if ( llms_is_rest() ) {
+			$this->maybe_prepare_listed_content_restriction();
+		}
 	}
 
 	/**
@@ -701,6 +727,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
+	 * @since 11.1.0 Apply content restriction to LifterLMS post types on non-LifterLMS REST routes and skip it for users who can edit the post.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
@@ -708,7 +735,13 @@ class LLMS_Template_Loader {
 	 */
 	public function maybe_restrict_post_content( $post, $query ) {
 
-		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) ) {
+		// LifterLMS post types are restricted by the LifterLMS REST API on its own routes.
+		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) && $this->is_llms_rest_request() ) {
+			return;
+		}
+
+		// Users who can edit the post must get its real content, otherwise saving it from the editor would overwrite it with the restriction message.
+		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			return;
 		}
 
@@ -756,6 +789,23 @@ class LLMS_Template_Loader {
 				'llms_my_certificate',
 			)
 		);
+	}
+
+	/**
+	 * Determine if the current request is served by the LifterLMS REST API.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return boolean
+	 */
+	private function is_llms_rest_request() {
+
+		global $wp;
+
+		// The REST route is parsed into the main `WP` object, as read by `rest_api_loaded()`.
+		$route = ! empty( $wp->query_vars['rest_route'] ) ? $wp->query_vars['rest_route'] : '';
+
+		return ! empty( $route ) && 0 === strpos( $route, '/llms/' );
 	}
 
 	/**
@@ -816,12 +866,40 @@ class LLMS_Template_Loader {
 	}
 
 	/**
+	 * Determine whether the content or excerpt being filtered belongs to the item of a REST response.
+	 *
+	 * The item itself is restricted by `maybe_restrict_post_content()` or, for LifterLMS post types, by
+	 * the LifterLMS REST API. Posts listed inside the item's content (such as by a Query Loop block) are
+	 * filtered while the item's own `the_content` filter is running.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return bool
+	 */
+	private function is_rest_item_content() {
+
+		global $wp_current_filter;
+
+		if ( ! llms_is_rest() ) {
+			return false;
+		}
+
+		$depth = count( array_keys( $wp_current_filter, 'the_content', true ) );
+		if ( 'the_content' === current_filter() ) {
+			--$depth;
+		}
+
+		return $depth < 1;
+	}
+
+	/**
 	 * Replace the content or excerpt of a membership-restricted listed post with the restriction message.
 	 *
 	 * Runs on the `the_content` and `get_the_excerpt` filters: `get_the_content()` reads the global
 	 * `$pages` array and a stored excerpt never passes through `the_content`, so the strings must be
 	 * replaced here. The queried post of a singular request is skipped since the template loader
-	 * already handles it, as are the other LifterLMS post types, whose listings show their public content.
+	 * already handles it, as is the item of a REST response (see `is_rest_item_content()`), and so
+	 * are the other LifterLMS post types, whose listings show their public content.
 	 *
 	 * Lessons and quizzes are checked as their own (singular) page would be. For other posts the
 	 * membership helpers are called directly because `llms_page_restricted()` only applies
@@ -842,7 +920,7 @@ class LLMS_Template_Loader {
 
 		$post_id = $post instanceof WP_Post ? $post->ID : get_the_ID();
 
-		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) ) {
+		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) || $this->is_rest_item_content() ) {
 			return $content;
 		}
 

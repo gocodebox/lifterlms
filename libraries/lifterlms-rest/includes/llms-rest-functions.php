@@ -32,19 +32,21 @@ function llms_rest_api_hash( $data ) {
  *
  * @see LLMS_REST_Webhook::schedule()
  *
- * @param int   $webhook_id Webhook id.
- * @param array $args Numeric array of arguments from the originating hook.
+ * @param int    $webhook_id  Webhook id.
+ * @param array  $args        Numeric array of arguments from the originating hook.
+ * @param int    $attempt     Delivery attempt. The first attempt is 1.
+ * @param string $delivery_id Delivery ID shared by every attempt. Generated when empty.
  * @return void
  */
-function llms_rest_deliver_webhook_async( $webhook_id, $args ) {
+function llms_rest_deliver_webhook_async( $webhook_id, $args, $attempt = 1, $delivery_id = '' ) {
 
 	$webhook = LLMS_REST_API()->webhooks()->get( $webhook_id );
 	if ( $webhook ) {
-		$webhook->deliver( $args );
+		$webhook->deliver( $args, $attempt, $delivery_id );
 	}
 
 }
-add_action( 'lifterlms_rest_deliver_webhook_async', 'llms_rest_deliver_webhook_async', 10, 2 );
+add_action( 'lifterlms_rest_deliver_webhook_async', 'llms_rest_deliver_webhook_async', 10, 4 );
 
 /**
  * Get data from a WP Rest API endpoint.
