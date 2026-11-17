@@ -1,3 +1,3 @@
 significance: patch
 type: fixed
-entry: Fixed the course builder showing a quiz question's Image switch next to the Video label.
+entry: Fixed course builder switches and help icons sitting next to the neighboring setting's label instead of their own, such as a quiz question's Image switch next to the Video label.

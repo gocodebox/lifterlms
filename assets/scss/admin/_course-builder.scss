@@ -531,7 +531,7 @@ body.admin_page_llms-course-builder {
 		min-width: 0;
 
 		.llms-label-text {
-			flex: 1 1 auto;
+			flex: 0 1 auto;
 			min-width: 0;
 		}
 
@@ -633,15 +633,16 @@ body.admin_page_llms-course-builder {
 			}
 		}
 
+		// Keep each switch beside its own label; spread across the field it lines up with the next field's label.
 		.llms-switch {
 			align-items: flex-start;
-			display: flex;
+			display: inline-flex;
 			gap: 12px;
-			justify-content: space-between;
-			width: 100%;
+			max-width: 100%;
+			width: auto;
 
 			.llms-label {
-				flex: 1 1 auto;
+				flex: 0 1 auto;
 				min-width: 0;
 				width: auto;
 			}
@@ -1625,12 +1626,6 @@ body.admin_page_llms-course-builder {
 				}
 				.llms-switch {
 					margin-right: 15px;
-				}
-				// Keep each switch beside its own label; at full width it lines up with the next column's label.
-				.llms-editable-toggle-group .llms-switch {
-					display: inline-flex;
-					max-width: 100%;
-					width: auto;
 				}
 			}
 
