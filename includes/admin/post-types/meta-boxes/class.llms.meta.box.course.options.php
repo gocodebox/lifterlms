@@ -259,6 +259,31 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'value'           => llms_make_select2_post_array( array( $course->get( 'completion_page_id' ) ) ),
 						'type'            => 'select',
 					),
+					array(
+						'allow_null' => false,
+						'class'      => 'llms-select2',
+						'desc'       => __( 'Override the global "All Instructors" notification setting for this course. Instructors can receive notifications for all instructors assigned to the course, not just the author.', 'lifterlms' ),
+						'desc_class' => 'd-all',
+						'group'      => 'bottom',
+						'id'         => $this->prefix . 'notification_all_instructors',
+						'label'      => __( 'Send Notifications to All Instructors', 'lifterlms' ),
+						'selected'   => $course->get( 'notification_all_instructors' ) ? $course->get( 'notification_all_instructors' ) : 'global',
+						'type'       => 'select',
+						'value'      => array(
+							array(
+								'key'   => 'global',
+								'title' => __( 'Use Global Setting', 'lifterlms' ),
+							),
+							array(
+								'key'   => 'yes',
+								'title' => __( 'Send', 'lifterlms' ),
+							),
+							array(
+								'key'   => 'no',
+								'title' => __( 'Do Not Send', 'lifterlms' ),
+							),
+						),
+					),
 				),
 			),
 			array(
