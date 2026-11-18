@@ -33,6 +33,24 @@ function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
 		return false;
 	}
 
+	/**
+	 * Short-circuit whether a user can bypass enrollment, drip, and prerequisite restrictions.
+	 *
+	 * Return a boolean to bypass the default role and capability checks. Return null
+	 * (the default) to run the standard logic.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool|null         $can_bypass Whether the user can bypass restrictions. Default null.
+	 * @param LLMS_Student      $user       LLMS_Student object for the user being checked.
+	 * @param int|null          $post_id    The WP_Post ID being checked, or null.
+	 */
+	$can_bypass = apply_filters( 'llms_can_user_bypass_restrictions', null, $user, $post_id );
+
+	if ( null !== $can_bypass ) {
+		return (bool) $can_bypass;
+	}
+
 	$roles = get_option( 'llms_grant_site_access', '' );
 	if ( ! $roles ) {
 		$roles = array();
