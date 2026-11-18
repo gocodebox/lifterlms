@@ -2030,4 +2030,248 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
 		$this->assertEquals( $actions + 1, did_action( 'lifterlms_engagement_send_email' ) );
 	}
+
+	/**
+	 * course_inactivity limited to several courses scans each of them and skips the rest.
+	 *
+	 * An "any course" engagement is unaffected by another engagement storing multiple rows.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_inactivity_multiple_courses() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 2,
+			'quizzes'  => 0,
+		);
+		$course_a    = $this->factory->course->create( $course_args );
+		$course_b    = $this->factory->course->create( $course_args );
+		$course_c    = $this->factory->course->create( $course_args );
+		$student     = $this->factory->student->create();
+		$backdate    = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+
+		foreach ( array( $course_a, $course_b, $course_c ) as $course_id ) {
+			$this->stall_student( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_inactivity', 0, 14 );
+		$this->replace_trigger_posts( $post->ID, array( $course_a, $course_b ) );
+
+		$result = $this->scanner->query_course_inactivity( get_post( $post->ID ), 0, 500 );
+		$found  = array();
+		foreach ( $result['candidates'] as $candidate ) {
+			if ( $student === $candidate['user_id'] ) {
+				$found[ $candidate['related_post_id'] ] = $candidate;
+			}
+		}
+
+		$this->assertEqualsCanonicalizing( array( $course_a, $course_b ), array_keys( $found ) );
+
+		$any = $this->create_scan_engagement( 'course_inactivity', 0, 14 );
+		update_post_meta( $any->ID, '_llms_engagement_trigger_post', 'any' );
+		$any_result = $this->scanner->query_course_inactivity( get_post( $any->ID ), 0, 500 );
+		$any_posts  = array();
+		foreach ( $any_result['candidates'] as $candidate ) {
+			if ( $student === $candidate['user_id'] ) {
+				$any_posts[] = $candidate['related_post_id'];
+			}
+		}
+		$this->assertContains( $course_c, $any_posts );
+	}
+
+	/**
+	 * course_completion_deadline limited to several courses checks each enrollment.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_course_completion_deadline_multiple_courses() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		);
+		$course_a    = $this->factory->course->create( $course_args );
+		$course_b    = $this->factory->course->create( $course_args );
+		$course_c    = $this->factory->course->create( $course_args );
+		$student     = $this->factory->student->create();
+		$backdate    = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 30 * DAY_IN_SECONDS ) );
+
+		foreach ( array( $course_a, $course_b, $course_c ) as $course_id ) {
+			llms_enroll_student( $student, $course_id );
+			$this->backdate_user_postmeta( $student, $course_id, $backdate );
+		}
+
+		$post = $this->create_scan_engagement( 'course_completion_deadline', 0, 14 );
+		$this->replace_trigger_posts( $post->ID, array( $course_a, $course_b ) );
+
+		$result = $this->scanner->query_course_completion_deadline( get_post( $post->ID ), 0, 500 );
+		$found  = array();
+		foreach ( $result['candidates'] as $candidate ) {
+			if ( $student === $candidate['user_id'] ) {
+				$found[] = $candidate['related_post_id'];
+			}
+		}
+
+		$this->assertEqualsCanonicalizing( array( $course_a, $course_b ), $found );
+	}
+
+	/**
+	 * days_since_login limited to several courses scans those enrollments once per student.
+	 *
+	 * A single selected course still reports that course as the related post, which is
+	 * what re-arm markers are keyed on.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_days_since_login_multiple_courses() {
+
+		$course_args = array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		);
+		$course_a    = $this->factory->course->create( $course_args );
+		$course_b    = $this->factory->course->create( $course_args );
+		$course_c    = $this->factory->course->create( $course_args );
+		$old_login   = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 20 * DAY_IN_SECONDS ) );
+
+		$selected = $this->factory->student->create();
+		llms_enroll_student( $selected, $course_a );
+		llms_enroll_student( $selected, $course_b );
+		update_user_meta( $selected, 'llms_last_login', $old_login );
+
+		$elsewhere = $this->factory->student->create();
+		llms_enroll_student( $elsewhere, $course_c );
+		update_user_meta( $elsewhere, 'llms_last_login', $old_login );
+
+		$finished = $this->factory->student->create();
+		llms_enroll_student( $finished, $course_a );
+		llms_mark_complete( $finished, llms_get_post( $course_a )->get_lessons( 'ids' )[0], 'lesson' );
+		update_user_meta( $finished, 'llms_last_login', $old_login );
+
+		$post = $this->create_scan_engagement( 'days_since_login', 0, 14 );
+		$this->replace_trigger_posts( $post->ID, array( $course_a, $course_b ) );
+
+		$result = $this->scanner->query_days_since_login( get_post( $post->ID ), 0, 500 );
+		$found  = array();
+		foreach ( $result['candidates'] as $candidate ) {
+			$found[ $candidate['user_id'] ] = $candidate;
+		}
+
+		$this->assertArrayHasKey( $selected, $found );
+		$this->assertSame( '', $found[ $selected ]['related_post_id'] );
+		$this->assertArrayNotHasKey( $elsewhere, $found );
+		// Completed the only selected course they are enrolled in.
+		$this->assertArrayNotHasKey( $finished, $found );
+
+		$half = $this->factory->student->create();
+		llms_enroll_student( $half, $course_a );
+		llms_enroll_student( $half, $course_b );
+		llms_mark_complete( $half, llms_get_post( $course_a )->get_lessons( 'ids' )[0], 'lesson' );
+		update_user_meta( $half, 'llms_last_login', $old_login );
+
+		$result = $this->scanner->query_days_since_login( get_post( $post->ID ), 0, 500 );
+		$this->assertContains( $half, wp_list_pluck( $result['candidates'], 'user_id' ) );
+
+		$single  = $this->create_scan_engagement( 'days_since_login', $course_a, 14 );
+		$result  = $this->scanner->query_days_since_login( get_post( $single->ID ), 0, 500 );
+		$matched = null;
+		foreach ( $result['candidates'] as $candidate ) {
+			if ( $selected === $candidate['user_id'] ) {
+				$matched = $candidate;
+			}
+		}
+		$this->assertNotNull( $matched );
+		$this->assertSame( $course_a, $matched['related_post_id'] );
+	}
+
+	/**
+	 * quiz_attempt_abandoned limited to several quizzes ignores attempts on other quizzes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_query_quiz_attempt_abandoned_multiple_quizzes() {
+
+		global $wpdb;
+
+		$quiz_a  = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$quiz_b  = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$quiz_c  = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$student = $this->factory->student->create();
+		$old     = gmdate( 'Y-m-d H:i:s', llms_current_time( 'timestamp' ) - ( 10 * DAY_IN_SECONDS ) );
+
+		$insert = function ( $quiz_id ) use ( $wpdb, $student, $old ) {
+			$wpdb->insert(
+				"{$wpdb->prefix}lifterlms_quiz_attempts",
+				array(
+					'student_id'  => $student,
+					'quiz_id'     => $quiz_id,
+					'status'      => 'incomplete',
+					'update_date' => $old,
+				)
+			);
+			return $wpdb->insert_id;
+		};
+
+		$attempt_a = $insert( $quiz_a );
+		$attempt_b = $insert( $quiz_b );
+		$insert( $quiz_c );
+
+		$post = $this->create_scan_engagement( 'quiz_attempt_abandoned', 0, 7 );
+		$this->replace_trigger_posts( $post->ID, array( $quiz_a, $quiz_b ) );
+
+		$result = $this->scanner->query_quiz_attempt_abandoned( get_post( $post->ID ), 0, 500 );
+
+		$this->assertEqualsCanonicalizing(
+			array( $attempt_a, $attempt_b ),
+			wp_list_pluck( $result['candidates'], 'anchor' )
+		);
+	}
+
+	/**
+	 * Replace an engagement's trigger posts with one meta row per ID.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $engagement_id WP_Post ID of the engagement.
+	 * @param int[] $post_ids      Trigger post IDs.
+	 * @return void
+	 */
+	private function replace_trigger_posts( $engagement_id, $post_ids ) {
+
+		delete_post_meta( $engagement_id, '_llms_engagement_trigger_post' );
+		foreach ( $post_ids as $post_id ) {
+			add_post_meta( $engagement_id, '_llms_engagement_trigger_post', $post_id );
+		}
+	}
+
+	/**
+	 * Enroll a student, complete the first lesson, and backdate the course tree.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $student   WP_User ID.
+	 * @param int    $course_id WP_Post ID of the course.
+	 * @param string $backdate  MySQL datetime string.
+	 * @return void
+	 */
+	private function stall_student( $student, $course_id, $backdate ) {
+
+		$course = llms_get_post( $course_id );
+		llms_enroll_student( $student, $course_id );
+		llms_mark_complete( $student, $course->get_lessons( 'ids' )[0], 'lesson' );
+		foreach ( array_merge( array( $course_id ), $course->get_lessons( 'ids' ), $course->get_sections( 'ids' ) ) as $post_id ) {
+			$this->backdate_user_postmeta( $student, $post_id, $backdate );
+		}
+	}
 }

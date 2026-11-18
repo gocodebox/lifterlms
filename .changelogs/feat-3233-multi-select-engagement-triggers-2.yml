@@ -1,0 +1,7 @@
+significance: minor
+type: added
+links:
+  - "#3233"
+attributions:
+  - "@faisalahammad"
+entry: "Added ability to select multiple associated items (courses, lessons, memberships, etc.) for engagement triggers."
