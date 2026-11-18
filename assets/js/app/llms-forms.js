@@ -241,6 +241,7 @@ LLMS.Forms = {
 		event.preventDefault();
 
 		var $this     = $( this ),
+			$form     = $this.closest( 'form' ),
 			isShowing = 'yes' === $this.attr( 'data-is-showing' ),
 			$open;
 
@@ -248,14 +249,15 @@ LLMS.Forms = {
 		$this.attr( 'data-is-showing', isShowing ? 'no' : 'yes' );
 
 		// Toggles still open after this click, such as the password toggle when cancelling an email change.
-		$open = $this.closest( 'form' ).find( '.llms-toggle-fields[data-is-showing="yes"]' );
+		$open = $form.find( '.llms-toggle-fields[data-is-showing="yes"]' );
 
-		$( $this.attr( 'data-fields' ) ).each( function() {
+		// Use find() so the data-fields value is only ever treated as a selector, never parsed as HTML.
+		$form.find( $this.attr( 'data-fields' ) ).each( function() {
 
 			var field = this,
 				// A field shared with another open toggle, like Current Password, stays visible and enabled.
 				show  = ! isShowing || $open.filter( function() {
-					return $( $( this ).attr( 'data-fields' ) ).is( field );
+					return $form.find( $( this ).attr( 'data-fields' ) ).is( field );
 				} ).length > 0;
 
 			$( field ).closest( '.llms-form-field' )[ show ? 'show' : 'hide' ]();
