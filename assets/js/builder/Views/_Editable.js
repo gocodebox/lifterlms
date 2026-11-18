@@ -117,6 +117,11 @@ define( [], function() {
 				return false;
 			}
 
+			// A partly filled date or time input has an empty value, and a date can be out of range; keep the previous value.
+			if ( -1 !== [ 'date', 'time' ].indexOf( $el.attr( 'type' ) ) && ! $el[0].validity.valid ) {
+				return false;
+			}
+
 			if ( 'url' === type || 'video' === type ) {
 				if ( ! this._validate_url( this.get_content( $el ) ) ) {
 					return false;
@@ -225,11 +230,16 @@ define( [], function() {
 					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
 					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
 					onClose: function( current_time, $input ) {
-						// Blurring runs the picker's own blur handler, which closes it again. Only blur a focused input so that
-						// second close doesn't blur again and recurse until the stack overflows, which left the picker open.
-						if ( $input.is( ':focus' ) ) {
-							$input.trigger( 'blur' );
-						}
+						// Pressing Tab closes the picker from its keydown handler. Blurring there saves the value and re-renders
+						// the view before the browser moves focus, so Tab lands on the view's first field and the model keeps
+						// `_has_focus`, which holds back the change. Wait until Tab has moved focus away on its own.
+						setTimeout( function() {
+							// Blurring runs the picker's own blur handler, which closes it again. Only blur a focused input so that
+							// second close doesn't blur again and recurse until the stack overflows, which left the picker open.
+							if ( $input.is( ':focus' ) ) {
+								$input.trigger( 'blur' );
+							}
+						} );
 					}
 				} );
 
@@ -623,7 +633,14 @@ define( [], function() {
 		save_edits: function( event ) {
 
 			var $el = $( event.target ),
-				val = this.get_content( $el );
+				val = this.get_content( $el ),
+				hour;
+
+			// Time inputs return 24-hour `H:i`; keep storing times as `h:i A`, the format the builder has always saved.
+			if ( 'time' === $el.attr( 'type' ) && val ) {
+				hour = parseInt( val, 10 );
+				val  = ( '0' + ( hour % 12 || 12 ) ).slice( -2 ) + val.substr( 2, 3 ) + ( hour < 12 ? ' AM' : ' PM' );
+			}
 
 			this.model.set( $el.attr( 'data-attribute' ), val );
 

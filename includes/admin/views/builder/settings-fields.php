@@ -6,6 +6,7 @@
  * @since 3.24.0 Unknown.
  * @since 7.4.0 Added support for `upsell` field type and multiple input fields.
  * @since 10.2.1 Allow settings selects to be rendered disabled.
+ * @since 11.1.0 Escaped input field values.
  * @since [version] Associate field labels and help tips with their select and text inputs.
  * @version [version]
  */
@@ -145,7 +146,7 @@ defined( 'ABSPATH' ) || exit;
 											<# if ( tip_id ) { #> aria-describedby="{{{ tip_id }}}" <# } #>
 											class="llms-input standard"
 											data-attribute="{{{ input.attribute }}}"
-											data-original-content="{{{ data.model.get( input.attribute ) }}}"
+											data-original-content="{{ data.get_input_value( input ) }}"
 											<# if ( 'datepicker' === input.type ) { #>
 												<# if ( input.datepicker ) { #> data-date-datepicker="{{{ input.datepicker }}}" <# } #>
 												<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
@@ -156,7 +157,7 @@ defined( 'ABSPATH' ) || exit;
 											name="{{{ input.attribute }}}"
 											<# if ( input.placeholder ) { #> placeholder="{{{ input.placeholder }}}" <# } #>
 											type="{{{ input.input_type }}}"
-											value="{{{ data.model.get( input.attribute ) }}}"
+											value="{{ data.get_input_value( input ) }}"
 										>
 										<# if ( input.input_description ) { #>
 											<small class="llms-description">{{{ input.input_description }}}</small>

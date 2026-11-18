@@ -61,7 +61,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Record HTTP args from `llms_rest_webhook_delivery`.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param array $http_args HTTP request args.
 	 * @return void
@@ -73,7 +73,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * One retry delay, used to exhaust the ladder in a single extra attempt.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return int[]
 	 */
@@ -149,7 +149,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 *
 	 * @since Unknown
 	 * @since 1.0.0-beta.17 Remove checks on `pending_delivery` unused property.
-	 * @since [version] Assert no retry is scheduled for the delivery.
+	 * @since 11.1.0 Assert no retry is scheduled for the delivery.
 	 *
 	 * @return void
 	 */
@@ -186,7 +186,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * A failed delivery waits before counting the failure, and retries reuse the delivery id.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -255,7 +255,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * The shared failure count increments only after the retry list is exhausted.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * A successful delivery clears the failure count and does not schedule a retry.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -364,7 +364,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Queued retries do not run after the webhook is disabled. The first attempt still can.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -393,7 +393,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	/**
 	 * Retry metadata stays out of the payload sent for action topics.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -1117,7 +1117,7 @@ class LLMS_REST_Test_Webhook extends LLMS_REST_Unit_Test_Case_Base {
 	 * Test scheduling a webhook via multiple hooks, ensuring only one is scheduled for delivery.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Count only the webhook's own scheduled actions.
+	 * @since 11.1.0 Count only the webhook's own scheduled actions.
 	 *
 	 * @return void
 	 */

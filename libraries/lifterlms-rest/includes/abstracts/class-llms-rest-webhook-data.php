@@ -311,7 +311,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the number of times a webhook is allowed to fail before it is automatically disabled.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @return int
 	 */
@@ -331,7 +331,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	/**
 	 * Determine whether the webhook was disabled automatically because its deliveries kept failing.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @return bool
 	 */
@@ -342,7 +342,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the ID of the admin notice shown when the webhook is disabled by delivery failures.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @return string
 	 */
@@ -353,7 +353,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	/**
 	 * Delete the webhook and its disabled notice.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @return boolean `true` on success, `false` otherwise.
 	 */
@@ -375,7 +375,7 @@ abstract class LLMS_REST_Webhook_Data extends LLMS_Abstract_Database_Store {
 	 * Increment delivery failures and after max allowed failures are reached, set status to disabled.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Add an admin notice when the webhook is disabled.
+	 * @since 1.1.4 Add an admin notice when the webhook is disabled.
 	 *
 	 * @return LLMS_REST_Webhook
 	 */

@@ -1089,6 +1089,44 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test the access plan limit check when `post_id` is not a single course or membership ID.
+	 *
+	 * WordPress runs the create permission check with the collection request when it computes the `Allow` header.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_limit_check_with_non_product_post_id() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		// A deleted product that still has the maximum number of access plans.
+		$deleted_product = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $this->factory->post->create_many( 6, array( 'post_type' => $this->post_type ) ) as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', $deleted_product );
+		}
+		wp_delete_post( $deleted_product, true );
+
+		// A course with the maximum number of access plans, requested as the collection's list of IDs.
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $this->factory->post->create_many( 6, array( 'post_type' => $this->post_type ) ) as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', $course );
+		}
+
+		foreach ( array( $deleted_product, array( $course ) ) as $post_id ) {
+			$request = new WP_REST_Request( 'GET', $this->route );
+			$request->set_param( 'post_id', $post_id );
+			$this->assertTrue( $this->endpoint->create_item_permissions_check( $request ) );
+		}
+
+		// The limit is still enforced for a single course ID.
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_param( 'post_id', $course );
+		$this->assertWPErrorCodeEquals( 'llms_rest_bad_request', $this->endpoint->create_item_permissions_check( $request ) );
+	}
+
+	/**
 	 * Test creation defaults respected
 	 *
 	 * @since 1.0.0-beta.18

@@ -746,6 +746,37 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		$attempt->calculate_grade();
 		$this->assertEquals( 80, $attempt->get( 'grade' ) );
 		$this->assertEquals( 'pass', $attempt->get( 'status' ) );
+
+	}
+
+	/**
+	 * Test get_question() only returns questions that belong to the attempt.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_get_question() {
+
+		$attempt   = $this->get_mock_attempt( 3 );
+		$questions = $attempt->get_questions();
+
+		// The first question (index 0) and the last one are found.
+		foreach ( array( 0, 2 ) as $index ) {
+			$question_id = $questions[ $index ]['id'];
+			$this->assertEquals( $question_id, $attempt->get_question( $question_id ) );
+			$this->assertEquals( $questions[ $index ], $attempt->get_question( $question_id, 'array' ) );
+		}
+
+		// A question from another quiz is not part of the attempt.
+		$other_question_id = $this->get_mock_attempt( 1 )->get_questions()[0]['id'];
+		$this->assertFalse( $attempt->get_question( $other_question_id ) );
+		$this->assertFalse( $attempt->get_question( $other_question_id, 'array' ) );
+
+		// Neither is a nonexistent question.
+		$this->assertFalse( $attempt->get_question( 0 ) );
+		$this->assertFalse( $attempt->get_question( $other_question_id + 9999 ) );
+
 	}
 
 	/**

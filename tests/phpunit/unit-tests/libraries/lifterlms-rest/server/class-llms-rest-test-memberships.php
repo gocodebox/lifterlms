@@ -1222,7 +1222,7 @@ class LLMS_REST_Test_Memberships extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * Test that only users with the `manage_lifterlms` capability can update a membership's auto enroll courses.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

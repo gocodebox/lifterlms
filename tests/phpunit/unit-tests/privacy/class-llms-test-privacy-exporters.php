@@ -7,14 +7,14 @@
  * @group privacy
  * @group privacy_exporters
  *
- * @since [version]
+ * @since 11.1.0
  */
 class LLMS_Test_Privacy_Exporters extends LLMS_UnitTestCase {
 
 	/**
 	 * Test quiz_data() exports each attempt in the quiz group with its description.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

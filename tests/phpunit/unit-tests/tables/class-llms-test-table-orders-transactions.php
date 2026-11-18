@@ -135,7 +135,7 @@ class LLMS_Test_Table_Orders_Transactions extends LLMS_UnitTestCase {
 	/**
 	 * Trashing an order removes its transaction rows, while other orders' transactions stay listed.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

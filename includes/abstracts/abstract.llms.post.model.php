@@ -843,7 +843,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.17.0
 	 * @since 3.17.5 Unknown.
 	 * @since 7.7.0 Added function to get provider support.
-	 * @since [version] Embed `youtube.com/embed/` and `youtube-nocookie.com/embed/` URLs.
+	 * @since 11.1.0 Embed `youtube.com/embed/` and `youtube-nocookie.com/embed/` URLs.
 	 *
 	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
 	 * @param string $prop Optional. Postmeta property name. Default is empty string.
@@ -892,7 +892,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * equivalent watch URL. A `youtube-nocookie.com` URL keeps the player on that domain
 	 * (YouTube's "Privacy Enhanced Mode").
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $url Embed URL.
 	 * @return string|false Embed HTML, or `false` if the URL isn't a YouTube embed URL or can't be embedded.

@@ -133,8 +133,10 @@ class LLMS_Post_Instructors {
 		// Allow partial arrays to be passed & we'll fill em up with defaults.
 		foreach ( $instructors as $i => &$instructor ) {
 
-			$instructor       = wp_parse_args( $instructor, llms_get_instructors_defaults() );
-			$instructor['id'] = absint( $instructor['id'] );
+			$instructor               = wp_parse_args( $instructor, llms_get_instructors_defaults() );
+			$instructor['id']         = absint( $instructor['id'] );
+			$instructor['label']      = sanitize_text_field( $instructor['label'] );
+			$instructor['visibility'] = sanitize_key( $instructor['visibility'] );
 
 			// Remove instructors without an ID.
 			if ( empty( $instructor['id'] ) ) {

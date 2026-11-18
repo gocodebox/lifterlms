@@ -154,7 +154,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order_actions() shows the switch source form when the order's access plan was permanently deleted.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

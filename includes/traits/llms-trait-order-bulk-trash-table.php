@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 11.1.0
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,14 +18,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * This trait should only be used by classes that extend from the {@see LLMS_Admin_Table} class.
  *
- * @since [version]
+ * @since 11.1.0
  */
 trait LLMS_Trait_Order_Bulk_Trash_Table {
 
 	/**
 	 * Get the HTML ID of the bulk actions form, referenced by each row's checkbox.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return string
 	 */
@@ -40,7 +40,7 @@ trait LLMS_Trait_Order_Bulk_Trash_Table {
 	 * It's tied to the bulk actions form through the `form` attribute because the table
 	 * body is replaced on AJAX reloads and sits outside the form.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param LLMS_Order $order  Order object.
 	 * @param int        $row_id Post ID of the row (transaction or order), used for a unique input ID.
@@ -62,7 +62,7 @@ trait LLMS_Trait_Order_Bulk_Trash_Table {
 	/**
 	 * Whether the current user can trash orders in bulk.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return bool
 	 */
@@ -74,7 +74,7 @@ trait LLMS_Trait_Order_Bulk_Trash_Table {
 	/**
 	 * Get the select (checkbox) column definition, when the current user can bulk trash.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return array Empty, or an array with the `cb` column.
 	 */
@@ -96,7 +96,7 @@ trait LLMS_Trait_Order_Bulk_Trash_Table {
 	/**
 	 * Output the bulk actions form, with a link to the trashed orders when there are any.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

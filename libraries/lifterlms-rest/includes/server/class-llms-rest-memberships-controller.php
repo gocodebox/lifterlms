@@ -556,7 +556,7 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Check if a given request has access to create an item.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -571,7 +571,7 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Check if a given request has access to update an item.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -591,7 +591,7 @@ class LLMS_REST_Memberships_Controller extends LLMS_REST_Posts_Controller {
 	 * When creating, the schema default (an empty list) is always present in the request and sets nothing,
 	 * so only a non-empty list requires the capability.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param WP_REST_Request $request  Full details about the request.
 	 * @param bool            $creating Whether the request creates a membership.

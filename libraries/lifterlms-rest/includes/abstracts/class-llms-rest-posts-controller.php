@@ -83,6 +83,17 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	protected $llms_post_class;
 
 	/**
+	 * The last edit context collection request, its query arguments, and the IDs of the posts it matched that the current user can edit.
+	 *
+	 * Lets the total count query of {@see LLMS_REST_Controller::get_items()} reuse the IDs instead of checking every post again.
+	 *
+	 * @since 1.1.4
+	 *
+	 * @var array
+	 */
+	private $editable_post_ids = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0-beta.27
@@ -1037,6 +1048,35 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 	 */
 	protected function get_objects_query( $prepared, $request ) {
 
+		/*
+		 * The edit context only lists the posts the current user can edit, see `prepare_collection_items_for_response()`.
+		 * Limit the query to them too, so the pagination totals match the returned items. The candidates are the
+		 * posts matching the final query arguments, including the filters subclasses add after
+		 * `prepare_collection_query_args()`, so the checks scale with the request and not with the site.
+		 */
+		if ( 'edit' === $request['context'] && ! $this->can_edit_others_posts() ) {
+
+			$key = array( $request, array_diff_key( $prepared, array_flip( array( 'paged', 'posts_per_page', 'offset', 'orderby', 'order' ) ) ) );
+			if ( empty( $this->editable_post_ids ) || $key !== $this->editable_post_ids[0] ) {
+
+				$ids = $this->query_post_ids( $key[1] );
+				_prime_post_caches( $ids );
+
+				$editable = array();
+				foreach ( $ids as $id ) {
+					$object = $this->get_object( $id );
+					if ( ! is_wp_error( $object ) && $this->check_update_permission( $object ) ) {
+						$editable[] = $id;
+					}
+				}
+
+				$this->editable_post_ids = array( $key, $editable );
+			}
+
+			// An empty `post__in` is ignored by WP_Query, so force an impossible match instead.
+			$prepared['post__in'] = $this->editable_post_ids[1] ? $this->editable_post_ids[1] : array( 0 );
+		}
+
 		return new WP_Query( $prepared );
 	}
 
@@ -1070,6 +1110,20 @@ abstract class LLMS_REST_Posts_Controller extends LLMS_REST_Controller {
 		// Allow access to all password protected posts if the context is edit.
 		if ( 'edit' === $request['context'] ) {
 			add_filter( 'post_password_required', '__return_false' );
+		}
+
+		/*
+		 * The edit context only lists the posts the current user can edit, as the single item endpoint does.
+		 * `get_objects_query()` already limits the query to them; this also covers subclasses overriding it.
+		 */
+		if ( 'edit' === $request['context'] ) {
+			$objects = array_filter(
+				$objects,
+				function ( $object ) {
+					$object = $this->get_object( $object, false );
+					return ! is_wp_error( $object ) && $this->check_update_permission( $object );
+				}
+			);
 		}
 
 		$items = parent::prepare_collection_items_for_response( $objects, $request );

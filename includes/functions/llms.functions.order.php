@@ -305,13 +305,14 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Determines whether an access plan can be purchased by a user during checkout.
  *
  * Mirrors the front-end purchasability gating so that unpublished or restricted access plans and products cannot
- * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan,
- * member-only plan availability, and no course restrictions (enrollment window and student capacity).
+ * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan and
+ * product, member-only plan availability, and no course restrictions (enrollment window and student capacity).
  *
  * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
  *
  * @since 10.0.8
+ * @since 11.1.0 Require a published product.
  *
  * @param LLMS_Access_Plan $plan    The access plan being purchased.
  * @param int|null         $user_id Optional. WP_User ID of the purchasing user. Defaults to the current user.
@@ -328,7 +329,7 @@ function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
 		$can_purchase = new WP_Error( 'plan-not-available', __( 'This access plan is not available.', 'lifterlms' ) );
 	} else {
 		$product = $plan->get_product();
-		if ( ! $product || $product->has_restrictions() ) {
+		if ( ! $product || 'publish' !== get_post_status( $product->get( 'id' ) ) || $product->has_restrictions() ) {
 			$can_purchase = new WP_Error( 'product-not-purchasable', __( 'This product is not available for purchase.', 'lifterlms' ) );
 		}
 	}

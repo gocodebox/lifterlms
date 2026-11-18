@@ -190,7 +190,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	 * The first failure waits for the first delay, the second failure for the second, and so on.
 	 * The webhook failure count is incremented only after every delay has been used.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @return int[] Delays in seconds.
 	 */
@@ -209,7 +209,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 		 * Return an empty array to disable automatic retries. Each value is a delay in seconds,
 		 * applied after the corresponding failed attempt.
 		 *
-		 * @since [version]
+		 * @since 1.1.4
 		 *
 		 * @param int[]             $rules Delays in seconds.
 		 * @param LLMS_REST_Webhook $webhook Webhook object.
@@ -223,7 +223,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	/**
 	 * Reschedule a failed delivery, or record the failure when no retries remain.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param array  $args        Numeric array of arguments from the originating hook.
 	 * @param int    $attempt     Delivery attempt that just failed.
@@ -251,7 +251,7 @@ class LLMS_REST_Webhook extends LLMS_REST_Webhook_Data {
 	 * Retries are not sent through `schedule()`. That method deduplicates the original hook
 	 * arguments and would drop a pending retry.
 	 *
-	 * @since [version]
+	 * @since 1.1.4
 	 *
 	 * @param array  $args        Numeric array of arguments from the originating hook.
 	 * @param int    $attempt     Delivery attempt number for the next request.
