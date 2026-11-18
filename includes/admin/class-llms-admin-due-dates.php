@@ -203,11 +203,12 @@ class LLMS_Admin_Due_Dates {
 							<?php endif; ?>
 						</td>
 						<td data-label="<?php esc_attr_e( 'Status', 'lifterlms' ); ?>">
-							<?php if ( 'none' !== $status ) : ?>
+							<?php $has_badge = ! in_array( $status, array( 'none', 'on-time' ), true ); ?>
+							<?php if ( $has_badge ) : ?>
 								<span class="llms-due-badge llms-due-badge--<?php echo esc_attr( $status ); ?>"><?php echo esc_html( LLMS_Quiz::get_due_status_label( $status ) ); ?></span>
 							<?php endif; ?>
 							<?php if ( $submitted ) : ?>
-								<br><small>
+								<?php echo $has_badge ? '<br>' : ''; ?><small>
 								<?php
 								// Translators: %s = submission date.
 								printf( esc_html__( 'Submitted %s', 'lifterlms' ), esc_html( wp_date( $format, $submitted ) ) );
@@ -320,7 +321,9 @@ JS;
 			return;
 		}
 
-		$late = $attempt->is_late();
+		$late     = $attempt->is_late();
+		$due_date = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due );
+		// A late attempt shows how late it was; one submitted by the due date shows only the due date.
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of4',
@@ -329,11 +332,13 @@ JS;
 				'data'      => $late ?
 					// Translators: %s = Human readable time difference.
 					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, (int) get_gmt_from_date( $attempt->get( 'end_date' ), 'U' ) ) ) :
-					// Translators: The quiz attempt was submitted by its due date.
-					__( 'On time', 'lifterlms' ),
+					wp_date( get_option( 'date_format' ), $due ),
 				'data_type' => 'text',
-				// Translators: %s = Due date.
-				'text'      => sprintf( __( 'Due %s', 'lifterlms' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due ) ),
+				'text'      => $late ?
+					// Translators: %s = Due date.
+					sprintf( __( 'Due %s', 'lifterlms' ), $due_date ) :
+					// Translators: %s = Time of day the item was due, shown under its due date in reporting.
+					sprintf( __( 'Due at %s', 'lifterlms' ), wp_date( get_option( 'time_format' ), $due ) ),
 			)
 		);
 	}

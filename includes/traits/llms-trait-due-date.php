@@ -456,7 +456,8 @@ trait LLMS_Trait_Due_Date {
 
 		// The separator reads well when a theme doesn't load LifterLMS styles; styled badges hide it.
 		// Screen readers hear "Status:" before the badge, so it isn't read as part of the date.
-		$badge = 'upcoming' === $status ? '' : sprintf(
+		// Upcoming and on-time items show only the date: a status is shown only when it needs attention.
+		$badge = in_array( $status, array( 'upcoming', 'on-time' ), true ) ? '' : sprintf(
 			'<span class="llms-due-sep" aria-hidden="true"> &middot; </span><span class="llms-due-badge llms-due-badge--%1$s"><span class="screen-reader-text">%2$s </span>%3$s</span>',
 			esc_attr( $status ),
 			// Translators: Read by screen readers before a due date status, such as "Overdue".
