@@ -63,11 +63,13 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'parent_section'        => 'absint',
 
 			'audio_embed'           => 'text',
+			'audio_placement'       => 'text',
 			'free_lesson'           => 'yesno',
 			'has_prerequisite'      => 'yesno',
 			'prerequisite'          => 'absint',
 			'require_passing_grade' => 'yesno',
 			'video_embed'           => 'text',
+			'video_placement'       => 'text',
 
 			// Quizzes.
 			'quiz'                  => 'absint',
@@ -89,6 +91,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'audio_embed'           => 'http://example.tld/audio_embed',
+			'audio_placement'       => 'bottom',
 			'date_available'        => '11/21/2018',
 			'days_before_available' => '24',
 			'drip_method'           => 'date',
@@ -103,6 +106,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'require_passing_grade' => 'yes',
 			'time_available'        => '12:34 PM',
 			'video_embed'           => 'http://example.tld/video_embed',
+			'video_placement'       => 'bottom',
 		);
 	}
 
@@ -320,6 +324,51 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
 		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
 
+	}
+
+	/**
+	 * Test get_media_placement(): the setting applies unless the content has the matching block or shortcode.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_media_placement() {
+
+		$lesson = new LLMS_Lesson( 'new', 'Lesson With Media' );
+
+		// Defaults to top, and unknown values fall back to top.
+		$this->assertEquals( 'top', $lesson->get_media_placement( 'video' ) );
+		$lesson->set( 'video_placement', 'sideways' );
+		$this->assertEquals( 'top', $lesson->get_media_placement( 'video' ) );
+
+		$lesson->set( 'video_placement', 'bottom' );
+		$this->assertEquals( 'bottom', $lesson->get_media_placement( 'video' ) );
+		$this->assertEquals( 'top', $lesson->get_media_placement( 'audio' ) );
+
+		// Unset or "course" lesson values inherit the parent course setting.
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$child  = $course->get_lessons()[0];
+		$this->assertEquals( 'top', $child->get_media_placement( 'video' ) );
+		$course->set( 'lesson_video_placement', 'bottom' );
+		$this->assertEquals( 'bottom', $child->get_media_placement( 'video' ) );
+		$this->assertEquals( 'top', $child->get_media_placement( 'audio' ) );
+		$child->set( 'video_placement', 'course' );
+		$this->assertEquals( 'bottom', $child->get_media_placement( 'video' ) );
+
+		// An explicit lesson value overrides the course setting.
+		$child->set( 'video_placement', 'top' );
+		$this->assertEquals( 'top', $child->get_media_placement( 'video' ) );
+
+		// The audio shortcode only moves the audio.
+		$lesson->set( 'content', '<p>Intro</p>[lifterlms_lesson_audio]' );
+		$this->assertEquals( 'inline', $lesson->get_media_placement( 'audio' ) );
+		$this->assertEquals( 'bottom', $lesson->get_media_placement( 'video' ) );
+
+		// The video block overrides the video placement setting.
+		$lesson->set( 'content', "<!-- wp:paragraph --><p>Intro</p><!-- /wp:paragraph -->\n<!-- wp:llms/lesson-video /-->" );
+		$this->assertEquals( 'inline', $lesson->get_media_placement( 'video' ) );
+		$this->assertEquals( 'top', $lesson->get_media_placement( 'audio' ) );
 	}
 
 	/**
