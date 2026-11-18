@@ -95,7 +95,7 @@ class LLMS_Forms_Dynamic_Fields {
 			'id'              => 'llms-password-strength-meter',
 			'classes'         => 'llms-password-strength-meter',
 			'description'     => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
-			'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
+			'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? max( 6, absint( $block['attrs']['html_attrs']['minlength'] ) ) : '',
 			'min_strength'    => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
 			'llms_visibility' => ! empty( $block['attrs']['llms_visibility'] ) ? $block['attrs']['llms_visibility'] : '',
 			'attributes'      => array(
