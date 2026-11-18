@@ -1,0 +1,5 @@
+significance: minor
+type: removed
+links:
+  - "#1675"
+entry: Removed the legacy `lifterlms_user_info_field_*_visibility` and `lifterlms_voucher_field_registration_visibility` option values from the system report and tracker data. These options were superseded by LifterLMS Forms in 5.0.0 and no longer describe how any form is rendered.
