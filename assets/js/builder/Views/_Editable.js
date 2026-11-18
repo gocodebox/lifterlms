@@ -12,6 +12,7 @@
  * @since 10.0.0 Add paste event handler for plain contenteditable elements to strip formatting. Fixes #3057.
  * @since 10.1.0 Revert edits as plain text unless the element allows formatting.
  * @since [version] Give Select2 comboboxes their field's label and description.
+ *                  Store a time input's 24-hour value when its field sets `time_format: 'H:i'`.
  * @version [version]
  */
 define( [], function() {
@@ -636,8 +637,9 @@ define( [], function() {
 				val = this.get_content( $el ),
 				hour;
 
-			// Time inputs return 24-hour `H:i`; keep storing times as `h:i A`, the format the builder has always saved.
-			if ( 'time' === $el.attr( 'type' ) && val ) {
+			// Time inputs return 24-hour `H:i`; keep storing times as `h:i A`, the format the builder has always saved,
+			// unless the field stores the input's value as is (`time_format: 'H:i'`).
+			if ( 'time' === $el.attr( 'type' ) && val && 'H:i' !== $el.attr( 'data-time-format' ) ) {
 				hour = parseInt( val, 10 );
 				val  = ( '0' + ( hour % 12 || 12 ) ).slice( -2 ) + val.substr( 2, 3 ) + ( hour < 12 ? ' AM' : ' PM' );
 			}

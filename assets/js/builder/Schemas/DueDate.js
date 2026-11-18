@@ -77,23 +77,21 @@ define( [], function() {
 					condition: function() {
 						return ( 'date' === this.get( 'due_method' ) );
 					},
-					date_format: 'Y-m-d',
 					id: 'due-date',
 					label: LLMS.l10n.translate( 'Date' ),
-					timepicker: 'false',
-					type: 'datepicker',
+					type: 'date',
 				},
 				{
 					attribute: 'due_time',
 					condition: function() {
 						return !! this.get( 'due_method' );
 					},
-					datepicker: 'false',
-					date_format: 'h:i A',
 					id: 'due-time',
 					label: LLMS.l10n.translate( 'Time (optional)' ),
-					tip: LLMS.l10n.translate( 'Time of day in the site\'s timezone. Leave empty for the end of the day (11:59 PM).' ),
-					type: 'datepicker',
+					// Stored as the time input's 24-hour value, whatever the browser or site time format.
+					time_format: 'H:i',
+					tip: LLMS.l10n.translate( 'Time of day in the site\'s timezone. Leave empty for the end of the day.' ),
+					type: 'time',
 				},
 			],
 		];

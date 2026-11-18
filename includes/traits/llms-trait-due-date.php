@@ -19,13 +19,15 @@ defined( 'ABSPATH' ) || exit;
  * in their constructor.**
  *
  * Timestamps are Unix (UTC) timestamps, compared to `time()` and formatted with `wp_date()`. Due dates and
- * times entered on a quiz or assignment are in the site's timezone; per-student due dates are stored in UTC.
+ * times entered on a quiz or assignment are stored as `Y-m-d` and 24-hour `H:i`, the values of the native date
+ * and time inputs, whatever the browser or site date and time formats, and are read in the site's timezone.
+ * Per-student due dates are stored in UTC.
  *
  * @since [version]
  *
  * @property string $due_method Due date method [''(none)|date|enrollment|start].
  * @property string $due_date   Due date (Y-m-d), applies when $due_method is "date".
- * @property string $due_time   Optional time of day (e.g. 11:59 PM) the item is due. Defaults to the end of the day.
+ * @property string $due_time   Optional 24-hour time of day (H:i, e.g. 17:00) the item is due. Defaults to the end of the day.
  * @property int    $due_days   Number of days after course enrollment or course start, applies when $due_method is "enrollment" or "start".
  */
 trait LLMS_Trait_Due_Date {
@@ -103,7 +105,7 @@ trait LLMS_Trait_Due_Date {
 
 		$method = $this->get( 'due_method' );
 		$time   = $this->get( 'due_time' );
-		$time   = $time ? $time : '11:59:59 PM';
+		$time   = preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', $time ) ? $time . ':00' : '23:59:59';
 		$day    = false;
 
 		switch ( $method ) {
@@ -126,7 +128,11 @@ trait LLMS_Trait_Due_Date {
 		}
 
 		// The day and time are in the site's timezone. Days are added as calendar days so the time of day doesn't shift across daylight saving time.
-		$date = $day ? date_create( $day . ' ' . $time, wp_timezone() ) : false;
+		// Only a `Y-m-d` day is read; anything else, such as a date typed in another format, means no due date.
+		$date = $day ? DateTime::createFromFormat( '!Y-m-d H:i:s', $day . ' ' . $time, wp_timezone() ) : false;
+		if ( $date && $date->format( 'Y-m-d' ) !== $day ) {
+			$date = false;
+		}
 		if ( $date && 'date' !== $method ) {
 			$date->modify( '+' . absint( $this->get( 'due_days' ) ) . ' days' );
 		}

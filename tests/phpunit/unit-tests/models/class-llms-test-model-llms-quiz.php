@@ -506,7 +506,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 		$student_id = $this->factory->student->create();
 		$this->create( 'due date' );
 		$this->obj->set( 'due_method', 'date' );
-		$this->obj->set( 'due_time', '11:59 PM' );
+		$this->obj->set( 'due_time', '23:59' );
 
 		// 11:59 PM EDT (UTC-4) and EST (UTC-5).
 		$this->obj->set( 'due_date', '2030-07-01' );
@@ -531,5 +531,34 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( $this->obj->is_submission_late( $student_id, '2030-11-10 12:30:00' ) );
 
 		update_option( 'timezone_string', '' );
+	}
+
+	/**
+	 * Test that due dates and times are read only in their stored `Y-m-d` and 24-hour `H:i` formats.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_due_timestamp_storage_format() {
+
+		$student_id = $this->factory->student->create();
+		$this->create( 'due date format' );
+		$this->obj->set( 'due_method', 'date' );
+		$this->obj->set( 'due_date', '2030-07-01' );
+
+		$this->obj->set( 'due_time', '17:00' );
+		$this->assertSame( gmmktime( 17, 0, 0, 7, 1, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+
+		// A time in any other format, such as 12-hour, is the end of the day.
+		$this->obj->set( 'due_time', '05:00 PM' );
+		$this->assertSame( gmmktime( 23, 59, 59, 7, 1, 2030 ), $this->obj->get_due_timestamp( $student_id ) );
+
+		// A date in any other format, or one that doesn't exist, is no due date.
+		$this->obj->set( 'due_time', '' );
+		foreach ( array( '07/01/2030', '2030-02-30', 'July 1, 2030' ) as $date ) {
+			$this->obj->set( 'due_date', $date );
+			$this->assertFalse( $this->obj->get_due_timestamp( $student_id ), $date );
+		}
 	}
 }

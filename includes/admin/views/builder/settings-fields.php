@@ -8,6 +8,7 @@
  * @since 10.2.1 Allow settings selects to be rendered disabled.
  * @since 11.1.0 Escaped input field values.
  * @since [version] Associate field labels and help tips with their select and text inputs.
+ *                  Added the `time_format` input option.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -152,6 +153,7 @@ defined( 'ABSPATH' ) || exit;
 												<# if ( input.timepicker ) { #> data-date-timepicker="{{{ input.timepicker }}}" <# } #>
 												<# if ( input.date_format ) { #> data-date-format="{{{ input.date_format }}}" <# } #>
 											<# } #>
+											<# if ( 'time' === input.type && input.time_format ) { #> data-time-format="{{{ input.time_format }}}" <# } #>
 											<# if ( input.hasOwnProperty( 'min' ) ) { #> min="{{{ input.min }}}" <# } #>
 											<# if ( input.hasOwnProperty( 'max' ) ) { #> max="{{{ input.max }}}" <# } #>
 											name="{{{ input.attribute }}}"
