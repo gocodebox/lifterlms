@@ -204,6 +204,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 *
 	 * @since 3.17.5
 	 * @since 3.30.3 Fixed spelling errors.
+	 * @since [version] Added the "Passwordless Checkout" setting.
 	 *
 	 * @return array
 	 */
@@ -283,6 +284,15 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'desc'    => __( 'Force secure checkout via SSL (https) on the checkout page(s).', 'lifterlms' ) .
 								'<p class="description">' . sprintf( __( 'Requires an SSL certificate. %1$sLearn More%2$s', 'lifterlms' ), '<a href="https://lifterlms.com/docs/ssl-and-https/" target="_blank">', '</a>' ) . '</p>',
 				'id'      => 'lifterlms_checkout_force_ssl',
+				'type'    => 'checkbox',
+				'default' => 'no',
+			),
+
+			array(
+				'title'   => __( 'Passwordless Checkout', 'lifterlms' ),
+				'desc'    => __( 'Let new students check out without choosing a password.', 'lifterlms' ) .
+								'<p class="description">' . __( 'The password field is hidden, a random password is assigned, the student is logged in, and they are emailed a link to set their own password. Requires reliable email delivery (SMTP).', 'lifterlms' ) . '</p>',
+				'id'      => LLMS_Passwordless_Checkout::OPTION,
 				'type'    => 'checkbox',
 				'default' => 'no',
 			),
