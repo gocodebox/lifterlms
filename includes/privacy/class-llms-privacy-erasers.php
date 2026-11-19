@@ -254,6 +254,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 			$override['reason'] = '';
 			llms_update_user_postmeta( $student->get_id(), $post_id, '_due_date_override', $override );
+			wp_cache_delete( $student->get_id(), 'llms_due_date_overrides' );
 
 			/* Translators: %s = Quiz or assignment title. */
 			$messages[] = sprintf( __( 'Removed the reason for the due date change on "%s".', 'lifterlms' ), get_the_title( $post_id ) );
@@ -362,6 +363,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 					$student->get( 'id' )
 				)
 			);
+			wp_cache_delete( $student->get( 'id' ), 'llms_due_date_overrides' );
 
 			$ret['messages'][]    = __( 'Removed all student course and membership enrollment and activity data.', 'lifterlms' );
 			$ret['items_removed'] = true;

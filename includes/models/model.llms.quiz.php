@@ -99,21 +99,19 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			return false;
 		}
 
-		$query = new LLMS_Query_Quiz_Attempt(
-			array(
-				'student_id'     => $student_id,
-				'quiz_id'        => $this->get( 'id' ),
-				'per_page'       => 1,
-				'status_exclude' => array( 'incomplete' ),
-				'sort'           => array(
-					'end_date' => 'ASC',
-					'id'       => 'ASC',
-				),
+		global $wpdb;
+
+		// One query, on the attempts that have an end date: the syllabus asks for this once per quiz.
+		$end_date = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT end_date FROM {$wpdb->prefix}lifterlms_quiz_attempts WHERE student_id = %d AND quiz_id = %d AND status != 'incomplete' AND end_date IS NOT NULL ORDER BY end_date ASC, id ASC LIMIT 1",
+				$student_id,
+				$this->get( 'id' )
 			)
 		);
 
 		// Attempt dates are stored in the site's timezone.
-		return $query->has_results() ? (int) get_gmt_from_date( $query->get_attempts()[0]->get( 'end_date' ), 'U' ) : false;
+		return $end_date ? (int) get_gmt_from_date( $end_date, 'U' ) : false;
 	}
 
 	/**

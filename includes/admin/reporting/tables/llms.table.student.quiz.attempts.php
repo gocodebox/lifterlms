@@ -177,7 +177,8 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				break;
 
 			case 'late_penalty':
-				$value = $attempt->get_late_penalty() ? $attempt->get_late_penalty() . '%' : '';
+				$penalty = $attempt->get_late_penalty();
+				$value   = $penalty ? $penalty . '%' : '';
 				break;
 
 			case 'late_penalty_note':
@@ -195,9 +196,10 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
 				}
 				$value .= ' (' . $additional . ')';
-				if ( ! $this->is_exporting && $attempt->get_late_penalty() ) {
+				$penalty = $this->is_exporting ? 0 : $attempt->get_late_penalty();
+				if ( $penalty ) {
 					// Translators: %s = Late penalty taken off a quiz attempt's score, in percentage points.
-					$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html( sprintf( __( '−%s%% late', 'lifterlms' ), $attempt->get_late_penalty() ) ) . '</span>';
+					$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html( sprintf( __( '−%s%% late', 'lifterlms' ), $penalty ) ) . '</span>';
 				}
 				break;
 

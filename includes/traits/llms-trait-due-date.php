@@ -166,8 +166,9 @@ trait LLMS_Trait_Due_Date {
 	 * }
 	 */
 	public function get_due_date_override( $student_id ) {
-		$override = $student_id ? llms_get_user_postmeta( $student_id, $this->get( 'id' ), '_due_date_override' ) : false;
-		return is_array( $override ) && ! empty( $override['due'] ) ? $override : false;
+		$student   = $student_id ? llms_get_student( $student_id ) : false;
+		$overrides = $student ? $student->get_due_date_overrides() : array();
+		return isset( $overrides[ $this->get( 'id' ) ] ) ? $overrides[ $this->get( 'id' ) ] : false;
 	}
 
 	/**
@@ -181,6 +182,8 @@ trait LLMS_Trait_Due_Date {
 	 * @return bool
 	 */
 	public function set_due_date_override( $student_id, $due, $reason = '' ) {
+
+		wp_cache_delete( $student_id, 'llms_due_date_overrides' );
 
 		if ( ! $due ) {
 			return (bool) llms_delete_user_postmeta( $student_id, $this->get( 'id' ), '_due_date_override' );

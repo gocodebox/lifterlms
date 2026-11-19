@@ -961,6 +961,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
+		// Read once per request for all of the student's quizzes and assignments; a course syllabus asks for each of them.
+		wp_cache_add_non_persistent_groups( 'llms_due_date_overrides' );
+		$overrides = wp_cache_get( $this->get_id(), 'llms_due_date_overrides' );
+		if ( is_array( $overrides ) ) {
+			return $overrides;
+		}
+
 		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
 				"SELECT post_id, meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_due_date_override' ORDER BY post_id ASC, updated_date ASC",
@@ -975,6 +982,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$overrides[ (int) $row->post_id ] = $override;
 			}
 		}
+
+		wp_cache_set( $this->get_id(), $overrides, 'llms_due_date_overrides' );
 
 		return $overrides;
 	}
