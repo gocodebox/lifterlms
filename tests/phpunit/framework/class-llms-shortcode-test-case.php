@@ -51,6 +51,24 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Whether WordPress decodes escaped markup in shortcode attributes to character references.
+	 *
+	 * Since WordPress 7.1.5 (backported to 7.0.9, 6.9.12, 6.8.13, and others), `shortcode_parse_atts()`
+	 * decodes an escape such as `\x3c` to `&lt;` instead of `<`, so escaped attribute values no longer
+	 * rebuild markup.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	protected function wp_encodes_escaped_shortcode_markup() {
+
+		$atts = shortcode_parse_atts( 'a=\x3c' );
+		return '&lt;' === $atts['a'];
+
+	}
+
+	/**
 	 * Test shortcode registration
 	 *
 	 * @since 3.24.1
