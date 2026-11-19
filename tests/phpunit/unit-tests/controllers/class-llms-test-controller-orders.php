@@ -450,6 +450,70 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that trashing an order unenrolls the student if another order exists but its access has expired.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_error_order_unenrolls_when_other_order_has_no_access() {
+
+		$plan       = $this->get_mock_plan();
+		$student    = $this->get_mock_student();
+		$product_id = $plan->get( 'product_id' );
+
+		$order_a = $this->get_mock_order( $plan, false, $student );
+		$order_b = $this->get_mock_order( $plan, false, $student );
+
+		// Set Order A to completed, but set Order B's access to expired in the past.
+		$order_a->set( 'status', 'llms-completed' );
+		$student->set_enrollment_trigger( $product_id, 'order_' . $order_a->get( 'id' ) );
+
+		$order_b->set( 'status', 'llms-completed' );
+		$order_b->set( 'date_access_expires', date( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) );
+		$this->assertFalse( $order_b->has_access() );
+
+		// Trash Order A.
+		wp_trash_post( $order_a->get( 'id' ) );
+
+		// Student should be unenrolled with cancelled status because Order B does not grant active access.
+		$this->assertFalse( $student->is_enrolled( $product_id ) );
+		$this->assertEquals( 'cancelled', $student->get_enrollment_status( $product_id ) );
+	}
+
+	/**
+	 * Test that order expiration unenrolls the student even if another completed order exists.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_error_order_expired_unenrolls_student() {
+
+		$plan       = $this->get_mock_plan();
+		$student    = $this->get_mock_student();
+		$product_id = $plan->get( 'product_id' );
+
+		$order_a = $this->get_mock_order( $plan, false, $student );
+		$order_b = $this->get_mock_order( $plan, false, $student );
+
+		$order_a->set( 'status', 'llms-completed' );
+		$order_b->set( 'status', 'llms-completed' );
+		$student->set_enrollment_trigger( $product_id, 'order_' . $order_a->get( 'id' ) );
+
+		// Trigger expiration on Order A via controller.
+		$controller = new LLMS_Controller_Orders();
+		$order_a->set( 'status', 'llms-expired' );
+		do_action( 'lifterlms_order_status_expired', $order_a );
+
+		// Student should be unenrolled with status expired.
+		$this->assertFalse( $student->is_enrolled( $product_id ) );
+		$this->assertEquals( 'expired', $student->get_enrollment_status( $product_id ) );
+	}
+
+	/**
 	 * Test on user enrollment deleted.
 	 *
 	 * The controller's `on_user_enrollment_deleted()` method is reponsible of changing the order status to `cancelled`

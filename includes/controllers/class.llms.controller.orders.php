@@ -183,6 +183,7 @@ class LLMS_Controller_Orders {
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
 	 * @since 5.4.0 Unenroll with 'cancelled' status on 'llms_order_recurring_charge_aborted_product_deleted'.
 	 *              The `$order` param can be also a WP_Post or its `ID`.
+	 * @since [version] Skip unenrollment when trashing an order if another order still grants access.
 	 *
 	 * @param int|WP_Post|LLMS_Order $order Instance of an LLMS_Order, WP_Post or WP_Post ID of the order.
 	 * @return void
@@ -206,6 +207,25 @@ class LLMS_Controller_Orders {
 		 */
 		if ( ! apply_filters( 'llms_unenroll_on_error_order', true, $order ) ) {
 			return;
+		}
+
+		// When an order is moved to trash, preserve enrollment if the student has another order that still grants access.
+		if ( 'lifterlms_order_status_trash' === current_filter() ) {
+			$student = llms_get_student( $order->get( 'user_id' ) );
+			if ( $student ) {
+				$active_order = $student->get_enrollment_order(
+					$order->get( 'product_id' ),
+					true,
+					array(
+						'post_status'  => array( 'llms-active', 'llms-completed' ),
+						'post__not_in' => array( $order->get( 'id' ) ),
+					)
+				);
+				if ( $active_order && is_a( $active_order, 'LLMS_Order' ) && $active_order->has_access() ) {
+					$student->set_enrollment_trigger( $order->get( 'product_id' ), 'order_' . $active_order->get( 'id' ) );
+					return;
+				}
+			}
 		}
 
 		switch ( current_filter() ) {
@@ -235,6 +255,7 @@ class LLMS_Controller_Orders {
 	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post.
 	 *
 	 * @since 3.33.0
+	 * @since [version] Skip enrollment deletion when deleting an order if another order still grants access.
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return void
@@ -243,6 +264,22 @@ class LLMS_Controller_Orders {
 
 		$order = llms_get_post( $post_id );
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+			$student = llms_get_student( $order->get( 'user_id' ) );
+			if ( $student ) {
+				$active_order = $student->get_enrollment_order(
+					$order->get( 'product_id' ),
+					true,
+					array(
+						'post_status'  => array( 'llms-active', 'llms-completed' ),
+						'post__not_in' => array( $order->get( 'id' ) ),
+					)
+				);
+				if ( $active_order && is_a( $active_order, 'LLMS_Order' ) && $active_order->has_access() ) {
+					$student->set_enrollment_trigger( $order->get( 'product_id' ), 'order_' . $active_order->get( 'id' ) );
+					return;
+				}
+			}
+
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
 		}
 	}
