@@ -401,6 +401,111 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_lock_checkout() locks, can be disabled, and fails open.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_lock_checkout() {
+
+		global $wpdb;
+
+		$name = 'llms_checkout_' . md5( $wpdb->dbname . $wpdb->prefix . 'test_key' );
+
+		// Acquired and held by this connection.
+		$this->assertTrue( llms_lock_checkout( 'test_key' ) );
+		$this->assertEquals( $wpdb->get_var( 'SELECT CONNECTION_ID()' ), $wpdb->get_var( $wpdb->prepare( 'SELECT IS_USED_LOCK( %s )', $name ) ) );
+		$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $name ) );
+
+		// Held by another request: waits for the timeout, then continues without the lock.
+		$other = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+		$this->assertEquals( '1', mysqli_query( $other, "SELECT GET_LOCK( '{$name}', 0 )" )->fetch_row()[0] );
+		$one_second = function () {
+			return 1;
+		};
+		add_filter( 'llms_checkout_lock_timeout', $one_second );
+		$this->assertFalse( llms_lock_checkout( 'test_key' ) );
+		remove_filter( 'llms_checkout_lock_timeout', $one_second );
+		mysqli_close( $other );
+
+		// Disabled: no lock query.
+		$queries = array();
+		$watch   = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $watch );
+		add_filter( 'llms_checkout_lock_timeout', '__return_zero' );
+		$this->assertFalse( llms_lock_checkout( 'test_key' ) );
+		remove_filter( 'llms_checkout_lock_timeout', '__return_zero' );
+		remove_filter( 'query', $watch );
+		$this->assertEmpty( preg_grep( '/GET_LOCK/', $queries ) );
+
+		// The database doesn't support named locks (e.g. Galera): no error output, checkout continues.
+		$unsupported = function ( $query ) {
+			return false !== strpos( $query, 'GET_LOCK' ) ? 'SELECT GET_LOCK_UNSUPPORTED()' : $query;
+		};
+		add_filter( 'query', $unsupported );
+		$show = $wpdb->show_errors();
+		ob_start();
+		$locked = llms_lock_checkout( 'test_key' );
+		$output = ob_get_clean();
+		$wpdb->show_errors( $show );
+		remove_filter( 'query', $unsupported );
+		$this->assertFalse( $locked );
+		$this->assertSame( '', $output );
+	}
+
+	/**
+	 * Test llms_setup_pending_order() still registers and sets up the order when checkout locks are unavailable.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_setup_pending_order_without_locks() {
+
+		LLMS_Forms::instance()->install( true );
+
+		$plan = $this->get_mock_plan( 0 );
+
+		$unsupported = function ( $query ) {
+			return false !== strpos( $query, 'GET_LOCK' ) ? 'SELECT GET_LOCK_UNSUPPORTED()' : $query;
+		};
+		add_filter( 'query', $unsupported );
+
+		global $wpdb;
+		$show = $wpdb->show_errors();
+		ob_start();
+		$setup = llms_setup_pending_order(
+			array(
+				'plan_id'  => $plan->get( 'id' ),
+				'customer' => array(
+					'email_address'          => 'no-locks@test.net',
+					'email_address_confirm'  => 'no-locks@test.net',
+					'password'               => '12345678',
+					'password_confirm'       => '12345678',
+					'first_name'             => 'Test',
+					'last_name'              => 'Person',
+					'llms_billing_address_1' => '123',
+					'llms_billing_city'      => 'City',
+					'llms_billing_state'     => 'CA',
+					'llms_billing_zip'       => '91231',
+					'llms_billing_country'   => 'US',
+				),
+			)
+		);
+		$output = ob_get_clean();
+		$wpdb->show_errors( $show );
+
+		remove_filter( 'query', $unsupported );
+
+		$this->assertSame( '', $output );
+		$this->assertEquals( array( 'person', 'plan', 'gateway', 'coupon' ), array_keys( $setup ) );
+	}
+
+	/**
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0
@@ -503,6 +608,16 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$order_data['customer']['email_address_confirm'] = 'arstinhasrteinharst@test.net';
 		$order_data['customer']['user_id'] = $uid;
 		llms_enroll_student( $uid, $course_id );
+		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
+
+		// Enrolled by an overlapping request, so this request's cached enrollment status is stale.
+		$uid_2 = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $uid_2 );
+		$order_data['customer']['user_id']               = $uid_2;
+		$order_data['customer']['email_address']         = 'second-student@test.net';
+		$order_data['customer']['email_address_confirm'] = 'second-student@test.net';
+		$this->assertFalse( llms_is_user_enrolled( $uid_2, $course_id ) );
+		llms_update_user_postmeta( $uid_2, $course_id, '_status', 'enrolled' );
 		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
 
 		// This should return an array of details we need to create a new order!
