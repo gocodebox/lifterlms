@@ -479,6 +479,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 			'd/m/Y'           => array( 'd/m', 'd/m/Y' ),
 			'Y-m-d'           => array( 'm-d', 'Y-m-d' ),
 			'l, F jS, Y'      => array( 'D, M jS', 'D, M jS, Y' ),
+			// Japanese and Chinese, Korean, Hungarian: the text after the year goes with the year.
+			'Y年n月j日'          => array( 'n月j日', 'Y年n月j日' ),
+			'Y년 n월 j일'        => array( 'n월 j일', 'Y년 n월 j일' ),
+			'Y. F j.'         => array( 'M j.', 'Y. M j.' ),
+			'n月j日 Y年'         => array( 'n月j日', 'n月j日 Y年' ),
+			// Only a year: nothing shorter to show.
+			'Y'               => array( 'Y', 'Y' ),
 		);
 
 		foreach ( $tests as $site_format => $expected ) {

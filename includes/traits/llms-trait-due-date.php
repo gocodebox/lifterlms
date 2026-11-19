@@ -301,8 +301,8 @@ trait LLMS_Trait_Due_Date {
 	 * Retrieve a compact version of the site's date format, for lists such as the course syllabus.
 	 *
 	 * Keeps the site's date order and separators, abbreviates month and weekday names, and drops the
-	 * year when the date is in the current year. For example, "F j, Y" becomes "M j" (Nov 20) and
-	 * "j \d\e F \d\e Y" becomes "j \d\e M" (20 de nov).
+	 * year when the date is in the current year. For example, "F j, Y" becomes "M j" (Nov 20),
+	 * "j \d\e F \d\e Y" becomes "j \d\e M" (20 de nov) and "Y年n月j日" becomes "n月j日" (11月20日).
 	 *
 	 * @since [version]
 	 *
@@ -316,9 +316,12 @@ trait LLMS_Trait_Due_Date {
 		// Abbreviate unescaped full month (F) and weekday (l) names.
 		$format = preg_replace( array( '/(?<!\\\\)F/', '/(?<!\\\\)l/' ), array( 'M', 'D' ), $format );
 
-		// Drop the year, with the separators and escaped literal text that join it to the rest of the date.
+		// Drop the year, with the separators and literal text that join it to the rest of the date.
+		// Text after the year that isn't a format character belongs to the year, such as the 年 in "Y年n月j日".
 		if ( wp_date( 'Y', $timestamp ) === wp_date( 'Y' ) ) {
-			$format = preg_replace( '/^\s*[Yyo](?:[\s,.\/\-]|\\\\.)*|(?:[\s,.\/\-]|\\\\.)*[Yyo]\s*$/', '', $format );
+			$without_year = preg_replace( '/^\s*[Yyo](?:[\s,.\/\-]|\\\\.|[^\x00-\x7F])*|(?:[\s,.\/\-]|\\\\.)*[Yyo](?:[^\x00-\x7F])*\s*$/u', '', $format );
+			// The pattern fails on text that isn't valid UTF-8; keep the year in that case.
+			$format = is_string( $without_year ) && '' !== $without_year ? $without_year : $format;
 		}
 
 		/**
