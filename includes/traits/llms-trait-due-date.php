@@ -422,6 +422,8 @@ trait LLMS_Trait_Due_Date {
 	/**
 	 * Retrieve a translated label for a due status.
 	 *
+	 * Work submitted by its due date (`on-time`) has no label: it is shown with its due date only.
+	 *
 	 * @since [version]
 	 *
 	 * @param string $status Due status.
@@ -437,8 +439,6 @@ trait LLMS_Trait_Due_Date {
 			'due-soon' => __( 'Due soon', 'lifterlms' ),
 			// Translators: Due date status of a quiz or assignment for a student: not submitted, and the due date has passed.
 			'overdue'  => __( 'Overdue', 'lifterlms' ),
-			// Translators: Due date status of a quiz or assignment for a student: submitted by the due date.
-			'on-time'  => __( 'On time', 'lifterlms' ),
 			// Translators: Due date status of a quiz or assignment for a student: submitted after the due date.
 			'late'     => __( 'Late', 'lifterlms' ),
 		);
