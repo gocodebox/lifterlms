@@ -35,7 +35,7 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	 * @return int
 	 */
 	public function per_page() {
-		return 2;
+		return 4;
 	}
 
 	/**
@@ -55,14 +55,14 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test that protected question images are linked to their quiz across batches, including inside a question group,
-	 * and unprotected images and existing links are left alone.
+	 * Test that protected media in questions is linked to the question's quiz across batches, including inside
+	 * a question group, and unprotected media and existing links are left alone.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_link_question_images_to_quizzes() {
+	public function test_link_question_media_to_quizzes() {
 
 		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
 
@@ -74,21 +74,31 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 		$in_group    = $this->create_image();
 		$linked      = $this->create_image();
 		$unprotected = $this->create_image( false );
+		$in_content  = $this->create_image();
+		$in_clarify  = $this->create_image();
 		update_post_meta( $linked, '_llms_quiz_id', array( 98765 ) );
 
 		foreach ( array( $protected, $linked, $unprotected ) as $image_id ) {
 			$quiz->questions()->create_question( array( 'title' => 'Q', 'image' => array( 'enabled' => 'yes', 'id' => $image_id, 'src' => '' ) ) );
 		}
+		$quiz->questions()->create_question(
+			array(
+				'title'          => 'Q',
+				'content'        => '<img class="wp-image-' . $in_content . '" src="https://example.org/x.png">',
+				'clarifications' => '<img src="https://example.org/?llms_media_id=' . $in_clarify . '&amp;llms_media_image_size=full">',
+			)
+		);
 		llms_get_post( $group_id )->questions()->create_question( array( 'title' => 'Q', 'image' => array( 'enabled' => 'yes', 'id' => $in_group, 'src' => '' ) ) );
 
-		// 4 rows in batches of 2: two full pages, then an empty one ends the update.
-		$this->assertTrue( \LLMS\Updates\Version_11_1_1\link_question_images_to_quizzes() );
-		$this->assertTrue( \LLMS\Updates\Version_11_1_1\link_question_images_to_quizzes() );
-		$this->assertFalse( \LLMS\Updates\Version_11_1_1\link_question_images_to_quizzes() );
-		$this->assertFalse( get_option( 'llms_question_image_quiz_link_cursor' ) );
+		// 6 questions in batches of 4: one full page, then a partial one ends the update.
+		$this->assertTrue( \LLMS\Updates\Version_11_1_1\link_question_media_to_quizzes() );
+		$this->assertFalse( \LLMS\Updates\Version_11_1_1\link_question_media_to_quizzes() );
+		$this->assertFalse( get_option( 'llms_question_media_quiz_link_cursor' ) );
 
 		$this->assertEquals( array( $quiz_id ), get_post_meta( $protected, '_llms_quiz_id', true ) );
 		$this->assertEquals( array( $quiz_id ), get_post_meta( $in_group, '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz_id ), get_post_meta( $in_content, '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz_id ), get_post_meta( $in_clarify, '_llms_quiz_id', true ) );
 		$this->assertEquals( array( 98765, $quiz_id ), get_post_meta( $linked, '_llms_quiz_id', true ) );
 		$this->assertEmpty( get_post_meta( $unprotected, '_llms_quiz_id', true ) );
 

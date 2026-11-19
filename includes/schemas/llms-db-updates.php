@@ -233,7 +233,7 @@ return array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
-			'link_question_images_to_quizzes',
+			'link_question_media_to_quizzes',
 			'update_db_version',
 		),
 	),

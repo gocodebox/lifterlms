@@ -26,13 +26,13 @@ function _get_db_version() {
 }
 
 /**
- * Link protected question images to their quiz.
+ * Link protected quiz question media to its quiz.
  *
- * The course builder linked picture choice images to their quiz with `_llms_quiz_id` but not the
- * question's own image, so students could not view a protected question image while taking the quiz.
- * Walks `_llms_image` rows of questions once, using `llms_question_image_quiz_link_cursor` so each
- * batch continues after the last meta ID. Only protected attachments are changed. A question inside
- * a question group is linked to the group's quiz.
+ * The course builder linked picture choice images to their quiz with `_llms_quiz_id`, but not the question's
+ * own image or images in its description and clarifications, so students could not view them while taking the
+ * quiz or on its results. Walks questions once by ID, using `llms_question_media_quiz_link_cursor` so each batch
+ * continues after the last question. Only protected attachments are changed. A question inside a question group
+ * is linked to the group's quiz.
  *
  * Returns `true` while a full page was processed so the background updater calls it again,
  * otherwise `false`. Re-running is safe.
@@ -41,41 +41,29 @@ function _get_db_version() {
  *
  * @return bool
  */
-function link_question_images_to_quizzes() {
+function link_question_media_to_quizzes() {
 
 	global $wpdb;
 
 	$per_page = \llms_update_util_get_items_per_page();
-	$cursor   = (int) \get_option( 'llms_question_image_quiz_link_cursor', 0 );
+	$cursor   = (int) \get_option( 'llms_question_media_quiz_link_cursor', 0 );
 
-	$rows = $wpdb->get_results(
+	$question_ids = $wpdb->get_col(
 		$wpdb->prepare(
-			"
-			SELECT pm.meta_id, pm.post_id
-			FROM {$wpdb->postmeta} AS pm
-			INNER JOIN {$wpdb->posts} AS p ON p.ID = pm.post_id
-			WHERE pm.meta_key = '_llms_image'
-			  AND pm.meta_id > %d
-			  AND p.post_type = 'llms_question'
-			ORDER BY pm.meta_id ASC
-			LIMIT %d
-			",
+			"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_question' AND ID > %d ORDER BY ID ASC LIMIT %d",
 			$cursor,
 			$per_page
 		)
 	); // db call ok; no-cache ok.
 
-	foreach ( $rows as $row ) {
+	$protector = new \LLMS_Media_Protector();
 
-		$cursor = (int) $row->meta_id;
-		$image  = \get_post_meta( (int) $row->post_id, '_llms_image', true );
+	foreach ( $question_ids as $question_id ) {
 
-		$media_id = is_array( $image ) && isset( $image['id'] ) ? \absint( $image['id'] ) : 0;
-		if ( ! $media_id || ! ( new \LLMS_Media_Protector() )->is_media_protected( $media_id ) ) {
-			continue;
-		}
+		$question_id = (int) $question_id;
+		$cursor      = $question_id;
 
-		$quiz_id = \absint( \get_post_meta( (int) $row->post_id, '_llms_parent_id', true ) );
+		$quiz_id = \absint( \get_post_meta( $question_id, '_llms_parent_id', true ) );
 		if ( $quiz_id && 'llms_question' === \get_post_type( $quiz_id ) ) {
 			$quiz_id = \absint( \get_post_meta( $quiz_id, '_llms_parent_id', true ) );
 		}
@@ -83,22 +71,26 @@ function link_question_images_to_quizzes() {
 			continue;
 		}
 
-		$quiz_ids = \get_post_meta( $media_id, '_llms_quiz_id', true );
-		if ( ! is_array( $quiz_ids ) ) {
-			$quiz_ids = array();
-		}
-		if ( ! in_array( $quiz_id, array_map( 'absint', $quiz_ids ), true ) ) {
-			$quiz_ids[] = $quiz_id;
-			\update_post_meta( $media_id, '_llms_quiz_id', $quiz_ids );
+		$image     = \get_post_meta( $question_id, '_llms_image', true );
+		$media_ids = array_merge(
+			array( is_array( $image ) && isset( $image['id'] ) ? $image['id'] : 0 ),
+			$protector->get_media_ids_in_content( \get_post_field( 'post_content', $question_id ) ),
+			$protector->get_media_ids_in_content( \get_post_meta( $question_id, '_llms_clarifications', true ) )
+		);
+
+		foreach ( array_filter( array_map( 'absint', $media_ids ) ) as $media_id ) {
+			if ( $protector->is_media_protected( $media_id ) ) {
+				$protector->link_to_quiz( $media_id, $quiz_id );
+			}
 		}
 	}
 
-	if ( count( $rows ) < $per_page ) {
-		\delete_option( 'llms_question_image_quiz_link_cursor' );
+	if ( count( $question_ids ) < $per_page ) {
+		\delete_option( 'llms_question_media_quiz_link_cursor' );
 		return false;
 	}
 
-	\update_option( 'llms_question_image_quiz_link_cursor', $cursor, false );
+	\update_option( 'llms_question_media_quiz_link_cursor', $cursor, false );
 	return true;
 }
 

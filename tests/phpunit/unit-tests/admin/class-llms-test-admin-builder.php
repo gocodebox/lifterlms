@@ -915,7 +915,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test that saving a question links its image and its choice images to the quiz, including inside a question group.
+	 * Test that saving a question links its image, choice images, and images in its description and clarifications
+	 * to the quiz, including inside a question group.
 	 *
 	 * @since [version]
 	 *
@@ -927,7 +928,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
 		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1, 'questions' => 0 ) );
 		$quiz   = $course->get_lessons()[0]->get_quiz();
-		$images = $this->factory->post->create_many( 3, array( 'post_type' => 'attachment' ) );
+		$images = $this->factory->post->create_many( 5, array( 'post_type' => 'attachment' ) );
 
 		// The question image is already linked to another quiz, which must be kept.
 		update_post_meta( $images[0], '_llms_quiz_id', array( 123456 ) );
@@ -942,6 +943,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 						'title'         => 'Pick one',
 						'question_type' => 'picture_choice',
 						'image'         => array( 'enabled' => 'yes', 'id' => $images[0], 'src' => '' ),
+						'content'       => '<p><img class="alignnone size-full wp-image-' . $images[3] . '" src="https://example.org/x.png"></p>',
+						'clarifications' => '<img src="https://example.org/?llms_media_id=' . $images[4] . '&amp;llms_media_image_size=full">',
 						'choices'       => array(
 							array( 'id' => 'temp_2', 'choice_type' => 'image', 'choice' => array( 'id' => $images[1], 'src' => '' ), 'marker' => 'A' ),
 						),
@@ -969,6 +972,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 		$this->assertEquals( array( 123456, $quiz->get( 'id' ) ), get_post_meta( $images[0], '_llms_quiz_id', true ) );
 		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[1], '_llms_quiz_id', true ) );
 		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[2], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[3], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[4], '_llms_quiz_id', true ) );
 	}
 
 	/**
