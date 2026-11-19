@@ -132,13 +132,17 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 			if ( 'lesson' !== get_post_type( get_the_ID() ) ) :
 				?>
 				<?php
+				// The enrolled student's due date for each of the lesson's quiz, assignment, etc., by post type.
 				$due_student = llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) ? get_current_user_id() : 0;
+				$due_dates   = array();
+				foreach ( $due_student ? $lesson->get_due_date_items() : array() as $due_item ) {
+					$due_dates[ $due_item->get( 'type' ) ] = $due_item->get_due_date_html( $due_student, 'short' );
+				}
 				if ( $lesson->is_quiz_enabled() ) :
-					$due_quiz = $due_student ? llms_get_post( $lesson->get( 'quiz' ) ) : false;
 					?>
 					<span class="llms-lesson-has-quiz">
 						<span class="llms-lesson-meta-label"><i class="fa fa-question-circle" aria-hidden="true"></i> <?php esc_html_e( 'Has Quiz', 'lifterlms' ); ?></span>
-					<?php $due_html = $due_quiz instanceof LLMS_Quiz ? $due_quiz->get_due_date_html( $due_student, 'short' ) : ''; ?>
+					<?php $due_html = isset( $due_dates['llms_quiz'] ) ? $due_dates['llms_quiz'] : ''; ?>
 					<?php if ( $due_html ) : ?>
 						<span class="screen-reader-text">,</span> <?php echo wp_kses_post( $due_html ); ?><span class="screen-reader-text">.</span>
 					<?php endif; ?>
@@ -152,10 +156,7 @@ if ( isset( $total_lessons ) && $total_lessons ) {
 					?>
 					<span class="llms-lesson-has-assignment">
 						<span class="llms-lesson-meta-label"><i class="fa fa-pencil-square" aria-hidden="true"></i> <?php esc_html_e( 'Has Assignment', 'lifterlms' ); ?></span>
-					<?php
-					$due_assignment = $due_student && function_exists( 'llms_lesson_get_assignment' ) ? llms_lesson_get_assignment( $lesson ) : false;
-					$due_html       = $due_assignment && method_exists( $due_assignment, 'get_due_date_html' ) ? $due_assignment->get_due_date_html( $due_student, 'short' ) : '';
-					?>
+					<?php $due_html = isset( $due_dates['llms_assignment'] ) ? $due_dates['llms_assignment'] : ''; ?>
 					<?php if ( $due_html ) : ?>
 						<span class="screen-reader-text">,</span> <?php echo wp_kses_post( $due_html ); ?><span class="screen-reader-text">.</span>
 					<?php endif; ?>
