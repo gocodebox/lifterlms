@@ -69,6 +69,9 @@ trait LLMS_Trait_Due_Date {
 				'due_days'   => 'absint',
 			)
 		);
+
+		// The number of days the course builder starts with, for items saved before they had due date settings.
+		$this->property_defaults['due_days'] = 7;
 	}
 
 	/**

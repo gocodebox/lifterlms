@@ -541,6 +541,26 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test the number of days of a quiz that has never had due date settings saved.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_due_days_default() {
+
+		$this->create( 'due days' );
+
+		// Matches the course builder's default for a new quiz, so choosing "days after enrollment" doesn't start at 0.
+		$this->assertSame( 7, $this->obj->get( 'due_days' ) );
+		$this->assertSame( 7, $this->obj->toArray()['due_days'] );
+
+		// A saved 0 (due at the end of the enrollment day) is kept.
+		$this->obj->set( 'due_days', 0 );
+		$this->assertSame( 0, $this->obj->get( 'due_days' ) );
+	}
+
+	/**
 	 * Test that due dates and times are read only in their stored `Y-m-d` and 24-hour `H:i` formats.
 	 *
 	 * @since [version]
