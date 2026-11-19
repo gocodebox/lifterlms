@@ -146,8 +146,9 @@ if ( $student ) {
 		<div class="clear"></div>
 
 		<?php
-		$late_penalty = $attempt->get_late_penalty();
-		if ( ( $late_penalty || $attempt->is_late() ) && current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) ) ) :
+		$late_penalty    = $attempt->get_late_penalty();
+		$entered_penalty = (float) $attempt->get( 'late_penalty' );
+		if ( ( $entered_penalty || $attempt->is_late() ) && current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) ) ) :
 			$score = $attempt->get_score();
 			?>
 			<form action="" method="POST" class="llms-late-penalty">
@@ -177,7 +178,7 @@ if ( $student ) {
 				<p>
 					<label for="llms-late-penalty"><?php esc_html_e( 'Penalty', 'lifterlms' ); ?></label>
 					<span class="llms-late-penalty-input">
-						<input type="number" id="llms-late-penalty" name="llms_late_penalty" min="0" max="100" step="any" value="<?php echo esc_attr( $late_penalty ? $late_penalty : '' ); ?>" aria-describedby="llms-late-penalty-help">
+						<input type="number" id="llms-late-penalty" name="llms_late_penalty" min="0" max="100" step="any" value="<?php echo esc_attr( $entered_penalty ? $entered_penalty : '' ); ?>" aria-describedby="llms-late-penalty-help">
 						<span aria-hidden="true">%</span>
 					</span>
 					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. If this changes whether the attempt passes, the student is sent the quiz passed or failed notification.', 'lifterlms' ); ?></span>
@@ -190,7 +191,7 @@ if ( $student ) {
 
 				<p class="llms-late-penalty-actions">
 					<button class="llms-button-primary small" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_late_penalty"><?php esc_html_e( 'Save penalty', 'lifterlms' ); ?></button>
-					<?php if ( $late_penalty ) : ?>
+					<?php if ( $entered_penalty ) : ?>
 						<button class="llms-button-secondary small" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_late_penalty_remove"><?php esc_html_e( 'Remove penalty', 'lifterlms' ); ?></button>
 					<?php endif; ?>
 				</p>

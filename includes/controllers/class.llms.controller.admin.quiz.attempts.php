@@ -195,7 +195,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		// phpcs:enable
 
-		if ( $penalty === $attempt->get_late_penalty() && $note === (string) $attempt->get( 'late_penalty_note' ) ) {
+		if ( $penalty === (float) $attempt->get( 'late_penalty' ) && $note === (string) $attempt->get( 'late_penalty_note' ) ) {
 			return;
 		}
 

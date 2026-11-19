@@ -443,6 +443,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
   `status` varchar(15) DEFAULT '',
   `attempt` bigint(20) DEFAULT NULL,
   `grade` float DEFAULT NULL,
+  `score` float DEFAULT NULL,
   `late_penalty` float DEFAULT NULL,
   `late_penalty_note` text,
   `can_be_resumed` tinyint(1) DEFAULT '0',
