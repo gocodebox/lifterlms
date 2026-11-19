@@ -115,6 +115,7 @@ define( [
 					this.model.set_parent( this.lesson );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 
 				}
 
@@ -167,6 +168,8 @@ define( [
 
 				var view = this.get_subview( 'settings' );
 				if ( view && view.instance ) {
+					// Picking a "Due" option re-renders while its dropdown is still open.
+					this.release_select2_scroll_lock();
 					view.instance.render();
 					this.init_selects();
 				}
@@ -196,6 +199,7 @@ define( [
 					this.lesson.set( 'assignment', this.model );
 
 					this.listenTo( this.model, 'change:permalink', this.render_settings );
+					this.listenTo( this.model, 'change:due_method', this.render_settings );
 					this.render();
 
 				} else {
@@ -242,6 +246,7 @@ define( [
 				this.model = assignment;
 
 				this.listenTo( this.model, 'change:permalink', this.render_settings );
+				this.listenTo( this.model, 'change:due_method', this.render_settings );
 				this.render();
 
 			},

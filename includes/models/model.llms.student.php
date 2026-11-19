@@ -912,6 +912,83 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve the student's due date accommodation, set on their WordPress profile.
+	 *
+	 * Applies to every quiz and assignment due date unless the item has a per-student due date.
+	 *
+	 * @since [version]
+	 *
+	 * @return array|false {
+	 *     Accommodation or `false` when the student uses the course due dates.
+	 *
+	 *     @type string $type `none` (no due dates) or `extend` (due dates extended by `$days`).
+	 *     @type int    $days Number of days due dates are extended by, when `$type` is `extend`.
+	 * }
+	 */
+	public function get_due_date_accommodation() {
+
+		$type = get_user_option( 'llms_due_date_accommodation', $this->get_id() );
+		$days = absint( get_user_option( 'llms_due_date_extension_days', $this->get_id() ) );
+
+		if ( 'none' === $type || ( 'extend' === $type && $days ) ) {
+			$accommodation = array(
+				'type' => $type,
+				'days' => 'extend' === $type ? $days : 0,
+			);
+		} else {
+			$accommodation = false;
+		}
+
+		/**
+		 * Filters a student's due date accommodation.
+		 *
+		 * @since [version]
+		 *
+		 * @param array|false  $accommodation Accommodation data or `false`.
+		 * @param LLMS_Student $student       Student object.
+		 */
+		return apply_filters( 'llms_student_due_date_accommodation', $accommodation, $this );
+	}
+
+	/**
+	 * Retrieve the due dates changed for the student on individual quizzes and assignments.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] Array of due date data, see {@see LLMS_Trait_Due_Date::get_due_date_override()}, keyed by the WP_Post ID of the quiz or assignment.
+	 */
+	public function get_due_date_overrides() {
+
+		global $wpdb;
+
+		// Read once per request for all of the student's quizzes and assignments; a course syllabus asks for each of them.
+		wp_cache_add_non_persistent_groups( 'llms_due_date_overrides' );
+		$overrides = wp_cache_get( $this->get_id(), 'llms_due_date_overrides' );
+		if ( is_array( $overrides ) ) {
+			return $overrides;
+		}
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT post_id, meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_due_date_override' ORDER BY post_id ASC, updated_date ASC",
+				$this->get_id()
+			)
+		);
+
+		$overrides = array();
+		foreach ( $rows as $row ) {
+			$override = maybe_unserialize( $row->meta_value );
+			if ( is_array( $override ) && ! empty( $override['due'] ) ) {
+				$overrides[ (int) $row->post_id ] = $override;
+			}
+		}
+
+		wp_cache_set( $this->get_id(), $overrides, 'llms_due_date_overrides' );
+
+		return $overrides;
+	}
+
+	/**
 	 * Retrieve an array of Membership Levels for a user
 	 *
 	 * @return array

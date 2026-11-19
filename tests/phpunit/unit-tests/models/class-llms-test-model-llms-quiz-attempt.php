@@ -712,6 +712,68 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test calculate_grade() with a late penalty: the penalty comes off the score, decides pass or fail,
+	 * can't be more than the score, and clearing it restores the score.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_calculate_grade_late_penalty() {
+
+		$attempt = $this->take_a_quiz( 80, 65, 5 );
+		$this->assertEquals( 80, $attempt->get( 'grade' ) );
+		$this->assertEquals( 'pass', $attempt->get( 'status' ) );
+		$this->assertSame( 0.0, $attempt->get_late_penalty() );
+
+		// 80 - 20 = 60, below the 65% passing grade.
+		$attempt->set( 'late_penalty', 20 );
+		$attempt->calculate_grade()->save();
+		$attempt = new LLMS_Quiz_Attempt( $attempt->get( 'id' ) );
+		$this->assertEquals( 60, $attempt->get( 'grade' ) );
+		$this->assertEquals( 80, $attempt->get_score() );
+		$this->assertEquals( 'fail', $attempt->get( 'status' ) );
+
+		// A penalty larger than the score takes the grade to 0, and the penalty entered is kept.
+		$attempt->set( 'late_penalty', 95 );
+		$attempt->calculate_grade();
+		$this->assertEquals( 0, $attempt->get( 'grade' ) );
+		$this->assertEquals( 80, $attempt->get_late_penalty() );
+		$this->assertEquals( 80, $attempt->get_score() );
+		$this->assertEquals( 95, $attempt->get( 'late_penalty' ) );
+
+		// When a review then raises the score, the whole penalty entered applies.
+		$questions = $attempt->get_questions();
+		foreach ( $questions as &$question ) {
+			$question['earned']  = $question['points'];
+			$question['correct'] = 'yes';
+		}
+		$attempt->set_questions( $questions )->calculate_grade();
+		$this->assertEquals( 100, $attempt->get_score() );
+		$this->assertEquals( 5, $attempt->get( 'grade' ) );
+		$this->assertEquals( 95, $attempt->get_late_penalty() );
+
+		// A filtered penalty is applied to the grade without replacing the penalty entered, so regrading doesn't compound it.
+		$attempt->set( 'late_penalty', 20 );
+		$add_ten = function ( $penalty ) {
+			return $penalty + 10;
+		};
+		add_filter( 'llms_quiz_attempt_late_penalty', $add_ten );
+		$attempt->calculate_grade()->calculate_grade();
+		remove_filter( 'llms_quiz_attempt_late_penalty', $add_ten );
+		$this->assertEquals( 70, $attempt->get( 'grade' ) );
+		$this->assertEquals( 30, $attempt->get_late_penalty() );
+		$this->assertEquals( 20, $attempt->get( 'late_penalty' ) );
+
+		// Clearing the penalty restores the score and the pass.
+		$attempt->set( 'late_penalty', 0 );
+		$attempt->calculate_grade();
+		$this->assertEquals( 100, $attempt->get( 'grade' ) );
+		$this->assertEquals( 'pass', $attempt->get( 'status' ) );
+
+	}
+
+	/**
 	 * Test get_question() only returns questions that belong to the attempt.
 	 *
 	 * @since 11.1.0

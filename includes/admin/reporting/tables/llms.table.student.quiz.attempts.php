@@ -49,6 +49,15 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 	protected $is_exportable = true;
 
 	/**
+	 * Whether a cell is being retrieved for an export file.
+	 *
+	 * @since [version]
+	 *
+	 * @var bool
+	 */
+	private $is_exporting = false;
+
+	/**
 	 * Determine if the table is filterable
 	 *
 	 * @var  boolean
@@ -162,6 +171,24 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$value = '#' . $attempt->get( $key );
 				break;
 
+			case 'score':
+				$value = $attempt->get_score();
+				$value = null === $value ? '' : $value . '%';
+				break;
+
+			case 'late_penalty':
+				$penalty = $attempt->get_late_penalty();
+				$value   = $penalty ? $penalty . '%' : '';
+				break;
+
+			case 'late_penalty_note':
+				$value = (string) $attempt->get( 'late_penalty_note' );
+				break;
+
+			case 'late':
+				$value = $attempt->is_late() ? __( 'Yes', 'lifterlms' ) : __( 'No', 'lifterlms' );
+				break;
+
 			case 'grade':
 				$value      = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
 				$additional = $attempt->l10n( 'status' );
@@ -169,6 +196,10 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
 				}
 				$value .= ' (' . $additional . ')';
+				$penalty = $this->is_exporting ? 0 : $attempt->get_late_penalty();
+				if ( $penalty ) {
+					$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge( $penalty );
+				}
 				break;
 
 			case 'start_date':
@@ -177,6 +208,9 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$date  = $attempt->get( $key );
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
+					if ( ! $this->is_exporting && 'end_date' === $key && $attempt->is_late() ) {
+						$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge();
+					}
 				}
 				break;
 
@@ -199,6 +233,26 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 				$value = $key;
 
 		}// End switch().
+
+		return $value;
+	}
+
+	/**
+	 * Retrieve data for a cell in an export file.
+	 *
+	 * The "Late" and late penalty badges shown on screen are left out; they have their own export columns.
+	 *
+	 * @since [version]
+	 *
+	 * @param string            $key     The column id / key.
+	 * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt obj.
+	 * @return mixed
+	 */
+	public function get_export_data( $key, $attempt ) {
+
+		$this->is_exporting = true;
+		$value              = parent::get_export_data( $key, $attempt );
+		$this->is_exporting = false;
 
 		return $value;
 	}
@@ -297,46 +351,68 @@ class LLMS_Table_Student_Quiz_Attempts extends LLMS_Admin_Table {
 	protected function set_columns() {
 
 		$cols = array(
-			'id'         => array(
+			'id'                => array(
 				'exportable' => true,
 				'title'      => __( 'ID', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'quiz'       => array(
+			'quiz'              => array(
 				'exportable' => true,
 				'title'      => __( 'Quiz', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'course'     => array(
+			'course'            => array(
 				'exportable' => true,
 				'title'      => __( 'Course', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'lesson'     => array(
+			'lesson'            => array(
 				'exportable' => true,
 				'title'      => __( 'Lesson', 'lifterlms' ),
 				'sortable'   => false,
 			),
-			'attempt'    => array(
+			'attempt'           => array(
 				'exportable' => true,
 				'title'      => __( 'Attempt #', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'grade'      => array(
+			'grade'             => array(
 				'filterable' => llms_get_quiz_attempt_statuses(),
 				'exportable' => true,
 				'title'      => __( 'Grade', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'start_date' => array(
+			'start_date'        => array(
 				'exportable' => true,
 				'title'      => __( 'Start Date', 'lifterlms' ),
 				'sortable'   => true,
 			),
-			'end_date'   => array(
+			'end_date'          => array(
 				'exportable' => true,
 				'title'      => __( 'End Date', 'lifterlms' ),
 				'sortable'   => true,
+			),
+			// Export-only columns go last so the columns before them keep their positions.
+			'score'             => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Score', 'lifterlms' ),
+			),
+			'late_penalty'      => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Late Penalty', 'lifterlms' ),
+			),
+			'late_penalty_note' => array(
+				'export_only' => true,
+				'exportable'  => true,
+				'title'       => __( 'Late Penalty Note', 'lifterlms' ),
+			),
+			'late'              => array(
+				'export_only' => true,
+				'exportable'  => true,
+				// Translators: Export column heading: whether the quiz attempt was submitted after its due date.
+				'title'       => __( 'Late', 'lifterlms' ),
 			),
 		);
 

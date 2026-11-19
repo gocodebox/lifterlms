@@ -187,4 +187,25 @@ Form Styles
 	select {
 		max-width: 100%;
 	}
+	.llms-due-date-accommodation {
+		margin-top: 16px;
+		legend {
+			font-size: 14px;
+			font-weight: bold;
+			padding: 8px 0 4px;
+		}
+		.llms-due-date-accommodation-option {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 6px;
+			margin: 6px 0;
+			label {
+				display: inline;
+				font-weight: normal;
+				padding: 0;
+			}
+			input[type="radio"] { margin: 0; }
+		}
+	}
 }

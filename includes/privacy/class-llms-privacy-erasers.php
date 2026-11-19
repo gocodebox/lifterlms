@@ -213,8 +213,55 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			}
 		}
 
+		if ( $student->get_due_date_accommodation() ) {
+			delete_user_option( $student->get_id(), 'llms_due_date_accommodation' );
+			delete_user_option( $student->get_id(), 'llms_due_date_extension_days' );
+			/* Translators: %s Prop name. */
+			$messages[] = sprintf( __( 'Removed student "%s"', 'lifterlms' ), __( 'Due Date Accommodation', 'lifterlms' ) );
+		}
+
 		return apply_filters( 'llms_privacy_erase_student_data', $messages, $student );
 
+	}
+
+	/**
+	 * Erase the reasons saved with the due dates changed for a student, by email address.
+	 *
+	 * The due dates are kept so the late status of retained quiz attempts and assignment submissions
+	 * doesn't change. They are removed with the rest of the student's activity data by
+	 * {@see LLMS_Privacy_Erasers::postmeta_data()} when erasure requests remove LMS data.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $email_address Email address of the user to erase data for.
+	 * @param int    $page          Process page number.
+	 * @return array
+	 */
+	public static function due_date_data( $email_address, $page ) {
+
+		$student = parent::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return();
+		}
+
+		$messages = array();
+
+		foreach ( $student->get_due_date_overrides() as $post_id => $override ) {
+
+			if ( empty( $override['reason'] ) ) {
+				continue;
+			}
+
+			$override['reason'] = '';
+			llms_update_user_postmeta( $student->get_id(), $post_id, '_due_date_override', $override );
+			wp_cache_delete( $student->get_id(), 'llms_due_date_overrides' );
+
+			/* Translators: %s = Quiz or assignment title. */
+			$messages[] = sprintf( __( 'Removed the reason for the due date change on "%s".', 'lifterlms' ), get_the_title( $post_id ) );
+
+		}
+
+		return self::get_return( $messages, true, (bool) $messages );
 	}
 
 	/**
@@ -316,6 +363,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 					$student->get( 'id' )
 				)
 			);
+			wp_cache_delete( $student->get( 'id' ), 'llms_due_date_overrides' );
 
 			$ret['messages'][]    = __( 'Removed all student course and membership enrollment and activity data.', 'lifterlms' );
 			$ret['items_removed'] = true;

@@ -10,7 +10,8 @@
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
  * @since 7.8.0 Don't try to round nulls.
  * @since 11.0.0 View a previous attempt from a submit button instead of changing the select.
- * @version 11.0.0
+ * @since [version] Mark late attempts in the previous attempts list.
+ * @version [version]
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
@@ -76,7 +77,14 @@ if ( ! $attempt && ! $attempts ) {
 					<?php foreach ( $attempts as $attempt ) : ?>
 						<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
 							<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
-							<?php echo esc_html( sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%', $attempt->l10n( 'status' ) ) ); ?>
+							<?php $attempt_label = sprintf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ) ?? 0, 2 ) . '%', $attempt->l10n( 'status' ) ); ?>
+							<?php
+							if ( $attempt->is_late() ) {
+								// Translators: %s = Attempt label, such as "Attempt #2 - 80% (Pass)"; the attempt was submitted after its due date.
+								$attempt_label = sprintf( __( '%s - Late', 'lifterlms' ), $attempt_label );
+							}
+							echo esc_html( $attempt_label );
+							?>
 						</option>
 					<?php endforeach; ?>
 				</select>

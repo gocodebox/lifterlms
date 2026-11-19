@@ -321,6 +321,21 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			'value' => is_numeric( $grade ) ? $grade . '%' : '&ndash;',
 		);
 
+		if ( $attempt->get_late_penalty() ) {
+			$data[] = array(
+				'name'  => __( 'Score', 'lifterlms' ),
+				'value' => is_numeric( $grade ) ? $attempt->get_score() . '%' : '&ndash;',
+			);
+			$data[] = array(
+				'name'  => __( 'Late Penalty', 'lifterlms' ),
+				'value' => $attempt->get_late_penalty() . '%',
+			);
+			$data[] = array(
+				'name'  => __( 'Late Penalty Note', 'lifterlms' ),
+				'value' => $attempt->get( 'late_penalty_note' ) ? $attempt->get( 'late_penalty_note' ) : '&ndash;',
+			);
+		}
+
 		return $data;
 	}
 
@@ -365,8 +380,79 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			}
 		}
 
+		$accommodation = $student->get_due_date_accommodation();
+		if ( $accommodation ) {
+			$data[] = array(
+				'name'  => __( 'Due Date Accommodation', 'lifterlms' ),
+				'value' => 'none' === $accommodation['type'] ?
+					__( 'No due dates', 'lifterlms' ) :
+					// Translators: %d = Number of days.
+					sprintf( _n( 'Every due date extended by %d day', 'Every due date extended by %d days', $accommodation['days'], 'lifterlms' ), $accommodation['days'] ),
+			);
+		}
+
 		return apply_filters( 'llms_privacy_export_student_data', $data, $student );
 
+	}
+
+	/**
+	 * Export the due dates changed for a student on individual quizzes and assignments, by email address.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $email_address Email address of the user to retrieve data for.
+	 * @param int    $page          Process page number.
+	 * @return array
+	 */
+	public static function due_date_data( $email_address, $page ) {
+
+		$data = array();
+
+		$student = self::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return( $data );
+		}
+
+		$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+
+		foreach ( $student->get_due_date_overrides() as $post_id => $override ) {
+
+			$item = array(
+				array(
+					'name'  => __( 'Title', 'lifterlms' ),
+					'value' => get_the_title( $post_id ),
+				),
+				array(
+					'name'  => __( 'Due Date', 'lifterlms' ),
+					'value' => 'none' === $override['due'] ? __( 'No due date', 'lifterlms' ) : wp_date( $format, strtotime( $override['due'] . ' UTC' ) ),
+				),
+			);
+
+			if ( ! empty( $override['reason'] ) ) {
+				$item[] = array(
+					'name'  => __( 'Reason', 'lifterlms' ),
+					'value' => $override['reason'],
+				);
+			}
+
+			if ( ! empty( $override['date'] ) ) {
+				$item[] = array(
+					'name'  => __( 'Changed On', 'lifterlms' ),
+					'value' => wp_date( $format, strtotime( $override['date'] . ' UTC' ) ),
+				);
+			}
+
+			$data[] = array(
+				'group_id'          => 'lifterlms_due_dates',
+				'group_label'       => __( 'Due Dates', 'lifterlms' ),
+				'group_description' => __( 'Due dates changed for the student on individual quizzes and assignments.', 'lifterlms' ),
+				'item_id'           => sprintf( 'due-date-%d', $post_id ),
+				'data'              => $item,
+			);
+
+		}
+
+		return self::get_return( $data );
 	}
 
 	/**
