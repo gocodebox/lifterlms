@@ -505,6 +505,16 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		llms_enroll_student( $uid, $course_id );
 		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
 
+		// Enrolled by an overlapping request, so this request's cached enrollment status is stale.
+		$uid_2 = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $uid_2 );
+		$order_data['customer']['user_id']               = $uid_2;
+		$order_data['customer']['email_address']         = 'second-student@test.net';
+		$order_data['customer']['email_address_confirm'] = 'second-student@test.net';
+		$this->assertFalse( llms_is_user_enrolled( $uid_2, $course_id ) );
+		llms_update_user_postmeta( $uid_2, $course_id, '_status', 'enrolled' );
+		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
+
 		// This should return an array of details we need to create a new order!
 		unset( $order_data['customer']['user_id'] );
 		wp_set_current_user( null );

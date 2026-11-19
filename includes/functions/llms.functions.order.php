@@ -270,6 +270,43 @@ function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
 }
 
 /**
+ * Waits for, then holds, a checkout lock until the current request ends.
+ *
+ * Overlapping checkout requests, such as a double-clicked enroll button, would otherwise all pass the
+ * "already enrolled" and "email already used" checks before any of them enrolls the user or creates the account,
+ * and each would create an order. Taking this lock before those checks makes the next request with the same key
+ * wait until the previous one has finished.
+ *
+ * The lock is a MySQL named lock: it is released on `shutdown`, or when the database connection closes.
+ * If it can't be acquired within 15 seconds checkout continues without it.
+ *
+ * @since [version]
+ *
+ * @param string $key Identifies what is being checked out, such as a user and product or an email address.
+ * @return bool Whether the lock was acquired.
+ */
+function llms_lock_checkout( $key ) {
+
+	global $wpdb;
+
+	// Named locks are server-wide, so include the database and table prefix. The name stays under MySQL's 64 character limit.
+	$name = 'llms_checkout_' . md5( $wpdb->dbname . $wpdb->prefix . $key );
+
+	$locked = '1' === $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 15 )', $name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Named locks are never cached.
+	if ( $locked ) {
+		add_action(
+			'shutdown',
+			function () use ( $name ) {
+				global $wpdb;
+				$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Named locks are never cached.
+			}
+		);
+	}
+
+	return $locked;
+}
+
+/**
  * Find an existing order for a given plan by a given user.
  *
  * @since 3.30.1
@@ -465,6 +502,8 @@ function llms_setup_pending_order( $data = array() ) {
 	if ( ! empty( $data['customer']['user_id'] ) ) {
 		$person_id = llms_update_user( $data['customer'], 'checkout', compact( 'plan' ) );
 	} else {
+		// Wait for any overlapping checkout with this email to finish, so registration sees the account it created.
+		llms_lock_checkout( 'email_' . strtolower( $data['customer']['email_address'] ?? '' ) );
 		$person_id = llms_register_user( $data['customer'], 'checkout', true, compact( 'plan' ) );
 	}
 
@@ -481,6 +520,9 @@ function llms_setup_pending_order( $data = array() ) {
 
 	}
 
+	// Wait for any overlapping checkout by this user for this product to finish, so the check below sees its enrollment.
+	llms_lock_checkout( 'enroll_' . $person_id . '_' . $plan->get( 'product_id' ) );
+
 	// Ensure the new user isn't enrolled in the product being purchased.
 	/**
 	 * Filter to allow checkout if already enrolled.
@@ -490,7 +532,7 @@ function llms_setup_pending_order( $data = array() ) {
 	 *
 	 * @since 9.1.2
 	 */
-	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
+	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ), 'all', false ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
 
 		$product = $plan->get_product();
 		$err->add(
