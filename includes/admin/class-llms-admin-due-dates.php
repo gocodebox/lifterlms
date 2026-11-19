@@ -90,9 +90,12 @@ class LLMS_Admin_Due_Dates {
 		} else {
 			$date = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_date' );
 			$time = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_time' );
-			// The form's date and time are in the site's timezone.
-			$due = $date ? date_create( $date . ' ' . ( $time ? $time : '23:59:59' ), wp_timezone() ) : false;
-			if ( ! $due ) {
+			// The form's date and time are in the site's timezone. No time, or the 23:59 the form shows for a date
+			// without one, is the end of the day, so saving an unchanged due date doesn't move it.
+			$time = preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', (string) $time ) && '23:59' !== $time ? $time . ':00' : '23:59:59';
+			$due  = $date ? DateTime::createFromFormat( '!Y-m-d H:i:s', $date . ' ' . $time, wp_timezone() ) : false;
+			// A date that doesn't exist, such as February 30, isn't moved to the next month.
+			if ( ! $due || $due->format( 'Y-m-d' ) !== $date ) {
 				llms_redirect_and_exit( add_query_arg( 'llms_due_error', $item->get( 'id' ), remove_query_arg( 'llms_due_saved', wp_get_referer() ) ) . '#llms-due-dates-notice' );
 			}
 			$item->set_due_date_override( $student_id, $due->getTimestamp(), $reason );

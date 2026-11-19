@@ -104,7 +104,15 @@ class LLMS_Test_Admin_Due_Dates extends LLMS_UnitTestCase {
 		// The reason is stored as plain text, without HTML entities.
 		$this->assertSame( "Doctor's note & travel", $this->quiz->get_due_date_override( $student_id )['reason'] );
 
+		// The 23:59 the form shows for a date without a time stays the end of the day.
+		$this->save( $student_id, array( 'llms_due_date' => '2030-07-10', 'llms_due_time' => '23:59' ) );
+		$this->assertSame( gmmktime( 23, 59, 59, 7, 10, 2030 ), $this->quiz->get_due_timestamp( $student_id ) );
+
 		$this->save( $student_id, array( 'llms_due_date' => '2030-07-12', 'llms_due_time' => '09:30' ) );
+		$this->assertSame( gmmktime( 9, 30, 0, 7, 12, 2030 ), $this->quiz->get_due_timestamp( $student_id ) );
+
+		// A date that doesn't exist isn't saved.
+		$this->save( $student_id, array( 'llms_due_date' => '2030-02-30' ) );
 		$this->assertSame( gmmktime( 9, 30, 0, 7, 12, 2030 ), $this->quiz->get_due_timestamp( $student_id ) );
 
 		$this->save( $student_id, array( 'llms_due_none' => '1' ) );
