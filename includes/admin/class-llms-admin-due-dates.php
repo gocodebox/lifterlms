@@ -288,24 +288,63 @@ class LLMS_Admin_Due_Dates {
 			return;
 		}
 
-		$late     = $attempt->is_late();
-		$due_date = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due );
-		// A late attempt shows how late it was; one submitted by the due date shows only the due date.
+		self::output_due_widget( 'llms-reporting-quiz-attempt-due', $due, (int) get_gmt_from_date( $attempt->get( 'end_date' ), 'U' ), $attempt->is_late() );
+	}
+
+	/**
+	 * Output the due date widget of a submission on a reporting screen.
+	 *
+	 * A late submission shows how late it was; one submitted by the due date shows only the due date.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $id        Widget ID.
+	 * @param int    $due       Unix timestamp of the student's due date.
+	 * @param int    $submitted Unix timestamp of the submission lateness is decided from.
+	 * @param bool   $late      Whether the submission is late.
+	 * @param string $note      Optional. Text shown on its own line under the due date.
+	 * @return void
+	 */
+	public static function output_due_widget( $id, $due, $submitted, $late, $note = '' ) {
+
+		$text = $late ?
+			// Translators: %s = Due date.
+			sprintf( __( 'Due %s', 'lifterlms' ), wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $due ) ) :
+			// Translators: %s = Time of day the item was due, shown under its due date in reporting.
+			sprintf( __( 'Due at %s', 'lifterlms' ), wp_date( get_option( 'time_format' ), $due ) );
+
 		LLMS_Admin_Reporting::output_widget(
 			array(
 				'cols'      => 'd-1of4',
 				'icon'      => $late ? 'exclamation-triangle' : 'calendar-check-o',
-				'id'        => 'llms-reporting-quiz-attempt-due',
+				'id'        => $id,
 				'data'      => $late ?
 					// Translators: %s = Human readable time difference.
-					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, (int) get_gmt_from_date( $attempt->get( 'end_date' ), 'U' ) ) ) :
+					sprintf( __( 'Late by %s', 'lifterlms' ), human_time_diff( $due, $submitted ) ) :
 					wp_date( get_option( 'date_format' ), $due ),
 				'data_type' => 'text',
-				'text'      => $late ?
-					// Translators: %s = Due date.
-					sprintf( __( 'Due %s', 'lifterlms' ), $due_date ) :
-					// Translators: %s = Time of day the item was due, shown under its due date in reporting.
-					sprintf( __( 'Due at %s', 'lifterlms' ), wp_date( get_option( 'time_format' ), $due ) ),
+				'text'      => esc_html( $text ) . ( $note ? '<br>' . esc_html( $note ) : '' ),
+			)
+		);
+	}
+
+	/**
+	 * Retrieve the badge shown next to late work in reporting tables.
+	 *
+	 * @since [version]
+	 *
+	 * @param float $penalty Optional. Late penalty taken off the score, in percentage points. When given, the badge shows the penalty.
+	 * @return string
+	 */
+	public static function get_late_badge( $penalty = 0 ) {
+		return sprintf(
+			'<span class="llms-due-badge llms-due-badge--late">%s</span>',
+			esc_html(
+				$penalty ?
+					// Translators: %s = Late penalty taken off a score, in percentage points.
+					sprintf( __( '−%s%% late', 'lifterlms' ), $penalty ) :
+					// Translators: Badge next to the date of work submitted after its due date.
+					__( 'Late', 'lifterlms' )
 			)
 		);
 	}

@@ -127,8 +127,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				$value .= ' (' . $additional . ')';
 				$penalty = $attempt->get_late_penalty();
 				if ( $penalty ) {
-					// Translators: %s = Late penalty taken off a quiz attempt's score, in percentage points.
-					$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html( sprintf( __( '−%s%% late', 'lifterlms' ), $penalty ) ) . '</span>';
+					$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge( $penalty );
 				}
 				break;
 
@@ -139,8 +138,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
 					if ( 'end_date' === $key && $attempt->is_late() ) {
-						// Translators: Badge next to the completion date of a quiz attempt submitted after its due date.
-						$value .= ' <span class="llms-due-badge llms-due-badge--late">' . esc_html__( 'Late', 'lifterlms' ) . '</span>';
+						$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge();
 					}
 				}
 
