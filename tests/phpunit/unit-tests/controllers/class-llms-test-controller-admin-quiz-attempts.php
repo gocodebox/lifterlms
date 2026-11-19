@@ -61,6 +61,12 @@ class LLMS_Test_Controller_Admin_Quiz_Attempts extends LLMS_UnitTestCase {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
+		// An attempt the student hasn't finished can't have a penalty.
+		$unfinished = LLMS_Quiz_Attempt::init( $quiz_id, $attempt->get( 'lesson_id' ), $attempt->get( 'student_id' ) )->start();
+		$unfinished = $this->submit_penalty( $unfinished, array( 'llms_late_penalty' => '20' ) );
+		$this->assertSame( 'incomplete', $unfinished->get( 'status' ) );
+		$this->assertSame( 0.0, $unfinished->get_late_penalty() );
+
 		// 80 - 20 = 60, below the 65% passing grade: the attempt fails and the quiz failed actions run.
 		$failed  = did_action( 'lifterlms_quiz_failed' );
 		$graded  = did_action( 'llms_quiz_graded' );

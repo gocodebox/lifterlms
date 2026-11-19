@@ -76,7 +76,7 @@ class LLMS_Admin_Due_Dates {
 			return;
 		}
 
-		if ( ! current_user_can( 'edit_course', $course->get( 'id' ) ) ) {
+		if ( ! current_user_can( 'edit_course', $course->get( 'id' ) ) || ! get_userdata( $student_id ) || ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
 			wp_die( esc_html__( 'You are not allowed to change due dates for this course.', 'lifterlms' ) );
 		}
 
@@ -92,14 +92,12 @@ class LLMS_Admin_Due_Dates {
 			// The form's date and time are in the site's timezone.
 			$due = $date ? date_create( $date . ' ' . ( $time ? $time : '23:59:59' ), wp_timezone() ) : false;
 			if ( ! $due ) {
-				wp_safe_redirect( add_query_arg( 'llms_due_error', $item->get( 'id' ), remove_query_arg( 'llms_due_saved', wp_get_referer() ) ) . '#llms-due-dates-notice' );
-				exit;
+				llms_redirect_and_exit( add_query_arg( 'llms_due_error', $item->get( 'id' ), remove_query_arg( 'llms_due_saved', wp_get_referer() ) ) . '#llms-due-dates-notice' );
 			}
 			$item->set_due_date_override( $student_id, $due->getTimestamp(), $reason );
 		}
 
-		wp_safe_redirect( add_query_arg( 'llms_due_saved', $item->get( 'id' ), remove_query_arg( 'llms_due_error', wp_get_referer() ) ) . '#llms-due-dates-notice' );
-		exit;
+		llms_redirect_and_exit( add_query_arg( 'llms_due_saved', $item->get( 'id' ), remove_query_arg( 'llms_due_error', wp_get_referer() ) ) . '#llms-due-dates-notice' );
 	}
 
 	/**
@@ -124,8 +122,15 @@ class LLMS_Admin_Due_Dates {
 
 		$can_edit = current_user_can( 'edit_course', $course->get( 'id' ) );
 		$format   = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-		$saved    = llms_get_post( absint( llms_filter_input( INPUT_GET, 'llms_due_saved', FILTER_SANITIZE_NUMBER_INT ) ) );
+		$saved_id = absint( llms_filter_input( INPUT_GET, 'llms_due_saved', FILTER_SANITIZE_NUMBER_INT ) );
+		$saved    = false;
 		$error    = absint( llms_filter_input( INPUT_GET, 'llms_due_error', FILTER_SANITIZE_NUMBER_INT ) );
+
+		foreach ( $items as $row ) {
+			if ( $saved_id === (int) $row['item']->get( 'id' ) ) {
+				$saved = $row['item'];
+			}
+		}
 
 		if ( $can_edit ) {
 			wp_add_inline_script( 'llms-admin-scripts', self::get_inline_script() );

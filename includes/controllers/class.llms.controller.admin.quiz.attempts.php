@@ -183,6 +183,11 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 */
 	private function save_late_penalty( $attempt, $remove = false ) {
 
+		// Only an attempt the student has finished can have a penalty.
+		if ( ! $attempt->get( 'end_date' ) || ! in_array( $attempt->get( 'status' ), array( 'pass', 'fail', 'pending' ), true ) ) {
+			return;
+		}
+
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in `maybe_run_actions()` method.
 
 		$penalty = 0.0;
