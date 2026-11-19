@@ -951,6 +951,35 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Retrieve the due dates changed for the student on individual quizzes and assignments.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] Array of due date data, see {@see LLMS_Trait_Due_Date::get_due_date_override()}, keyed by the WP_Post ID of the quiz or assignment.
+	 */
+	public function get_due_date_overrides() {
+
+		global $wpdb;
+
+		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT post_id, meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_due_date_override' ORDER BY post_id ASC, updated_date ASC",
+				$this->get_id()
+			)
+		);
+
+		$overrides = array();
+		foreach ( $rows as $row ) {
+			$override = maybe_unserialize( $row->meta_value );
+			if ( is_array( $override ) && ! empty( $override['due'] ) ) {
+				$overrides[ (int) $row->post_id ] = $override;
+			}
+		}
+
+		return $overrides;
+	}
+
+	/**
 	 * Retrieve an array of Membership Levels for a user
 	 *
 	 * @return array

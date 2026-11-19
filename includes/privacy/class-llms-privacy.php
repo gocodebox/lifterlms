@@ -38,6 +38,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		$this->add_exporter( 'lifterlms-student-data', __( 'Student Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'student_data' ) );
 		$this->add_exporter( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'course_data' ) );
 		$this->add_exporter( 'lifterlms-quiz-data', __( 'Quiz Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'quiz_data' ) );
+		$this->add_exporter( 'lifterlms-due-date-data', __( 'Due Date Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'due_date_data' ) );
 		$this->add_exporter( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'membership_data' ) );
 		$this->add_exporter( 'lifterlms-order-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'order_data' ) );
 		$this->add_exporter( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'achievement_data' ) );
@@ -52,6 +53,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		$this->add_eraser( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'achievement_data' ) );
 		$this->add_eraser( 'lifterlms-certificate-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'certificate_data' ) );
 		$this->add_eraser( 'lifterlms-notification-data', __( 'Notification Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'notification_data' ) );
+		$this->add_eraser( 'lifterlms-due-date-data', __( 'Due Date Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'due_date_data' ) );
 		// This eraser should always be last because some of the items above rely on postmeta data to function.
 		$this->add_eraser( 'lifterlms-postmeta-data', __( 'Postmeta Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'postmeta_data' ) );
 
