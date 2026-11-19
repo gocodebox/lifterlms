@@ -596,7 +596,7 @@ class LLMS_Media_Protector {
 			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || ( $user_id > 0 && intval( get_post_field( 'post_author', $media_id ) ) === $user_id );
 		}
 
-		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
+		// Allow student to view if they have an attempt for a quiz this media is for.
 		if ( ! $is_authorized && llms_get_student() ) {
 			// Check if the student is enrolled in a course that has access to the media.
 			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
@@ -611,18 +611,9 @@ class LLMS_Media_Protector {
 				// Ignore empty and invalid quiz IDs.
 				$authorized_quiz_ids = array_filter( array_map( 'absint', (array) get_post_meta( $media_id, '_llms_quiz_id', true ) ) );
 
-				if ( $authorized_quiz_ids ) {
-					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
-					foreach ( $student_quizzes as $student_quiz_attempt ) {
-						$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
-						if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
-							continue;
-						}
-						if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
-							$is_authorized = true;
-							break;
-						}
-					}
+				// Any attempt counts: an incomplete one is the quiz being taken, a finished one shows its images on the results page.
+				if ( $authorized_quiz_ids && llms_get_student()->quizzes()->get_all( $authorized_quiz_ids ) ) {
+					$is_authorized = true;
 				}
 			}
 		}

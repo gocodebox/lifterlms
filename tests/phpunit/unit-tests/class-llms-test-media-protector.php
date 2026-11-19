@@ -236,6 +236,56 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that quiz media stays viewable during the last allowed attempt and on the results after submitting,
+	 * and is not viewable to an enrolled student who has not attempted the quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_quiz_media_last_attempt_and_results() {
+
+		$course  = llms_get_post( $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) ) );
+		$quiz    = llms_get_post( $course->get_quizzes()[0] );
+		$quiz_id = $quiz->get( 'id' );
+		$quiz->set( 'limit_attempts', 'yes' );
+		$quiz->set( 'allowed_attempts', 1 );
+
+		$media_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $this->factory->user->create(),
+			)
+		);
+		update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+		update_post_meta( $media_id, '_llms_quiz_id', array( $quiz_id ) );
+
+		$protector  = new LLMS_Media_Protector();
+		$student_id = $this->factory->student->create();
+		llms_enroll_student( $student_id, $course->get( 'id' ) );
+		wp_set_current_user( $student_id );
+
+		// Enrolled, but the quiz has not been started.
+		$this->assertFalse( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Taking the only allowed attempt leaves 0 attempts remaining.
+		$attempt = LLMS_Quiz_Attempt::init( $quiz_id, $quiz->get( 'lesson_id' ), $student_id )->start();
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Viewing the submitted attempt's results.
+		$attempt->end();
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Another enrolled student who has not attempted the quiz.
+		$other_id = $this->factory->student->create();
+		llms_enroll_student( $other_id, $course->get( 'id' ) );
+		wp_set_current_user( $other_id );
+		$this->assertFalse( $protector->is_authorized_to_view( $other_id, $media_id ) );
+	}
+
+	/**
 	 * Create a protected attachment post with a real file in the uploads directory.
 	 *
 	 * @since 10.2.0
