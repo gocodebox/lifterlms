@@ -332,7 +332,6 @@ define( [], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.25.4 Unknown.
-		 * @since [version] Give the Select2 combobox the field's label and description.
 		 *
 		 * @return void
 		 */

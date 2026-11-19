@@ -162,7 +162,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 3.9.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
-	 * @since [version] Subtract the late penalty, if any.
 	 *
 	 * @return LLMS_Quiz_Attempt Instance of the current quiz attempt.
 	 */

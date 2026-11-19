@@ -562,20 +562,20 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 	protected function prepare_object_for_response( $attempt, $request ) {
 
 		$data = array(
-			'id'             => (int) $attempt->get( 'id' ),
-			'student_id'     => (int) $attempt->get( 'student_id' ),
-			'quiz_id'        => (int) $attempt->get( 'quiz_id' ),
-			'lesson_id'      => (int) $attempt->get( 'lesson_id' ),
-			'start_date'     => $attempt->get( 'start_date' ),
-			'update_date'    => $attempt->get( 'update_date' ),
-			'end_date'       => $attempt->get( 'end_date' ),
-			'status'         => $attempt->get( 'status' ),
-			'attempt'        => (int) $attempt->get( 'attempt' ),
+			'id'                => (int) $attempt->get( 'id' ),
+			'student_id'        => (int) $attempt->get( 'student_id' ),
+			'quiz_id'           => (int) $attempt->get( 'quiz_id' ),
+			'lesson_id'         => (int) $attempt->get( 'lesson_id' ),
+			'start_date'        => $attempt->get( 'start_date' ),
+			'update_date'       => $attempt->get( 'update_date' ),
+			'end_date'          => $attempt->get( 'end_date' ),
+			'status'            => $attempt->get( 'status' ),
+			'attempt'           => (int) $attempt->get( 'attempt' ),
 			'grade'             => (float) $attempt->get( 'grade' ),
 			'score'             => $attempt->get_score(),
 			'late_penalty'      => $attempt->get_late_penalty(),
 			'late_penalty_note' => (string) $attempt->get( 'late_penalty_note' ),
-			'can_be_resumed' => (bool) $attempt->get( 'can_be_resumed' ),
+			'can_be_resumed'    => (bool) $attempt->get( 'can_be_resumed' ),
 		);
 
 		$fields = $this->get_fields_for_response( $request );
@@ -699,62 +699,62 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			'title'      => 'quiz_attempt',
 			'type'       => 'object',
 			'properties' => array(
-				'id'             => array(
+				'id'                => array(
 					'description' => __( 'Unique identifier for the quiz attempt.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'student_id'     => array(
+				'student_id'        => array(
 					'description' => __( 'The WP_User ID of the student.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'quiz_id'        => array(
+				'quiz_id'           => array(
 					'description' => __( 'The WP_Post ID of the quiz.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'lesson_id'      => array(
+				'lesson_id'         => array(
 					'description' => __( 'The WP_Post ID of the lesson.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'start_date'     => array(
+				'start_date'        => array(
 					'description' => __( 'Date the attempt was started. Format: Y-m-d H:i:s.', 'lifterlms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'update_date'    => array(
+				'update_date'       => array(
 					'description' => __( 'Date the attempt was last modified. Format: Y-m-d H:i:s.', 'lifterlms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'end_date'       => array(
+				'end_date'          => array(
 					'description' => __( 'Date the attempt was completed. Format: Y-m-d H:i:s.', 'lifterlms' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'status'         => array(
+				'status'            => array(
 					'description' => __( 'The status of the quiz attempt. Attempts with the pending status require manual grading. Pass/fail is determined against the quiz passing grade in effect when the attempt was graded; later changes to the passing grade do not re-evaluate stored attempts.', 'lifterlms' ),
 					'type'        => 'string',
 					'enum'        => array_keys( llms_get_quiz_attempt_statuses() ),
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'attempt'        => array(
+				'attempt'           => array(
 					'description' => __( 'The attempt number for the student on this quiz.', 'lifterlms' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'grade'          => array(
+				'grade'             => array(
 					'description' => __( 'The grade of the quiz attempt, after any late penalty.', 'lifterlms' ),
 					'type'        => 'number',
 					'context'     => array( 'view', 'edit' ),
@@ -778,13 +778,13 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'can_be_resumed' => array(
+				'can_be_resumed'    => array(
 					'description' => __( 'Whether the quiz attempt can be resumed.', 'lifterlms' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'questions'      => array(
+				'questions'         => array(
 					'description' => __( 'The attempt\'s answered questions, including raw and rendered answers, grading status, remarks, and file data for upload-type answers.', 'lifterlms' ),
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit' ),

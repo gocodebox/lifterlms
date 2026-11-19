@@ -37,7 +37,12 @@ class LLMS_Admin_Due_Dates {
 	 * @since [version]
 	 *
 	 * @param LLMS_Course $course Course object.
-	 * @return LLMS_Post_Model[]
+	 * @return array[] {
+	 *     One array per quiz, assignment, etc.
+	 *
+	 *     @type LLMS_Post_Model $item   The quiz, assignment, etc.
+	 *     @type LLMS_Lesson     $lesson The lesson it belongs to.
+	 * }
 	 */
 	public static function get_items( $course ) {
 
