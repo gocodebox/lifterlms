@@ -181,7 +181,7 @@ if ( $student ) {
 						<input type="number" id="llms-late-penalty" name="llms_late_penalty" min="0" max="100" step="any" value="<?php echo esc_attr( $entered_penalty ? $entered_penalty : '' ); ?>" aria-describedby="llms-late-penalty-help">
 						<span aria-hidden="true">%</span>
 					</span>
-					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. If this changes whether the attempt passes, the student is sent the quiz passed or failed notification.', 'lifterlms' ); ?></span>
+					<span id="llms-late-penalty-help" class="description"><?php esc_html_e( 'Percentage points taken off the score. Saving a new penalty grades the attempt again, and the student is sent the quiz passed or failed notification.', 'lifterlms' ); ?></span>
 				</p>
 
 				<p>

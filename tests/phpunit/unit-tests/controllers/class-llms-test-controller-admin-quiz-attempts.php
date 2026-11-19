@@ -94,6 +94,19 @@ class LLMS_Test_Controller_Admin_Quiz_Attempts extends LLMS_UnitTestCase {
 		);
 		$this->assertSame( $graded + 1, did_action( 'llms_quiz_graded' ) );
 
+		// Changing only the note saves it without grading the attempt again or running the quiz failed actions.
+		$attempt = $this->submit_penalty(
+			$attempt,
+			array(
+				'llms_late_penalty'      => '20',
+				'llms_late_penalty_note' => 'Submitted two days late.',
+			)
+		);
+		$this->assertEquals( 'Submitted two days late.', $attempt->get( 'late_penalty_note' ) );
+		$this->assertEquals( 60, $attempt->get( 'grade' ) );
+		$this->assertSame( $failed + 1, did_action( 'lifterlms_quiz_failed' ) );
+		$this->assertSame( $graded + 1, did_action( 'llms_quiz_graded' ) );
+
 		// Removing it restores the grade, passes the attempt again and clears the note.
 		$passed  = did_action( 'lifterlms_quiz_passed' );
 		$attempt = $this->submit_penalty( $attempt, array( 'llms_quiz_attempt_action' => 'llms_attempt_late_penalty_remove' ) );

@@ -200,15 +200,17 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		// phpcs:enable
 
-		if ( $penalty === (float) $attempt->get( 'late_penalty' ) && $note === (string) $attempt->get( 'late_penalty_note' ) ) {
+		$same_penalty = $penalty === (float) $attempt->get( 'late_penalty' );
+		if ( $same_penalty && $note === (string) $attempt->get( 'late_penalty_note' ) ) {
 			return;
 		}
 
 		$attempt->set( 'late_penalty', $penalty );
 		$attempt->set( 'late_penalty_note', $note );
 
+		// A change to the note alone doesn't change the grade, so nothing is graded again and no notifications are sent.
 		// An attempt awaiting review has no grade yet, so store the penalty for the review to apply without telling the student it was graded.
-		if ( 'pending' === $attempt->get( 'status' ) ) {
+		if ( $same_penalty || 'pending' === $attempt->get( 'status' ) ) {
 			$attempt->save();
 			return;
 		}
