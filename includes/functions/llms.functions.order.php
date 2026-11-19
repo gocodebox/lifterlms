@@ -278,7 +278,8 @@ function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
  * wait until the previous one has finished.
  *
  * The lock is a MySQL named lock: it is released on `shutdown`, or when the database connection closes.
- * If it can't be acquired within 15 seconds checkout continues without it.
+ * The lock never blocks checkout: if it can't be acquired, because it timed out or because the database doesn't
+ * support named locks (for example Galera or Percona XtraDB clusters, or SQLite), checkout continues without it.
  *
  * @since [version]
  *
@@ -287,18 +288,39 @@ function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
  */
 function llms_lock_checkout( $key ) {
 
+	/**
+	 * Filters how many seconds a checkout waits for an overlapping checkout with the same key to finish.
+	 *
+	 * Return `0` to disable checkout locking.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $timeout Seconds to wait for the lock. Default 10.
+	 * @param string $key     The lock key.
+	 */
+	$timeout = absint( apply_filters( 'llms_checkout_lock_timeout', 10, $key ) );
+	if ( ! $timeout ) {
+		return false;
+	}
+
 	global $wpdb;
 
 	// Named locks are server-wide, so include the database and table prefix. The name stays under MySQL's 64 character limit.
 	$name = 'llms_checkout_' . md5( $wpdb->dbname . $wpdb->prefix . $key );
 
-	$locked = '1' === $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 15 )', $name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Named locks are never cached.
+	// Databases without named locks raise an error; don't print it, it would break the checkout redirect or JSON response.
+	$suppress = $wpdb->suppress_errors();
+	$locked   = '1' === (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $name, $timeout ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Named locks are never cached.
+	$wpdb->suppress_errors( $suppress );
+
 	if ( $locked ) {
 		add_action(
 			'shutdown',
 			function () use ( $name ) {
 				global $wpdb;
+				$suppress = $wpdb->suppress_errors();
 				$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $name ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Named locks are never cached.
+				$wpdb->suppress_errors( $suppress );
 			}
 		);
 	}
