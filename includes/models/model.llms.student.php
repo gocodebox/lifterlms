@@ -192,11 +192,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since [version] Added `$skip_trigger` and `$query_args` parameters.
 	 *
-	 * @param int $product_id WP Post ID of the LifterLMS Product (course, lesson, or membership)
-	 * @return LLMS_Order|false Instance of the LLMS_Order or false if none found
+	 * @param int   $product_id   WP Post ID of the LifterLMS Product (course, lesson, or membership).
+	 * @param bool  $skip_trigger Optional. Whether to skip checking the stored enrollment trigger. Default false.
+	 * @param array $query_args   Optional. Additional query arguments to merge into WP_Query. Default array().
+	 * @return LLMS_Order|WP_Post|false Instance of the LLMS_Order or WP_Post or false if none found.
 	 */
-	public function get_enrollment_order( $product_id ) {
+	public function get_enrollment_order( $product_id, $skip_trigger = false, $query_args = array() ) {
 
 		// If a lesson id was passed in, cascade up to the course for order retrieval.
 		if ( 'lesson' === get_post_type( $product_id ) ) {
@@ -205,40 +208,48 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// Attempt to locate the order via the enrollment trigger.
-		$trigger = $this->get_enrollment_trigger( $product_id );
-		if ( strpos( $trigger, 'order_' ) !== false ) {
+		if ( ! $skip_trigger ) {
+			$trigger = $this->get_enrollment_trigger( $product_id );
+			if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
 
-			$id = str_replace( array( 'order_', 'wc_' ), '', $trigger );
-			if ( is_numeric( $id ) ) {
-				if ( 'llms_order' === get_post_type( $id ) ) {
-					return new LLMS_Order( $id );
-				} else {
+				$id = str_replace( array( 'wc_order_', 'order_', 'wc_' ), '', $trigger );
+				if ( is_numeric( $id ) ) {
+					if ( 'llms_order' === get_post_type( $id ) ) {
+						return new LLMS_Order( $id );
+					} else {
 
-					return get_post( $id );
+						return get_post( $id );
+					}
 				}
 			}
 		}
 
 		// Couldn't find via enrollment trigger, do a WP_Query.
-		$q = new WP_Query(
-			array(
-				'order'          => 'DESC',
-				'orderby'        => 'modified',
-				'meta_query'     => array(
-					'relation' => 'AND',
-					array(
-						'key'   => '_llms_user_id',
-						'value' => $this->get_id(),
-					),
-					array(
-						'key'   => '_llms_product_id',
-						'value' => $product_id,
-					),
+		$defaults = array(
+			'order'          => 'DESC',
+			'orderby'        => 'date',
+			'post_type'      => 'llms_order',
+			'posts_per_page' => 1,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'   => '_llms_user_id',
+					'value' => $this->get_id(),
 				),
-				'posts_per_page' => 1,
-				'post_type'      => 'llms_order',
-			)
+				array(
+					'key'   => '_llms_product_id',
+					'value' => $product_id,
+				),
+			),
 		);
+
+		$args = wp_parse_args( $query_args, $defaults );
+
+		if ( isset( $query_args['meta_query'] ) ) {
+			$args['meta_query'] = array_merge( $defaults['meta_query'], $query_args['meta_query'] );
+		}
+
+		$q = new WP_Query( $args );
 
 		if ( $q->have_posts() ) {
 			return new LLMS_Order( $q->posts[0] );
@@ -646,6 +657,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
 		return $trigger ? $trigger : false;
+	}
+
+	/**
+	 * Set the enrollment trigger for a student's enrollment in a course or membership.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    Enrollment trigger string.
+	 * @return bool Whether the postmeta was updated.
+	 */
+	public function set_enrollment_trigger( $product_id, $trigger ) {
+
+		llms_delete_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger' );
+
+		return (bool) llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger );
 	}
 
 	/**
@@ -1730,6 +1757,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.33.0
 	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
 	 * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
+	 * @since [version] Skip enrollment deletion if another order still grants access.
 	 *
 	 * @see `llms_delete_student_enrollment()` calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1770,6 +1798,24 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// Ensure we have an `$enrollment_trigger` when firing the `llms_user_enrollment_deleted` hook.
 			$enrollment_trigger = $trigger;
 
+		}
+
+		// If deletion is triggered for a specific order, check if another active or completed order still grants access.
+		if ( $delete && 'any' !== $trigger && false !== strpos( $trigger, 'order_' ) ) {
+			$excluded_id  = absint( str_replace( array( 'wc_order_', 'order_', 'wc_' ), '', $trigger ) );
+			$active_order = $this->get_enrollment_order(
+				$product_id,
+				true,
+				array(
+					'post_status'  => array( 'llms-active', 'llms-completed' ),
+					'post__not_in' => $excluded_id ? array( $excluded_id ) : array(),
+				)
+			);
+
+			if ( $active_order && is_a( $active_order, 'LLMS_Order' ) && $active_order->has_access() ) {
+				$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
+				$delete = false;
+			}
 		}
 
 		// Delete the enrollment.
