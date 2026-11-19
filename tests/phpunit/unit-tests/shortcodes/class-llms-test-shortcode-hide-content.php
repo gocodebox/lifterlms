@@ -26,8 +26,9 @@ class LLMS_Test_Shortcode_Hide_Content extends LLMS_ShortcodeTestCase {
 		$this->assertShortcodeOutputEquals( 'Nope.', '[lifterlms_hide_content id="1" message="Nope."]Secrets.[/lifterlms_hide_content]' );
 		$this->assertShortcodeOutputEquals( 'Nope.', '[lifterlms_hide_content id="1,2,3,4" message="Nope." relation="any"]Secrets.[/lifterlms_hide_content]' );
 
-		// Markup rebuilt from escaped attribute values is filtered.
-		$this->assertShortcodeOutputEquals( '<strong>Nope.</strong><img src="x">', '[lifterlms_hide_content id="1" message=\x3cstrong\x3eNope.\x3c/strong\x3e\x3cimg\x20src=x\x20onerror=alert(1)\x3e]Secrets.[/lifterlms_hide_content]' );
+		// Markup rebuilt from escaped attribute values is filtered; newer WordPress versions never rebuild it.
+		$expect = $this->wp_encodes_escaped_shortcode_markup() ? '&lt;strong&gt;Nope.&lt;/strong&gt;&lt;img src=x onerror=alert(1)&gt;' : '<strong>Nope.</strong><img src="x">';
+		$this->assertShortcodeOutputEquals( $expect, '[lifterlms_hide_content id="1" message=\x3cstrong\x3eNope.\x3c/strong\x3e\x3cimg\x20src=x\x20onerror=alert(1)\x3e]Secrets.[/lifterlms_hide_content]' );
 
 
 		// get a student and try again
