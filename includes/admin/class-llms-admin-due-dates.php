@@ -80,7 +80,8 @@ class LLMS_Admin_Due_Dates {
 			wp_die( esc_html__( 'You are not allowed to change due dates for this course.', 'lifterlms' ) );
 		}
 
-		$reason = llms_filter_input_sanitize_string( INPUT_POST, 'llms_due_reason' );
+		// Stored as plain text; it's escaped when it's displayed.
+		$reason = isset( $_POST['llms_due_reason'] ) ? sanitize_text_field( wp_unslash( $_POST['llms_due_reason'] ) ) : '';
 
 		if ( llms_filter_input( INPUT_POST, 'llms_due_reset' ) ) {
 			$item->set_due_date_override( $student_id, '' );
