@@ -249,6 +249,8 @@ define( [
 
 			var view = this.get_subview( 'settings' );
 			if ( view && view.instance ) {
+				// Picking a "Due" option re-renders while its dropdown is still open.
+				this.release_select2_scroll_lock();
 				view.instance.render();
 				this.init_datepickers();
 				this.init_selects();
