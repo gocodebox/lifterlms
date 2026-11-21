@@ -185,6 +185,14 @@ class LLMS_Blocks_Test_Migrate extends LLMS_Blocks_Unit_Test_Case {
 		update_post_meta( $post_id, '_llms_sales_page_content_type', 'none' );
 		$this->assertTrue( LLMS_Blocks_Migrate::check_sales_page( true, $post_id ) );
 
+		// Sales page enabled without an excerpt displays the blocks, so the template actions must be removed.
+		wp_update_post( array( 'ID' => $post_id, 'post_excerpt' => '' ) );
+		update_post_meta( $post_id, '_llms_sales_page_content_type', 'content' );
+		$this->assertTrue( LLMS_Blocks_Migrate::check_sales_page( true, $post_id ) );
+		delete_post_meta( $post_id, '_llms_sales_page_content_type' );
+		$this->assertTrue( LLMS_Blocks_Migrate::check_sales_page( true, $post_id ) );
+		wp_update_post( array( 'ID' => $post_id, 'post_excerpt' => 'Sales page content.' ) );
+
 		delete_post_meta( $post_id, '_llms_sales_page_content_type' );
 
 		// Not restricted content.

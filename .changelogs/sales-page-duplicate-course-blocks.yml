@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed the course information, instructors, pricing table, and syllabus displaying twice to visitors when a course's sales page is set to show custom content but the content is empty."
