@@ -554,7 +554,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		$ids   = array_map( 'intval', array_column( $this->get_questions(), 'id' ) );
 		$index = array_search( (int) $question_id, $ids, true );
-		return $index >= 0 ?
+		return false !== $index ?
 			'id' === $return ? $question_id : $this->get_questions()[ $index ]
 			:
 			false;

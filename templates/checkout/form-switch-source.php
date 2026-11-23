@@ -9,8 +9,8 @@
  * @since 3.10.0
  * @since 7.0.0 Use {@see LLMS_Order::get_switch_source_action()} to determine the switch source action input value.
  * @since 7.5.0 Pass the `LLMS_Order` instance to the form-gateways template.
- * @since [version] Display the form when the order's access plan has been deleted.
- * @version [version]
+ * @since 11.1.0 Display the form when the order's access plan has been deleted.
+ * @version 11.1.0
  *
  * @var string     $confirm The ID of the payment gateway when confirming a switch.
  * @var LLMS_Order $order   The order object.

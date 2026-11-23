@@ -23,7 +23,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Nonce action for the bulk actions forms of the Orders & Transactions and Subscriptions tables.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @var string
 	 */
@@ -214,7 +214,7 @@ class LLMS_Admin_Page_Orders {
 	 * order (and hides its transactions), matching the bulk trash action of the
 	 * orders post type list.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */
@@ -284,7 +284,7 @@ class LLMS_Admin_Page_Orders {
 	/**
 	 * Output the notice shown after the bulk action moved orders to the Trash.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @return void
 	 */

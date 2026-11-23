@@ -620,7 +620,7 @@ class LLMS_REST_Webhooks extends LLMS_REST_Database_Resource {
 	 * This method assumes the supplied data has already been validated and sanitized.
 	 *
 	 * @since 1.0.0-beta.1
-	 * @since [version] Reset the failure count and clear the disabled notice when a webhook is reactivated.
+	 * @since 1.1.4 Reset the failure count and clear the disabled notice when a webhook is reactivated.
 	 *
 	 * @param LLMS_REST_Webhook $obj Webhook object.
 	 * @param array             $data Associative array of data to persist.

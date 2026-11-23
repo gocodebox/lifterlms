@@ -147,14 +147,19 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			array(
 				'post_type'   => array( 'course', 'llms_membership' ),
 				'post_status' => 'publish',
-				'meta_query'  => array(
-					array(
-						'compare' => 'LIKE',
-						'key'     => '_llms_instructors',
-						'value'   => $serialized_id,
-					),
-				),
 			)
+		);
+
+		// A meta query passed in narrows the results further; it never replaces the instructor scope.
+		$instructor_query   = array(
+			'compare' => 'LIKE',
+			'key'     => '_llms_instructors',
+			'value'   => $serialized_id,
+		);
+		$args['meta_query'] = empty( $args['meta_query'] ) ? array( $instructor_query ) : array(
+			'relation' => 'AND',
+			$instructor_query,
+			$args['meta_query'],
 		);
 
 		$query = new WP_Query( $args );

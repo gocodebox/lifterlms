@@ -99,7 +99,7 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test that `youtube.com/embed/` and `youtube-nocookie.com/embed/` URLs are embedded via the watch URL.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 */
 	public function test_get_embed_youtube_embed_urls() {
 

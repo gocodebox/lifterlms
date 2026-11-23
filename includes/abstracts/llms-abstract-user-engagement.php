@@ -159,11 +159,17 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 
 		global $wpdb;
 
+		// `meta_key` and `meta_value` aren't indexed, so without the earner's `user_id` this scans the whole table.
+		// Awards store the earner as their author, so filter by it when it's set. With no author, `0 = 0` keeps every user.
+		$author = absint( $this->get( 'author' ) );
+
 		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = %s",
+				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = %s AND ( %d = 0 OR user_id = %d )",
 				$this->get( 'id' ),
-				$this->get_user_post_meta_key()
+				$this->get_user_post_meta_key(),
+				$author,
+				$author
 			)
 		);
 	}

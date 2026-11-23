@@ -4,6 +4,8 @@
  * An open Select2 dropdown pins scroll on #llms-editor-lesson. Choosing a drip
  * method re-renders that panel; the pin must be released or the panel jumps
  * back to the drip field. See #3376.
+ *
+ * Course Builder — the drip date and time are native date and time inputs that show and save the stored values. See #3492.
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
@@ -105,6 +107,55 @@ test.describe( 'Course Builder / Drip scroll', () => {
 			return el.scrollTop;
 		} );
 		expect( scrollTop ).toBe( 0 );
+	} );
+
+	test( 'drip date and time use native inputs and keep the stored formats', async ( {
+		page,
+		requestUtils,
+	} ) => {
+
+		const { course, lesson } = await createCourseWithLesson( requestUtils );
+
+		// The REST API stores the time as `H:i:s`.
+		await requestUtils.rest( {
+			method: 'POST',
+			path: `/llms/v1/lessons/${ lesson.id }`,
+			data: {
+				drip_method: 'date',
+				drip_date: '2030-12-12 14:30:00',
+			},
+		} );
+
+		await page.goto(
+			`/wp-admin/admin.php?page=llms-course-builder&course_id=${ course.id }#lesson:${ lesson.id }`
+		);
+
+		const date = page.locator( '#llms-editor-lesson input[data-attribute="date_available"]' );
+		const time = page.locator( '#llms-editor-lesson input[data-attribute="time_available"]' );
+		await expect( date ).toBeVisible( { timeout: 15000 } );
+
+		await expect( date ).toHaveAttribute( 'type', 'date' );
+		await expect( time ).toHaveAttribute( 'type', 'time' );
+		await expect( date ).toHaveValue( '2030-12-12' );
+		await expect( time ).toHaveValue( '14:30' );
+
+		const save = page.locator( '#llms-save-button' );
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		await date.fill( '2031-01-15' );
+		await date.blur();
+		await time.fill( '17:15' );
+		await time.blur();
+
+		await expect( save ).toHaveAttribute( 'data-status', 'unsaved' );
+		await save.click();
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		const saved = await requestUtils.rest( { path: `/llms/v1/lessons/${ lesson.id }` } );
+		expect( saved.drip_date ).toBe( '2031-01-15 17:15:00' );
+
+		await expect( date ).toHaveValue( '2031-01-15' );
+		await expect( time ).toHaveValue( '17:15' );
 	} );
 
 } );

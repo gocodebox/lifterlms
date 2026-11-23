@@ -574,7 +574,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get a label describing when the order's access expires.
 	 *
-	 * @since [version]
+	 * @since 11.1.0
 	 *
 	 * @param string $format Optional. Date format. Defaults to the site's date format.
 	 * @return string "Expires: {date}" or "Expired: {date}" for limited access, otherwise the

@@ -112,7 +112,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 				foreach ( $course->get_instructors() as $info ) {
 					$instructor = llms_get_instructor( $info['id'] );
 					if ( $instructor ) {
-						$data[] = sprintf( '%1$s (%2$s)', $instructor->get( 'display_name' ), $info['label'] );
+						$data[] = sprintf( '%1$s (%2$s)', esc_html( $instructor->get( 'display_name' ) ), esc_html( $info['label'] ) );
 					}
 				}
 				$value = implode( ', ', $data );

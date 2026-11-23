@@ -108,6 +108,52 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test handle_admin_managment_forms() as an instructor, for enrolled and non-enrolled students.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_handle_admin_managment_forms_instructor_student_enrollment() {
+
+		$class     = new LLMS_Controller_Lesson_Progression();
+		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		$instructor_id = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$course->instructors()->set_instructors( array( array( 'id' => $instructor_id ) ) );
+
+		$enrolled_id     = $this->factory->student->create_and_enroll( $course->get( 'id' ) );
+		$not_enrolled_id = $this->factory->student->create();
+
+		wp_set_current_user( $instructor_id );
+		$this->assertTrue( current_user_can( 'edit_post', $lesson_id ) );
+
+		foreach ( array( $not_enrolled_id => false, $enrolled_id => true ) as $student_id => $expected ) {
+
+			$data = array(
+				'llms-admin-progression-nonce' => wp_create_nonce( 'llms-admin-lesson-progression' ),
+				'llms-lesson-action'           => 'complete',
+				'lesson_id'                    => $lesson_id,
+				'student_id'                   => $student_id,
+			);
+
+			$this->mockPostRequest( $data );
+			$class->handle_admin_managment_forms();
+			$this->assertSame( $expected, llms_is_complete( $student_id, $lesson_id, 'lesson' ), "Complete, student {$student_id}." );
+
+			// Mark it complete directly, then submit the incomplete action as the instructor.
+			llms_mark_complete( $student_id, $lesson_id, 'lesson' );
+			$data['llms-lesson-action'] = 'incomplete';
+			$this->mockPostRequest( $data );
+			$class->handle_admin_managment_forms();
+			$this->assertSame( ! $expected, llms_is_complete( $student_id, $lesson_id, 'lesson' ), "Incomplete, student {$student_id}." );
+
+		}
+
+	}
+
+	/**
 	 * Test the submission of the mark lesson complete form
 	 *
 	 * @since 3.17.1

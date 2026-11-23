@@ -109,6 +109,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Do not allow submitting a password change without providing a `password_current`
+	 * @since 11.1.0 Do not allow submitting an email address change without providing a `password_current`
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.
@@ -127,6 +128,12 @@ class LLMS_Form_Handler {
 		 * These fields are dynamically toggled and disabled if they're not modified.
 		 * Process `password_current` as last as it depends on `password` field submission.
 		 */
+
+		// Determine whether the email address is being changed.
+		$email_index = LLMS_Forms::instance()->get_field_by( $fields, 'id', 'email_address', 'index' );
+		$email_name  = false !== $email_index ? $fields[ $email_index ]['name'] : 'email_address';
+		$email_changed = ! empty( $posted_data[ $email_name ] ) && strtolower( sanitize_email( $posted_data[ $email_name ] ) ) !== strtolower( wp_get_current_user()->user_email );
+
 		foreach ( array( 'email_address', 'password', 'password_current' ) as $field_id ) {
 
 			// If the field exists and it's not included (or empty) in the posted data.
@@ -135,6 +142,10 @@ class LLMS_Form_Handler {
 
 				// When updating a password, the `password_current` is mandatory.
 				if ( 'account' === $location && 'password_current' === $field_id ) {
+					// When updating the email address the `password_current` is mandatory.
+					if ( $email_changed ) {
+						continue;
+					}
 					// Get `password` field.
 					$password_index = LLMS_Forms::instance()->get_field_by( $fields, 'id', 'password', 'index' );
 					// If a `passowrd` feld has been submitted then the `password_current` cannot be skipped.

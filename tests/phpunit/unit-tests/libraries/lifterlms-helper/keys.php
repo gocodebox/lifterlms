@@ -104,18 +104,42 @@ class LLMS_Helper_Test_Keys extends LLMS_Helper_Unit_Test_Case {
 	}
 
 	/**
-	 * Test activate_keys() and deactivate_keys() with an invalid key
+	 * Test activate_keys() with an invalid key
 	 *
 	 * @since 3.2.1
+	 * @since [version] Renamed from `test_activate_keys_real_fake_key()` and mocked the API response.
 	 *
 	 * @return void
 	 */
-	public function test_activate_keys_real_fake_key() {
+	public function test_activate_keys_fake_key() {
 
-		$key = 'fake-key';
+		$key    = 'fake-key';
+		$expect = "\"{$key}\" is not a valid license key. Please ensure your license key is correct and try again.";
+
+		// Response the LifterLMS.com API returns for a key that doesn't exist.
+		$this->mock_http_request(
+			'https://lifterlms.com/wp-json/llms/v3/license/activate',
+			array(
+				'body'     => wp_json_encode(
+					array(
+						'code'    => 'success',
+						'message' => 'Success',
+						'data'    => array(
+							'status'      => 200,
+							'errors'      => array( $expect ),
+							'activations' => array(),
+						),
+					)
+				),
+				'response' => array(
+					'code'    => 200,
+					'message' => 'OK',
+				),
+			)
+		);
+
 		$ret = LLMS_Helper_Keys::activate_keys( $key );
 
-		$expect = "\"{$key}\" is not a valid license key. Please ensure your license key is correct and try again.";
 		$this->assertEquals( array( $expect ), $ret['data']['errors'] );
 		$this->assertEquals( array(), $ret['data']['activations'] );
 
