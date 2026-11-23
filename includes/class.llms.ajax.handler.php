@@ -145,6 +145,7 @@ class LLMS_AJAX_Handler {
 	 * Move a Product Access Plan to the trash
 	 *
 	 * @since 3.0.0
+	 * @since [version] Only trash access plans.
 	 *
 	 * @param array $request $_REQUEST object.
 	 * @return bool|WP_Error WP_Error on error, true if successful.
@@ -156,7 +157,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		$access_plan = llms_get_post( $request['plan_id'] );
-		if ( ! $access_plan->get( 'product_id' ) ) {
+		if ( ! $access_plan instanceof LLMS_Access_Plan || ! $access_plan->get( 'product_id' ) ) {
 			wp_die();
 		}
 		if ( ! llms_current_user_can_edit_product( $access_plan->get( 'product_id' ) ) ) {

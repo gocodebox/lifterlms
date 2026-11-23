@@ -224,6 +224,41 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test delete_access_plan() only trashes access plans.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_delete_access_plan_only_trashes_access_plans() {
+
+		$product = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$plan    = new LLMS_Access_Plan( 'new' );
+		$plan->set( 'product_id', $product );
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'product_id', $product );
+		$order->set( 'plan_id', $plan->get( 'id' ) );
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		llms_get_post( $product )->set_instructors( array( array( 'id' => $instructor ) ) );
+		wp_update_post( array( 'ID' => $product, 'post_author' => $instructor ) );
+		wp_set_current_user( $instructor );
+
+		// An order of the instructor's course is not trashed.
+		try {
+			ob_start(); // Closed by _wp_die_handler().
+			LLMS_AJAX_Handler::delete_access_plan( array( 'plan_id' => $order->get( 'id' ) ) );
+			ob_end_clean();
+		} catch ( WPAjaxDieContinueException $e ) {}
+		$this->assertNotEquals( 'trash', get_post_status( $order->get( 'id' ) ) );
+
+		// The course's access plan is trashed.
+		$this->assertTrue( LLMS_AJAX_Handler::delete_access_plan( array( 'plan_id' => $plan->get( 'id' ) ) ) );
+		$this->assertEquals( 'trash', get_post_status( $plan->get( 'id' ) ) );
+
+	}
+
+	/**
 	 * Test the select2_query_posts() ajax method.
 	 *
 	 * @since 3.32.0
