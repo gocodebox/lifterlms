@@ -44,8 +44,10 @@ define( [], function() {
 			$( window ).on( 'beforeunload', function() {
 
 				// A focused field holds back its model's changes (see get_changed_attributes()) and only stores its own
-				// value on blur, so blur it first to include those changes.
-				$( document.activeElement ).filter( '.llms-input' ).trigger( 'blur' );
+				// value on blur, so move focus off it first, as pressing Enter in a field does, to include those changes.
+				if ( $( document.activeElement ).is( '.llms-input' ) ) {
+					document.activeElement.blur();
+				}
 
 				if ( self.has_unsaved_changes() ) {
 					check_for_changes();
