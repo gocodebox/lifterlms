@@ -408,6 +408,10 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	}
 
 	$lesson = llms_get_post( $lesson_id );
+	if ( ! $lesson ) {
+		return false;
+	}
+
 	$course = $lesson->get_course();
 
 	if ( ! $course ) {
@@ -488,7 +492,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 				return false;
 			}
 			$lesson = llms_get_post( $lesson_id );
-			if ( ! $lesson_id ) {
+			if ( ! $lesson ) {
 				return false;
 			}
 			$course_id = $lesson->get( 'parent_course' );
