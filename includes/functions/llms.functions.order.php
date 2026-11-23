@@ -466,7 +466,7 @@ function llms_setup_pending_order( $data = array() ) {
 		$person_id = llms_update_user( $data['customer'], 'checkout', compact( 'plan' ) );
 	} else {
 		// Wait for any overlapping checkout with this email to finish, so registration sees the account it created.
-		LLMS_Locks::acquire( 'checkout_email_' . strtolower( $data['customer']['email_address'] ?? '' ) );
+		LLMS_Locks::instance()->acquire( 'checkout_email_' . strtolower( $data['customer']['email_address'] ?? '' ) );
 		$person_id = llms_register_user( $data['customer'], 'checkout', true, compact( 'plan' ) );
 	}
 
@@ -484,7 +484,7 @@ function llms_setup_pending_order( $data = array() ) {
 	}
 
 	// Wait for any overlapping checkout by this user for this product to finish, so the check below sees its enrollment.
-	LLMS_Locks::acquire( 'checkout_enroll_' . $person_id . '_' . $plan->get( 'product_id' ) );
+	LLMS_Locks::instance()->acquire( 'checkout_enroll_' . $person_id . '_' . $plan->get( 'product_id' ) );
 
 	// Ensure the new user isn't enrolled in the product being purchased.
 	/**

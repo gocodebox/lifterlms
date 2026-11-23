@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
  * The locks are database named locks (`GET_LOCK()`). Locks a request still holds are released when it ends, and
  * the database releases them when the connection closes, so a request that ends early can't leave one behind.
  *
+ * Use `LLMS_Locks::instance()->acquire( $key )`, and `release( $key )` to release the lock before the request ends.
+ *
  * A lock is an extra safeguard and never a requirement. `acquire()` returns `false`, without printing or logging
  * a database error, when the lock can't be acquired: another request held it until the timeout, or the database
  * doesn't support named locks or refuses them (for example Galera and Percona XtraDB clusters). The caller then
@@ -32,19 +34,21 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Locks {
 
+	use LLMS_Trait_Singleton;
+
 	/**
 	 * Database names of the locks held by the current request, by lock key.
 	 *
 	 * @var string[]
 	 */
-	private static $held = array();
+	private $held = array();
 
 	/**
 	 * Callback that releases, when the request ends, the locks it still holds.
 	 *
 	 * @var Closure|null
 	 */
-	private static $release_on_shutdown;
+	private $release_on_shutdown;
 
 	/**
 	 * Waits for a lock, then holds it until it is released or the request ends.
@@ -55,9 +59,9 @@ class LLMS_Locks {
 	 * @param int    $timeout Seconds to wait for a request that already holds the lock.
 	 * @return bool Whether the lock is held. When `false`, continue without it.
 	 */
-	public static function acquire( $key, $timeout = 10 ) {
+	public function acquire( $key, $timeout = 10 ) {
 
-		if ( isset( self::$held[ $key ] ) ) {
+		if ( isset( $this->held[ $key ] ) ) {
 			return true;
 		}
 
@@ -90,19 +94,24 @@ class LLMS_Locks {
 		// Named locks are server-wide, so scope the name to this site. An md5 keeps it under the 64 character limit.
 		$name = 'llms_' . md5( DB_NAME . '|' . $wpdb->prefix . '|' . $key );
 
-		if ( '1' !== (string) self::query( $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $name, $timeout ) ) ) {
+		// A database without named locks answers with an error: don't print or log it, it would break a redirect or JSON response.
+		$suppress = $wpdb->suppress_errors();
+		$acquired = '1' === (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, %d )', $name, $timeout ) );
+		$wpdb->suppress_errors( $suppress );
+
+		if ( ! $acquired ) {
 			return false;
 		}
 
-		self::$held[ $key ] = $name;
+		$this->held[ $key ] = $name;
 
 		// The database releases a lock when its connection closes, but a persistent connection outlives the request.
-		if ( ! self::$release_on_shutdown ) {
-			self::$release_on_shutdown = function () {
-				array_map( array( __CLASS__, 'release' ), array_keys( self::$held ) );
+		if ( ! $this->release_on_shutdown ) {
+			$this->release_on_shutdown = function () {
+				array_map( array( $this, 'release' ), array_keys( $this->held ) );
 			};
 		}
-		add_action( 'shutdown', self::$release_on_shutdown );
+		add_action( 'shutdown', $this->release_on_shutdown );
 
 		return true;
 	}
@@ -117,39 +126,20 @@ class LLMS_Locks {
 	 * @param string $key The lock key passed to `acquire()`.
 	 * @return bool Whether the lock was released. `false` when the request doesn't hold the lock.
 	 */
-	public static function release( $key ) {
+	public function release( $key ) {
 
-		if ( ! isset( self::$held[ $key ] ) ) {
+		if ( ! isset( $this->held[ $key ] ) ) {
 			return false;
 		}
 
 		global $wpdb;
 
-		$released = '1' === (string) self::query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', self::$held[ $key ] ) );
-
-		unset( self::$held[ $key ] );
-
-		return $released;
-	}
-
-	/**
-	 * Runs a lock query without printing or logging a database error.
-	 *
-	 * Databases without named locks answer with an error, which would otherwise break a redirect or JSON response.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $sql Prepared SQL.
-	 * @return string|null The query's result, `null` when it failed.
-	 */
-	private static function query( $sql ) {
-
-		global $wpdb;
-
 		$suppress = $wpdb->suppress_errors();
-		$result   = $wpdb->get_var( $sql ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Named locks are never cached; prepared by the callers.
+		$released = '1' === (string) $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $this->held[ $key ] ) );
 		$wpdb->suppress_errors( $suppress );
 
-		return $result;
+		unset( $this->held[ $key ] );
+
+		return $released;
 	}
 }

@@ -705,7 +705,7 @@ class LLMS_Order_Generator {
 		$email = $this->data['email_address'] ?? null;
 		if ( $email ) {
 			// Wait for any overlapping checkout with this email to finish, so the checks below see the account and enrollment it created.
-			LLMS_Locks::acquire( 'checkout_email_' . strtolower( $email ) );
+			LLMS_Locks::instance()->acquire( 'checkout_email_' . strtolower( $email ) );
 		}
 		$user = $email ? get_user_by( 'email', $email ) : false;
 		if ( $user && llms_is_user_enrolled( $user->ID, $this->plan->get( 'product_id' ), 'all', false ) ) {

@@ -70,7 +70,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	 */
 	public function tear_down() {
 
-		array_map( array( 'LLMS_Locks', 'release' ), $this->keys );
+		array_map( array( LLMS_Locks::instance(), 'release' ), $this->keys );
 		$this->other->close();
 		parent::tear_down();
 	}
@@ -213,16 +213,16 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$this->require_locks();
 
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key' ) );
 		$this->assertEquals( $wpdb->get_var( 'SELECT CONNECTION_ID()' ), $wpdb->get_var( $wpdb->prepare( 'SELECT IS_USED_LOCK( %s )', $this->get_name( 'test_key' ) ) ) );
 		$this->assertFalse( $this->other_acquires( 'test_key' ) );
 
-		$this->assertTrue( LLMS_Locks::release( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->release( 'test_key' ) );
 		$this->assertTrue( $this->other_acquires( 'test_key' ) );
 		$this->other_releases( 'test_key' );
 
 		// Not held anymore.
-		$this->assertFalse( LLMS_Locks::release( 'test_key' ) );
+		$this->assertFalse( LLMS_Locks::instance()->release( 'test_key' ) );
 	}
 
 	/**
@@ -236,10 +236,10 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$this->require_locks();
 
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key' ) );
 
-		$this->assertTrue( LLMS_Locks::release( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->release( 'test_key' ) );
 		$this->assertTrue( $this->other_acquires( 'test_key' ) );
 		$this->other_releases( 'test_key' );
 	}
@@ -257,13 +257,13 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$this->assertTrue( $this->other_acquires( 'test_key_a' ) );
 
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key_b' ) );
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key_b' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key' ) );
 		$this->assertFalse( $this->other_acquires( 'test_key_b' ) );
 		$this->assertFalse( $this->other_acquires( 'test_key' ) );
 
 		// Releasing one keeps the other.
-		$this->assertTrue( LLMS_Locks::release( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->release( 'test_key' ) );
 		$this->assertFalse( $this->other_acquires( 'test_key_b' ) );
 
 		$this->other_releases( 'test_key_a' );
@@ -283,16 +283,16 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		$this->assertTrue( $this->other_acquires( 'test_key' ) );
 
 		$start = microtime( true );
-		$this->assertFalse( LLMS_Locks::acquire( 'test_key', 1 ) );
+		$this->assertFalse( LLMS_Locks::instance()->acquire( 'test_key', 1 ) );
 		$this->assertGreaterThanOrEqual( 0.9, microtime( true ) - $start );
 
 		// Nothing to release, and the other request still holds its lock.
-		$this->assertFalse( LLMS_Locks::release( 'test_key' ) );
+		$this->assertFalse( LLMS_Locks::instance()->release( 'test_key' ) );
 		$this->assertTrue( $this->other_holds( 'test_key' ) );
 
 		// Available once the other request is done.
 		$this->other_releases( 'test_key' );
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key', 1 ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key', 1 ) );
 	}
 
 	/**
@@ -310,9 +310,9 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$this->require_locks();
 
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key_a' ) );
-		$this->assertTrue( LLMS_Locks::release( 'test_key_a' ) );
-		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key_a' ) );
+		$this->assertTrue( LLMS_Locks::instance()->release( 'test_key_a' ) );
+		$this->assertTrue( LLMS_Locks::instance()->acquire( 'test_key' ) );
 
 		// Run only this class's `shutdown` callback: WordPress's own end the output buffers PHPUnit uses.
 		$ran = 0;
@@ -334,7 +334,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$this->assertTrue( $this->other_acquires( 'test_key' ) );
 		$this->other_releases( 'test_key' );
-		$this->assertFalse( LLMS_Locks::release( 'test_key' ) );
+		$this->assertFalse( LLMS_Locks::instance()->release( 'test_key' ) );
 	}
 
 	/**
@@ -356,7 +356,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		$res = $this->without_locks(
 			$replacement,
 			function () {
-				return array( LLMS_Locks::acquire( 'test_key' ), LLMS_Locks::release( 'test_key' ) );
+				return array( LLMS_Locks::instance()->acquire( 'test_key' ), LLMS_Locks::instance()->release( 'test_key' ) );
 			}
 		);
 
@@ -373,7 +373,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		$this->assertFalse( $suppressed_after );
 
 		// A real lock still works afterwards, where the database has them.
-		$this->assertSame( $this->supported, LLMS_Locks::acquire( 'test_key' ) );
+		$this->assertSame( $this->supported, LLMS_Locks::instance()->acquire( 'test_key' ) );
 	}
 
 	/**
@@ -389,8 +389,8 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
 		$show = $wpdb->show_errors();
 		ob_start();
-		$acquired = LLMS_Locks::acquire( 'test_key' );
-		$released = LLMS_Locks::release( 'test_key' );
+		$acquired = LLMS_Locks::instance()->acquire( 'test_key' );
+		$released = LLMS_Locks::instance()->release( 'test_key' );
 		$output   = ob_get_clean();
 		$wpdb->show_errors( $show );
 
@@ -418,7 +418,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		$res = $this->without_locks(
 			'SELECT 1',
 			function () {
-				return LLMS_Locks::acquire( 'test_key', 7 );
+				return LLMS_Locks::instance()->acquire( 'test_key', 7 );
 			}
 		);
 		remove_filter( 'llms_lock_timeout', $off, 10 );
@@ -435,7 +435,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		$res = $this->without_locks(
 			'SELECT 0',
 			function () {
-				return LLMS_Locks::acquire( 'test_key', 7 );
+				return LLMS_Locks::instance()->acquire( 'test_key', 7 );
 			}
 		);
 		remove_filter( 'llms_lock_timeout', $one_second );
@@ -473,13 +473,13 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 		global $wpdb;
 
 		$original = $wpdb;
-		$wpdb     = new $drop_in( $original ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Restored below.
+		$wpdb     = new $drop_in( $original );
 
 		try {
-			$this->assertSame( $this->supported, LLMS_Locks::acquire( 'test_key' ) );
+			$this->assertSame( $this->supported, LLMS_Locks::instance()->acquire( 'test_key' ) );
 			$this->assertSame( array( $expected, 'GET_LOCK' ), $wpdb->log );
 		} finally {
-			$wpdb = $original; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			$wpdb = $original;
 		}
 	}
 }
