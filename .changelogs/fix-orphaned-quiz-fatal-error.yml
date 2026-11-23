@@ -10,5 +10,4 @@ comment: >
 links: []
 attributions:
   - '@thisismyurl'
-entry: >
-  Fix fatal error when accessing a quiz whose parent lesson has been deleted.
+entry: "Fix fatal error when accessing a quiz whose parent lesson has been deleted."
