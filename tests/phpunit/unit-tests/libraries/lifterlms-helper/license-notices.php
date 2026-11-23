@@ -215,6 +215,30 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	}
 
 	/**
+	 * A theme add-on is in use when a child theme of it is the active theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_unlicensed_add_ons_child_theme() {
+
+		$this->mock_plugins( array( 'lifterlms/lifterlms.php' ) );
+		$this->assertSame( array(), llms_helper_get_unlicensed_add_ons() );
+
+		$child_of_sky_pilot = function () {
+			return 'sky-pilot';
+		};
+		add_filter( 'template', $child_of_sky_pilot );
+		$add_ons = llms_helper_get_unlicensed_add_ons();
+		remove_filter( 'template', $child_of_sky_pilot );
+
+		$this->assertCount( 1, $add_ons );
+		$this->assertSame( 'lifterlms-com-sky-pilot', $add_ons[0]->get( 'id' ) );
+
+	}
+
+	/**
 	 * No notice is added on a site without paid add-ons, whatever its license status.
 	 *
 	 * @since [version]
@@ -282,17 +306,19 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->add_stripe_license();
 		$this->lapse_stripe_license();
 
-		// Six days after the lapse.
+		// Six days after the lapse: only the notice that the key was deactivated.
 		$this->age_lapse( 6 * DAY_IN_SECONDS );
 		$notices->sync_notices();
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
 
-		// Eight days after the lapse.
+		// Eight days after the lapse: the lapsed license notice replaces it.
 		$this->age_lapse( 2 * DAY_IN_SECONDS );
 		$notices->sync_notices();
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
 
 		$notice = LLMS_Admin_Notices::get_notice( 'license-lapsed' );
 		$this->assertTrue( $notice['dismissible'] );
@@ -346,6 +372,37 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 
 		// Hidden notices stay saved.
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+
+	}
+
+	/**
+	 * The banner notifications feed can keep a banner for free sites away from sites that run unlicensed paid add-ons.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_banner_notification_unlicensed_add_ons_test() {
+
+		$notifier     = $GLOBALS['lifterlms_banner_notifications'];
+		$notification = (object) array(
+			'show_if' => (object) array( 'llms_license' => 'none' ),
+			'hide_if' => (object) array( 'llms_unlicensed_add_ons' => true ),
+		);
+
+		// A free site.
+		$this->mock_plugins( array( 'lifterlms/lifterlms.php' ) );
+		$this->assertTrue( $notifier->should_show_notification( $notification ) );
+		$this->assertFalse( $notifier->should_hide_notification( $notification ) );
+
+		// A site running a paid add-on that was never licensed.
+		$this->mock_plugins( array( 'lifterlms/lifterlms.php', 'lifterlms-stripe/lifterlms-stripe.php' ) );
+		$this->assertTrue( $notifier->should_show_notification( $notification ) );
+		$this->assertTrue( $notifier->should_hide_notification( $notification ) );
+
+		// The opposite expectation.
+		$only_free = (object) array( 'show_if' => (object) array( 'llms_unlicensed_add_ons' => false ) );
+		$this->assertFalse( $notifier->should_show_notification( $only_free ) );
 
 	}
 

@@ -45,8 +45,12 @@ class LLMS_Helper_License_Notices {
 		add_action( 'current_screen', array( $this, 'sync_notices' ), 77 );
 		add_filter( 'llms_admin_notice_is_visible', array( $this, 'limit_notice_screens' ), 10, 2 );
 
-		// Lets the banner notifications feed target sites by license status, e.g. `"show_if": { "llms_license": "none" }`.
+		/*
+		 * Lets the banner notifications feed target sites by license state, for example a banner for
+		 * free sites: `"show_if": { "llms_license": "none" }, "hide_if": { "llms_unlicensed_add_ons": true }`.
+		 */
 		add_filter( 'lifterlms_notification_test_llms_license', array( $this, 'banner_test_license' ), 10, 2 );
+		add_filter( 'lifterlms_notification_test_llms_unlicensed_add_ons', array( $this, 'banner_test_unlicensed_add_ons' ), 10, 2 );
 	}
 
 	/**
@@ -60,6 +64,21 @@ class LLMS_Helper_License_Notices {
 	 */
 	public function banner_test_license( $value, $statuses ) {
 		return in_array( llms_helper_get_license_status(), (array) $statuses, true );
+	}
+
+	/**
+	 * Banner notifications feed test: whether the site runs add-ons that require a license and have none.
+	 *
+	 * These sites see a license notice, so the feed can keep upgrade banners away from them.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $value    The current test value.
+	 * @param bool $expected Whether the site is expected to run unlicensed add-ons.
+	 * @return bool
+	 */
+	public function banner_test_unlicensed_add_ons( $value, $expected ) {
+		return llms_parse_bool( $expected ) === (bool) llms_helper_get_unlicensed_add_ons();
 	}
 
 	/**
@@ -231,6 +250,15 @@ class LLMS_Helper_License_Notices {
 
 		$add_ons   = llms_helper_get_unlicensed_add_ons();
 		$notice_id = $this->get_notice_id( $add_ons );
+
+		// The lapsed license notice replaces the notices added when each key was deactivated.
+		if ( self::NOTICE_LAPSED === $notice_id ) {
+			foreach ( array_keys( llms_helper_options()->get_lapsed_license_keys() ) as $key ) {
+				if ( LLMS_Admin_Notices::has_notice( 'key_check_' . $key ) ) {
+					LLMS_Admin_Notices::delete_notice( 'key_check_' . $key );
+				}
+			}
+		}
 
 		foreach ( array( self::NOTICE_LAPSED, self::NOTICE_MISSING ) as $id ) {
 

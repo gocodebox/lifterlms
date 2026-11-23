@@ -88,10 +88,16 @@ function llms_helper_get_unlicensed_add_ons() {
 		return array();
 	}
 
+	// A theme add-on is also in use when a child theme of it is active.
+	$parent_theme = get_template();
+
 	$unlicensed = array();
 	foreach ( $products['items'] as $product ) {
 		$add_on = llms_get_add_on( $product );
-		if ( $add_on->requires_license() && $add_on->is_active() && ! $add_on->is_licensed() ) {
+		if ( ! $add_on->requires_license() || $add_on->is_licensed() ) {
+			continue;
+		}
+		if ( $add_on->is_active() || ( 'theme' === $add_on->get_type() && $parent_theme === $add_on->get( 'update_file' ) ) ) {
 			$unlicensed[] = $add_on;
 		}
 	}
