@@ -296,6 +296,48 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Locks the request still holds are released when it ends.
+	 *
+	 * A persistent database connection outlives the request, and would keep them.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_held_locks_are_released_on_shutdown() {
+
+		global $wp_filter;
+
+		$this->require_locks();
+
+		$this->assertTrue( LLMS_Locks::acquire( 'test_key_a' ) );
+		$this->assertTrue( LLMS_Locks::release( 'test_key_a' ) );
+		$this->assertTrue( LLMS_Locks::acquire( 'test_key' ) );
+
+		// Run only this class's `shutdown` callback: WordPress's own end the output buffers PHPUnit uses.
+		$ran = 0;
+		foreach ( $wp_filter['shutdown']->callbacks as $callbacks ) {
+			foreach ( $callbacks as $callback ) {
+				if ( ! $callback['function'] instanceof Closure ) {
+					continue;
+				}
+				$scope = ( new ReflectionFunction( $callback['function'] ) )->getClosureScopeClass();
+				if ( $scope && 'LLMS_Locks' === $scope->name ) {
+					$callback['function']();
+					++$ran;
+				}
+			}
+		}
+
+		// Registered once, however many locks were acquired.
+		$this->assertSame( 1, $ran );
+
+		$this->assertTrue( $this->other_acquires( 'test_key' ) );
+		$this->other_releases( 'test_key' );
+		$this->assertFalse( LLMS_Locks::release( 'test_key' ) );
+	}
+
+	/**
 	 * Without a lock the request continues, nothing is printed, and nothing is released later.
 	 *
 	 * @since [version]

@@ -17,8 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * a student is already enrolled, and holds it until its own change is saved. A request asking for the same lock
  * waits for the first one to release it, and then checks against the saved data.
  *
- * The locks are database named locks (`GET_LOCK()`). The database holds them per connection and releases them
- * when the connection closes, so a request that ends early can't leave one behind.
+ * The locks are database named locks (`GET_LOCK()`). Locks a request still holds are released when it ends, and
+ * the database releases them when the connection closes, so a request that ends early can't leave one behind.
  *
  * A lock is an extra safeguard and never a requirement. `acquire()` returns `false`, without printing or logging
  * a database error, when the lock can't be acquired: another request held it until the timeout, or the database
@@ -40,11 +40,11 @@ class LLMS_Locks {
 	private static $held = array();
 
 	/**
-	 * Whether held locks are scheduled to be released when the request ends.
+	 * Callback that releases, when the request ends, the locks it still holds.
 	 *
-	 * @var bool
+	 * @var Closure|null
 	 */
-	private static $release_scheduled = false;
+	private static $release_on_shutdown;
 
 	/**
 	 * Waits for a lock, then holds it until it is released or the request ends.
@@ -96,15 +96,13 @@ class LLMS_Locks {
 
 		self::$held[ $key ] = $name;
 
-		if ( ! self::$release_scheduled ) {
-			self::$release_scheduled = true;
-			add_action(
-				'shutdown',
-				function () {
-					array_map( array( __CLASS__, 'release' ), array_keys( self::$held ) );
-				}
-			);
+		// The database releases a lock when its connection closes, but a persistent connection outlives the request.
+		if ( ! self::$release_on_shutdown ) {
+			self::$release_on_shutdown = function () {
+				array_map( array( __CLASS__, 'release' ), array_keys( self::$held ) );
+			};
 		}
+		add_action( 'shutdown', self::$release_on_shutdown );
 
 		return true;
 	}
