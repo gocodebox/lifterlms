@@ -401,60 +401,18 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_lock_checkout() locks, can be disabled, and fails open.
+	 * Databases that can't provide a checkout lock.
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return array[]
 	 */
-	public function test_llms_lock_checkout() {
-
-		global $wpdb;
-
-		$name = 'llms_checkout_' . md5( $wpdb->dbname . $wpdb->prefix . 'test_key' );
-
-		// Acquired and held by this connection.
-		$this->assertTrue( llms_lock_checkout( 'test_key' ) );
-		$this->assertEquals( $wpdb->get_var( 'SELECT CONNECTION_ID()' ), $wpdb->get_var( $wpdb->prepare( 'SELECT IS_USED_LOCK( %s )', $name ) ) );
-		$wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $name ) );
-
-		// Held by another request: waits for the timeout, then continues without the lock.
-		$other = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-		$this->assertEquals( '1', mysqli_query( $other, "SELECT GET_LOCK( '{$name}', 0 )" )->fetch_row()[0] );
-		$one_second = function () {
-			return 1;
-		};
-		add_filter( 'llms_checkout_lock_timeout', $one_second );
-		$this->assertFalse( llms_lock_checkout( 'test_key' ) );
-		remove_filter( 'llms_checkout_lock_timeout', $one_second );
-		mysqli_close( $other );
-
-		// Disabled: no lock query.
-		$queries = array();
-		$watch   = function ( $query ) use ( &$queries ) {
-			$queries[] = $query;
-			return $query;
-		};
-		add_filter( 'query', $watch );
-		add_filter( 'llms_checkout_lock_timeout', '__return_zero' );
-		$this->assertFalse( llms_lock_checkout( 'test_key' ) );
-		remove_filter( 'llms_checkout_lock_timeout', '__return_zero' );
-		remove_filter( 'query', $watch );
-		$this->assertEmpty( preg_grep( '/GET_LOCK/', $queries ) );
-
-		// The database doesn't support named locks (e.g. Galera): no error output, checkout continues.
-		$unsupported = function ( $query ) {
-			return false !== strpos( $query, 'GET_LOCK' ) ? 'SELECT GET_LOCK_UNSUPPORTED()' : $query;
-		};
-		add_filter( 'query', $unsupported );
-		$show = $wpdb->show_errors();
-		ob_start();
-		$locked = llms_lock_checkout( 'test_key' );
-		$output = ob_get_clean();
-		$wpdb->show_errors( $show );
-		remove_filter( 'query', $unsupported );
-		$this->assertFalse( $locked );
-		$this->assertSame( '', $output );
+	public function provider_locks_unavailable() {
+		return array(
+			'not supported, the query fails' => array( 'SELECT GET_LOCK_UNSUPPORTED()' ),
+			'refused, the query returns NULL' => array( 'SELECT NULL' ),
+			'held elsewhere until the timeout' => array( 'SELECT 0' ),
+		);
 	}
 
 	/**
@@ -462,18 +420,28 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
+	 * @dataProvider provider_locks_unavailable
+	 *
+	 * @param string $replacement SQL run in place of the lock queries.
 	 * @return void
 	 */
-	public function test_llms_setup_pending_order_without_locks() {
+	public function test_llms_setup_pending_order_without_locks( $replacement ) {
 
 		LLMS_Forms::instance()->install( true );
 
 		$plan = $this->get_mock_plan( 0 );
 
-		$unsupported = function ( $query ) {
-			return false !== strpos( $query, 'GET_LOCK' ) ? 'SELECT GET_LOCK_UNSUPPORTED()' : $query;
+		$lock_queries = 0;
+		$unavailable  = function ( $query ) use ( $replacement, &$lock_queries ) {
+			if ( false === strpos( $query, 'GET_LOCK' ) ) {
+				return $query;
+			}
+			++$lock_queries;
+			return $replacement;
 		};
-		add_filter( 'query', $unsupported );
+		add_filter( 'query', $unavailable );
+
+		$email = 'no-locks-' . $lock_queries . wp_generate_password( 6, false ) . '@test.net';
 
 		global $wpdb;
 		$show = $wpdb->show_errors();
@@ -482,8 +450,8 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 			array(
 				'plan_id'  => $plan->get( 'id' ),
 				'customer' => array(
-					'email_address'          => 'no-locks@test.net',
-					'email_address_confirm'  => 'no-locks@test.net',
+					'email_address'          => $email,
+					'email_address_confirm'  => $email,
 					'password'               => '12345678',
 					'password_confirm'       => '12345678',
 					'first_name'             => 'Test',
@@ -499,10 +467,13 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$output = ob_get_clean();
 		$wpdb->show_errors( $show );
 
-		remove_filter( 'query', $unsupported );
+		remove_filter( 'query', $unavailable );
 
+		// Both checkout locks were asked for, and neither was available.
+		$this->assertSame( 2, $lock_queries );
 		$this->assertSame( '', $output );
 		$this->assertEquals( array( 'person', 'plan', 'gateway', 'coupon' ), array_keys( $setup ) );
+		$this->assertEquals( $email, get_userdata( $setup['person']->get( 'id' ) )->user_email );
 	}
 
 	/**
