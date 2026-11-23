@@ -75,13 +75,14 @@ function llms_helper_get_license_status() {
 }
 
 /**
- * Retrieve the active add-ons that require a license and are not covered by a license key saved on the site.
+ * Retrieve the add-ons that require a license and are not covered by a license key saved on the site.
  *
  * @since [version]
  *
+ * @param bool $active_only If `true`, only includes active add-ons. If `false`, also includes add-ons that are installed and inactive.
  * @return LLMS_Helper_Add_On[] Array of add-ons. An empty array when the list of add-ons cannot be retrieved from LifterLMS.com.
  */
-function llms_helper_get_unlicensed_add_ons() {
+function llms_helper_get_unlicensed_add_ons( $active_only = true ) {
 
 	$products = llms_get_add_ons();
 	if ( is_wp_error( $products ) || empty( $products['items'] ) ) {
@@ -97,7 +98,11 @@ function llms_helper_get_unlicensed_add_ons() {
 		if ( ! $add_on->requires_license() || $add_on->is_licensed() ) {
 			continue;
 		}
-		if ( $add_on->is_active() || ( 'theme' === $add_on->get_type() && $parent_theme === $add_on->get( 'update_file' ) ) ) {
+		if (
+			$add_on->is_active() ||
+			( 'theme' === $add_on->get_type() && $parent_theme === $add_on->get( 'update_file' ) ) ||
+			( ! $active_only && $add_on->is_installed() )
+		) {
 			$unlicensed[] = $add_on;
 		}
 	}

@@ -212,6 +212,15 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 
 		$this->assertSame( array( 'lifterlms-com-lifterlms-pdfs' ), $ids );
 
+		// Including the installed add-ons that are not active.
+		$ids = array();
+		foreach ( llms_helper_get_unlicensed_add_ons( false ) as $add_on ) {
+			$ids[] = $add_on->get( 'id' );
+		}
+		sort( $ids );
+
+		$this->assertSame( array( 'lifterlms-com-groups', 'lifterlms-com-lifterlms-pdfs' ), $ids );
+
 	}
 
 	/**
@@ -372,6 +381,72 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 
 		// Hidden notices stay saved.
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+
+	}
+
+	/**
+	 * Each installed add-on without a license gets a message under its row on the Plugins screen.
+	 *
+	 * The message replaces the one the upgrader adds to the "update available" row of the add-on.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_plugin_row_notices() {
+
+		$stripe = 'lifterlms-stripe/lifterlms-stripe.php'; // Active, licensed.
+		$pdfs   = 'lifterlms-pdfs/lifterlms-pdfs.php';     // Active, not licensed.
+		$groups = 'lifterlms-groups/lifterlms-groups.php'; // Inactive, not licensed.
+		$core   = 'lifterlms/lifterlms.php';               // Does not require a license.
+
+		$this->mock_plugins( array( $stripe, $pdfs, $core ), array( $groups ) );
+		$this->add_stripe_license();
+
+		$upgrader = LLMS_Helper_Upgrader::instance();
+		foreach ( array( $stripe, $pdfs, $groups ) as $file ) {
+			add_action( "in_plugin_update_message-{$file}", array( $upgrader, 'in_plugin_update_message' ), 10, 2 );
+		}
+
+		$get_row     = function ( $file ) {
+			return $this->get_output( 'do_action', array( "after_plugin_row_{$file}", $file, array(), 'all' ) );
+		};
+		$get_message = function ( $file ) {
+			return $this->get_output( 'do_action', array( "in_plugin_update_message-{$file}", array( 'package' => '' ), new stdClass() ) );
+		};
+
+		// Not on other screens.
+		set_current_screen( 'dashboard' );
+		$this->assertSame( '', $get_row( $pdfs ) );
+
+		// Not for users who cannot manage the site's license keys.
+		$admin = get_current_user_id();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'editor' ) ) );
+		set_current_screen( 'plugins' );
+		$this->assertSame( '', $get_row( $pdfs ) );
+
+		wp_set_current_user( $admin );
+		set_current_screen( 'plugins' );
+
+		$row = $get_row( $pdfs );
+		$this->assertSame( 1, substr_count( $row, '<tr' ) );
+		$this->assertStringContainsString( '<strong>LifterLMS PDFs</strong> is not covered by an active license key', $row );
+		$this->assertStringContainsString( 'plugin-update-tr llms-license-row-notice active', $row );
+		$this->assertStringContainsString( 'href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '"', $row );
+		$this->assertStringContainsString( 'href="https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin', $row );
+
+		$row = $get_row( $groups );
+		$this->assertStringContainsString( '<strong>LifterLMS Groups</strong> is not covered by an active license key', $row );
+		$this->assertStringNotContainsString( 'llms-license-row-notice active', $row );
+		$this->assertStringContainsString( 'href="https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin', $row );
+
+		$this->assertSame( '', $get_row( $stripe ) );
+		$this->assertSame( '', $get_row( $core ) );
+
+		// The upgrader's message is left to the add-ons that have no license row.
+		$this->assertSame( '', $get_message( $pdfs ) );
+		$this->assertSame( '', $get_message( $groups ) );
+		$this->assertStringContainsString( 'currently unlicensed and cannot be updated', $get_message( $stripe ) );
 
 	}
 

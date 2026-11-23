@@ -43,6 +43,7 @@ class LLMS_Helper_License_Notices {
 	public function __construct() {
 
 		add_action( 'current_screen', array( $this, 'sync_notices' ), 77 );
+		add_action( 'current_screen', array( $this, 'add_plugin_row_notices' ) );
 		add_filter( 'llms_admin_notice_is_visible', array( $this, 'limit_notice_screens' ), 10, 2 );
 
 		/*
@@ -51,6 +52,79 @@ class LLMS_Helper_License_Notices {
 		 */
 		add_filter( 'lifterlms_notification_test_llms_license', array( $this, 'banner_test_license' ), 10, 2 );
 		add_filter( 'lifterlms_notification_test_llms_unlicensed_add_ons', array( $this, 'banner_test_unlicensed_add_ons' ), 10, 2 );
+	}
+
+	/**
+	 * Show a message under each installed add-on without a license on the Plugins screen.
+	 *
+	 * The message takes the place of the one the upgrader adds to the row of an unlicensed add-on
+	 * that has an update available, see {@see LLMS_Helper_Upgrader::in_plugin_update_message()}.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function add_plugin_row_notices() {
+
+		$screen = get_current_screen();
+		if ( ! $screen || 'plugins' !== $screen->id || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		foreach ( llms_helper_get_unlicensed_add_ons( false ) as $add_on ) {
+
+			if ( 'plugin' !== $add_on->get_type() ) {
+				continue;
+			}
+
+			$file = $add_on->get( 'update_file' );
+
+			// After the row WordPress outputs when an update is available.
+			add_action( "after_plugin_row_{$file}", array( $this, 'output_plugin_row_notice' ), 20 );
+			remove_action( "in_plugin_update_message-{$file}", array( LLMS_Helper_Upgrader::instance(), 'in_plugin_update_message' ) );
+
+		}
+	}
+
+	/**
+	 * Output the message shown under an add-on without a license on the Plugins screen.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
+	 * @return void
+	 */
+	public function output_plugin_row_notice( $plugin_file ) {
+
+		$add_on = llms_get_add_on( $plugin_file, 'update_file' );
+
+		$colspan = 4;
+		$table   = _get_list_table( 'WP_Plugins_List_Table' );
+		if ( $table ) {
+			$colspan = count( $table->get_columns() );
+		}
+
+		$active_class = $add_on->is_active() ? ' active' : '';
+		?>
+		<tr class="plugin-update-tr llms-license-row-notice<?php echo esc_attr( $active_class ); ?>">
+			<td colspan="<?php echo esc_attr( $colspan ); ?>" class="plugin-update colspanchange">
+				<div class="notice inline notice-warning notice-alt">
+					<p>
+					<?php
+					printf(
+						// Translators: %1$s = Add-on name; %2$s = Opening anchor tag to the add-ons screen; %3$s = Closing anchor tag; %4$s = Opening anchor tag to LifterLMS.com.
+						esc_html__( '%1$s is not covered by an active license key, so it does not receive updates. %2$sEnter a license key%3$s or %4$spurchase a license%3$s.', 'lifterlms' ),
+						'<strong>' . esc_html( $add_on->get( 'title' ) ) . '</strong>',
+						'<a href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '">',
+						'</a>',
+						'<a href="' . esc_url( $add_on->get_permalink( 'Plugins Screen' ) ) . '" target="_blank" rel="noopener noreferrer">'
+					);
+					?>
+					</p>
+				</div>
+			</td>
+		</tr>
+		<?php
 	}
 
 	/**
