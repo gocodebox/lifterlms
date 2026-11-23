@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed a fatal error when the related courses shortcode finds courses to display.

@@ -353,6 +353,21 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that the related courses shortcode outputs published courses.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_related_courses() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$this->assertStringContainsString( get_permalink( $course_id ), do_shortcode( '[lifterlms_related_courses]' ) );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0
