@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed protected quiz question images not loading for students while taking a quiz or viewing its results."
