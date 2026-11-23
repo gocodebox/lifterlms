@@ -1,0 +1,3 @@
+significance: minor
+type: added
+entry: "Added a dismissible admin notice asking for a license key when the site runs paid add-ons without a license, or when its license has been expired for a week."

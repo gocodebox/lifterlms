@@ -84,6 +84,11 @@ class LLMS_Helper_Keys {
 			'addons'      => $activation_data['addons'],
 		);
 
+		// The site is licensed again, any earlier lapse no longer describes it.
+		if ( llms_helper_options()->get_lapsed_license_keys() ) {
+			llms_helper_options()->set_lapsed_license_keys( array() );
+		}
+
 		return llms_helper_options()->set_license_keys( $keys );
 	}
 
@@ -147,7 +152,7 @@ class LLMS_Helper_Keys {
 			// Output error responses.
 			if ( isset( $res['data']['errors'] ) ) {
 				foreach ( array_keys( $res['data']['errors'] ) as $key ) {
-					self::remove_license_key( $key );
+					self::lapse_license_key( $key );
 					LLMS_Admin_Notices::add_notice(
 						'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) ),
 						make_clickable( sprintf( $msg, llms_obfuscate_license_key( $key ) ) ),
@@ -167,7 +172,7 @@ class LLMS_Helper_Keys {
 						continue;
 					}
 
-					self::remove_license_key( $key );
+					self::lapse_license_key( $key );
 					LLMS_Admin_Notices::add_notice(
 						'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) ),
 						make_clickable( sprintf( $msg, llms_obfuscate_license_key( $key ) ) ),
@@ -229,6 +234,36 @@ class LLMS_Helper_Keys {
 
 		$saved = llms_helper_options()->get_license_keys();
 		return isset( $saved[ $key ] ) ? $saved[ $key ] : false;
+	}
+
+	/**
+	 * Remove a license key that LifterLMS.com reports as no longer valid and remember that it lapsed.
+	 *
+	 * Removing the key leaves no trace of the site ever having been licensed. The lapse record
+	 * lets the site tell "the license expired" apart from "never licensed".
+	 *
+	 * The record holds the obfuscated key, never the key itself.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key License key.
+	 * @return boolean True if the key was saved on this site and has been removed, false otherwise.
+	 */
+	public static function lapse_license_key( $key ) {
+
+		$saved = self::get( $key );
+		if ( ! $saved ) {
+			return false;
+		}
+
+		$lapsed = llms_helper_options()->get_lapsed_license_keys();
+		$lapsed[ llms_obfuscate_license_key( $key ) ] = array(
+			'product_id' => $saved['product_id'],
+			'time'       => time(),
+		);
+		llms_helper_options()->set_lapsed_license_keys( $lapsed );
+
+		return self::remove_license_key( $key );
 	}
 
 	/**

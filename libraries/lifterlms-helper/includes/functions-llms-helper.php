@@ -56,6 +56,50 @@ function llms_helper_get_available_add_ons( $installable_only = true ) {
 }
 
 /**
+ * Retrieve the license status of the site.
+ *
+ * @since [version]
+ *
+ * @return string One of:
+ *                `active`: at least one license key is saved on the site.
+ *                `lapsed`: no license key is saved and LifterLMS.com reported a previously saved key as no longer valid.
+ *                `none`: no license key is saved and no key is known to have lapsed.
+ */
+function llms_helper_get_license_status() {
+
+	if ( llms_helper_options()->get_license_keys() ) {
+		return 'active';
+	}
+
+	return llms_helper_options()->get_lapsed_license_keys() ? 'lapsed' : 'none';
+}
+
+/**
+ * Retrieve the active add-ons that require a license and are not covered by a license key saved on the site.
+ *
+ * @since [version]
+ *
+ * @return LLMS_Helper_Add_On[] Array of add-ons. An empty array when the list of add-ons cannot be retrieved from LifterLMS.com.
+ */
+function llms_helper_get_unlicensed_add_ons() {
+
+	$products = llms_get_add_ons();
+	if ( is_wp_error( $products ) || empty( $products['items'] ) ) {
+		return array();
+	}
+
+	$unlicensed = array();
+	foreach ( $products['items'] as $product ) {
+		$add_on = llms_get_add_on( $product );
+		if ( $add_on->requires_license() && $add_on->is_active() && ! $add_on->is_licensed() ) {
+			$unlicensed[] = $add_on;
+		}
+	}
+
+	return $unlicensed;
+}
+
+/**
  * Deletes transient data related to plugin and theme updates
  *
  * @since 3.2.1

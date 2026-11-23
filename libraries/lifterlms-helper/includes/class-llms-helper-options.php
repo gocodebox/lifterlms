@@ -134,6 +134,34 @@ class LLMS_Helper_Options {
 	}
 
 	/**
+	 * Retrieve records of license keys that were removed because LifterLMS.com reported them as no longer valid.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] {
+	 *     Array of lapsed license records, keyed by the obfuscated license key.
+	 *
+	 *     @type string $product_id ID of the product the license key was for.
+	 *     @type int    $time       Timestamp of when the key was removed.
+	 * }
+	 */
+	public function get_lapsed_license_keys() {
+		return $this->get_option( 'lapsed_license_keys', array() );
+	}
+
+	/**
+	 * Update the records of lapsed license keys.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $keys Lapsed license records, see {@see LLMS_Helper_Options::get_lapsed_license_keys()}.
+	 * @return boolean True if option value has changed, false if not or if update failed.
+	 */
+	public function set_lapsed_license_keys( $keys ) {
+		return $this->set_option( 'lapsed_license_keys', $keys );
+	}
+
+	/**
 	 * Retrieve saved license key data
 	 *
 	 * @since 3.0.0

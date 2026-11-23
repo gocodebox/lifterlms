@@ -315,6 +315,21 @@ class LLMS_Admin_Notices {
 
 				return;
 			}
+
+			/**
+			 * Filters whether a saved notice is output on the current screen.
+			 *
+			 * Returning `false` skips the notice for the current request only, the notice stays saved.
+			 *
+			 * @since [version]
+			 *
+			 * @param bool   $visible   Whether the notice is output. Default `true`.
+			 * @param string $notice_id ID of the notice.
+			 * @param array  $notice    Notice options, see {@see LLMS_Admin_Notices::add_notice()}.
+			 */
+			if ( ! apply_filters( 'llms_admin_notice_is_visible', true, $notice_id, $notice ) ) {
+				return;
+			}
 			?>
 			<div class="notice notice-<?php echo esc_attr( $notice['type'] ); ?> llms-admin-notice" id="llms-notice<?php echo esc_attr( $notice_id ); ?>" style="position:relative;">
 				<div class="llms-admin-notice-icon"></div>
