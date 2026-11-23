@@ -449,6 +449,11 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 403, __( 'This quiz does not belong to the specified lesson.', 'lifterlms' ) );
 		}
 
+		$lesson_quiz_id = absint( $lesson->get( 'quiz' ) );
+		if ( $lesson_quiz_id && ! is_post_publicly_viewable( $lesson_quiz_id ) && ! current_user_can( 'read_post', $lesson_quiz_id ) ) {
+			return new WP_Error( 403, __( 'This quiz is not available.', 'lifterlms' ) );
+		}
+
 		$course = $lesson->get_course();
 		if ( ! $course ) {
 			return new WP_Error( 403, __( 'This quiz is not associated with a valid course.', 'lifterlms' ) );
