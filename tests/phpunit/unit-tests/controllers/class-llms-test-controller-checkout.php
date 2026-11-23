@@ -536,6 +536,57 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_pending_order() does not create an order when another order uses up the coupon after validation.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_coupon_used_up_after_validation() {
+
+		LLMS_Forms::instance()->install( true );
+
+		$coupon = new LLMS_Coupon( 'new', 'checkoutrace' );
+		$coupon->set( 'status', 'publish' );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'plan_type', 'any' );
+		$coupon->set( 'usage_limit', 1 );
+
+		$this->mockPostRequest(
+			array_merge(
+				$this->get_mock_checkout_data_array(),
+				array(
+					'_llms_checkout_nonce' => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+					'action'               => $this->main::ACTION_CREATE_PENDING_ORDER,
+					'llms_coupon_code'     => 'checkoutrace',
+				)
+			)
+		);
+
+		// A concurrent checkout saves its order right after this one validates the coupon.
+		$race = function ( $valid ) use ( $coupon, &$race ) {
+			remove_filter( 'llms_coupon_is_valid', $race );
+			$order = new LLMS_Order( 'new' );
+			$order->set( 'coupon_code', $coupon->get( 'title' ) );
+			return $valid;
+		};
+		add_filter( 'llms_coupon_is_valid', $race );
+
+		try {
+			$res = $this->main->create_pending_order();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			$res = null;
+		}
+
+		remove_filter( 'llms_coupon_is_valid', $race );
+
+		$this->assertWPErrorCodeEquals( 'llms-coupon-usage-limit', $res );
+		$this->assertHasNotice( 'This coupon has reached its usage limit and can no longer be used.', 'error' );
+		$this->assertSame( 1, $coupon->get_uses() );
+	}
+
+	/**
 	 * A pending order that already belongs to someone else is not reused.
 	 *
 	 * @since 10.3.1

@@ -231,19 +231,22 @@ class LLMS_Order_Generator {
 	 */
 	protected function create() {
 
-		$order = new LLMS_Order( $this->get_order_id() );
+		$create = function () {
 
-		// If there's no id we can't proceed, return an error.
-		if ( ! $order->get( 'id' ) ) {
-			return $this->error(
-				self::E_CREATE_ORDER,
-				__( 'There was an error creating your order, please try again.', 'lifterlms' )
-			);
-		}
+			$order = new LLMS_Order( $this->get_order_id() );
 
-		$order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
+			// If there's no id we can't proceed, return an error.
+			if ( ! $order->get( 'id' ) ) {
+				return $this->error(
+					self::E_CREATE_ORDER,
+					__( 'There was an error creating your order, please try again.', 'lifterlms' )
+				);
+			}
 
-		return $order;
+			return $order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
+		};
+
+		return $this->coupon ? $this->coupon->with_usage_lock( $create ) : $create();
 	}
 
 	/**

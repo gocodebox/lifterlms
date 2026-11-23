@@ -209,10 +209,58 @@ class LLMS_Coupon extends LLMS_Post_Model {
 				'post_status'    => 'any',
 				'post_type'      => 'llms_order',
 				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+				// Count from the database: a cached result can miss orders written by concurrent requests.
+				'cache_results'  => false,
 			)
 		);
 
 		return $query->post_count;
+	}
+
+	/**
+	 * Runs a callback that creates an order with this coupon while no other checkout can.
+	 *
+	 * For coupons with a usage limit, acquires a lock for the coupon code, re-checks the remaining uses,
+	 * and runs the callback. The lock is released before this method returns or throws. Coupons without
+	 * a usage limit run the callback without a lock.
+	 *
+	 * If the lock can't be acquired, because the database doesn't provide one or another checkout held it
+	 * until the timeout, the remaining uses are re-checked without it so the checkout can still go ahead.
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Locks
+	 *
+	 * @param callable $callback Callback that saves the order with this coupon.
+	 * @return mixed|WP_Error The callback's return value, or an error when the coupon has no remaining uses.
+	 */
+	public function with_usage_lock( $callback ) {
+
+		// Unlimited coupons can't be used up, so there's nothing to lock.
+		if ( ! $this->get( 'usage_limit' ) ) {
+			return $callback();
+		}
+
+		// Uses are counted by coupon code.
+		$key = 'coupon_' . strtolower( $this->get( 'title' ) );
+		LLMS_Locks::instance()->acquire( $key );
+
+		try {
+
+			if ( ! $this->has_remaining_uses() ) {
+				return new WP_Error(
+					'llms-coupon-usage-limit',
+					apply_filters( 'lifterlms_coupon_validation_error_message', __( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' ), $this )
+				);
+			}
+
+			return $callback();
+
+		} finally {
+			LLMS_Locks::instance()->release( $key );
+		}
 	}
 
 	/**

@@ -211,4 +211,245 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Creates a published 100%-off coupon that can be used once.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $code Coupon code.
+	 * @return LLMS_Coupon
+	 */
+	private function create_single_use_coupon( $code ) {
+
+		$coupon = new LLMS_Coupon( 'new', $code );
+		$coupon->set( 'status', 'publish' );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'plan_type', 'any' );
+		$coupon->set( 'usage_limit', 1 );
+
+		return $coupon;
+	}
+
+	/**
+	 * Saves an order that used the coupon, as a concurrent checkout would.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Coupon $coupon Coupon.
+	 * @return LLMS_Order
+	 */
+	private function create_order_with_coupon( $coupon ) {
+
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'coupon_code', $coupon->get( 'title' ) );
+
+		return $order;
+	}
+
+	/**
+	 * Test with_usage_lock() runs the callback and releases the lock.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_with_usage_lock_runs_callback_and_releases_lock() {
+
+		global $wpdb;
+
+		$coupon = $this->create_single_use_coupon( 'lockrelease' );
+
+		$lock = null;
+		$spy  = function ( $query ) use ( &$lock ) {
+			if ( preg_match( "/GET_LOCK\\( '([^']+)'/", $query, $m ) ) {
+				$lock = $m[1];
+			}
+			return $query;
+		};
+		add_filter( 'query', $spy );
+
+		$this->assertSame( 'done', $coupon->with_usage_lock( function () { return 'done'; } ) );
+
+		try {
+			$coupon->with_usage_lock(
+				function () {
+					throw new Exception( 'callback failed' );
+				}
+			);
+			$this->fail( 'The exception was not rethrown.' );
+		} catch ( Exception $e ) {
+			$this->assertSame( 'callback failed', $e->getMessage() );
+		}
+
+		remove_filter( 'query', $spy );
+
+		$this->assertNotNull( $lock );
+		// IS_FREE_LOCK() returns 0 while any session, including this one, holds the lock.
+		$this->assertSame( '1', $wpdb->get_var( $wpdb->prepare( 'SELECT IS_FREE_LOCK( %s )', $lock ) ) );
+	}
+
+	/**
+	 * Test with_usage_lock() re-counts uses after the lock is taken.
+	 *
+	 * The order saved in the `query` filter stands in for a concurrent checkout that
+	 * finishes after this request validated the coupon and before it saved its order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_with_usage_lock_rechecks_remaining_uses() {
+
+		$coupon = $this->create_single_use_coupon( 'lockrecheck' );
+		$this->assertTrue( $coupon->has_remaining_uses() );
+
+		$race = function ( $query ) use ( $coupon, &$race ) {
+			if ( false !== strpos( $query, 'GET_LOCK' ) ) {
+				remove_filter( 'query', $race );
+				$this->create_order_with_coupon( $coupon );
+			}
+			return $query;
+		};
+		add_filter( 'query', $race );
+
+		$ran = false;
+		$res = $coupon->with_usage_lock(
+			function () use ( &$ran ) {
+				$ran = true;
+			}
+		);
+
+		remove_filter( 'query', $race );
+
+		$this->assertFalse( $ran );
+		$this->assertWPErrorCodeEquals( 'llms-coupon-usage-limit', $res );
+		$this->assertSame( 1, $coupon->get_uses() );
+	}
+
+	/**
+	 * Databases that can't provide the usage lock.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[]
+	 */
+	public function provider_lock_unavailable() {
+		return array(
+			'not supported, the query fails' => array( 'SELECT GET_LOCK_UNSUPPORTED()' ),
+			'refused, the query returns NULL' => array( 'SELECT NULL' ),
+			'held elsewhere until the timeout' => array( 'SELECT 0' ),
+		);
+	}
+
+	/**
+	 * Test with_usage_lock() re-checks the remaining uses without the lock when the lock can't be acquired.
+	 *
+	 * @since [version]
+	 *
+	 * @dataProvider provider_lock_unavailable
+	 *
+	 * @param string $replacement SQL run in place of the lock query.
+	 * @return void
+	 */
+	public function test_with_usage_lock_falls_back_when_lock_not_acquired( $replacement ) {
+
+		global $wpdb;
+
+		$coupon = $this->create_single_use_coupon( 'locktimeout' );
+
+		$queries = array();
+		$fail    = function ( $query ) use ( &$queries, $replacement ) {
+			$queries[] = $query;
+			return false !== strpos( $query, 'GET_LOCK' ) ? $replacement : $query;
+		};
+		add_filter( 'query', $fail );
+
+		// A database error that isn't suppressed would be printed into the checkout response.
+		$show = $wpdb->show_errors();
+		ob_start();
+
+		// The coupon has a use left: the callback runs.
+		$first = $coupon->with_usage_lock( function () { return 'done'; } );
+
+		// The coupon is used up: the re-check still blocks it.
+		$this->create_order_with_coupon( $coupon );
+		$ran = false;
+		$res = $coupon->with_usage_lock(
+			function () use ( &$ran ) {
+				$ran = true;
+			}
+		);
+
+		$output = ob_get_clean();
+		$wpdb->show_errors( $show );
+		remove_filter( 'query', $fail );
+
+		$this->assertSame( 'done', $first );
+		$this->assertFalse( $ran );
+		$this->assertWPErrorCodeEquals( 'llms-coupon-usage-limit', $res );
+		$this->assertSame( '', $output );
+		$this->assertCount( 2, preg_grep( '/GET_LOCK/', $queries ) );
+		$this->assertEmpty( preg_grep( '/RELEASE_LOCK/', $queries ) );
+	}
+
+	/**
+	 * Test with_usage_lock() runs the callback when the lock is turned off.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_with_usage_lock_runs_callback_when_lock_is_off() {
+
+		$coupon = $this->create_single_use_coupon( 'lockoff' );
+
+		$queries = array();
+		$spy     = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $spy );
+		add_filter( 'llms_lock_timeout', '__return_zero' );
+
+		$first = $coupon->with_usage_lock( function () { return 'done'; } );
+		$this->create_order_with_coupon( $coupon );
+		$second = $coupon->with_usage_lock( function () { return 'done'; } );
+
+		remove_filter( 'llms_lock_timeout', '__return_zero' );
+		remove_filter( 'query', $spy );
+
+		$this->assertSame( 'done', $first );
+		$this->assertWPErrorCodeEquals( 'llms-coupon-usage-limit', $second );
+		$this->assertEmpty( preg_grep( '/(GET|RELEASE)_LOCK/', $queries ) );
+	}
+
+	/**
+	 * Test with_usage_lock() runs the callback without a lock for coupons without a usage limit.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_with_usage_lock_skips_lock_without_usage_limit() {
+
+		$coupon = $this->create_single_use_coupon( 'lockunlimited' );
+		$coupon->set( 'usage_limit', '' );
+		$this->create_order_with_coupon( $coupon );
+
+		$queries = array();
+		$spy     = function ( $query ) use ( &$queries ) {
+			$queries[] = $query;
+			return $query;
+		};
+		add_filter( 'query', $spy );
+
+		$res = $coupon->with_usage_lock( function () { return 'done'; } );
+
+		remove_filter( 'query', $spy );
+
+		$this->assertSame( 'done', $res );
+		$this->assertEmpty( preg_grep( '/GET_LOCK/', $queries ) );
+	}
+
 }

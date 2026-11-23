@@ -301,6 +301,45 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 
 	/**
+	 * Test generate() does not create an order when another order uses up the coupon after validation.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_coupon_used_up_after_validation() {
+
+		$coupon = new LLMS_Coupon( 'new', 'generatorrace' );
+		$coupon->set( 'status', 'publish' );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'plan_type', 'any' );
+		$coupon->set( 'usage_limit', 1 );
+
+		// A concurrent checkout saves its order right after this one validates the coupon.
+		$race = function ( $valid ) use ( $coupon, &$race ) {
+			remove_filter( 'llms_coupon_is_valid', $race );
+			$order = new LLMS_Order( 'new' );
+			$order->set( 'coupon_code', $coupon->get( 'title' ) );
+			return $valid;
+		};
+		add_filter( 'llms_coupon_is_valid', $race );
+
+		$gen = new LLMS_Order_Generator(
+			array_merge(
+				$this->get_mock_checkout_data_array(),
+				array( 'llms_coupon_code' => 'generatorrace' )
+			)
+		);
+		$res = $gen->generate( $gen::UA_VALIDATE );
+
+		remove_filter( 'llms_coupon_is_valid', $race );
+
+		$this->assertWPErrorCodeEquals( 'llms-coupon-usage-limit', $res );
+		$this->assertSame( 1, $coupon->get_uses() );
+	}
+
+	/**
 	 * Test the protected property getter methods.
 	 *
 	 * @since 7.0.0

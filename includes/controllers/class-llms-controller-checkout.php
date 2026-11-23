@@ -254,18 +254,26 @@ class LLMS_Controller_Checkout {
 			}
 		}
 
-		// Instantiate the order.
-		$order = new LLMS_Order( $order_id );
+		$create = function () use ( $order_id, $setup ) {
 
-		// If there's no id we can't proceed, return an error.
-		if ( ! $order->get( 'id' ) ) {
-			return llms_add_notice( __( 'There was an error creating your order, please try again.', 'lifterlms' ), 'error' );
+			$order = new LLMS_Order( $order_id );
+
+			// If there's no id we can't proceed, return an error.
+			if ( ! $order->get( 'id' ) ) {
+				return new WP_Error( 'llms-checkout-create-order', __( 'There was an error creating your order, please try again.', 'lifterlms' ) );
+			}
+
+			return $order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
+		};
+
+		$order = $setup['coupon'] ? $setup['coupon']->with_usage_lock( $create ) : $create();
+		if ( is_wp_error( $order ) ) {
+			llms_add_notice( $order->get_error_message(), 'error' );
+			return $order;
 		}
 
 		// Add order key to globals so the order can be retried if processing errors occur.
 		$_POST['llms_order_key'] = $order->get( 'order_key' );
-
-		$order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
 
 		// Pass to the gateway to start processing.
 		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
