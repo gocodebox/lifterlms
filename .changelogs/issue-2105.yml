@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed post titles showing HTML entities, such as `&#8211;` instead of a dash, in post search results like the Award Certificate template search."

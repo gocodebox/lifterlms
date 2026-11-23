@@ -208,6 +208,11 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
+		// Trashing an order doesn't unenroll the student while another of their orders grants access to the product.
+		if ( 'lifterlms_order_status_trash' === current_filter() && $this->keep_enrollment_for_another_order( $order ) ) {
+			return;
+		}
+
 		switch ( current_filter() ) {
 
 			case 'lifterlms_order_status_trash':
@@ -242,9 +247,54 @@ class LLMS_Controller_Orders {
 	public function on_delete_order( $post_id ) {
 
 		$order = llms_get_post( $post_id );
-		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+		if ( $order && is_a( $order, 'LLMS_Order' ) && ! $this->keep_enrollment_for_another_order( $order ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
 		}
+	}
+
+	/**
+	 * Keep a student's enrollment when the order being trashed or deleted isn't the only one granting access to its product.
+	 *
+	 * Applies to an enrolled student whose enrollment was created by the removed order or has no stored trigger.
+	 * An enrollment created by the removed order is linked to the other order, so that order's status changes
+	 * and access expiration apply to it from then on. An enrollment created by anything else, such as another
+	 * order, isn't affected by removing this order and is left as it is.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order The order being trashed or deleted.
+	 * @return bool `true` when another order keeps the student enrolled, `false` otherwise.
+	 */
+	private function keep_enrollment_for_another_order( $order ) {
+
+		$student    = llms_get_student( $order->get( 'user_id' ) );
+		$product_id = $order->get( 'product_id' );
+		if ( ! $student || ! $student->is_enrolled( $product_id ) ) {
+			return false;
+		}
+
+		$trigger = $student->get_enrollment_trigger( $product_id );
+		if ( $trigger && 'order_' . $order->get( 'id' ) !== $trigger ) {
+			return false;
+		}
+
+		$other_order = $student->get_enrollment_order(
+			$product_id,
+			true,
+			array(
+				'post_status'  => array( 'llms-active', 'llms-completed' ),
+				'post__not_in' => array( $order->get( 'id' ) ),
+			)
+		);
+		if ( ! $other_order instanceof LLMS_Order || ! $other_order->has_access() ) {
+			return false;
+		}
+
+		if ( $trigger ) {
+			llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $other_order->get( 'id' ) );
+		}
+
+		return true;
 	}
 
 	/**

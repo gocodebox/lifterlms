@@ -1103,8 +1103,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		// Existing user not enrolled.
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate_user' ) );
 
-		// User is enrolled.
-		llms_enroll_student( $uid, $plan->get( 'product_id' ) );
+		// User is enrolled by an overlapping request, so this request's cached enrollment status is stale.
+		llms_update_user_postmeta( $uid, $plan->get( 'product_id' ), '_status', 'enrolled' );
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_user' );
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( $gen::E_USER_ENROLLED, $res );

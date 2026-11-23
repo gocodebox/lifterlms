@@ -17,6 +17,7 @@ import {
 	useBlockProps,
 } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 import ServerSideRender from '@wordpress/server-side-render';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState, useMemo, useRef } from '@wordpress/element';
@@ -41,7 +42,7 @@ const Edit = ( props ) => {
 			.then( ( plans ) => {
 				const planOptions = plans.map( ( plan ) => {
 					return {
-						label: plan.title.rendered,
+						label: decodeEntities( plan.title.rendered ),
 						value: plan.id.toString(),
 					};
 				} );
@@ -54,7 +55,7 @@ const Edit = ( props ) => {
 								...planOptions,
 								...plans.map( ( plan ) => {
 								return {
-									label: plan.title.rendered,
+									label: decodeEntities( plan.title.rendered ),
 									value: plan.id.toString(),
 								};
 							} ) ] );
