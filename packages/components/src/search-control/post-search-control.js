@@ -1,3 +1,4 @@
+import { decodeEntities } from '@wordpress/html-entities';
 import { __, _x, sprintf } from '@wordpress/i18n';
 
 import BaseSearchControl from './base-search-control';
@@ -43,7 +44,7 @@ export default function PostSearchControl( {
 					'Post search result label',
 					'lifterlms'
 				),
-				title.rendered,
+				decodeEntities( title.rendered ),
 				id
 			);
 
