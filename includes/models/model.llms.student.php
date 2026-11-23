@@ -192,7 +192,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
-	 * @since [version] Added `$skip_trigger` and `$query_args` parameters.
 	 *
 	 * @param int   $product_id   WP Post ID of the LifterLMS Product (course, lesson, or membership).
 	 * @param bool  $skip_trigger Optional. Whether to skip checking the stored enrollment trigger. Default false.
@@ -227,7 +226,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// Couldn't find via enrollment trigger, do a WP_Query.
 		$defaults = array(
 			'order'          => 'DESC',
-			'orderby'        => 'date',
+			'orderby'        => 'modified',
 			'post_type'      => 'llms_order',
 			'posts_per_page' => 1,
 			'meta_query'     => array(
@@ -657,22 +656,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
 		return $trigger ? $trigger : false;
-	}
-
-	/**
-	 * Set the enrollment trigger for a student's enrollment in a course or membership.
-	 *
-	 * @since [version]
-	 *
-	 * @param int    $product_id WP Post ID of the course or membership.
-	 * @param string $trigger    Enrollment trigger string.
-	 * @return bool Whether the postmeta was updated.
-	 */
-	public function set_enrollment_trigger( $product_id, $trigger ) {
-
-		llms_delete_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger' );
-
-		return (bool) llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger );
 	}
 
 	/**
@@ -1757,7 +1740,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.33.0
 	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
 	 * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
-	 * @since [version] Skip enrollment deletion if another order still grants access.
 	 *
 	 * @see `llms_delete_student_enrollment()` calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1798,24 +1780,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// Ensure we have an `$enrollment_trigger` when firing the `llms_user_enrollment_deleted` hook.
 			$enrollment_trigger = $trigger;
 
-		}
-
-		// If deletion is triggered for a specific order, check if another active or completed order still grants access.
-		if ( $delete && 'any' !== $trigger && false !== strpos( $trigger, 'order_' ) ) {
-			$excluded_id  = absint( str_replace( array( 'wc_order_', 'order_', 'wc_' ), '', $trigger ) );
-			$active_order = $this->get_enrollment_order(
-				$product_id,
-				true,
-				array(
-					'post_status'  => array( 'llms-active', 'llms-completed' ),
-					'post__not_in' => $excluded_id ? array( $excluded_id ) : array(),
-				)
-			);
-
-			if ( $active_order && is_a( $active_order, 'LLMS_Order' ) && $active_order->has_access() ) {
-				$this->set_enrollment_trigger( $product_id, 'order_' . $active_order->get( 'id' ) );
-				$delete = false;
-			}
 		}
 
 		// Delete the enrollment.

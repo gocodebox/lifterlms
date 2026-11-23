@@ -375,10 +375,10 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// Trash Order A.
 		wp_trash_post( $order_a->get( 'id' ) );
 
-		// Student should remain enrolled because Order B is active.
+		// Student should remain enrolled because Order B is active, and the enrollment is still not linked to an order.
 		$this->assertTrue( $student->is_enrolled( $product_id ) );
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $product_id ) );
-		$this->assertEquals( 'order_' . $order_b->get( 'id' ), $student->get_enrollment_trigger( $product_id ) );
+		$this->assertFalse( $student->get_enrollment_trigger( $product_id ) );
 	}
 
 	/**
@@ -410,10 +410,10 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// Permanently delete Order A.
 		wp_delete_post( $order_a->get( 'id' ), true );
 
-		// Student should remain enrolled because Order B is active.
+		// Student should remain enrolled because Order B is active, and the enrollment is still not linked to an order.
 		$this->assertTrue( $student->is_enrolled( $product_id ) );
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $product_id ) );
-		$this->assertEquals( 'order_' . $order_b->get( 'id' ), $student->get_enrollment_trigger( $product_id ) );
+		$this->assertFalse( $student->get_enrollment_trigger( $product_id ) );
 	}
 
 	/**
@@ -435,7 +435,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		// Set Order A active first, then Order B active.
 		$order_a->set( 'status', 'llms-active' );
-		$student->set_enrollment_trigger( $product_id, 'order_' . $order_a->get( 'id' ) );
+		llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $order_a->get( 'id' ) );
 		$order_b->set( 'status', 'llms-active' );
 
 		$this->assertEquals( 'order_' . $order_a->get( 'id' ), $student->get_enrollment_trigger( $product_id ) );
@@ -468,7 +468,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		// Set Order A to completed, but set Order B's access to expired in the past.
 		$order_a->set( 'status', 'llms-completed' );
-		$student->set_enrollment_trigger( $product_id, 'order_' . $order_a->get( 'id' ) );
+		llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $order_a->get( 'id' ) );
 
 		$order_b->set( 'status', 'llms-completed' );
 		$order_b->set( 'date_access_expires', date( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) );
@@ -501,7 +501,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		$order_a->set( 'status', 'llms-completed' );
 		$order_b->set( 'status', 'llms-completed' );
-		$student->set_enrollment_trigger( $product_id, 'order_' . $order_a->get( 'id' ) );
+		llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $order_a->get( 'id' ) );
 
 		// Trigger expiration on Order A via controller.
 		$controller = new LLMS_Controller_Orders();
@@ -511,6 +511,87 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// Student should be unenrolled with status expired.
 		$this->assertFalse( $student->is_enrolled( $product_id ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $product_id ) );
+	}
+
+	/**
+	 * Test that trashing or deleting an order the enrollment isn't linked to leaves the enrollment and its trigger alone.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_removing_order_not_linked_to_enrollment_keeps_trigger() {
+
+		$plan       = $this->get_mock_plan();
+		$student    = $this->get_mock_student();
+		$product_id = $plan->get( 'product_id' );
+
+		global $wpdb;
+
+		// Four active orders for the same product, created a day apart. The enrollment is linked to the oldest.
+		$orders = array();
+		foreach ( range( 0, 3 ) as $i ) {
+			$orders[ $i ] = $this->get_mock_order( $plan, false, $student );
+			$orders[ $i ]->set( 'status', 'llms-active' );
+			$date = sprintf( '2020-01-0%d 00:00:00', $i + 1 );
+			$wpdb->update(
+				$wpdb->posts,
+				array(
+					'post_date'         => $date,
+					'post_date_gmt'     => $date,
+					'post_modified'     => $date,
+					'post_modified_gmt' => $date,
+				),
+				array( 'ID' => $orders[ $i ]->get( 'id' ) )
+			);
+			clean_post_cache( $orders[ $i ]->get( 'id' ) );
+		}
+		$trigger = 'order_' . $orders[0]->get( 'id' );
+		llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', $trigger );
+
+		// Trash one of the other orders.
+		wp_trash_post( $orders[1]->get( 'id' ) );
+		$this->assertTrue( $student->is_enrolled( $product_id ) );
+		$this->assertEquals( $trigger, $student->get_enrollment_trigger( $product_id ) );
+
+		// Permanently delete another.
+		wp_delete_post( $orders[2]->get( 'id' ), true );
+		$this->assertTrue( $student->is_enrolled( $product_id ) );
+		$this->assertEquals( $trigger, $student->get_enrollment_trigger( $product_id ) );
+	}
+
+	/**
+	 * Test that permanently deleting the order an enrollment is linked to links it to another order granting access,
+	 * and that the enrollment is deleted once no other order grants access.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_delete_order_matching_trigger() {
+
+		$plan       = $this->get_mock_plan();
+		$student    = $this->get_mock_student();
+		$product_id = $plan->get( 'product_id' );
+
+		$order_a = $this->get_mock_order( $plan, false, $student );
+		$order_b = $this->get_mock_order( $plan, false, $student );
+
+		$order_a->set( 'status', 'llms-active' );
+		$order_b->set( 'status', 'llms-active' );
+		llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $order_a->get( 'id' ) );
+
+		// Order B still grants access.
+		wp_delete_post( $order_a->get( 'id' ), true );
+		$this->assertTrue( $student->is_enrolled( $product_id ) );
+		$this->assertEquals( 'order_' . $order_b->get( 'id' ), $student->get_enrollment_trigger( $product_id ) );
+
+		// No order is left.
+		wp_delete_post( $order_b->get( 'id' ), true );
+		$this->assertFalse( $student->is_enrolled( $product_id ) );
+		$this->assertFalse( $student->get_enrollment_status( $product_id ) );
 	}
 
 	/**
