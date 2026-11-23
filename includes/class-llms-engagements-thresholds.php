@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,14 +21,14 @@ defined( 'ABSPATH' ) || exit;
  * + `course_grade_below`: student completes a course with a grade below N%.
  * + `quiz_failed_multiple`: student fails the same quiz N times.
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Engagements_Thresholds {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Engagements_Thresholds {
 	/**
 	 * Trigger `course_progress` engagements when a lesson completion crosses a percentage threshold.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id   WP_User ID of the student.
 	 * @param int $lesson_id WP_Post ID of the completed lesson.
@@ -98,7 +98,7 @@ class LLMS_Engagements_Thresholds {
 	 *
 	 * No fire-once marker is required: course completion is a discrete event.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id   WP_User ID of the student.
 	 * @param int $course_id WP_Post ID of the completed course.
@@ -138,7 +138,7 @@ class LLMS_Engagements_Thresholds {
 	 * Fires once when the count is reached; the marker is cleared when the student
 	 * passes the quiz so a later string of failures can fire again.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id WP_User ID of the student.
 	 * @param int $quiz_id WP_Post ID of the failed quiz.
@@ -172,7 +172,7 @@ class LLMS_Engagements_Thresholds {
 	/**
 	 * Clear `quiz_failed_multiple` fire-once markers when the student passes the quiz.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id WP_User ID of the student.
 	 * @param int $quiz_id WP_Post ID of the passed quiz.
@@ -194,7 +194,7 @@ class LLMS_Engagements_Thresholds {
 	 * fires independently for each course or quiz rather than only for the first one.
 	 * Uses the same storage shape as {@see LLMS_Engagements_Scanner::maybe_fire()}.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id       WP_User ID of the student.
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
@@ -211,7 +211,7 @@ class LLMS_Engagements_Thresholds {
 	/**
 	 * Record a fire-once marker for a related post on an engagement.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int   $user_id       WP_User ID of the student.
 	 * @param int   $engagement_id WP_Post ID of the `llms_engagement` post.
@@ -235,7 +235,7 @@ class LLMS_Engagements_Thresholds {
 	 * Only the given related post's marker is removed: an "Any quiz" engagement's
 	 * markers for other quizzes are unaffected.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id       WP_User ID of the student.
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post.
@@ -261,7 +261,7 @@ class LLMS_Engagements_Thresholds {
 	/**
 	 * Count a student's failed attempts for a given quiz.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $user_id WP_User ID of the student.
 	 * @param int $quiz_id WP_Post ID of the quiz.

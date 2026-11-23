@@ -234,6 +234,25 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test answer_question() doesn't record answers for content questions.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_answer_question_content_question() {
+
+		$attempt   = $this->get_mock_attempt();
+		$questions = wp_list_pluck( $attempt->get_questions(), 'id' );
+		llms_get_post( $questions[0] )->set( 'question_type', 'content' );
+
+		$attempt->answer_question( $questions[0], array( '<div class="llms-quiz-attempt-question">x</div>' ) );
+
+		$this->assertSame( array(), $attempt->get_questions()[0]['answer'] );
+
+	}
+
+	/**
 	 * Test answer_question() when supplying an incorrect answer
 	 *
 	 * @since 4.0.0
@@ -689,6 +708,36 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			),
 			$this->question_object_ids_list_pluck( $attempt, true, true )
 		);
+
+	}
+
+	/**
+	 * Test get_question() only returns questions that belong to the attempt.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_get_question() {
+
+		$attempt   = $this->get_mock_attempt( 3 );
+		$questions = $attempt->get_questions();
+
+		// The first question (index 0) and the last one are found.
+		foreach ( array( 0, 2 ) as $index ) {
+			$question_id = $questions[ $index ]['id'];
+			$this->assertEquals( $question_id, $attempt->get_question( $question_id ) );
+			$this->assertEquals( $questions[ $index ], $attempt->get_question( $question_id, 'array' ) );
+		}
+
+		// A question from another quiz is not part of the attempt.
+		$other_question_id = $this->get_mock_attempt( 1 )->get_questions()[0]['id'];
+		$this->assertFalse( $attempt->get_question( $other_question_id ) );
+		$this->assertFalse( $attempt->get_question( $other_question_id, 'array' ) );
+
+		// Neither is a nonexistent question.
+		$this->assertFalse( $attempt->get_question( 0 ) );
+		$this->assertFalse( $attempt->get_question( $other_question_id + 9999 ) );
 
 	}
 

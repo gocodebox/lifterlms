@@ -360,6 +360,11 @@ Options:
   -b, --build <cmd>         Specify an npm script to use for the build command.
                             (default: "build")
   -B, --no-build            Disabled build script.
+  -l, --libraries <dir...>  Bundled library directories with their own version.
+                            A library that changed since trunk gets a patch
+                            version increment and its [version] placeholders
+                            are replaced with the library's version. (default:
+                            [])
   -h, --help                display help for command
 
 ```

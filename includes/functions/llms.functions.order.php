@@ -144,6 +144,35 @@ function llms_get_order_status_name( $status ) {
 }
 
 /**
+ * Retrieve the front-end (student dashboard) URL for downloading a single transaction receipt.
+ *
+ * The resulting URL is served by {@see LLMS_Controller_Account::maybe_serve_transaction_receipt()}
+ * which generates a PDF (when the LifterLMS PDFs add-on is active) or an HTML receipt otherwise.
+ *
+ * @since 11.0.0
+ *
+ * @param int $txn_id Transaction post ID.
+ * @return string
+ */
+function llms_get_transaction_receipt_url( $txn_id ) {
+
+	$url = wp_nonce_url(
+		add_query_arg( 'llms_receipt_txn', $txn_id, llms_get_page_url( 'myaccount' ) ),
+		'llms_txn_receipt_' . $txn_id
+	);
+
+	/**
+	 * Filters the front-end transaction receipt download URL.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param string $url    The receipt URL.
+	 * @param int    $txn_id Transaction post ID.
+	 */
+	return apply_filters( 'llms_transaction_receipt_url', $url, $txn_id );
+}
+
+/**
  * Retrieve an array of registered and available LifterLMS Order Post Statuses.
  *
  * @since 3.0.0
@@ -276,13 +305,14 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Determines whether an access plan can be purchased by a user during checkout.
  *
  * Mirrors the front-end purchasability gating so that unpublished or restricted access plans and products cannot
- * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan,
- * member-only plan availability, and no course restrictions (enrollment window and student capacity).
+ * be purchased by submitting an access plan ID directly to the checkout handlers. Requires a published plan and
+ * product, member-only plan availability, and no course restrictions (enrollment window and student capacity).
  *
  * Intentionally does not call `LLMS_Product::is_purchasable()` because that additionally requires an enabled
  * payment gateway, which would incorrectly block free checkout on sites with no gateways enabled.
  *
  * @since 10.0.8
+ * @since 11.1.0 Require a published product.
  *
  * @param LLMS_Access_Plan $plan    The access plan being purchased.
  * @param int|null         $user_id Optional. WP_User ID of the purchasing user. Defaults to the current user.
@@ -299,7 +329,7 @@ function llms_check_access_plan_purchasable( $plan, $user_id = null ) {
 		$can_purchase = new WP_Error( 'plan-not-available', __( 'This access plan is not available.', 'lifterlms' ) );
 	} else {
 		$product = $plan->get_product();
-		if ( ! $product || $product->has_restrictions() ) {
+		if ( ! $product || 'publish' !== get_post_status( $product->get( 'id' ) ) || $product->has_restrictions() ) {
 			$can_purchase = new WP_Error( 'product-not-purchasable', __( 'This product is not available for purchase.', 'lifterlms' ) );
 		}
 	}
@@ -435,6 +465,8 @@ function llms_setup_pending_order( $data = array() ) {
 	if ( ! empty( $data['customer']['user_id'] ) ) {
 		$person_id = llms_update_user( $data['customer'], 'checkout', compact( 'plan' ) );
 	} else {
+		// Wait for any overlapping checkout with this email to finish, so registration sees the account it created.
+		LLMS_Locks::instance()->acquire( 'checkout_email_' . strtolower( $data['customer']['email_address'] ?? '' ) );
 		$person_id = llms_register_user( $data['customer'], 'checkout', true, compact( 'plan' ) );
 	}
 
@@ -451,6 +483,9 @@ function llms_setup_pending_order( $data = array() ) {
 
 	}
 
+	// Wait for any overlapping checkout by this user for this product to finish, so the check below sees its enrollment.
+	LLMS_Locks::instance()->acquire( 'checkout_enroll_' . $person_id . '_' . $plan->get( 'product_id' ) );
+
 	// Ensure the new user isn't enrolled in the product being purchased.
 	/**
 	 * Filter to allow checkout if already enrolled.
@@ -460,7 +495,7 @@ function llms_setup_pending_order( $data = array() ) {
 	 *
 	 * @since 9.1.2
 	 */
-	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
+	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ), 'all', false ) && apply_filters( 'llms_checkout_block_enrolled_checkout', true, $plan ) ) {
 
 		$product = $plan->get_product();
 		$err->add(
@@ -497,4 +532,17 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @param array $data Array of input data from a checkout form.
 	 */
 	return apply_filters( 'llms_after_setup_pending_order', compact( 'person', 'plan', 'gateway', 'coupon' ), $data );
+}
+
+/**
+ * Whether the current user may manage orders in the admin.
+ *
+ * Uses the same capability as the Orders screen (`llms_order` `show_ui`).
+ *
+ * @since 11.0.0
+ *
+ * @return bool
+ */
+function llms_current_user_can_manage_orders() {
+	return current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ) );
 }

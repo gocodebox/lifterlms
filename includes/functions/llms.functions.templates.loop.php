@@ -315,7 +315,7 @@ if ( ! function_exists( 'lifterlms_loop_link_start' ) ) {
  * still use the wrapping-link markup never set the flag, so those tiles keep
  * the previous link.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param bool|null $enable Pass true or false to set the flag. Omit to read it.
  * @return bool
@@ -333,7 +333,7 @@ function llms_loop_link_title_only( $enable = null ) {
 /**
  * Whether the current loop tile should skip the wrapping link.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return bool
  */
@@ -348,7 +348,7 @@ function llms_loop_link_is_title_only() {
  * is false while those tiles render. The original request query vars still identify
  * the dashboard page.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return bool
  */
@@ -391,7 +391,7 @@ function llms_is_dashboard_request() {
  * Dashboard index sits under a section heading, so its items are one level
  * lower than items on a dashboard tab. Archives and shortcodes use h2.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param string $context Where the heading is rendered.
  * @return string One of h1-h6.
@@ -409,7 +409,7 @@ function llms_get_content_heading_tag( $context = '' ) {
 	/**
 	 * Filter the heading tag used for LifterLMS loop and dashboard content.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $tag     Heading tag.
 	 * @param string $context Where the heading is rendered.
@@ -426,7 +426,7 @@ function llms_get_content_heading_tag( $context = '' ) {
 /**
  * Output the loop item title, linked on its own.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @return void
  */

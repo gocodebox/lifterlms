@@ -96,6 +96,10 @@ class LLMS_Admin_Post_Table_Courses {
 
 		foreach ( $post_ids as $post_id ) {
 
+			if ( 'course' !== get_post_type( $post_id ) || ! current_user_can( 'edit_course', $post_id ) ) {
+				continue;
+			}
+
 			$c                 = new LLMS_Course( $post_id );
 			$data['courses'][] = $c->toArray();
 
@@ -113,7 +117,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		echo json_encode( $data );
 
-		die;
+		llms_exit();
 	}
 
 	/**

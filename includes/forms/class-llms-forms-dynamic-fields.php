@@ -511,6 +511,9 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Adds a toggle link button allowing the user to change their email address
 	 *
+	 * The toggle also reveals the current password field, which is required when
+	 * updating the email address.
+	 *
 	 * @since 5.0.0
 	 *
 	 * @param array   $email  Email field data as located by LLMS_Forms_Dynamic_Fields::find_block().
@@ -524,7 +527,7 @@ class LLMS_Forms_Dynamic_Fields {
 			array(
 				'type'  => 'html',
 				'id'    => 'llms-field-toggle--email',
-				'value' => $this->get_toggle_button_html( '#email_address,#email_address_confirm', $email[1]['attrs']['label'] ),
+				'value' => $this->get_toggle_button_html( '#email_address,#email_address_confirm,#password_current', $email[1]['attrs']['label'] ),
 			),
 			$email[0]
 		);

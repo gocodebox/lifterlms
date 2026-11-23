@@ -58,6 +58,17 @@
 					self.export( $table, $( this ) );
 				} );
 
+				$table.on( 'change', 'thead .llms-table-select-all', function() {
+					$table.find( 'tbody td.cb input[type="checkbox"]' ).prop( 'checked', this.checked );
+				} );
+
+				// Rows that share a value (e.g. transactions of one order) select the same item, so keep them in sync.
+				$table.on( 'change', 'tbody td.cb input[type="checkbox"]', function() {
+					var $boxes = $table.find( 'tbody td.cb input[type="checkbox"]' );
+					$boxes.filter( '[value="' + this.value + '"]' ).prop( 'checked', this.checked );
+					$table.find( 'thead .llms-table-select-all' ).prop( 'checked', $boxes.length === $boxes.filter( ':checked' ).length );
+				} );
+
 				$table.on( 'click', 'a.llms-sortable', function( e ) {
 					e.preventDefault();
 					self.change_order( $table, $( this ) );
@@ -147,11 +158,20 @@
 
 		this.change_filter = function( $table, $select ) {
 
-			this.reload( $table, {
+			var args = {
 				filter: $select.val(),
 				filterby: $select.attr( 'name' ),
 				page: 1,
+			};
+
+			// Also pass every filter's current value keyed by its name so tables that
+			// support multiple simultaneous filters (e.g. orders/transactions) can combine
+			// them. Tables using the single filter/filterby mechanism ignore the extras.
+			$table.parent().find( '.llms-table-filters select.llms-table-filter' ).each( function() {
+				args[ $( this ).attr( 'name' ) ] = $( this ).val();
 			} );
+
+			this.reload( $table, args );
 
 		};
 

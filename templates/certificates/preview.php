@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Certificates
  *
  * @since 3.14.0
- * @since [version] Link the certificate title instead of the whole card.
- * @version [version]
+ * @since 11.0.0 Link the certificate title instead of the whole card.
+ * @version 11.0.0
  *
  * @param LLMS_User_Certificate $certificate Certificate object being displayed.
  */

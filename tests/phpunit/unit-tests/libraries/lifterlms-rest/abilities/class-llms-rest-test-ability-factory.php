@@ -419,4 +419,37 @@ class LLMS_REST_Test_Ability_Factory extends LLMS_REST_Unit_Test_Case_Server {
 
 		$this->assertFalse( $allowed );
 	}
+
+	/**
+	 * Test that an object with no properties (e.g. `meta`) doesn't encode `properties` as a JSON list.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/3484
+	 *
+	 * @return void
+	 */
+	public function test_input_schema_omits_empty_properties() {
+
+		foreach ( array( 'LLMS_REST_Courses_Controller' => 'courses', 'LLMS_REST_Lessons_Controller' => 'lessons' ) as $controller => $route ) {
+
+			$schema = LLMS_Unit_Test_Util::call_method(
+				'LLMS_REST_Ability_Factory',
+				'get_input_schema',
+				array(
+					array(
+						'method'     => 'POST',
+						'route'      => '/llms/v1/' . $route,
+						'operation'  => 'create',
+						'controller' => $controller,
+					),
+				)
+			);
+
+			$this->assertArrayHasKey( 'meta', $schema['properties'] );
+			$this->assertSame( 'object', $schema['properties']['meta']['type'] );
+			$this->assertArrayNotHasKey( 'properties', $schema['properties']['meta'] );
+			$this->assertStringNotContainsString( '"properties":[]', wp_json_encode( $schema ) );
+		}
+	}
 }

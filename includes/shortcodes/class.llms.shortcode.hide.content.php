@@ -94,7 +94,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 			}
 		}
 
-		return ! $hidden ? do_shortcode( $this->get_content() ) : $this->get_attribute( 'message' );
+		return ! $hidden ? do_shortcode( $this->get_content() ) : wp_kses_post( $this->get_attribute( 'message' ) );
 
 	}
 

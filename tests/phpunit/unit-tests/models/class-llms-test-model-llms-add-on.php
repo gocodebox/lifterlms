@@ -384,7 +384,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_update_screen_url() for plugins and themes.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

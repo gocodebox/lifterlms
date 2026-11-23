@@ -277,6 +277,34 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 	}
 
 	/**
+	 * Question collection totals for a course's instructors match the questions returned to them.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_get_questions_instructor_total_matches_items() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$assistant  = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+
+		// The course, quiz, and questions are created by an administrator.
+		wp_set_current_user( $this->user_allowed );
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$course->set_instructors( array( array( 'id' => $instructor ), array( 'id' => $assistant ) ) );
+
+		foreach ( array( $instructor, $assistant ) as $user_id ) {
+
+			wp_set_current_user( $user_id );
+
+			$res = $this->perform_mock_request( 'GET', '/llms/v1/questions', array(), array( 'per_page' => 100 ) );
+			$this->assertResponseStatusEquals( 200, $res );
+			$this->assertEquals( count( $res->get_data() ), $res->get_headers()['X-WP-Total'] );
+
+		}
+	}
+
+	/**
 	 * Search totals for a post type stay at zero for another instructor's post.
 	 *
 	 * @since 10.3.1

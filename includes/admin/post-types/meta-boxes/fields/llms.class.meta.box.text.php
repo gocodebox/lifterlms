@@ -35,7 +35,10 @@ class LLMS_Metabox_Text_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		global $post;
 		parent::output(); ?>
 
-		<input type="text"
+		<input type="<?php echo esc_attr( isset( $this->field['input_type'] ) ? $this->field['input_type'] : 'text' ); ?>"
+			<?php if ( isset( $this->field['max'] ) ) : ?>
+			max="<?php echo esc_attr( $this->field['max'] ); ?>"
+			<?php endif; ?>
 			name="<?php echo esc_attr( $this->field['id'] ); ?>"
 			id="<?php echo esc_attr( $this->field['id'] ); ?>"
 			<?php if ( array_key_exists( 'required', $this->field ) && $this->field['required'] ) : ?>

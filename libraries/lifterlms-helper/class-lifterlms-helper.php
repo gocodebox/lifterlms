@@ -152,7 +152,6 @@ final class LifterLMS_Helper {
 
 		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-admin-add-ons.php';
 		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-assets.php';
-		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-betas.php';
 		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-cloned.php';
 		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-install.php';
 		require_once LLMS_HELPER_PLUGIN_DIR . 'includes/class-llms-helper-keys.php';

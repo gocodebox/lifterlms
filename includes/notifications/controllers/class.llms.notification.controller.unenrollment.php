@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Notifications/Controllers/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification Controller: Unenrollment
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notification_Controller {
 
@@ -54,7 +54,7 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 * @param string $trigger     Enrollment trigger that caused the unenrollment.
 	 * @param string $new_status  New enrollment status applied to the user.
 	 * @return void
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	public function action_callback( $user_id = null, $post_id = null, $trigger = null, $new_status = null ) {
 
@@ -71,7 +71,7 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 *
 	 * @param string $subscriber Subscriber type string.
 	 * @return int|false
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -99,7 +99,7 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 * used on settings screens
 	 *
 	 * @return string
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	public function get_title() {
 		return __( 'Unenrollment', 'lifterlms' );
@@ -113,7 +113,7 @@ class LLMS_Notification_Controller_Unenrollment extends LLMS_Abstract_Notificati
 	 *
 	 * @param string $type Notification type id.
 	 * @return array
-	 * @since [version]
+	 * @since 11.0.0
 	 */
 	protected function set_subscriber_options( $type ) {
 

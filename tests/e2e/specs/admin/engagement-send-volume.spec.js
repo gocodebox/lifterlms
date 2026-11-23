@@ -3,7 +3,7 @@
  *
  * The e2e mu-plugin lowers `llms_engagement_send_warning_threshold` to 2.
  *
- * @since [version]
+ * @since 11.0.0
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

@@ -362,7 +362,7 @@ class LLMS_Add_On {
 	 *
 	 * The Plugins screen is not searched by add-on title. Catalog titles do not always match the plugin name.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return string
 	 */

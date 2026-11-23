@@ -7,8 +7,8 @@
  * @since 3.16.0
  * @since 5.9.0 Use `llms-flex-cols` in favor of `llms-cols` for arranging choices in columns.
  * @since 7.8.0 Account for question answers.
- * @since [version] Label the choice group from the question heading.
- * @version [version]
+ * @since 11.0.0 Label the choice group from the question heading.
+ * @version 11.0.0
  *
  * @var LLMS_Quiz_Attempt $attempt  Current quiz attempt object.
  * @var LLMS_Question     $question Question object.

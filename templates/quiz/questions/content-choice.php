@@ -6,8 +6,8 @@
  *
  * @since 3.16.0
  * @since 7.8.0 Account for question answers.
- * @since [version] Label the choice group from the question heading.
- * @version [version]
+ * @since 11.0.0 Label the choice group from the question heading.
+ * @version 11.0.0
  *
  * @param $attempt  LLMS_Quiz_Attempt LLMS_Quiz_Attempt instance.
  * @param $question LLMS_Question     LLMS_Question instance.

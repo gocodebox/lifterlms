@@ -99,6 +99,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * @var array
 	 */
 	public $supports = array(
+		'ajax_checkout'             => false, // Whether the gateway processes orders created by the AJAX checkout and confirms them with `confirm_pending_order_ajax()`.
 		'checkout_fields'           => false,
 		'cc_save'                   => false,
 		'refunds'                   => false,

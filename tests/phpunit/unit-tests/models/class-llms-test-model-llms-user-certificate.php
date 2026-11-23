@@ -835,7 +835,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * certificate template as their related post for legacy reasons, and must not
 	 * render the certificate's own title.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

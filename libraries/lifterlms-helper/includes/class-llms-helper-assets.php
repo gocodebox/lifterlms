@@ -40,9 +40,7 @@ class LLMS_Helper_Assets {
 
 		$load   = false;
 		$screen = get_current_screen();
-		if ( 'lifterlms_page_llms-status' === $screen->id && isset( $_GET['tab'] ) && 'betas' === $_GET['tab'] ) {
-			$load = true;
-		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
+		if ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			$load = true;
 		}
 

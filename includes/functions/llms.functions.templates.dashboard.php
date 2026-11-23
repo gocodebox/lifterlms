@@ -714,6 +714,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
+			// Invalid course (e.g. a numeric ID instead of a course slug).
+			if ( ! $course || ! is_a( $course, 'LLMS_Course' ) ) {
+				return;
+			}
+
 			// It's not stupid if it works unless it is stupid.
 			$post_ids = array_merge(
 				array( $course->get( 'id' ) ),

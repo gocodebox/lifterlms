@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: Fixed the course builder not warning about unsaved changes when leaving the page while a lesson field, such as the title, has focus.
+links:
+  - "#3498"

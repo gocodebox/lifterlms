@@ -53,8 +53,8 @@ $llms-form-field-wp-block-layout: true !default;
 		[type="number"] {
 			background-color: $color-white;
 			background-clip: padding-box;
-			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border: 1px solid llms-var( color-input-border );
+			border-radius: llms-var( radius-sm );
 			box-sizing: border-box;
 			font-size: 16px;
 			line-height: 1;
@@ -65,7 +65,7 @@ $llms-form-field-wp-block-layout: true !default;
 
 		input:focus,
 		input:focus-visible {
-			border-color: $color-brand-blue-light;
+			border-color: llms-var( color-primary-focus );
 			outline: thin solid;
 		}
 
@@ -75,8 +75,8 @@ $llms-form-field-wp-block-layout: true !default;
 			-ms-appearance: none;
 			appearance: none;
 			background-color: $color-white;
-			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border: 1px solid llms-var( color-input-border );
+			border-radius: llms-var( radius-sm );
 			box-sizing: border-box;
 			color: $color-black;
 			padding: 8px 12px;
@@ -99,7 +99,7 @@ $llms-form-field-wp-block-layout: true !default;
 		}
 
 		select:focus {
-			border: 1px solid $color-brand-blue-light;
+			border: 1px solid llms-var( color-primary-focus );
 			outline: thin solid;
 		}
 
@@ -113,8 +113,8 @@ $llms-form-field-wp-block-layout: true !default;
 		&.error,
 		&.invalid {
 			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
-				background: color.change( $color-red, $alpha: 0.3 );
-				border-color: $color-red;
+				background: llms-var( color-danger-muted );
+				border-color: llms-var( color-danger );
 			}
 		}
 
@@ -183,7 +183,7 @@ $llms-form-field-wp-block-layout: true !default;
 			input[type="radio"]:checked + label:before {
 				transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1);
 				background-position: 0 0;
-				background-image: radial-gradient(ellipse at center,  $color-brand-blue 0%,$color-brand-blue 40%, #fafafa 45%);
+				background-image: radial-gradient(ellipse at center, llms-var( color-primary ) 0%, llms-var( color-primary ) 40%, #fafafa 45%);
 			}
 
 		}
@@ -208,7 +208,7 @@ $llms-form-field-wp-block-layout: true !default;
 		}
 
 		.llms-required {
-			color: $color-red;
+			color: llms-var( color-danger );
 			margin-left: 4px;
 		}
 
@@ -303,6 +303,22 @@ $llms-form-field-wp-block-layout: true !default;
 			&:before {
 				background: color.change( #83c373, $alpha: 0.25 );
 				width: 100%;
+			}
+		}
+
+		// Explains a very weak password which reuses a value from another
+		// field in the form. Kept after the strength classes so its rules
+		// win over the `:before` bar of the red states above.
+		&.reused-info {
+			font-size: 13px;
+			line-height: 1.4;
+			margin-top: 5px;
+			padding: 8px 10px;
+			text-align: left;
+
+			// Drop the thin strength bar so the text is not sitting on the wash.
+			&:before {
+				display: none;
 			}
 		}
 

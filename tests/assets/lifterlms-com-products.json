@@ -1,0 +1,3636 @@
+{
+  "categories": {
+    "bundles": "Bundles",
+    "e-commerce": "E-Commerce",
+    "email-marketing": "Email Marketing",
+    "forms": "Forms",
+    "themes": "Themes",
+    "advanced": "Advanced",
+    "tools": "Tools",
+    "courses": "Courses",
+    "resources": "Resources",
+    "third-party": "Third Party",
+    "support": "Support",
+    "services": "Services"
+  },
+  "items": [
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/woo",
+      "description": "<p>WooCommerce is the open-source ecommerce platform that helps merchants and developers build successful businesses for the long term.</p>",
+      "documentation": "https://lifterlikes.com/woo",
+      "has_license": "no",
+      "id": "lifterlms-com-woocommerce",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/WooCommerce.png",
+      "permalink": "https://lifterlms.com/product/woocommerce/",
+      "slug": "",
+      "title": "WooCommerce",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/pmpro",
+      "description": "<p>Restrict content, and manage member subscriptions with recurring payments, user registration, custom profile fields, and robust member management.</p>",
+      "documentation": "https://lifterlikes.com/pmpro",
+      "has_license": "no",
+      "id": "lifterlms-com-paid-memberships-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/01/PMPro.jpg",
+      "permalink": "https://lifterlms.com/product/paid-memberships-pro/",
+      "slug": "",
+      "title": "Paid Memberships Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "<p>Sponsor the LMScast podcast for 1 year to increase your brand awareness and increase traffic to your website.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lmscast-podcast-sponsorship",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/12/LMScast.jpeg",
+      "permalink": "https://lifterlms.com/product/lmscast-podcast-sponsorship/",
+      "slug": "",
+      "title": "LMScast Podcast Sponsorship (1 Year)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "<p>Sponsor the LMScast podcast for 1 year to increase your brand awareness and increase traffic to your website.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lmscast-podcast-sponsorship-1-year-4-installments",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/12/LMScast.jpeg",
+      "permalink": "https://lifterlms.com/product/lmscast-podcast-sponsorship-1-year-4-installments/",
+      "slug": "",
+      "title": "LMScast Podcast Sponsorship (1 Year) (4 Installments)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/woo-subscriptions",
+      "description": "<p>Let customers subscribe to your products or services and pay on a weekly, monthly or annual basis.</p>",
+      "documentation": "https://lifterlikes.com/woo-subscriptions",
+      "has_license": "no",
+      "id": "lifterlms-com-woo-subscriptions",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/WooCommerce-Subscriptions.png",
+      "permalink": "https://lifterlms.com/product/woo-subscriptions/",
+      "slug": "",
+      "title": "Woo Subscriptions",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "<span class=\"JsGRdQ\">Create your money making course plan in just 5 days so you can confidently launch your online course without wasting time and money.</span>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-the-5-day-6-figure-course-plan-challenge",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/06/The-5-day-6-Figure-Course-Plan-Challenge.jpg",
+      "permalink": "https://lifterlms.com/product/the-5-day-6-figure-course-plan-challenge/",
+      "slug": "",
+      "title": "The 5-Day 6 Figure Course Plan Challenge",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "bundles": "Bundles",
+        "e-commerce": "E-Commerce",
+        "themes": "Themes"
+      },
+      "changelog": "",
+      "description": "Save big and unlock your learning platform's potential with the entire suite of payments add-ons.",
+      "documentation": "",
+      "has_license": "yes",
+      "id": "lifterlms-com-earth-bundle",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Earth-Bundle.png",
+      "permalink": "https://lifterlms.com/product/earth-bundle/",
+      "slug": "",
+      "title": "Earth Bundle",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlms.com/recommended-resources/#hosting",
+      "description": "<p>These are the top web <em>hosting</em> companies we recommend using with LifterLMS</p>",
+      "documentation": "https://lifterlms.com/recommended-resources/#hosting",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-hosting",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/LifterLMS-Hosting.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-hosting/",
+      "slug": "",
+      "title": "LifterLMS Hosting",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a 3 year extension to your Earth Bundle license for the price of 2.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-earth-bundle-3-year-license-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Earth-Bundle.png",
+      "permalink": "https://lifterlms.com/product/earth-bundle-3-year-license-extension/",
+      "slug": "",
+      "title": "Earth Bundle 3-Year License Extension",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/omnisend",
+      "description": "<p>Sell more courses and memberships with powerful, ecommerce-tailored email &amp; SMS marketing.</p>",
+      "documentation": "https://lifterlikes.com/omnisend",
+      "has_license": "no",
+      "id": "lifterlms-com-omnisend",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/12/Omnisend.jpg",
+      "permalink": "https://lifterlms.com/product/omnisend/",
+      "slug": "",
+      "title": "Omnisend",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a 3 year extension to your Infinity Bundle license for the price of 2",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-10-year-license-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Infinity-Bundle.png",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-10-year-license-extension/",
+      "slug": "",
+      "title": "Infinity Bundle 10-Year License Extension",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/siren",
+      "description": "<p>Siren has everything needed to build as many pay for performance programs as you need.</p>",
+      "documentation": "https://lifterlikes.com/siren",
+      "has_license": "no",
+      "id": "lifterlms-com-siren-affiliates",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/Siren-WordPress-Banner.png",
+      "permalink": "https://lifterlms.com/product/siren-affiliates/",
+      "slug": "",
+      "title": "Siren Affiliates",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a 3 year extension to your Infinity Bundle license for the price of 2",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-3-year-license-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Infinity-Bundle.png",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-3-year-license-extension/",
+      "slug": "",
+      "title": "Infinity Bundle 3-Year License Extension",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "<p>Lifetime License</p>",
+      "documentation": "",
+      "has_license": "yes",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/Infinity-Bundle-Lifetime.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer; Only available April 25 - 28, 2022).",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/LifterLMS-Infinity-Bundle-Lifetime-License-LTD.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer; Only available April 25 - 28, 2022).",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan-12-pay",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/LifterLMS-Infinity-Bundle-Lifetime-License-LTD.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan-12-pay/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan (12 - Pay)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer).",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan-3-pay",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/Infinity-Bundle-Lifetime.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan-3-pay/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan (3 - Pay)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer).",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan-2-pay-2",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/Infinity-Bundle-Lifetime.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan-2-pay-2/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan (2 - Pay)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "<p>Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer).</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan-6-pay",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/Infinity-Bundle-Lifetime.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan-6-pay/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan (6 - Pay)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "<p>Get a lifetime license to the entire LifterLMS software suite known as the Infinity Bundle (Limited Time Offer).</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-infinity-bundle-lifetime-license-payment-plan-12-pay-2",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/04/Infinity-Bundle-Lifetime.jpeg",
+      "permalink": "https://lifterlms.com/product/infinity-bundle-lifetime-license-payment-plan-12-pay-2/",
+      "slug": "",
+      "title": "Infinity Bundle Lifetime License - Payment Plan (12 - Pay)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "support": "Support"
+      },
+      "changelog": "",
+      "description": "LifterLMS Advanced Core Plugin Support provides a deeper level of assistance from the team at LifterLMS where we log into your staging environment and help isolate and solve your issue faster by providing us more info via staging site and temporary site logins.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-free-plugin-advanced-support",
+      "image": "https://lifterlms.com/wp-content/uploads/2021/07/core-plugin-support-product-featured-image.jpg",
+      "permalink": "https://lifterlms.com/product/free-plugin-advanced-support/",
+      "slug": "",
+      "title": "LifterLMS Core Plugin Support",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "tools": "Tools"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-helper/",
+      "description": "",
+      "documentation": "https://lifterlms.com/docs/lifterlms-helper/",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-helper",
+      "image": false,
+      "permalink": "https://lifterlms.com/product/lifterlms-helper/",
+      "slug": "lifterlms-helper",
+      "title": "LifterLMS Helper",
+      "type": "plugin",
+      "update_file": "lifterlms-helper/lifterlms-helper.php",
+      "version": "3.5.10",
+      "version_beta": false,
+      "version_llms": "3.22.0",
+      "version_php": "7.2",
+      "version_wp": "4.8"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/termageddon",
+      "description": "<p>Protect your business from fines and lawsuits in less than 30 minutes by creating your Privacy Policy, Terms of Service and more with Termageddon</p>",
+      "documentation": "https://lifterlikes.com/termageddon",
+      "has_license": "no",
+      "id": "lifterlms-com-termageddon",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/Termageddon.png",
+      "permalink": "https://lifterlms.com/product/termageddon/",
+      "slug": "",
+      "title": "Termageddon",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "uncategorized": "Uncategorized"
+      },
+      "changelog": "",
+      "description": "",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-manufacturing-technology-inc-lifterlms-custom-invoice",
+      "image": false,
+      "permalink": "https://lifterlms.com/product/manufacturing-technology-inc-lifterlms-custom-invoice/",
+      "slug": "",
+      "title": "Manufacturing Technology Inc LifterLMS Custom Invoice",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "<p>Export LearnDash or LifterLMS courses, including all content and enrolled users and import everything into your new LifterLMS website.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-transfer-honors-wp",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/10/honors-wp-transfer-learndash-to-lifterlms.png",
+      "permalink": "https://lifterlms.com/product/transfer-honors-wp/",
+      "slug": "",
+      "title": "Transfer - Honors WP",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "<p>Give your online course platform a marketing boost! Capture emails, personalize the learning experience, upsell courses, and boost sales with email marketing automation.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-fluentcrm",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/11/fluentcrm-lifterlms.jpg",
+      "permalink": "https://lifterlms.com/product/fluentcrm/",
+      "slug": "",
+      "title": "FluentCRM",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "<p>Set it and forget it with Sitewide Sales and LifterLMS. Launch your WordPress site’s Black Friday sale or any sale at your exact start and end time.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-sitewide-sales",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/11/Sitewide-Sales-lifterlms.jpg",
+      "permalink": "https://lifterlms.com/product/sitewide-sales/",
+      "slug": "",
+      "title": "Sitewide Sales",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Find the right LifterLMS plan for you by answering a quick series of questions about your needs",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-shopping-assistant",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/05/LifterLMS-Shopping-Assistant.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-shopping-assistant/",
+      "slug": "",
+      "title": "LifterLMS Shopping Assistant",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "tools": "Tools"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms/",
+      "description": "",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms/",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/07/lifterlms_logo.png",
+      "permalink": "https://lifterlms.com/product/lifterlms/",
+      "slug": "lifterlms",
+      "title": "LifterLMS",
+      "type": "plugin",
+      "update_file": "lifterlms/lifterlms.php",
+      "version": "11.1.0",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "7.4",
+      "version_wp": "5.9"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "bundles": "Bundles",
+        "e-commerce": "E-Commerce",
+        "email-marketing": "Email Marketing",
+        "forms": "Forms",
+        "themes": "Themes",
+        "tools": "Tools"
+      },
+      "changelog": "",
+      "description": "Save big and unlock your learning platform's full potential with the entire suite of integrations and design tools made by LifterLMS",
+      "documentation": "",
+      "has_license": "yes",
+      "id": "lifterlms-com-universe-bundle",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Universe-Bundle.png",
+      "permalink": "https://lifterlms.com/product/universe-bundle/",
+      "slug": "",
+      "title": "Universe Bundle",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "bundles": "Bundles",
+        "e-commerce": "E-Commerce",
+        "email-marketing": "Email Marketing",
+        "forms": "Forms",
+        "themes": "Themes",
+        "advanced": "Advanced",
+        "tools": "Tools",
+        "support": "Support"
+      },
+      "changelog": "",
+      "description": "Save big and unlock your learning platform's infinite potential with the entire suite of integrations, design tools, support, and advanced features offered by LifterLMS",
+      "documentation": "",
+      "has_license": "yes",
+      "id": "lifterlms-com-infinity-bundle",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Infinity-Bundle.png",
+      "permalink": "https://lifterlms.com/product/infinity-bundle/",
+      "slug": "",
+      "title": "Infinity Bundle",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "services": "Services"
+      },
+      "changelog": "",
+      "description": "Get your own pre-built LifterLMS powered website to test for 7 days. You can even start creating your course and purchase the site if you'd like to keep it",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-try",
+      "image": "https://lifterlms.com/wp-content/uploads/2017/04/30-day-demo-site-product-featured-image.jpg",
+      "permalink": "https://lifterlms.com/product/try/",
+      "slug": "",
+      "title": "30 Day Demo",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "themes": "Themes"
+      },
+      "changelog": "https://make.lifterlms.com/tag/sky-pilot/",
+      "description": "<p class=\"p1\">Give your students a fast, mobile-friendly learning experience with the only modern WordPress theme built exclusively for courses and memberships. Customize course, lesson, and quiz layouts without code and pair it with any page builder you already use.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/sky-pilot-theme/",
+      "has_license": "yes",
+      "id": "lifterlms-com-sky-pilot",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/04/sky-pilot-theme.jpg",
+      "permalink": "https://lifterlms.com/product/sky-pilot/",
+      "slug": "sky-pilot",
+      "title": "Sky Pilot",
+      "type": "theme",
+      "update_file": "sky-pilot",
+      "version": "2.7.0",
+      "version_beta": false,
+      "version_llms": "7.1",
+      "version_php": "7.4",
+      "version_wp": "6.1"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-advanced-quizzes/",
+      "description": "<p class=\"p1\">Build automatically and manually graded exams and practice quizzes with 11 question types, including essay and file upload. Set passing grades, time limits, and attempt limits, and review every attempt in student-level reporting.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-advanced-quizzes/",
+      "has_license": "yes",
+      "id": "lifterlms-com-advanced-quizzes",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Advanced-Quizzes-add-on.png",
+      "permalink": "https://lifterlms.com/product/advanced-quizzes/",
+      "slug": "lifterlms-advanced-quizzes",
+      "title": "LifterLMS Advanced Quizzes",
+      "type": "plugin",
+      "update_file": "lifterlms-advanced-quizzes/lifterlms-advanced-quizzes.php",
+      "version": "3.9.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-assignments/",
+      "description": "<p class=\"p1\">Turn lessons into action with step-by-step task lists, essay submissions, and file uploads your students must complete to move forward. Set passing scores, word counts, and allowed file types so every submission meets your standard.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/assignments-lifterlms-extensions/",
+      "has_license": "yes",
+      "id": "lifterlms-com-assignments",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Assignments-add-on.png",
+      "permalink": "https://lifterlms.com/product/assignments/",
+      "slug": "lifterlms-assignments",
+      "title": "LifterLMS Assignments",
+      "type": "plugin",
+      "update_file": "lifterlms-assignments/lifterlms-assignments.php",
+      "version": "2.8.1",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-advanced-videos/",
+      "description": "<p class=\"p1\">Require students to watch the full video before a lesson counts as complete, auto-advance to the next lesson Netflix-style, and see how much of each lesson video every student watched.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/advanced-videos/",
+      "has_license": "yes",
+      "id": "lifterlms-com-advanced-videos",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Advanced-Videos-add-on.png",
+      "permalink": "https://lifterlms.com/product/advanced-videos/",
+      "slug": "lifterlms-advanced-videos",
+      "title": "LifterLMS Advanced Videos",
+      "type": "plugin",
+      "update_file": "lifterlms-advanced-videos/lifterlms-advanced-videos.php",
+      "version": "1.2.3",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-advanced-coupons/",
+      "description": "<p class=\"p1\">Turn coupon links into instant checkouts with URL coupons that apply on click. Target discounts by access plan, country, or minimum order total, and track every redemption in built-in coupon reporting.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-advanced-coupons/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-advanced-coupons",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/03/LifterLMS-Advanced-Coupons-add-on.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-advanced-coupons/",
+      "slug": "lifterlms-advanced-coupons",
+      "title": "LifterLMS Advanced Coupons",
+      "type": "plugin",
+      "update_file": "lifterlms-advanced-coupons/lifterlms-advanced-coupons.php",
+      "version": "1.0.4",
+      "version_beta": false,
+      "version_llms": "7.4",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-groups/",
+      "description": "<p class=\"p1\">Sell courses and memberships to schools, businesses, teams, or any kind of group in bulk with multi-seat group purchases. Group leaders invite their own people, customize their unique group page, and see front-end progress reports.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-groups/",
+      "has_license": "yes",
+      "id": "lifterlms-com-groups",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Groups-add-on.png",
+      "permalink": "https://lifterlms.com/product/groups/",
+      "slug": "lifterlms-groups",
+      "title": "LifterLMS Groups",
+      "type": "plugin",
+      "update_file": "lifterlms-groups/lifterlms-groups.php",
+      "version": "3.0.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-course-cohorts/",
+      "description": "<p class=\"p1\">Enroll groups of students who start and progress through a course together, by semester, launch, or monthly intake. Offer cohort pricing, keep each group on the same pace, and compare cohorts in dedicated reporting.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-course-cohorts/",
+      "has_license": "yes",
+      "id": "lifterlms-com-course-cohorts",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/08/LifterLMS-Course-Cohorts.jpg",
+      "permalink": "https://lifterlms.com/product/course-cohorts/",
+      "slug": "lifterlms-course-cohorts",
+      "title": "LifterLMS Course Cohorts",
+      "type": "plugin",
+      "update_file": "lifterlms-course-cohorts/lifterlms-course-cohorts.php",
+      "version": "1.0.0",
+      "version_beta": false,
+      "version_llms": "7.4",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Watch a presentation and product demonstration to discover if LifterLMS is the perfect fit for you",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-video-demo",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/05/Video-Demo.jpg",
+      "permalink": "https://lifterlms.com/product/video-demo/",
+      "slug": "",
+      "title": "Video Demo",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-custom-fields/",
+      "description": "<p class=\"p1\">Collect exactly the learner information you need with custom registration, checkout, and account fields. Display that dynamic custom user data on certificates and in emails, and keep every answer on the user profile.</p>",
+      "documentation": "https://lifterlms.com/docs/getting-started-with-lifterlms-custom-fields/",
+      "has_license": "yes",
+      "id": "lifterlms-com-custom-fields",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Custom-Fields-add-on.png",
+      "permalink": "https://lifterlms.com/product/custom-fields/",
+      "slug": "lifterlms-custom-fields",
+      "title": "LifterLMS Custom Fields",
+      "type": "plugin",
+      "update_file": "lifterlms-custom-fields/lifterlms-custom-fields.php",
+      "version": "2.0.2",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-continuing-education/",
+      "description": "<p class=\"p1\">Award continuing education credits automatically on course completion, labeled as CEUs, PDUs, CMEs, CPDs, or your own term. Set expiration rules to match licensing cycles, show credits on certificates, and track every unit in one report.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-continuing-education/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-continuing-education",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/10/Continuing-Education-169.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-continuing-education/",
+      "slug": "lifterlms-continuing-education",
+      "title": "LifterLMS Continuing Education",
+      "type": "plugin",
+      "update_file": "lifterlms-continuing-education/lifterlms-continuing-education.php",
+      "version": "1.2.2",
+      "version_beta": false,
+      "version_llms": "9.1",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-social-learning/",
+      "description": "<p class=\"p1\">Build a private, mobile-friendly online community, similar to a Facebook Group but on a site you own, with an activity feed, member directory, and customizable student profiles.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-social-learning/",
+      "has_license": "yes",
+      "id": "lifterlms-com-social-learning",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Social-Learning-add-on.png",
+      "permalink": "https://lifterlms.com/product/social-learning/",
+      "slug": "lifterlms-social-learning",
+      "title": "LifterLMS Social Learning",
+      "type": "plugin",
+      "update_file": "lifterlms-social-learning/lifterlms-social-learning.php",
+      "version": "2.1.1",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Stop wasting time researching online course, membership & LMS platforms by discovering the critical 5 questions that will help you decide fast",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-wordpress-lms-buyers-guide",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/wordpress-lms-buyers-guide-cover.jpg",
+      "permalink": "https://lifterlms.com/product/wordpress-lms-buyers-guide/",
+      "slug": "",
+      "title": "WordPress LMS Buyer's Guide",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-events/",
+      "description": "<p class=\"p1\">Run live, virtual, and in-person events inside your courses and memberships, with support for Zoom, other virtual meeting links, and physical locations. Attach events to lessons or memberships, show upcoming sessions automatically, and give students one-click add-to-calendar and a My Events dashboard.</p>\n",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-events/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-events",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/04/lifterlms-events.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-events/",
+      "slug": "lifterlms-events",
+      "title": "LifterLMS Events",
+      "type": "plugin",
+      "update_file": "lifterlms-events/lifterlms-events.php",
+      "version": "1.2.1",
+      "version_beta": false,
+      "version_llms": "9.2.3",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-private-areas/",
+      "description": "<p class=\"p1\">Give each student a private space for one-on-one coaching, personalized content, and recorded call replays. Trigger private posts from quiz passes or course completions, and sell private coaching as an upsell to any course or membership.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-private-areas/",
+      "has_license": "yes",
+      "id": "lifterlms-com-private-areas",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-Private-Areas-add-on.png",
+      "permalink": "https://lifterlms.com/product/private-areas/",
+      "slug": "lifterlms-private-areas",
+      "title": "LifterLMS Private Areas",
+      "type": "plugin",
+      "update_file": "lifterlms-private-areas/lifterlms-private-areas.php",
+      "version": "2.1.6",
+      "version_beta": false,
+      "version_llms": "6.0 ",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-notes/",
+      "description": "<p class=\"p1\">Let students take notes right inside a lesson without leaving the page. Every note is filed under its course automatically, searchable from the student dashboard, and ready to revisit when it is time to review.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-notes/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-notes",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/03/LifterLMS-Notes-add-on.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-notes/",
+      "slug": "lifterlms-note-taking",
+      "title": "LifterLMS Notes",
+      "type": "plugin",
+      "update_file": "lifterlms-note-taking/lifterlms-note-taking.php",
+      "version": "1.2.2",
+      "version_beta": false,
+      "version_llms": "7.4",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-gifts/",
+      "description": "<p class=\"p1\">Let visitors and students buy courses and memberships as gifts, with a unique voucher code on every gift purchase. Recipients redeem in a click, buyers track vouchers from their dashboard, and you choose which products can be gifted.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-gifts/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-gifts",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/11/Gifts-169.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-gifts/",
+      "slug": "lifterlms-gifts",
+      "title": "LifterLMS Gifts",
+      "type": "plugin",
+      "update_file": "lifterlms-gifts/lifterlms-gifts.php",
+      "version": "1.1.0",
+      "version_beta": false,
+      "version_llms": "9.1.2",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-pdfs/",
+      "description": "<p class=\"p1\">Give students downloadable PDF certificates they can print, frame, and share. Export grade reports that work like transcripts, order details for your accounting, and group progress reports for group leaders and admins.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-pdfs/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-pdfs",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/LifterLMS-PDFs-add-on.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-pdfs/",
+      "slug": "lifterlms-pdfs",
+      "title": "LifterLMS PDFs",
+      "type": "plugin",
+      "update_file": "lifterlms-pdfs/lifterlms-pdfs.php",
+      "version": "2.6.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "This one simple framework has helped thousands of education entrepreneurs get clear on exactly which course to build and how to structure the lessons",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-3-course-blueprints",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/08/lifterlms-free-course-3-course-blueprints-chris-badgett.jpg",
+      "permalink": "https://lifterlms.com/product/3-course-blueprints/",
+      "slug": "",
+      "title": "3 Course Blueprints",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Take the mess out of your head and find success on the web by getting your online course membership site project organized with this free simple worksheet",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-course-organizer",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/08/course-organizer-worksheet-covers-product-featured-image.jpg",
+      "permalink": "https://lifterlms.com/product/course-organizer/",
+      "slug": "",
+      "title": "Course Organizer",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Successful education entrepreneurs know how to wear these 5 “hats” to create impact, income, and freedom...",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-education-entrepreneur-masterclass",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/02/Education-Entrepreneur-Mentor-Series.jpg",
+      "permalink": "https://lifterlms.com/product/education-entrepreneur-masterclass/",
+      "slug": "",
+      "title": "Education Entrepreneur Masterclass",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Discover the essential 5% of how to use LifterLMS to get launched quickly and ready to accept money in this free course",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-quickstart-course",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/08/official-lifterlms-quickstart-course-academy.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-quickstart-course/",
+      "slug": "",
+      "title": "LifterLMS Quickstart Course",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Learn everything you need to know about WordPress, from the basics to advanced features, so you can create and manage your website with confidence.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-wordpress-basics-course",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/08/WordPress-Tutorial-For-Beginners.jpg",
+      "permalink": "https://lifterlms.com/product/wordpress-basics-course/",
+      "slug": "",
+      "title": "WordPress Tutorial For Beginners",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "A focused training to help you master the fundamentals required to create, launch and scale high value online courses",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-beginners-guide-to-building-successful-online-courses",
+      "image": "https://lifterlms.com/wp-content/uploads/2021/04/Beginners-Guide-Building-Successful-Online-Courses.jpg",
+      "permalink": "https://lifterlms.com/product/beginners-guide-to-building-successful-online-courses/",
+      "slug": "",
+      "title": "Beginner's Guide to Building Successful Online Courses",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-private-site/",
+      "description": "<p class=\"p1\">Lock your entire learning site behind the login so only the people you invite can see anything. Built for employee training, partner enablement, and any program that must stay 100% private.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/private-site-lifterlms-extensions/",
+      "has_license": "yes",
+      "id": "lifterlms-com-private-site",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/LifterLMS-Private-Site.jpeg",
+      "permalink": "https://lifterlms.com/product/private-site/",
+      "slug": "lifterlms-private-site",
+      "title": "LifterLMS Private Site",
+      "type": "plugin",
+      "update_file": "lifterlms-private-site/lifterlms-private-site.php",
+      "version": "1.0.2",
+      "version_beta": false,
+      "version_llms": "7.0",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-car/",
+      "description": "<p class=\"p1\">Win back the students who leave your checkout without finishing. Timed recovery emails bring them back to exactly where they left off, and a built-in dashboard shows the carts and revenue you recovered.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-car/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-car",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/04/Cart-Abandonment-Recovery-169.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-car/",
+      "slug": "lifterlms-car",
+      "title": "LifterLMS Cart Abandonment Recovery",
+      "type": "plugin",
+      "update_file": "lifterlms-car/lifterlms-car.php",
+      "version": "1.0.5",
+      "version_beta": false,
+      "version_llms": "10.0.0",
+      "version_php": "7.4",
+      "version_wp": "6.0"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "The Enroll Summit helps course creators and coaches go from zero to 10 enrollments in 30 days.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-enroll-summit-0-10",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/10/Enroll-Summit-Getting-Your-First-10-Enrollments.jpg",
+      "permalink": "https://lifterlms.com/product/enroll-summit-0-10/",
+      "slug": "",
+      "title": "Enroll Summit – Getting Your First 10 Enrollments (0 to 10)",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "AffiliateWP",
+        "image": "https://lifterlms.com/wp-content/uploads/2016/07/affiliate-wp-author-img.jpg",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://affiliatewp.com/changelog/",
+      "description": "Record referrals and track affiliate commissions in AffiliateWP via LifterLMS course and membership sales",
+      "documentation": "http://docs.affiliatewp.com/",
+      "has_license": "no",
+      "id": "lifterlms-com-affiliatewp",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Affiliate-WP.png",
+      "permalink": "https://lifterlms.com/product/affiliatewp/",
+      "slug": "",
+      "title": "AffiliateWP Integration",
+      "type": "",
+      "update_file": "",
+      "version": "1.8.3+",
+      "version_beta": false,
+      "version_llms": "2.6.3",
+      "version_php": "5.6",
+      "version_wp": "4.0"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-name-your-price/",
+      "description": "<p class=\"p1\">Let students name their price for courses and memberships, run donation and pay-what-you-want offers, and protect your revenue with a minimum floor, a suggested price, and an optional cap.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-name-your-price/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-name-your-price",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/07/Name-Your-Price-169.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-name-your-price/",
+      "slug": "lifterlms-name-your-price",
+      "title": "LifterLMS Name Your Price",
+      "type": "plugin",
+      "update_file": "lifterlms-name-your-price/lifterlms-name-your-price.php",
+      "version": "1.0.0",
+      "version_beta": false,
+      "version_llms": "10.0.0",
+      "version_php": "7.4",
+      "version_wp": "6.7"
+    },
+    {
+      "author": {
+        "name": "MonsterInsights",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/06/monsterinsights-thumbnail.png",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://wordpress.org/plugins/google-analytics-for-wordpress/#developers",
+      "description": "MonsterInsights helps grow your business by showing you that stats that matter by connecting your WordPress and LifterLMS to Google Analytics the easy way.",
+      "documentation": "https://www.monsterinsights.com/docs/",
+      "has_license": "no",
+      "id": "lifterlms-com-monsterinsights",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/MonsterInsights.png",
+      "permalink": "https://lifterlms.com/product/monsterinsights/",
+      "slug": "",
+      "title": "MonsterInsights",
+      "type": "",
+      "update_file": "",
+      "version": "7.7+",
+      "version_beta": false,
+      "version_llms": "3.33",
+      "version_php": "7.2",
+      "version_wp": "5.0"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Lifter Elements brings the power of Elementor’s visual editor and theme builder to your LifterLMS courses.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifter-elements",
+      "image": "https://lifterlms.com/wp-content/uploads/2019/11/Lifter-Elements-Tangible.png",
+      "permalink": "https://lifterlms.com/product/lifter-elements/",
+      "slug": "",
+      "title": "Tangible: Lifter Elements",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "Analytify",
+        "image": "",
+        "link": "https://analytify.io/"
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://analytify.io/changelog/",
+      "description": "<p>Smarter LifterLMS Tracking for WordPress.</p>",
+      "documentation": "https://analytify.io/documentation/",
+      "has_license": "no",
+      "id": "lifterlms-com-analytify",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/08/Analytify.png",
+      "permalink": "https://lifterlms.com/product/analytify/",
+      "slug": "",
+      "title": "Analytify",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "3.0.0",
+      "version_php": "5.6",
+      "version_wp": "4.0"
+    },
+    {
+      "author": {
+        "name": "WP Fusion",
+        "image": "https://lifterlms.com/wp-content/uploads/2016/11/WP_Fusion_LifterLMS_ActiveCampaign_Infusionsoft_Ontraport_Drip.jpg",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://wpfusionplugin.com/documentation/faq/changelog/",
+      "description": "Connect LifterLMS to all the popular email marketing and automation platforms",
+      "documentation": "https://wpfusionplugin.com/documentation/learning-management/lifterlms/",
+      "has_license": "no",
+      "id": "lifterlms-com-wp-fusion-integration",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/WP-Fusion.png",
+      "permalink": "https://lifterlms.com/product/wp-fusion-integration/",
+      "slug": "",
+      "title": "WP Fusion",
+      "type": "",
+      "update_file": "",
+      "version": "2.8.1 and later",
+      "version_beta": false,
+      "version_llms": "3.0.0",
+      "version_php": "5.6",
+      "version_wp": "4.0"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Accept appointments through your WordPress website. Quickly book 1-on-1 coaching sessions with your students. SSA is is seamlessly integrated with LifterLMS.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-simply-schedule-appointments",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Simply-Schedule-Appointments-LifterLMS.png",
+      "permalink": "https://lifterlms.com/product/simply-schedule-appointments/",
+      "slug": "",
+      "title": "Simply Schedule Appointments",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "<p>Now you can sell your courses in China using WeChat and Alipay with China Payments Plugin. Simply install the plugin and enable the gateways you choose on the Checkout menu in LifterLMS Settings.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-china-payments-plugin",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/12/China-Payments-Plugin.jpg",
+      "permalink": "https://lifterlms.com/product/china-payments-plugin/",
+      "slug": "",
+      "title": "China Payments Plugin",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/documentlibrarypro",
+      "description": "<p>The ultimate WordPress document library plugin for your business or organization.</p>",
+      "documentation": "https://lifterlikes.com/documentlibrarypro",
+      "has_license": "no",
+      "id": "lifterlms-com-document-library-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/Document-Library-Pro.jpg",
+      "permalink": "https://lifterlms.com/product/document-library-pro/",
+      "slug": "",
+      "title": "Document Library Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-stripe/",
+      "description": "<p class=\"p1\">Accept one-time and recurring credit card payments from anywhere in the world with Stripe. Students are enrolled the instant checkout completes, and card details stay secure at Stripe, never on your site.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/stripe/",
+      "has_license": "yes",
+      "id": "lifterlms-com-stripe-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2015/04/LifterLMS-Stripe-Extension.jpg",
+      "permalink": "https://lifterlms.com/product/stripe-extension/",
+      "slug": "lifterlms-stripe",
+      "title": "LifterLMS Stripe",
+      "type": "plugin",
+      "update_file": "lifterlms-stripe/lifterlms-stripe.php",
+      "version": "5.7.2",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-paypal/",
+      "description": "<p class=\"p1\">Sell courses and memberships with one-time and recurring PayPal payments. Students get instant access at checkout, and buyers who only trust PayPal stop leaving your checkout empty handed.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/paypal/",
+      "has_license": "yes",
+      "id": "lifterlms-com-paypal-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/10/LifterLMS-PayPal-Extension.jpg",
+      "permalink": "https://lifterlms.com/product/paypal-extension/",
+      "slug": "lifterlms-gateway-paypal",
+      "title": "LifterLMS PayPal Payments",
+      "type": "plugin",
+      "update_file": "lifterlms-gateway-paypal/lifterlms-gateway-paypal.php",
+      "version": "1.4.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/popupmaker",
+      "description": "<p>Use the most popular WordPress popup plugin to create conversion-focused campaigns that grow revenue and email lists on your WP websites.</p>",
+      "documentation": "https://lifterlikes.com/popupmaker",
+      "has_license": "no",
+      "id": "lifterlms-com-popup-maker",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/Popup-Maker.jpg",
+      "permalink": "https://lifterlms.com/product/popup-maker/",
+      "slug": "",
+      "title": "Popup Maker",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-woocommerce/",
+      "description": "<p class=\"p1\">Sell your LifterLMS courses and memberships through WooCommerce and unlock its global payment gateways, advanced tax, shipping, and bundle rules, and 8,000+ extensions. Students are enrolled automatically the moment an order completes.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/woocommerce/",
+      "has_license": "yes",
+      "id": "lifterlms-com-woocommerce-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/10/LifterLMS-WooCommerce-Extension.jpg",
+      "permalink": "https://lifterlms.com/product/woocommerce-extension/",
+      "slug": "lifterlms-integration-woocommerce",
+      "title": "LifterLMS WooCommerce Integration",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-woocommerce/lifterlms-integration-woocommerce.php",
+      "version": "3.1.2",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/blogvault",
+      "description": "<p>Recover your website within minutes from the worst disaster that may strike your WordPress site.</p>",
+      "documentation": "https://lifterlikes.com/blogvault",
+      "has_license": "no",
+      "id": "lifterlms-com-blogvault",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/BlogVault.png",
+      "permalink": "https://lifterlms.com/product/blogvault/",
+      "slug": "",
+      "title": "BlogVault",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/gravityview",
+      "description": "<p>GravityKit takes the power and versatility of Gravity Forms and adds a customizable front end interface on top.</p>",
+      "documentation": "https://lifterlikes.com/gravityview",
+      "has_license": "no",
+      "id": "lifterlms-com-gravitykit",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/GravityKit.png",
+      "permalink": "https://lifterlms.com/product/gravitykit/",
+      "slug": "",
+      "title": "GravityKit",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "e-commerce": "E-Commerce"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-authorize-net/",
+      "description": "<p class=\"p1\">Accept one-time and recurring card payments through <span class=\"s1\">Authorize.net</span>, enroll students the instant checkout completes, and keep card data secure at <span class=\"s1\">Authorize.net</span> instead of on your site.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-authorize-net/",
+      "has_license": "yes",
+      "id": "lifterlms-com-authorize-net",
+      "image": "https://lifterlms.com/wp-content/uploads/2017/08/LifterLMS-Authorize.Net-Payment-Gateway.jpg",
+      "permalink": "https://lifterlms.com/product/authorize-net/",
+      "slug": "lifterlms-gateway-authorize-net",
+      "title": "LifterLMS Authorize.Net Payments",
+      "type": "plugin",
+      "update_file": "lifterlms-gateway-authorize-net/lifterlms-gateway-authorize-net.php",
+      "version": "1.1.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "Team Astra",
+        "image": "https://lifterlms.com/wp-content/uploads/2017/11/astra_logo-white.png",
+        "link": "https://wpastra.com/?bsf=456"
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Astra is a stylish, fast, and easily customizable theme with deep LifterLMS compatibility",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-astra",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Astra.png",
+      "permalink": "https://lifterlms.com/product/astra/",
+      "slug": "",
+      "title": "Astra",
+      "type": "",
+      "update_file": "",
+      "version": "1.2.0",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "5.6",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "Stranger Studios",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "<p>Create a stunning membership site with Memberlite, the ultimate WordPress theme integrated with top LMS and membership plugins.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-memberlite",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/02/Memberlite.jpg",
+      "permalink": "https://lifterlms.com/product/memberlite/",
+      "slug": "",
+      "title": "Memberlite",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "tools": "Tools"
+      },
+      "changelog": "https://make.lifterlms.com/tag/aircraft/",
+      "description": "<p class=\"p1\">Build conversion-focused course and membership pages in minutes with the only page builder made for elearning sites. Start from prebuilt templates and pattern blocks, then grow your email list and enrollments with proven calls to action.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/aircraft/",
+      "has_license": "yes",
+      "id": "lifterlms-com-aircraft",
+      "image": "https://lifterlms.com/wp-content/uploads/2022/07/lifterlms-aircraft-builder.jpg",
+      "permalink": "https://lifterlms.com/product/aircraft/",
+      "slug": "aircraft",
+      "title": "Aircraft",
+      "type": "plugin",
+      "update_file": "aircraft/aircraft.php",
+      "version": "1.1.0",
+      "version_beta": false,
+      "version_llms": "7.2",
+      "version_php": "7.4",
+      "version_wp": "6.1"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "By answering 3 quick questions you will receive an optimized pricing recommendation for your online course or training based membership website",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-course-and-membership-pricing-calculator",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/07/lifterlms-course-membership-pricing-calculator-screenshot.jpg",
+      "permalink": "https://lifterlms.com/product/course-and-membership-pricing-calculator/",
+      "slug": "",
+      "title": "Course and Membership Pricing Calculator",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/wsform",
+      "description": "<p>WS Form is a powerful WordPress form plugin. Create professional, dynamic, mobile friendly, and accessible forms.</p>",
+      "documentation": "https://lifterlikes.com/wsform",
+      "has_license": "no",
+      "id": "lifterlms-com-ws-form",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/WS-Form.jpg",
+      "permalink": "https://lifterlms.com/product/ws-form/",
+      "slug": "",
+      "title": "WS Form",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "ProteusThemes",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "ConsultPress is a theme for consultants who need a professional presentation to communicate clearly with existing and potential clients",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-consultpress",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/proteus-themes-consultpress.png",
+      "permalink": "https://lifterlms.com/product/consultpress/",
+      "slug": "",
+      "title": "ConsultPress",
+      "type": "",
+      "update_file": "",
+      "version": "1.3.2",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "email-marketing": "Email Marketing"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-mailchimp/",
+      "description": "<p class=\"p1\">Sync every enrollment, free signup, and membership to Mailchimp automatically. Nurture free students into paying ones, send targeted emails to specific groups of learners, and upsell customers into their next course.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/mailchimp/",
+      "has_license": "yes",
+      "id": "lifterlms-com-mailchimp-extension",
+      "image": "https://lifterlms.com/wp-content/uploads/2015/07/LifterLMS-MailChimp-Extension.jpg",
+      "permalink": "https://lifterlms.com/product/mailchimp-extension/",
+      "slug": "lifterlms-mailchimp",
+      "title": "Mailchimp Extension",
+      "type": "plugin",
+      "update_file": "lifterlms-mailchimp/lifterlms-mailchimp.php",
+      "version": "3.4.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "OceanWP",
+        "image": "https://lifterlms.com/wp-content/uploads/2018/07/oceanwp-dark.png",
+        "link": "https://oceanwp.org/?ref=367"
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "OceanWP is fully compatible with LifterLMS to allow you to create an amazing online course and membership website",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-oceanwp",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/OceanWP.png",
+      "permalink": "https://lifterlms.com/product/oceanwp/",
+      "slug": "",
+      "title": "OceanWP",
+      "type": "",
+      "update_file": "",
+      "version": "1.5.21",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "SureTriggers seamlessly connects your favorite tools so you can automate workflows and streamline your business processes.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-suretriggers",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/lifterlms-suretriggers.jpg",
+      "permalink": "https://lifterlms.com/product/suretriggers/",
+      "slug": "",
+      "title": "SureTriggers",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "email-marketing": "Email Marketing"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-convertkit/",
+      "description": "<p class=\"p1\">Send every new student and member into Kit the moment they enroll. Group learners by course or membership for targeted broadcasts, then turn free subscribers into paying students with automated nurture sequences.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/convertkit/",
+      "has_license": "yes",
+      "id": "lifterlms-com-convertkit",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/03/LifterLMS-Kit-Extension.png",
+      "permalink": "https://lifterlms.com/product/convertkit/",
+      "slug": "lifterlms-convertkit",
+      "title": "Kit Extension",
+      "type": "plugin",
+      "update_file": "lifterlms-convertkit/lifterlms-convertkit.php",
+      "version": "2.2.4",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/rankmath",
+      "description": "<p>Rank Math is the most powerful way to get BEST WordPress SEO tools added to your website</p>",
+      "documentation": "https://lifterlikes.com/rankmath",
+      "has_license": "no",
+      "id": "lifterlms-com-rank-math",
+      "image": "https://lifterlms.com/wp-content/uploads/2024/08/Rank-Math.png",
+      "permalink": "https://lifterlms.com/product/rank-math/",
+      "slug": "",
+      "title": "Rank Math",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Build a thriving online course business week after week, by subscribing to our helpful, industry leading newsletter",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-newsletter",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/05/LifterLMS-Newsletter.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-newsletter/",
+      "slug": "",
+      "title": "LifterLMS Newsletter",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "<p>Subscribe to our industry leading podcast for serious course creators and LMS website building professionals</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lmscast-podcast",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/05/LMScast-Podcast-Subscribe-169.jpg",
+      "permalink": "https://lifterlms.com/product/lmscast-podcast/",
+      "slug": "",
+      "title": "LMScast Podcast",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Discover the amount of money you will likely make in the next 365 days when you choose LifterLMS to create your learning platform",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-roi-calculator",
+      "image": "https://lifterlms.com/wp-content/uploads/2021/04/lifterlms-course-business-roi-calculator-product-featured-image.jpg",
+      "permalink": "https://lifterlms.com/product/roi-calculator/",
+      "slug": "",
+      "title": "LifterLMS ROI Calculator",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "forms": "Forms"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-gravity-forms/",
+      "description": "<p class=\"p1\">Require a Gravity Forms submission before a lesson can be completed, so students sign, upload, or answer before moving on. Entries show up in LifterLMS reporting, and custom registration forms collect the exact fields you choose.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/lifterlms-gravity-forms/",
+      "has_license": "yes",
+      "id": "lifterlms-com-gravity-forms",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/07/LifterLMS-Gravity-Forms-Add-On.jpg",
+      "permalink": "https://lifterlms.com/product/gravity-forms/",
+      "slug": "lifterlms-integration-gravity-forms",
+      "title": "Gravity Forms Add-On",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-gravity-forms/lifterlms-integration-gravity-forms.php",
+      "version": "2.1.7",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.6"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "forms": "Forms"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-wpforms/",
+      "description": "<p class=\"p1\">Drop a WPForms form into any lesson and require it before students continue. Entries land in your LifterLMS reporting, and custom registration, checkout, and account forms collect exactly what you need from every learner.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/wpforms/",
+      "has_license": "yes",
+      "id": "lifterlms-com-wpforms",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/07/LifterLMS-WPForms-Add-On.jpg",
+      "permalink": "https://lifterlms.com/product/wpforms/",
+      "slug": "lifterlms-integration-wpforms",
+      "title": "WPForms Add-On",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-wpforms/lifterlms-integration-wpforms.php",
+      "version": "1.2.0",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "forms": "Forms"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-ninja-forms/",
+      "description": "<p class=\"p1\">Put any Ninja Forms form inside a lesson and require it before students move forward. Collect signatures, uploads, surveys, and testimonials, see every entry in LifterLMS reporting, and build registration forms with the exact fields you need.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/ninja-forms/",
+      "has_license": "yes",
+      "id": "lifterlms-com-ninja-forms",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/07/LifterLMS-Ninja-Forms-Add-On.jpg",
+      "permalink": "https://lifterlms.com/product/ninja-forms/",
+      "slug": "lifterlms-integration-ninja-forms",
+      "title": "Ninja Forms Add-On",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-ninja-forms/lifterlms-integration-ninja-forms.php",
+      "version": "1.1.1",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "forms": "Forms"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-formidable-forms/",
+      "description": "<p class=\"p1\">Gate lesson completion behind a Formidable Forms submission so students sign, upload, or answer first. Form entries appear beside progress in LifterLMS reporting, and custom registration and account forms collect exactly the data you need.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-extensions/formidable-forms/",
+      "has_license": "yes",
+      "id": "lifterlms-com-formidable-forms",
+      "image": "https://lifterlms.com/wp-content/uploads/2018/07/LifterLMS-Formidable-Forms-Add-On.jpg",
+      "permalink": "https://lifterlms.com/product/formidable-forms/",
+      "slug": "lifterlms-integration-formidable-forms",
+      "title": "Formidable Forms Add-On",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-formidable-forms/lifterlms-integration-formidable-forms.php",
+      "version": "1.0.5",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "tools": "Tools"
+      },
+      "changelog": "https://make.lifterlms.com/tag/lifterlms-twilio/",
+      "description": "<p class=\"p1\">Send automatic text messages when students enroll, pass a quiz, or finish a course. Let new students enroll by texting a keyword to your number, and get instant SMS alerts about sales and student progress on your phone.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-integrations/lifterlms-twilio/",
+      "has_license": "yes",
+      "id": "lifterlms-com-lifterlms-twilio",
+      "image": "https://lifterlms.com/wp-content/uploads/2017/05/LifterLMS-Twilio-Integration.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-twilio/",
+      "slug": "lifterlms-integration-twilio",
+      "title": "Twilio Integration",
+      "type": "plugin",
+      "update_file": "lifterlms-integration-twilio/lifterlms-integration-twilio.php",
+      "version": "2.1.1",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "themes": "Themes"
+      },
+      "changelog": "http://d34dpc7391qduo.cloudfront.net/changelogs/lifterlms-launchpad.html",
+      "description": "<p class=\"p1\">Control the design, layout, and typography of your course website with a WordPress theme built for LifterLMS. Change your logo, colors, header, and footer from one options panel and choose from 600+ Google Fonts.</p>",
+      "documentation": "https://lifterlms.com/doc-category/lifterlms-launchpad/",
+      "has_license": "yes",
+      "id": "lifterlms-com-launchpad",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/04/launchpad-theme.jpg",
+      "permalink": "https://lifterlms.com/product/launchpad/",
+      "slug": "lifterlms-launchpad",
+      "title": "LaunchPad",
+      "type": "theme",
+      "update_file": "lifterlms-launchpad",
+      "version": "2.5.1",
+      "version_beta": false,
+      "version_llms": "6.0",
+      "version_php": "7.4",
+      "version_wp": "5.4"
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "advanced": "Advanced",
+        "support": "Support"
+      },
+      "changelog": "",
+      "description": "<p class=\"p1\">Join a weekly live Zoom mastermind with LifterLMS product specialists and fellow education entrepreneurs. Bring any question, screen share your site for real-time help, and learn the launch and growth strategies working for your peers.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-office-hours",
+      "image": "https://lifterlms.com/wp-content/uploads/2017/06/LifterLMS-Office-Hours-Mastermind-1.jpg",
+      "permalink": "https://lifterlms.com/product/office-hours/",
+      "slug": "",
+      "title": "LifterLMS Office Hours Mastermind",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "LifterLMS",
+        "image": "https://lifterlms.com/wp-content/uploads/2019/02/cropped-lifterlms_icon-square-e1550951572396.png",
+        "link": "https://lifterlms.com/store/"
+      },
+      "categories": {
+        "tools": "Tools",
+        "support": "Support"
+      },
+      "changelog": "",
+      "description": "<p class=\"p1\">Make your certificates, achievement badges, and notification icons look professionally designed without hiring a designer. Choose from brand-ready certificate backgrounds, badge sets from playful to serious, and icon sets that keep every popup on brand.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2016/02/lifterlms-powerpack-1.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-pro/",
+      "slug": "lifterlms-graphics-pack",
+      "title": "LifterLMS Powerpack",
+      "type": "other",
+      "update_file": "",
+      "version": "4.0.0",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Lead your LifterLMS online classes with style organization and the most user-friendly course interface in the StudioPress / Genesis suite.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-course-maker-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/course-maker-pro.png",
+      "permalink": "https://lifterlms.com/product/course-maker-pro/",
+      "slug": "",
+      "title": "Course Maker Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "A WordPress theme for the long-standing business. Neve’s mobile-first approach, compatibility with AMP and popular page-builders makes website building accessible.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-neve",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Neve.png",
+      "permalink": "https://lifterlms.com/product/neve/",
+      "slug": "",
+      "title": "Neve",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "resources": "Resources"
+      },
+      "changelog": "",
+      "description": "Join our weekly \"Ask Us Anything\" call live to get your questions answered live, request specific live demos, and more",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-ask-us-anything-live-event",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/05/LifterLMS-Ask-Us-Anything-Call.png",
+      "permalink": "https://lifterlms.com/product/ask-us-anything-live-event/",
+      "slug": "",
+      "title": "Ask Us Anything - Live Event",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "GamiPress let’s you award your users with digital rewards for interacting with your WordPress website",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-gamipress",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/gamipress.png",
+      "permalink": "https://lifterlms.com/product/gamipress/",
+      "slug": "",
+      "title": "GamiPress",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Use AI in all 5 \"hats\" of an education entrepreneur to build better online courses and memberships without losing the human edge.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-ai-advantage",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/10/AI-Advantage-For-Education-Entrepreneurs.jpg",
+      "permalink": "https://lifterlms.com/product/ai-advantage/",
+      "slug": "",
+      "title": "AI Advantage For Education Entrepreneurs",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Using Groundhogg is the easiest way to automate an upgrade funnel, review campaign, or cross-sell automation when students interact with your courses.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-groundhogg",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/groundhogg.png",
+      "permalink": "https://lifterlms.com/product/groundhogg/",
+      "slug": "",
+      "title": "Groundhogg",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "With Course Scheduler, you can quickly and easily set multiple start and end dates – either manually or on an automatically generated schedule.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-course-scheduler",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/wpzone-course-scheduler.png",
+      "permalink": "https://lifterlms.com/product/course-scheduler/",
+      "slug": "",
+      "title": "Course Scheduler",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "A great combination of achievement and engagement features with the Learning Management System which provides the integration BadgeOS and LifterLMS.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-badgeos",
+      "image": "https://lifterlms.com/wp-content/uploads/2020/02/624670_BadgeOS_800x400_1_013120.jpg",
+      "permalink": "https://lifterlms.com/product/lifterlms-badgeos/",
+      "slug": "",
+      "title": "LifterLMS BadgeOS",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "A fantastic combination of features between the digital e-commerce plugin Easy Digital Downloads with LifterLMS.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-edd",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/LifterLMS-EDD-Integration.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-edd/",
+      "slug": "",
+      "title": "LifterLMS EDD",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Instantly Increase Conversions on your Website with Social Proof. WPfomify increases conversion rates on your website by displaying recent sales & signups.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-wpfomify",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/WPfomify.png",
+      "permalink": "https://lifterlms.com/product/wpfomify/",
+      "slug": "",
+      "title": "WPfomify",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "Uncanny Automator, Uncanny Owl",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://wordpress.org/plugins/uncanny-automator/#developers",
+      "description": "Connect your WordPress plugins automatically to slash admin time and plugin costs. No coding required!",
+      "documentation": "https://automatorplugin.com/knowledge-base/",
+      "has_license": "no",
+      "id": "lifterlms-com-uncanny-automator",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/uncanny-automator.png",
+      "permalink": "https://lifterlms.com/product/uncanny-automator/",
+      "slug": "",
+      "title": "Uncanny Automator",
+      "type": "",
+      "update_file": "",
+      "version": "4.13.0.1",
+      "version_beta": false,
+      "version_llms": "7.1+",
+      "version_php": "5.6+",
+      "version_wp": "5.3+"
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "The most advanced LifterLMS theme for your online courses, schools, communities and membership sites.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-buddyboss-for-lifterlms",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/BuddyBoss-LifterLMS.png",
+      "permalink": "https://lifterlms.com/product/buddyboss-for-lifterlms/",
+      "slug": "",
+      "title": "BuddyBoss for LifterLMS",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "A powerful add-on that extends the functionality of LifterLMS quizzes. This add-on gives you the ability to import and export LifterLMS quizzes from an excel file. It supports all types of LifterLMS quiz questions.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-quiz-import-export",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/LifterLMS-Quiz-Import-Export.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-quiz-import-export/",
+      "slug": "",
+      "title": "LifterLMS Quiz Import/Export",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Themes Security Pro takes the guesswork out of WordPress security with reCAPTCHA on LifterLMS powered enrollments, Passwordless Login and much much more.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-ithemes-security-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/iThemes-Security-Pro.png",
+      "permalink": "https://lifterlms.com/product/ithemes-security-pro/",
+      "slug": "",
+      "title": "iThemes Security Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "WishList Member is a powerful, yet easy to use membership software solution that can turn any WordPress site into a full-blown membership site.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-wishlist-member",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/WishList-Member.png",
+      "permalink": "https://lifterlms.com/product/wishlist-member/",
+      "slug": "",
+      "title": "WishList Member",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "All the tools you need to quickly & easily create your own WordPress sales funnel solution!",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-upsell-plugin",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/UpsellPlugin-LifterLMS.png",
+      "permalink": "https://lifterlms.com/product/upsell-plugin/",
+      "slug": "",
+      "title": "Upsell Plugin",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "GrassBlade xAPI Companion is one of the best plugin for xAPI, SCORM, H5P and Video Content tracking on WordPress and follows eLearning industry standards. It also provides better launch options to make your content play well with LifterLMS.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-grassblade-xapi",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/GrassBlade.png",
+      "permalink": "https://lifterlms.com/product/grassblade-xapi/",
+      "slug": "",
+      "title": "Grassblade xAPI Companion",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Authority Pro perfectly highlights your knowledge, years of experience, and acquired wisdom. Even if it’s early in your journey toward building expertise and trust, this carefully-constructed design will accelerate how quickly your audience grows.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-authority-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Authority-Pro.png",
+      "permalink": "https://lifterlms.com/product/authority-pro/",
+      "slug": "",
+      "title": "Authority Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Want a website that’s substantial but simple? Come see the sleek difference that white space and typography make in minimal design with Monochrome Pro. If having a visually strong digital presence and an easy-to-use site are equally important to you, then Monochrome Pro is the Genesis-powered theme you’ve been waiting for.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-monochrome-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Monochrome-Pro.png",
+      "permalink": "https://lifterlms.com/product/monochrome-pro/",
+      "slug": "",
+      "title": "Monochrome Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Revolution Pro is a minimal design that provides the perfect canvas for showcasing photography and text. The white space allows all of the content to breathe, and the use of Playfair Display puts a spotlight on headlines and blockquotes.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-revolution-pro",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Revolution-Pro.png",
+      "permalink": "https://lifterlms.com/product/revolution-pro/",
+      "slug": "",
+      "title": "Revolution Pro",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "With an emphasis on typography, white space, and mobile-optimized design, your website will look absolutely breathtaking.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-genesis",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/genesis-framework.png",
+      "permalink": "https://lifterlms.com/product/genesis/",
+      "slug": "",
+      "title": "Genesis Framework",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Celebrate with your users' learning journey with a fun confetti effect after they sign up for a course or after a lesson, quiz, section, course, or course track is completed. You can also include the confetti effect into any page of your site and integrate with many other WordPress e-commerce and form plugins.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-wpsunshine-confetti",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/WPSunshine-Confetti-Integration.png",
+      "permalink": "https://lifterlms.com/product/wpsunshine-confetti/",
+      "slug": "",
+      "title": "WPSunshine Confetti",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "Kadence",
+        "image": "https://lifterlms.com/wp-content/uploads/2021/10/kadencewp.png",
+        "link": "https://lifterlikes.com/kadence"
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Build effective websites with a fast easy to use theme built for the next generation of WordPress. Includes an advanced header and footer builder that lets you build exactly what you want.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-kadence",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/KadenceWP.png",
+      "permalink": "https://lifterlms.com/product/kadence/",
+      "slug": "",
+      "title": "Kadence",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "The easiest way to connect your WordPress plugins together and create automated workflows. AutomatorWP makes possible to connect your WordPress plugins together easily and with no code.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-automatorwp",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/AutomatorWP-LifterLMS.png",
+      "permalink": "https://lifterlms.com/product/automatorwp/",
+      "slug": "",
+      "title": "AutomatorWP",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Tribe is a stylish, clean and elegant Divi child theme with subtle tones and stunning typography. It includes custom theme builder templates, which allows you to style all of your blog, course and store areas to perfection.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-tribe-theme",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Tribe-theme.png",
+      "permalink": "https://lifterlms.com/product/tribe-theme/",
+      "slug": "",
+      "title": "Tribe Theme",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Tutorque is a flexible theme with special features for LifterLMS to get your education website up and running quickly.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-tutorque",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Tutorque.png",
+      "permalink": "https://lifterlms.com/product/tutorque/",
+      "slug": "",
+      "title": "Tutorque",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Allow customers to pay in installments for products and services with customized layaway and installment plans.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-payflexi",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Payflexi.png",
+      "permalink": "https://lifterlms.com/product/payflexi/",
+      "slug": "",
+      "title": "PayFlexi",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Memberium’s integration with LifterLMS makes it easy to protect and sell courses through Keap (formerly Infusionsoft). Get the most out of Keap and LifterLMS together!",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-memberium",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Memberium.png",
+      "permalink": "https://lifterlms.com/product/memberium/",
+      "slug": "",
+      "title": "Memberium",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "The LifterLMS Save Quiz As PDF add-on allows your students to download their quiz attempt reports in PDF format with the click of a button.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-lifterlms-save-quiz-as-pdf",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/LifterLMS-Save-Quiz-As-PDF.png",
+      "permalink": "https://lifterlms.com/product/lifterlms-save-quiz-as-pdf/",
+      "slug": "",
+      "title": "LifterLMS Save Quiz as PDF",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "themes": "Themes",
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "A modern, fast &amp; minimalistic theme designed for the new WordPress Era.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-page-builder-framework",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/page-builder-framework.png",
+      "permalink": "https://lifterlms.com/product/page-builder-framework/",
+      "slug": "",
+      "title": "Page Builder Framework",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Give your students an exceptional learning experience with adjustable playback speed, custom chapter markings, picture in a picture, 10-second skip, and more.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-presto-player",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Presto-Player.png",
+      "permalink": "https://lifterlms.com/product/presto-player/",
+      "slug": "",
+      "title": "Presto Player",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Bulk edit and manage courses, memberships, lessons, coupons, admin columns or any WordPress post type using spreadsheet like table editor!",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-store-apps-smart-manager",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/Store-Apps.png",
+      "permalink": "https://lifterlms.com/product/store-apps-smart-manager/",
+      "slug": "",
+      "title": "Store Apps Smart Manager",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Turn your expertise into a sell-ready online course in record time. Learn the exact ChatGPT prompts, workflows, and AI tricks that plan, script, and polish your entire curriculum from idea to launch.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-create-an-online-course-with-chatgpt",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/12/Create-An-Online-Course-With-ChatGPT.jpg",
+      "permalink": "https://lifterlms.com/product/create-an-online-course-with-chatgpt/",
+      "slug": "",
+      "title": "Create An Online Course With ChatGPT",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "With Castos you can create a public podcast to build authority while generating leads, and you can create private podcasts to make your LifterLMS powered courses and memberships even more powerful.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-castos",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/castos.png",
+      "permalink": "https://lifterlms.com/product/castos/",
+      "slug": "",
+      "title": "Castos",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "",
+      "description": "Redirect users to different pages after they log in based on conditions such as their usernames, roles, and course or membership enrollment.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-loginwp",
+      "image": "https://lifterlms.com/wp-content/uploads/2023/05/LoginWP.png",
+      "permalink": "https://lifterlms.com/product/loginwp/",
+      "slug": "",
+      "title": "LoginWP",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Pinpoint your ideal course price and tweak your offer for maximum profit, delivering unbeatable value to your students while unlocking premium, predictable income for you.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-course-pricing-focuser",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/12/Course-Pricing-Focuser.jpg",
+      "permalink": "https://lifterlms.com/product/course-pricing-focuser/",
+      "slug": "",
+      "title": "Course Pricing Focuser",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "<p>Make money online promoting LifterLMS by learning the fundamentals of affiliate marketing.</p>",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-affiliate-marketing-income-stream",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/12/Affiliate-Marketing-Income-Stream.jpg",
+      "permalink": "https://lifterlms.com/product/affiliate-marketing-income-stream/",
+      "slug": "",
+      "title": "Affiliate Marketing Income Stream",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Learn how to integrate and track SCORM content in WordPress using LifterLMS.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-scorm-wordpress-tutorial",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/12/SCORM-WordPress-Tutorial.jpg",
+      "permalink": "https://lifterlms.com/product/scorm-wordpress-tutorial/",
+      "slug": "",
+      "title": "SCORM WordPress Tutorial",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "courses": "Courses"
+      },
+      "changelog": "",
+      "description": "Discover the fastest path to course creator cashflow, guiding overwhelmed subject matter experts without teaching experience from blank page paralysis to a clear revenue-ready offer.",
+      "documentation": "",
+      "has_license": "no",
+      "id": "lifterlms-com-perfect-offer-playbook",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/12/Perfect-Offer-Playbook-Course.jpg",
+      "permalink": "https://lifterlms.com/product/perfect-offer-playbook/",
+      "slug": "",
+      "title": "Perfect Offer Playbook",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/godam",
+      "description": "<p>Connect WordPress to Your CRM & Email Marketing Platforms</p>",
+      "documentation": "https://lifterlikes.com/godam",
+      "has_license": "no",
+      "id": "lifterlms-com-fusewp",
+      "image": "https://lifterlms.com/wp-content/uploads/2026/01/fusewp.png",
+      "permalink": "https://lifterlms.com/product/fusewp/",
+      "slug": "",
+      "title": "FuseWP",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/godam",
+      "description": "<p>Elevate your WordPress website with advanced WordPress LMS video and All-in-One media management.</p>",
+      "documentation": "https://lifterlikes.com/godam",
+      "has_license": "no",
+      "id": "lifterlms-com-godam",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/10/GoDam.jpg",
+      "permalink": "https://lifterlms.com/product/godam/",
+      "slug": "",
+      "title": "GoDAM",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    },
+    {
+      "author": {
+        "name": "",
+        "image": "",
+        "link": ""
+      },
+      "categories": {
+        "third-party": "Third Party"
+      },
+      "changelog": "https://lifterlikes.com/loginpress",
+      "description": "<p>Enable social login and account creation in LifterLMS with Facebook, Google, Apple, LinkedIn, X, and more with LooginPress.</p>",
+      "documentation": "https://lifterlikes.com/loginpress",
+      "has_license": "no",
+      "id": "lifterlms-com-loginpress",
+      "image": "https://lifterlms.com/wp-content/uploads/2025/10/LoginPress.jpg",
+      "permalink": "https://lifterlms.com/product/loginpress/",
+      "slug": "",
+      "title": "LoginPress",
+      "type": "",
+      "update_file": "",
+      "version": "",
+      "version_beta": false,
+      "version_llms": "",
+      "version_php": "",
+      "version_wp": ""
+    }
+  ]
+}

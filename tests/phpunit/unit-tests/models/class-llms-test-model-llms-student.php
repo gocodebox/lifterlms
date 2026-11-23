@@ -236,4 +236,101 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( $result_all['more'] );
 	}
 
+	/**
+	 * Test that get_enrollment_order() returns the most recently modified order when the enrollment has no order trigger.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_enrollment_order_without_trigger_uses_last_modified() {
+
+		global $wpdb;
+
+		$plan    = $this->get_mock_plan();
+		$order_a = $this->get_mock_order( $plan, false, $this->student );
+		$order_b = $this->get_mock_order( $plan, false, $this->student );
+
+		// Order A was created first and modified last.
+		$dates = array(
+			$order_a->get( 'id' ) => array( '2020-01-01 00:00:00', '2020-03-01 00:00:00' ),
+			$order_b->get( 'id' ) => array( '2020-02-01 00:00:00', '2020-02-01 00:00:00' ),
+		);
+		foreach ( $dates as $id => $date ) {
+			$wpdb->update(
+				$wpdb->posts,
+				array(
+					'post_date'         => $date[0],
+					'post_date_gmt'     => $date[0],
+					'post_modified'     => $date[1],
+					'post_modified_gmt' => $date[1],
+				),
+				array( 'ID' => $id )
+			);
+			clean_post_cache( $id );
+		}
+
+		$this->assertFalse( $this->student->get_enrollment_trigger( $plan->get( 'product_id' ) ) );
+		$this->assertEquals( $order_a->get( 'id' ), $this->student->get_enrollment_order( $plan->get( 'product_id' ) )->get( 'id' ) );
+	}
+
+	/**
+	 * Test get_enrollment_order() with skip_trigger and custom query arguments.
+	 *
+	 * @ticket 3464
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_enrollment_order_with_skip_trigger_and_query_args() {
+
+		$plan    = $this->get_mock_plan();
+		$order_a = $this->get_mock_order( $plan, false, $this->student );
+		$order_b = $this->get_mock_order( $plan, false, $this->student );
+
+		$product_id = $plan->get( 'product_id' );
+
+		// Initially neither is active.
+		$order_a->set( 'status', 'llms-failed' );
+		$order_b->set( 'status', 'llms-pending' );
+
+		$found = $this->student->get_enrollment_order(
+			$product_id,
+			true,
+			array(
+				'post_status' => array( 'llms-active', 'llms-completed' ),
+			)
+		);
+		$this->assertFalse( $found );
+
+		// Set Order B active.
+		$order_b->set( 'status', 'llms-active' );
+		$active_order = $this->student->get_enrollment_order(
+			$product_id,
+			true,
+			array(
+				'post_status' => array( 'llms-active', 'llms-completed' ),
+			)
+		);
+		$this->assertInstanceOf( 'LLMS_Order', $active_order );
+		$this->assertEquals( $order_b->get( 'id' ), $active_order->get( 'id' ) );
+
+		// Exclude Order B.
+		$excluded = $this->student->get_enrollment_order(
+			$product_id,
+			true,
+			array(
+				'post_status'  => array( 'llms-active', 'llms-completed' ),
+				'post__not_in' => array( $order_b->get( 'id' ) ),
+			)
+		);
+		$this->assertFalse( $excluded );
+
+		// Verify trigger retrieval handles wc_order_ prefix.
+		llms_update_user_postmeta( $this->student->get_id(), $product_id, '_enrollment_trigger', 'wc_order_' . $order_b->get( 'id' ) );
+		$from_trigger = $this->student->get_enrollment_order( $product_id );
+		$this->assertInstanceOf( 'LLMS_Order', $from_trigger );
+		$this->assertEquals( $order_b->get( 'id' ), $from_trigger->get( 'id' ) );
+	}
+
 }

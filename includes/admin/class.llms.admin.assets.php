@@ -382,7 +382,7 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 			wp_enqueue_style( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.min.css', array(), '1.3.4' );
-			wp_enqueue_script( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.full' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.3.4', true );
+			wp_enqueue_script( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.full' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
 				wp_enqueue_script( 'heartbeat' );

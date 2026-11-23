@@ -105,6 +105,15 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
+		// Users who can't view all reports may only manage progress for students enrolled in the lesson's course.
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) ) {
+			$student = llms_get_student( $student_id );
+			$course  = llms_get_post_parent_course( $lesson_id );
+			if ( ! $student || ! $course || ! $student->get_enrollment_status( $course->get( 'id' ) ) ) {
+				return;
+			}
+		}
+
 		$trigger = 'admin_' . get_current_user_id();
 
 		if ( 'complete' === $action ) {

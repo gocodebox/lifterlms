@@ -350,12 +350,14 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	 */
 	public function test_create_pending_order_not_submitted() {
 		$this->assertNull( $this->main->create_pending_order() );
+		$this->assertEquals( 0, llms_notice_count( 'error' ) );
 	}
 
 	/**
 	 * Test create_pending_order() when a nonce error is encountered.
 	 *
 	 * @since 7.0.0
+	 * @since 11.0.0 Assert an error notice is added.
 	 *
 	 * @return void
 	 */
@@ -364,6 +366,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 			'_llms_checkout_nonce' => 'fake',
 		) );
 		$this->assertNull( $this->main->create_pending_order() );
+		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 	}
 
 	/**
@@ -769,6 +772,122 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_pending_order_ajax() stops checkout when a `llms_before_checkout_validation` callback fails.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_ajax_before_checkout_validation() {
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		$orders = wp_count_posts( 'llms_order' );
+
+		$cases = array(
+			'captcha' => array(
+				'setup'   => function () {
+					update_option( 'lifterlms_captcha', 'recaptcha' );
+				},
+				'message' => 'CAPTCHA token missing, please refresh and try again.',
+			),
+			'spammer' => array(
+				'setup'   => function () {
+					add_filter( 'llms_is_spammer', '__return_true' );
+				},
+				'message' => 'Suspicious activity detected. Try again in a few minutes.',
+			),
+		);
+
+		foreach ( $cases as $name => $case ) {
+
+			$case['setup']();
+
+			$this->mockPostRequest(
+				array_merge(
+					$this->get_mock_checkout_data_array(),
+					array(
+						$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+						'action'                 => $this->main::ACTION_CREATE_PENDING_ORDER,
+						'llms_payment_gateway'   => 'manual',
+					),
+				)
+			);
+
+			try {
+				ob_start();
+				$this->main->create_pending_order_ajax();
+			} catch ( WPDieException $e ) {}
+
+			$res = json_decode( ob_get_clean(), true );
+			$this->assertSame( array( $case['message'] ), $res['errors']['llms-checkout-validation'], $name );
+			$this->assertSame( 0, llms_notice_count( 'error' ), $name );
+
+			update_option( 'lifterlms_captcha', '' );
+			remove_filter( 'llms_is_spammer', '__return_true' );
+		}
+
+		$this->assertEquals( $orders, wp_count_posts( 'llms_order' ) );
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+	}
+
+	/**
+	 * Test create_pending_order_ajax() rejects gateways that don't support the AJAX checkout.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order_ajax_gateway_unsupported() {
+
+		global $wpdb;
+
+		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+
+		$count_orders = function () use ( $wpdb ) {
+			return $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'llms_order'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		};
+
+		$student = $this->factory->student->create_and_get();
+		$orders  = $count_orders();
+
+		$cases = array(
+			'free plan'                  => array( $this->get_mock_plan( 0 ), 'manual' ),
+			'free plan, gateway not set' => array( $this->get_mock_plan( 0 ), null ),
+			'paid plan'                  => array( $this->get_mock_plan(), 'manual' ),
+		);
+
+		foreach ( $cases as $name => list( $plan, $gateway ) ) {
+
+			$data = array_merge(
+				$this->get_mock_checkout_data_array( $plan ),
+				array(
+					$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
+					'action'                 => $this->main::ACTION_CREATE_PENDING_ORDER,
+					'llms_payment_gateway'   => $gateway,
+					'email_address'          => $student->get( 'user_email' ),
+					'email_address_confirm'  => $student->get( 'user_email' ),
+				)
+			);
+			$this->mockPostRequest( array_filter( $data ) );
+
+			try {
+				ob_start();
+				$this->main->create_pending_order_ajax();
+			} catch ( WPDieException $e ) {}
+
+			$res = json_decode( ob_get_clean(), true );
+			$this->assertArrayHasKey( 'llms-checkout-gateway-unsupported', $res['errors'] ?? array(), $name );
+			$this->assertFalse( llms_is_user_enrolled( $student->get_id(), $plan->get( 'product_id' ) ), $name );
+		}
+
+		$this->assertSame( $orders, $count_orders() );
+		$this->assertSame( '0', $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = 0" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+
+		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+	}
+
+	/**
 	 * Test create_pending_order_ajax() when an order validation error is encountered.
 	 *
 	 * @since 7.0.0
@@ -778,6 +897,12 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	public function test_create_pending_order_ajax_order_validation_error() {
 
 		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+
+		// Let the default (manual) gateway through so the order generator's validation runs.
+		$supports = function ( $features ) {
+			return array_merge( $features, array( 'ajax_checkout' => true ) );
+		};
+		add_filter( 'llms_get_gateway_supported_features', $supports );
 
 		$this->mockPostRequest( array(
 			$this->main::AJAX_QS_VAR => wp_create_nonce( $this->main::ACTION_CREATE_PENDING_ORDER ),
@@ -793,6 +918,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		$this->assertArrayHasKey( 'llms-order-gen-plan-required', $res['errors'] );
 
 		remove_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler') );
+		remove_filter( 'llms_get_gateway_supported_features', $supports );
 
 	}
 
@@ -811,6 +937,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		$gateway = new class() extends LLMS_Payment_Gateway {
 			public $id = 'fake-create-pending-order-ajax-gateway-err';
 			public $supports = array(
+				'ajax_checkout'      => true,
 				'recurring_payments' => true,
 			);
 			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
@@ -859,6 +986,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 		$gateway = new class() extends LLMS_Payment_Gateway {
 			public $id = 'fake-create-pending-order-ajax-success';
 			public $supports = array(
+				'ajax_checkout'      => true,
 				'recurring_payments' => true,
 			);
 			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {

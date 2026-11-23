@@ -7,7 +7,7 @@
  * @group engagements
  * @group engagements_scanner
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 
@@ -19,7 +19,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Backdate all user postmeta rows for a given user & post.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int    $user_id WP_User ID.
 	 * @param int    $post_id WP_Post ID.
@@ -66,7 +66,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Create an engagement configured for a scan-based trigger.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $trigger_type Trigger type slug.
 	 * @param int    $trigger_post WP_Post ID of the trigger (related) post.
@@ -83,7 +83,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * Reset a metabox's run-once save guard so a subsequent `wp_update_post()`
 	 * simulates a fresh admin save request.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Admin_Metabox $metabox Metabox instance.
 	 * @return void
@@ -101,7 +101,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test that core scannable triggers are registered and the registration filter works.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * Test the days_since_login candidate query, including the never-logged-in registration
 	 * fallback and the requirement that unscoped scans only cover enrolled students.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -180,7 +180,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test course_inactivity and course_never_started are mutually exclusive.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -244,7 +244,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * Completed students remain enrolled with stale activity dates, but they are
 	 * done, not stalled.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -290,7 +290,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * if that counted as activity the send itself would re-arm the engagement and it
 	 * would refire every period forever.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test that recent quiz attempt activity prevents a student from being considered inactive.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -386,7 +386,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the course_completion_deadline candidate query.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -436,7 +436,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the quiz_attempt_abandoned candidate query.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -478,7 +478,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test fire-once / re-arm semantics of maybe_fire().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -529,7 +529,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * Deleting a WP user does not remove their LifterLMS user postmeta rows, so the
 	 * candidate queries must join against the users table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -578,7 +578,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * user may no longer exist by (or at) scan time. No email may ever be sent to
 	 * a nonexistent user (which would produce an empty recipient).
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -631,7 +631,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test enrollment-check errors are removed only for triggers targeting unenrolled students.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -671,7 +671,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test that re-armed fires bypass the sent-email dupcheck while other emails don't.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -696,7 +696,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test do_batch() schedules a follow-up batch when a full page is returned.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -752,7 +752,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test do_scan() skips engagements whose previous scan chain is still pending.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -791,7 +791,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test "any course" scan engagements produce one candidate per idle enrollment with per-course re-arm markers.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -858,7 +858,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the course_progress threshold trigger fires once when crossed.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -894,7 +894,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test an "Any course" course_progress engagement fires independently for each course.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -934,7 +934,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test an "Any quiz" quiz_failed_multiple engagement tracks each quiz independently.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -990,7 +990,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the quiz_failed_multiple threshold count logic and marker reset on pass.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1044,7 +1044,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the {related_post_title} merge code in engagement emails.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1094,7 +1094,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the "Activity on or after" floor on the days_since_login candidate query.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1144,7 +1144,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the "Activity on or after" floor on the course_inactivity candidate query.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1192,7 +1192,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the "Activity on or after" floor on the quiz_attempt_abandoned candidate query.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1238,7 +1238,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test unscoped days_since_login candidates require an enrolled, non-completed course.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1292,7 +1292,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * Course scope excludes completers of that course; membership scope requires a
 	 * non-completed course enrollment elsewhere on the site.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1343,7 +1343,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test count_pending() counts un-fired candidates, respects re-arm markers, and caps early.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1412,7 +1412,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the save-time send-volume gate: pause flag, red notice, and confirmation lifting the pause.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1531,7 +1531,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	 * and a confirmation must be cleared automatically once the predicted volume drops back
 	 * under the threshold.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1623,7 +1623,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Set an engagement's author without running the save-time send-volume gate.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param int $post_id WP_Post ID of the `llms_engagement` post.
 	 * @param int $user_id WP_User ID.
@@ -1643,7 +1643,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Email addresses recorded on the latest mocked `wp_mail()` call.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $field Mock mailer property, `to` or `cc`.
 	 * @return string[]
@@ -1662,7 +1662,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the daily scan pauses an unconfirmed over-threshold engagement before queueing a batch.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1730,7 +1730,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test a confirmed over-threshold engagement still scans, and an under-threshold one is not paused.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1793,7 +1793,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the pause email omits the author CC when they are ineligible.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1870,7 +1870,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the standing pause notice lists paused engagements for engagement managers only.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1911,7 +1911,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test paused engagements are skipped by the daily scan and never send.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1959,7 +1959,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test the paused post state in the engagements list table.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -1985,7 +1985,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test enrollment cancellation fires the course_enrollment_cancelled trigger.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -2013,7 +2013,7 @@ class LLMS_Test_Engagements_Scanner extends LLMS_UnitTestCase {
 	/**
 	 * Test order failure fires the order_failed trigger with the order's product as the related post.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */

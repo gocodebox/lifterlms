@@ -3,14 +3,14 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since [version]
- * @version [version]
+ * @since 11.0.0
+ * @version 11.0.0
  */
 
 /**
  * Same-origin http(s) URL from a dashboard select option.
  *
- * @since [version]
+ * @since 11.0.0
  *
  * @param {string} url Candidate URL.
  * @return {string} Safe URL, or an empty string.
@@ -46,7 +46,7 @@ LLMS.DashboardNav = {
 	 *
 	 * Changing the select does not navigate. Submitting the form does.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return {void}
 	 */

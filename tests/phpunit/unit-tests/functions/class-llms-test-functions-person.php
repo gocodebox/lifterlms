@@ -100,7 +100,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_password_meter_description().
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -126,6 +126,61 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 		update_option( 'lifterlms_registration_password_min_strength', 'strong' );
 		$this->assertSame( llms_get_password_meter_description( 'strong' ), llms_get_user_information_field( 'password' )['meter_description'] );
 
+	}
+
+	/**
+	 * Test llms_enroll_student() refuses to enroll without a user.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_enroll_student_no_user() {
+
+		global $wpdb;
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+
+		// Logged out.
+		$this->assertFalse( llms_enroll_student( 0, $course_id ) );
+
+		// Logged in: the current user isn't enrolled in place of the missing user.
+		wp_set_current_user( $admin_id );
+		$this->assertFalse( llms_enroll_student( '0', $course_id ) );
+		$this->assertFalse( llms_is_user_enrolled( $admin_id, $course_id ) );
+		wp_set_current_user( 0 );
+
+		$this->assertSame( '0', $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = 0" ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+
+		// A real user is still enrolled.
+		$student_id = $this->factory->student->create();
+		$this->assertTrue( llms_enroll_student( $student_id, $course_id ) );
+		$this->assertTrue( llms_is_user_enrolled( $student_id, $course_id ) );
+	}
+
+	/**
+	 * Test llms_unenroll_student() and llms_delete_student_enrollment() don't fall back to the current user without a user.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_unenroll_student_no_user() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		llms_enroll_student( $admin_id, $course_id, 'admin_1' );
+
+		wp_set_current_user( $admin_id );
+		$this->assertFalse( llms_unenroll_student( 0, $course_id, 'cancelled', 'any' ) );
+		$this->assertFalse( llms_delete_student_enrollment( '0', $course_id, 'any' ) );
+		$this->assertTrue( llms_is_user_enrolled( $admin_id, $course_id ) );
+		wp_set_current_user( 0 );
+
+		// A real user is still unenrolled.
+		$this->assertTrue( llms_unenroll_student( $admin_id, $course_id, 'cancelled', 'any' ) );
+		$this->assertFalse( llms_is_user_enrolled( $admin_id, $course_id ) );
 	}
 
 	/**

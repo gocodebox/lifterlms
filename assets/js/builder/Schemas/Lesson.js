@@ -276,7 +276,6 @@ define( [], function() {
 			},
 					{
 						attribute: 'date_available',
-						date_format: 'Y-m-d',
 						condition: function() {
 							if ( this.get_course() && 'yes' === this.get_course().get( 'lesson_drip' ) && this.get_course().get( 'drip_method' ) ) {
 								return false;
@@ -286,8 +285,7 @@ define( [], function() {
 						},
 						id: 'date-available',
 						label: LLMS.l10n.translate( 'Date' ),
-						timepicker: 'false',
-						type: 'datepicker',
+						type: 'date',
 			},
 					{
 						attribute: 'time_available',
@@ -298,11 +296,9 @@ define( [], function() {
 
 							return ( 'date' === this.get( 'drip_method' ) );
 						},
-						datepicker: 'false',
-						date_format: 'h:i A',
 						id: 'time-available',
 						label: LLMS.l10n.translate( 'Time' ),
-			type: 'datepicker',
+			type: 'time',
 		},
 			], [
 				{

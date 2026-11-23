@@ -6,14 +6,14 @@
  *
  * @group add_ons
  *
- * @since [version]
+ * @since 11.0.0
  */
 class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 
 	/**
 	 * Test that bulk management no longer includes the update action.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 	/**
 	 * Test the add-on card links an available plugin update to the Plugins screen.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 	/**
 	 * Test the add-on card omits the update link when the installed version is current.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 	/**
 	 * Test a theme update links to the Themes screen.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 	/**
 	 * Build an Akismet-backed plugin add-on with the given latest version.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param string $version Latest version advertised for the add-on.
 	 * @return LLMS_Add_On
@@ -136,7 +136,7 @@ class LLMS_Helper_Test_Admin_Add_Ons extends LLMS_Helper_Unit_Test_Case {
 	/**
 	 * Render the single add-on card view.
 	 *
-	 * @since [version]
+	 * @since 11.0.0
 	 *
 	 * @param LLMS_Add_On $addon Add-on to render.
 	 * @return string

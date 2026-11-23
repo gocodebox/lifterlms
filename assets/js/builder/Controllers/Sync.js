@@ -43,6 +43,12 @@ define( [], function() {
 			// warn when users attempt to leave the page
 			$( window ).on( 'beforeunload', function() {
 
+				// A focused field holds back its model's changes (see get_changed_attributes()) and only stores its own
+				// value on blur, so move focus off it first, as pressing Enter in a field does, to include those changes.
+				if ( $( document.activeElement ).is( '.llms-input' ) ) {
+					document.activeElement.blur();
+				}
+
 				if ( self.has_unsaved_changes() ) {
 					check_for_changes();
 					return 'Are you sure you want to abandon your changes?';
@@ -451,6 +457,27 @@ define( [], function() {
 		}
 
 		/**
+		 * Clear the previewed permalink of a newly created model before the saved one is set.
+		 *
+		 * Unsaved lessons and quizzes get a permalink preview set silently. When the saved
+		 * permalink matches it, no `change:permalink` fires and the settings panel keeps showing
+		 * the preview text instead of a link. Clearing it silently ensures the change fires.
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param {Object} model Instance of a Backbone.Model.
+		 * @param {Object} info  Data for the model processed by the server.
+		 * @return {Void}
+		 */
+		function clear_preview_permalink( model, info ) {
+
+			if ( info.id != info.orig_id ) {
+				model.unset( 'permalink', { silent: true } );
+			}
+
+		}
+
+		/**
 		 * Processes response data from heartbeat-tick related to creating / updating a single object
 		 * Handles both collections and models as a recursive function
 		 *
@@ -487,6 +514,7 @@ define( [], function() {
 					}
 
 					if ( info.permalink ) {
+						clear_preview_permalink( model, info );
 						model.set( 'permalink', info.permalink );
 					}
 					if ( info.name ) {
@@ -548,6 +576,7 @@ define( [], function() {
 
 						// Update permalink and name if provided by the server.
 						if ( info.permalink ) {
+							clear_preview_permalink( model, info );
 							model.set( 'permalink', info.permalink );
 						}
 						if ( info.name ) {

@@ -4,8 +4,8 @@
  * @package LifterLMS
  *
  * @since 10.0.0
- * @since [version] Keep aria-expanded in sync with the collapsed sidebar.
- * @version [version]
+ * @since 11.0.0 Keep aria-expanded in sync with the collapsed sidebar.
+ * @version 11.0.0
  */
 ( function() {
 	'use strict';
