@@ -841,11 +841,19 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 		llms_tests_reset_current_time();
 
-		// A date that cannot be parsed is ignored.
-		$this->obj->set( 'sale_start', '' );
-		$this->obj->set( 'sale_end', 'not a date' );
-		$this->assertTrue( $this->obj->is_on_sale() );
+		// An end date that cannot be parsed: the plan is not on sale.
+		foreach ( array( 'not a date', '25/11/2026' ) as $unparseable ) {
 
+			$this->obj->set( 'sale_start', '' );
+			$this->obj->set( 'sale_end', $unparseable );
+			$this->assertFalse( $this->obj->is_on_sale(), $unparseable );
+
+			$this->obj->set( 'sale_start', date( 'm/d/Y', strtotime( '-1 day', $now_ts ) ) );
+			$this->assertFalse( $this->obj->is_on_sale(), $unparseable );
+
+		}
+
+		// A start date that cannot be parsed is ignored.
 		$this->obj->set( 'sale_start', 'not a date' );
 		$this->obj->set( 'sale_end', '' );
 		$this->assertTrue( $this->obj->is_on_sale() );
