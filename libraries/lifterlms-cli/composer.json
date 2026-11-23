@@ -1,0 +1,68 @@
+{
+  "name": "lifterlms/lifterlms-cli",
+  "description": "WP CLI commands for LifterLMS",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Team LifterLMS",
+      "email": "team@lifterlms.com"
+    }
+  ],
+  "config": {
+    "process-timeout": 1800,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  },
+  "archive": {
+    "exclude": [
+      ".*",
+      "*.json",
+      "*.lock",
+      "*.xml",
+      "*.xml.dist",
+      "*.yml",
+
+      "README.md",
+
+      "bin",
+      "dist",
+      "docs",
+      "node_modules",
+      "tests",
+      "tmp",
+      "!/vendor",
+
+      "!/composer.json"
+    ]
+  },
+  "require-dev": {
+    "lifterlms/lifterlms-tests": "^4.3",
+    "lifterlms/lifterlms-cs": "dev-trunk"
+  },
+  "autoload": {
+    "psr-4": {
+      "LifterLMS\\CLI\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/run-behat-tests"
+  ],
+  "scripts": {
+    "check-cs": "\"vendor/bin/phpcs\" --colors",
+    "check-cs-errors": "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6",
+    "config-cs": [
+      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'"
+    ],
+    "fix-cs": "\"vendor/bin/phpcbf\"",
+    "docs": "wp llms-docs --require=bin/Command.php --require=vendor/autoload.php",
+    "tests-install": "\"vendor/bin/llms-tests\" install-cli ${TESTS_DB_NAME:-llms_cli_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1}",
+    "tests": "run-behat-tests",
+    "tests-with-coverage": "@tests",
+    "tests-run": "@tests"
+  }
+}

@@ -3,8 +3,11 @@
  * Builder question view
  *
  * @since   3.16.0
- * @version 3.17.8
+ * @since   10.1.0 Escaped choice content in the original-content attribute.
+ * @since   11.1.0 Escaped the image source attribute.
+ * @version 11.1.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-question-choice-template">
 
@@ -20,7 +23,7 @@
 
 	<# if ( 'text' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-input-wrapper">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u,em,strong" data-original-content="{{{ data.get( 'choice' ) }}}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
+			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u,em,strong" data-original-content="{{ data.get( 'choice' ) }}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
 		</div>
 	<# } else if ( 'image' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-editable-image">
@@ -30,7 +33,7 @@
 						<i class="fa fa-times-circle" aria-hidden="true"></i>
 						<span class="screen-reader-text"><?php esc_html_e( 'Remove image', 'lifterlms' ); ?></span>
 					</a>
-					<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{{ data.get( 'choice' ).get( 'src' ) }}}">
+					<img alt="<?php esc_attr_e( 'image preview', 'lifterlms' ); ?>" src="{{ data.get( 'choice' ).get( 'src' ) }}">
 				</div>
 			<# } else { #>
 				<button class="llms-element-button small llms-add-image" data-attribute="choice" data-image-size="full">

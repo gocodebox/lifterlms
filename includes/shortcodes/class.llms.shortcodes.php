@@ -235,13 +235,13 @@ class LLMS_Shortcodes {
 		if ( ! empty( $atts['id'] ) && is_numeric( $atts['id'] ) ) {
 			$plan = new LLMS_Access_Plan( $atts['id'] );
 
-			$classes  = 'llms-button-' . $atts['type'];
+			$classes  = 'llms-button-' . $atts['type'] . ' wp-element-button';
 			$classes .= ! empty( $atts['size'] ) ? ' ' . $atts['size'] : '';
 			$classes .= ! empty( $atts['classes'] ) ? ' ' . $atts['classes'] : '';
 
 			$text = empty( $content ) ? $plan->get_enroll_text() : $content;
 
-			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . $text . '</a>';
+			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '" aria-label="' . esc_attr( $plan->get_enroll_text( true ) ) . '">' . wp_kses_post( $text ) . '</a>';
 		}
 
 		/**
@@ -419,6 +419,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.1 Unknown.
+	 * @since 11.1.0 Only output info of courses the current user can view.
 	 *
 	 * @param array $atts Array of user-submitted shortcode attributes.
 	 * @return string
@@ -443,16 +444,23 @@ class LLMS_Shortcodes {
 			)
 		);
 
-		$ret = '';
+		$ret    = '';
+		$course = $key ? llms_get_post( $id ) : false;
 
-		if ( $key ) {
+		// Only output info of a course the current user can view.
+		$allowed = $course instanceof LLMS_Course && ( is_post_publicly_viewable( $course->post ) || current_user_can( 'read_post', $course->get( 'id' ) ) );
+		if ( $allowed && 'password' === $key ) {
+			$allowed = current_user_can( 'edit_post', $course->get( 'id' ) );
+		} elseif ( $allowed && in_array( $key, array( 'content', 'excerpt' ), true ) ) {
+			$allowed = ! post_password_required( $course->post );
+		}
 
-			$course = new LLMS_Course( $id );
+		if ( $allowed ) {
 
 			switch ( $type ) {
 
 				case 'date':
-					$ret = $course->get_date( $key, $date_format );
+					$ret = esc_html( $course->get_date( $key, $date_format ) );
 					break;
 
 				case 'price':

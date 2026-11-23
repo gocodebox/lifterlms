@@ -238,6 +238,11 @@ class LLMS_Admin_AddOns {
 	 */
 	public function handle_actions() {
 
+		// Installing, activating, deactivating, and uninstalling add-ons manages plugins/themes.
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
 		// Activate & deactivate addons.
 		if ( isset( $_REQUEST['_llms_manage_addon_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_llms_manage_addon_nonce'] ) ), 'llms_manage_addon' ) ) {
 
@@ -332,17 +337,13 @@ class LLMS_Admin_AddOns {
 
 					<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
 
+					<?php if ( current_user_can( 'install_plugins' ) ) : ?>
 					<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
 
 						<a class="llms-bulk-close" href="#">
 							<span class="screen-reader-text"><?php esc_html_e( 'Close', 'lifterlms' ); ?></span>
 							<i class="fa fa-times-circle" aria-hidden="true"></i>
 						</a>
-
-						<div class="llms-bulk-desc update">
-							<i class="fa fa-cloud-download" aria-hidden="true"></i>
-							<?php esc_html_e( 'Update', 'lifterlms' ); ?> <span></span>
-						</div>
 
 						<div class="llms-bulk-desc install">
 							<i class="fa fa-cloud-download" aria-hidden="true"></i>
@@ -362,6 +363,7 @@ class LLMS_Admin_AddOns {
 						<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php esc_html_e( 'Apply', 'lifterlms' ); ?></button>
 
 					</div>
+					<?php endif; ?>
 
 				</form>
 

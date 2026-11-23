@@ -6,7 +6,9 @@
  * @since 3.0.0
  * @since 3.30.3 Unknown.
  * @since 3.36.3 Fixed conflicts with the Classic Editor block.
- * @version 7.3.0
+ * @since 10.1.0 Move the access plan dialog to the document body so it displays above the block editor meta boxes pane.
+ * @since 10.1.1 Persist access plans when the block editor saves the course/membership post.
+ * @version 10.1.1
  */
 ( function( $ ) {
 
@@ -143,6 +145,8 @@
 				self.save_plans();
 			} );
 
+			self.bind_editor_save();
+
 			// bind change events to form element that controls another form element
 			self.$plans.on( 'change', '[data-controller-id]', function() {
 				self.controller_change( $( this ) );
@@ -182,6 +186,10 @@
 
 			var dialogEl = document.getElementById( 'llms-access-plan-dialog' );
 			if ( dialogEl ) {
+				// The WP 7.0+ block editor renders meta boxes in a resizable pane that establishes the
+				// containing block for `position: fixed`, trapping the dialog inside the (often short)
+				// pane. Move it to the body so it overlays the whole viewport.
+				document.body.appendChild( dialogEl );
 				self.$plan_dialog = new A11yDialog( dialogEl );
 			}
 
@@ -273,12 +281,6 @@
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Hidden Access' ) ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[visibility]"]').val( 'hidden' ).change();
 						$last_access_plan.find('select[name^="_llms_plans["][name$="[is_free]"]').val( 'yes' ).change();
-						break;
-					case 'sale':
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Sale' ) ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[price]"]').val( '1000' ).change();
-						$last_access_plan.find('select[name^="_llms_plans["][name$="[on_sale]"]').val( 'yes' ).change();
-						$last_access_plan.find('input[name^="_llms_plans["][name$="[sale_price]"]').val( '500' ).change();
 						break;
 					case 'presell':
 						$last_access_plan.find('input[name^="_llms_plans["][name$="[title]"]').val( LLMS.l10n.translate( 'Pre-sale' ) ).change();
@@ -389,6 +391,21 @@
 				if ( $plan.hasClass( 'opened' ) ) {
 					// wait for animation to complete to prevent focusable errors in the console.
 					setTimeout( function() {
+						var $editor  = $plan.find( 'textarea[id^="_llms_plans_content_"]' ),
+							editorId = $editor.attr( 'id' ),
+							modelId  = '_llms_plans_content_llms-new-access-plan-model',
+							base, esettings;
+
+						// New plans skip TinyMCE until they're expanded. EditorManager.settings
+						// is whichever editor loaded last (often the excerpt) when no plan exists yet.
+						if ( editorId && 'undefined' !== typeof tinyMCE && ! tinyMCE.EditorManager.get( editorId ) ) {
+							base = ( window.tinyMCEPreInit && tinyMCEPreInit.mceInit && tinyMCEPreInit.mceInit[ modelId ] ) || tinyMCE.EditorManager.settings;
+							esettings = $.extend( true, {}, base );
+							esettings.selector = '#' + editorId;
+							delete esettings.id;
+							tinyMCE.EditorManager.init( esettings );
+						}
+
 						$plan.find( 'input.llms-invalid' ).each( function() {
 							$( this )[0].reportValidity();
 						} );
@@ -611,49 +628,58 @@
 		 *
 		 * @return  array
 		 * @since   3.29.0
-		 * @version 3.29.0
+		 * @version 10.1.1
 		 */
 		this.get_plans_array = function() {
 
 			// ensure all content editors are saved properly.
 			tinyMCE.triggerSave();
 
-			var self  = this,
-				form  = self.$plans.closest( 'form' ).serializeArray(),
-				plans = [];
+			var self      = this,
+				$fields   = self.$plans.find( 'input, select, textarea' ),
+				form      = $fields.length ? $fields.serializeArray() : self.$plans.closest( 'form' ).serializeArray(),
+				plansMap  = {},
+				orderKeys = [];
 
 			for ( var i = 0; i < form.length; i++ ) {
 
-				// Skip non plan data from the form.
-				if ( -1 === form[ i ].name.indexOf( '_llms_plans' ) ) {
+				// Parse `_llms_plans[{order}][{name}]` and `_llms_plans[{order}][{name}][]`.
+				var match = form[ i ].name.match( /^_llms_plans\[(\d+)\]\[([^\]]+)\](\[\])?$/ );
+				if ( ! match ) {
 					continue;
 				}
 
-				var keys  = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
-					index = ( keys[0] * 1 ) - 1,
-					name  = keys[1].replace( ']', '' ),
-					type  = 3 === keys.length ? 'array' : 'single';
+				var orderKey = match[1],
+					name     = match[2],
+					type     = match[3] ? 'array' : 'single';
 
-				if ( ! plans[ index ] ) {
-					plans[ index ] = {};
+				if ( ! plansMap[ orderKey ] ) {
+					plansMap[ orderKey ] = {};
+					orderKeys.push( orderKey );
 				}
 
 				if ( 'array' === type ) {
 
-					if ( ! plans[ index ][ name ] ) {
-						plans[ index ][ name ] = [];
+					if ( ! plansMap[ orderKey ][ name ] ) {
+						plansMap[ orderKey ][ name ] = [];
 					}
-					plans[ index ][ name ].push( form[ i ].value );
+					plansMap[ orderKey ][ name ].push( form[ i ].value );
 
 				} else {
 
-					plans[ index ][ name ] = form[ i ].value;
+					plansMap[ orderKey ][ name ] = form[ i ].value;
 
 				}
 
 			}
 
-			return plans;
+			orderKeys.sort( function( a, b ) {
+				return ( a * 1 ) - ( b * 1 );
+			} );
+
+			return orderKeys.map( function( key ) {
+				return plansMap[ key ];
+			} );
 
 		};
 
@@ -687,9 +713,21 @@
 				return;
 			}
 
-			var $clone          = $( '#llms-new-access-plan-model' ).clone()
-				$existing_plans = $( '#llms-access-plans .llms-access-plan' ),
-				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
+			var modelEditorId = '_llms_plans_content_llms-new-access-plan-model';
+
+			// bind() removes this editor as soon as tinyMCE exists, which is often before
+			// this instance has initialized. Remove it again at clone time, then drop any
+			// iframe that was still copied — otherwise the open handler inits a second editor.
+			if ( 'undefined' !== typeof tinyMCE ) {
+				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, modelEditorId );
+			}
+
+			var $clone  = $( '#llms-new-access-plan-model' ).clone(),
+				$editor = $clone.find( '#' + modelEditorId );
+
+			$clone.find( '.mce-tinymce' ).remove();
+			$clone.find( 'iframe' ).remove();
+			$editor.removeAttr( 'aria-hidden' ).css( 'display', '' );
 
 			// remove ID from the item
 			$clone.removeAttr( 'id' );
@@ -728,6 +766,60 @@
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
+
+		};
+
+		/**
+		 * Persist access plans when the block editor saves the post.
+		 *
+		 * Access plan fields are stored via AJAX (not the post save request), so
+		 * listen for non-autosave editor saves and run the same path as "Save All Plans".
+		 *
+		 * @since 10.1.1
+		 *
+		 * @return {void}
+		 */
+		this.bind_editor_save = function() {
+
+			var self = this,
+				wasSaving = false;
+
+			// init()/bind() re-run after each AJAX save; only subscribe once.
+			if ( self.editor_save_bound ) {
+				return;
+			}
+
+			if ( ! window.wp || ! wp.data || 'function' !== typeof wp.data.subscribe ) {
+				return;
+			}
+
+			self.editor_save_bound = true;
+
+			wp.data.subscribe( function() {
+
+				var editor = wp.data.select( 'core/editor' ),
+					isSaving;
+
+				if ( ! editor || 'function' !== typeof editor.isSavingPost ) {
+					return;
+				}
+
+				// Ignore autosaves; only persist on explicit Save / Update / Publish.
+				isSaving = editor.isSavingPost() && ! editor.isAutosavingPost();
+
+				if (
+					isSaving &&
+					! wasSaving &&
+					self.$save &&
+					self.$save.length &&
+					! self.$save.is( ':disabled' )
+				) {
+					self.save_plans();
+				}
+
+				wasSaving = isSaving;
+
+			} );
 
 		};
 
@@ -904,14 +996,21 @@
 					editor_id = $editor.attr( 'id' ),
 					orig      = $order.val() * 1,
 					curr      = $p.index(),
-					editor    = tinyMCE.EditorManager.get(editor_id),
+					editor    = ( 'undefined' !== typeof tinyMCE && editor_id ) ? tinyMCE.EditorManager.get( editor_id ) : null,
+					// Don't build TinyMCE inside a collapsed new plan. The open handler does it
+					// once the box has a height, and with the plan editor's own settings.
+					defer     = ! $p.hasClass( 'opened' ) && ! editor,
+					esettings;
+
+				if ( ! defer ) {
 					esettings = editor ? editor.settings : tinyMCE.EditorManager.settings;
 
-				// make sure the editor settings have the right selector.
-				esettings.selector = '#' + editor_id;
+					// make sure the editor settings have the right selector.
+					esettings.selector = '#' + editor_id;
 
-				// de-init tinyMCE from the editor.
-				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
+					// de-init tinyMCE from the editor.
+					tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
+				}
 
 				// update the order of each label and field in the plan.
 				$p.find( 'label, select, input, textarea' ).each( function() {
@@ -933,10 +1032,12 @@
 
 				} );
 
-				// re-init tinyMCE on the editor.
-				// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
-				// but it turned out to create conflicts with the Classic Editor block.
-				tinyMCE.EditorManager.init( esettings );
+				if ( ! defer ) {
+					// re-init tinyMCE on the editor.
+					// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
+					// but it turned out to create conflicts with the Classic Editor block.
+					tinyMCE.EditorManager.init( esettings );
+				}
 
 				$order.val( curr );
 

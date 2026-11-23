@@ -43,6 +43,8 @@ defined( 'ABSPATH' ) || exit;
  * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
  * @property string $video_embed                      URL to an oEmbed enable video URL.
  * @property string $content_added_in_builder         Whether content was (at least initially) added within the page builder.
+ * @property string $has_minimum_time                 Whether minimum time is enabled [yes|no].
+ * @property int    $minimum_time                     Minimum time in seconds a student must spend on the lesson.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 
@@ -74,6 +76,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		// Quizzes.
 		'quiz'                             => 'absint',
 		'quiz_enabled'                     => 'yesno',
+
+		// Minimum time.
+		'has_minimum_time'                 => 'yesno',
+		'minimum_time'                     => 'absint',
 
 	);
 
@@ -117,6 +123,22 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		$this->construct_audio_video_embed();
 		parent::__construct( $model, $args );
+	}
+
+	/**
+	 * Determine if the lesson has a minimum time requirement.
+	 *
+	 * Free lessons cannot enforce minimum time since they allow non-logged-in access.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return bool
+	 */
+	public function has_minimum_time() {
+		if ( 'yes' === $this->get( 'free_lesson' ) ) {
+			return false;
+		}
+		return 'yes' === $this->get( 'has_minimum_time' ) && $this->get( 'minimum_time' ) > 0;
 	}
 
 	/**
@@ -593,7 +615,58 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			}
 		}
 
+		// Content converted to blocks or taken over by a page builder is no longer editable in the course builder.
+		if ( ! empty( $arr['content_added_in_builder'] ) && 'classic' !== $this->get_content_editor_type() ) {
+			$arr['content_added_in_builder'] = 'no';
+		}
+
 		return $arr;
+	}
+
+	/**
+	 * Determine which content editor was used for this lesson.
+	 *
+	 * Checks for Elementor, Beaver Builder, and the WordPress block editor.
+	 * Third parties can hook into `llms_lesson_content_editor_type` to
+	 * indicate their own page builder.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return string Editor type: 'classic', 'block', 'elementor', 'beaver_builder', or a custom value.
+	 */
+	public function get_content_editor_type() {
+
+		$post_id = $this->get( 'id' );
+
+		if ( ! $post_id || ! is_numeric( $post_id ) ) {
+			return 'classic';
+		}
+
+		if ( function_exists( 'llms_is_elementor_post' ) && llms_is_elementor_post( $post_id ) ) {
+			return 'elementor';
+		}
+
+		if ( function_exists( 'llms_is_beaver_builder_post' ) && llms_is_beaver_builder_post( $post_id ) ) {
+			return 'beaver_builder';
+		}
+
+		if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) {
+			return 'block';
+		}
+
+		/**
+		 * Filter the detected content editor type for a lesson.
+		 *
+		 * Allows third-party page builders (e.g. WPBakery, Divi) to indicate that
+		 * a lesson's content was created with their editor, preventing the course
+		 * builder's TinyMCE editor from overwriting it.
+		 *
+		 * @since 10.3.0
+		 *
+		 * @param string $type    Editor type. Default 'classic'.
+		 * @param int    $post_id WP Post ID of the lesson.
+		 */
+		return apply_filters( 'llms_lesson_content_editor_type', 'classic', $post_id );
 	}
 
 	/**

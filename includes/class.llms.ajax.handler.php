@@ -196,6 +196,32 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Load a table handler the current user is allowed to query.
+	 *
+	 * Most tables require `view_lifterlms_reports`. A table can override
+	 * `user_can_access()` when it should follow a different capability, such as
+	 * the Orders screen.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param array $request Post data ($_REQUEST).
+	 * @return LLMS_Admin_Table|false
+	 */
+	protected static function get_authorized_admin_table( $request ) {
+
+		if ( empty( $request['handler'] ) ) {
+			return false;
+		}
+
+		$table = self::get_admin_table_instance( $request['handler'] );
+		if ( ! $table || ! $table->user_can_access() ) {
+			return false;
+		}
+
+		return $table;
+	}
+
+	/**
 	 * Queue a table export event
 	 *
 	 * @since 3.15.0
@@ -206,11 +232,7 @@ class LLMS_AJAX_Handler {
 	 * @return array|bool
 	 */
 	public static function export_admin_table( $request ) {
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			wp_die();
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			wp_die();
 		}
@@ -231,11 +253,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function get_admin_table_data( $request ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
-			return false;
-		}
-
-		$table = self::get_admin_table_instance( $request['handler'] );
+		$table = self::get_authorized_admin_table( $request );
 		if ( ! $table ) {
 			return false;
 		}
@@ -296,7 +314,7 @@ class LLMS_AJAX_Handler {
 
 				}
 
-				$post->set_instructors( $instructors );
+				$instructors = $post->set_instructors( $instructors );
 
 				break;
 
@@ -403,8 +421,11 @@ class LLMS_AJAX_Handler {
 	 * Users with the `manage_lifterlms` capability bypass enrollment checks.
 	 * When a quiz_id is provided, also validates that the lesson actually owns
 	 * that quiz to prevent authorization bypass via user-controlled keys.
+	 * The lesson must also be available to the student: the course must be open and
+	 * the lesson must not be restricted by drip settings or prerequisites.
 	 *
 	 * @since 10.0.2
+	 * @since 11.1.0 Check the course time period and the lesson's drip and prerequisite restrictions.
 	 *
 	 * @param LLMS_Student $student   Student object.
 	 * @param int          $lesson_id WP Post ID of the lesson.
@@ -434,6 +455,28 @@ class LLMS_AJAX_Handler {
 
 		if ( ! $student->is_enrolled( $course->get( 'id' ) ) ) {
 			return new WP_Error( 403, __( 'You must be enrolled in this course to take this quiz.', 'lifterlms' ) );
+		}
+
+		// Apply the same course time period, drip, and prerequisite restrictions as the quiz page.
+		$lesson_id   = $lesson->get( 'id' );
+		$user_id     = $student->get( 'id' );
+		$restriction = array( 'content_id' => $lesson_id );
+		if ( llms_is_post_restricted_by_time_period( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'course_time_period';
+			$restriction['restriction_id'] = $course->get( 'id' );
+		} elseif ( llms_is_post_restricted_by_drip_settings( $lesson_id, $user_id ) ) {
+			$restriction['reason']         = 'lesson_drip';
+			$restriction['restriction_id'] = $lesson_id;
+		} else {
+			$prereq = llms_is_post_restricted_by_prerequisite( $lesson_id, $user_id );
+			if ( $prereq ) {
+				$restriction['reason']         = $prereq['type'] . '_prerequisite';
+				$restriction['restriction_id'] = $prereq['id'];
+			}
+		}
+
+		if ( isset( $restriction['reason'] ) ) {
+			return new WP_Error( 403, wp_strip_all_tags( llms_get_restriction_message( $restriction ) ) );
 		}
 
 		return true;
@@ -473,17 +516,27 @@ class LLMS_AJAX_Handler {
 				$access_lesson_id = absint( $existing_attempt->get( 'lesson_id' ) );
 			}
 		}
-		if ( $access_lesson_id ) {
-			$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
-			if ( is_wp_error( $access_check ) ) {
-				return $access_check;
-			}
+		$access_check = self::verify_quiz_access( $student, $access_lesson_id, $access_quiz_id );
+		if ( is_wp_error( $access_check ) ) {
+			return $access_check;
 		}
 
 		// Limit reached?
 		if ( isset( $request['quiz_id'] ) && ! ( new LLMS_Quiz( $request['quiz_id'] ) )->is_open() ) {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
+		}
+
+		if ( isset( $request['lesson_id'] ) ) {
+			$lesson = llms_get_post( absint( $request['lesson_id'] ) );
+			if ( $lesson && is_a( $lesson, 'LLMS_Lesson' ) && $lesson->has_minimum_time() ) {
+				$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $student->get_id(), $lesson->get( 'id' ) );
+				$required = absint( $lesson->get( 'minimum_time' ) );
+				if ( $total < $required ) {
+					$err->add( 400, __( 'You must spend the required minimum time on the lesson before taking the quiz.', 'lifterlms' ) );
+					return $err;
+				}
+			}
 		}
 
 		$attempt = false;
@@ -697,6 +750,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
 	 * @since 6.4.0 Make sure attempts limit was not reached.
+	 * @since 11.0.0 End the attempt without recording the answer once the quiz time limit has passed.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -749,6 +803,11 @@ class LLMS_AJAX_Handler {
 				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
 			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
+		}
+
+		// Out of time: grade the answers recorded within the limit, as the quiz timer does.
+		if ( $attempt->has_time_limit_expired() ) {
+			return self::quiz_end( $request, $attempt );
 		}
 
 		// record the answer.
@@ -909,6 +968,42 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Whether the current user may query a post type.
+	 *
+	 * Public post types are allowed for anyone who reached this handler.
+	 * Certificate templates and awarded certificates are public so they have
+	 * permalinks; searching them still requires their edit capability.
+	 * Non-public types registered without their own capability map inherit
+	 * the generic `edit_posts` capability, which this handler has already
+	 * required, so those types also require `manage_lifterlms`. Types with
+	 * their own capability map use that `edit_posts` capability.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string $post_type Post type name.
+	 * @return bool
+	 */
+	private static function user_can_query_post_type( $post_type ) {
+
+		$object = get_post_type_object( $post_type );
+		if ( ! $object ) {
+			return false;
+		}
+
+		// Certificates stay public for permalinks. Their edit capability still gates search.
+		$requires_cap = ! $object->public || in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true );
+		if ( ! $requires_cap ) {
+			return true;
+		}
+
+		if ( 'edit_posts' === $object->cap->edit_posts ) {
+			return current_user_can( 'manage_lifterlms' );
+		}
+
+		return current_user_can( $object->cap->edit_posts );
+	}
+
+	/**
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
 	 *
 	 * @since 3.0.0
@@ -925,7 +1020,7 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
-		if ( ! is_user_logged_in() ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die();
 		}
 
@@ -937,10 +1032,29 @@ class LLMS_AJAX_Handler {
 
 		// Get post type(s).
 		$post_type        = sanitize_text_field( llms_filter_input_sanitize_string( INPUT_POST, 'post_type' ) );
-		$post_types_array = explode( ',', $post_type );
-		foreach ( $post_types_array as &$str ) {
-			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		$post_types_array = array_filter( array_map( 'trim', explode( ',', $post_type ) ) );
+		$post_types_array = array_filter(
+			$post_types_array,
+			function ( $type ) {
+				return self::user_can_query_post_type( $type );
+			}
+		);
+
+		if ( empty( $post_types_array ) ) {
+			echo json_encode(
+				array(
+					'items'   => array(),
+					'more'    => false,
+					'success' => true,
+				)
+			);
+			wp_die();
 		}
+
+		foreach ( $post_types_array as &$str ) {
+			$str = "'" . esc_sql( $str ) . "'";
+		}
+		unset( $str );
 		$post_types = implode( ',', $post_types_array );
 
 		// Get post status(es).
@@ -1004,7 +1118,9 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $posts as $post ) {
 
-			if ( ! current_user_can( 'read_post', $post->ID ) ) {
+			// Published quizzes and questions are readable by anyone, but their content is limited to users who can edit them.
+			$cap = in_array( $post->post_type, array( 'llms_quiz', 'llms_question' ), true ) ? 'edit_post' : 'read_post';
+			if ( ! current_user_can( $cap, $post->ID ) ) {
 				continue;
 			}
 
@@ -1214,6 +1330,7 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
+	 * @since 11.1.0 Require `manage_lifterlms` capability.
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true
@@ -1225,7 +1342,7 @@ class LLMS_AJAX_Handler {
 			wp_die();
 		}
 
-		if ( ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! current_user_can( 'edit_membership', $request['post_id'] ) ) {
 			wp_die();
 		}
 
@@ -1341,6 +1458,151 @@ class LLMS_AJAX_Handler {
 		}
 
 		return $success;
+	}
+
+	/**
+	 * Handle a lesson time tracking heartbeat.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $request POST data from the AJAX request.
+	 * @return array|WP_Error
+	 */
+	public static function lesson_time_heartbeat( $request ) {
+
+		$token = isset( $request['session_token'] ) ? sanitize_text_field( $request['session_token'] ) : '';
+		if ( empty( $token ) ) {
+			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
+		}
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
+		if ( ! $session ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return new WP_Error( 'not_logged_in', __( 'You must be logged in.', 'lifterlms' ) );
+		}
+
+		if ( absint( $session->get( 'user_id' ) ) !== $user_id ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session.', 'lifterlms' ) );
+		}
+
+		if ( $session->get( 'session_end' ) ) {
+			return new WP_Error(
+				'session_superseded',
+				__( 'This session has been replaced. Please reload the page to continue tracking time.', 'lifterlms' ),
+				array( 'status' => 409 )
+			);
+		}
+
+		$now_ts     = current_time( 'timestamp' );
+		$start_ts   = strtotime( $session->get( 'session_start' ) );
+		$last_hb_ts = strtotime( $session->get( 'last_heartbeat_at' ) );
+
+		$wall_elapsed = $now_ts - $start_ts;
+		$delta        = $now_ts - $last_hb_ts;
+
+		$interval   = absint( apply_filters( 'llms_lesson_time_heartbeat_interval', 30 ) );
+		$max_credit = absint( apply_filters( 'llms_lesson_time_max_credit_per_heartbeat', 300 ) );
+		$tolerance  = $interval;
+
+		$max_heartbeats = (int) ceil( $wall_elapsed / max( 1, $interval / 2 ) );
+		$current_count  = absint( $session->get( 'heartbeat_count' ) );
+		if ( $current_count + 1 > $max_heartbeats && $max_heartbeats > 0 ) {
+			return new WP_Error( 'too_many_heartbeats', __( 'Rate limit exceeded.', 'lifterlms' ) );
+		}
+
+		$credit = min( $delta, $max_credit );
+
+		$accumulated = absint( $session->get( 'accumulated_seconds' ) );
+		$proposed    = $accumulated + $credit;
+		if ( $proposed > $wall_elapsed + $tolerance ) {
+			$credit = max( 0, $wall_elapsed + $tolerance - $accumulated );
+		}
+
+		$gap_flagged = ( $delta > $interval * 2 );
+
+		$session->set( 'accumulated_seconds', $accumulated + $credit );
+		$session->set( 'last_heartbeat_at', current_time( 'mysql' ) );
+		$session->set( 'heartbeat_count', $current_count + 1 );
+		if ( $gap_flagged ) {
+			$session->set( 'flagged_gaps', absint( $session->get( 'flagged_gaps' ) ) + 1 );
+		}
+		$session->save();
+
+		$lesson_id = absint( $session->get( 'lesson_id' ) );
+
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
+
+		$total    = LLMS_Lesson_Time_Tracking::instance()->get_total_seconds( $user_id, $lesson_id );
+		$lesson   = llms_get_post( $lesson_id );
+		$required = ( $lesson && $lesson->has_minimum_time() ) ? absint( $lesson->get( 'minimum_time' ) ) : 0;
+
+		return array(
+			'total'     => $total,
+			'remaining' => max( 0, $required - $total ),
+			'met'       => $required > 0 ? $total >= $required : true,
+			'credited'  => $credit,
+		);
+	}
+
+	/**
+	 * Handle lesson time session end (fired via sendBeacon on page unload).
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $request POST data.
+	 * @return array|WP_Error
+	 */
+	public static function lesson_time_end( $request ) {
+
+		$token = isset( $request['session_token'] ) ? sanitize_text_field( $request['session_token'] ) : '';
+		if ( empty( $token ) ) {
+			return new WP_Error( 'missing_token', __( 'Session token is required.', 'lifterlms' ) );
+		}
+
+		$session = LLMS_Lesson_Time_Tracking::instance()->find_by_token( $token );
+		if ( ! $session ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session token.', 'lifterlms' ) );
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id || absint( $session->get( 'user_id' ) ) !== $user_id ) {
+			return new WP_Error( 'invalid_session', __( 'Invalid session.', 'lifterlms' ) );
+		}
+
+		if ( $session->get( 'session_end' ) ) {
+			return array( 'ended' => true );
+		}
+
+		$now_ts     = current_time( 'timestamp' );
+		$last_hb_ts = strtotime( $session->get( 'last_heartbeat_at' ) );
+		$start_ts   = strtotime( $session->get( 'session_start' ) );
+		$delta      = $now_ts - $last_hb_ts;
+
+		$max_credit   = absint( apply_filters( 'llms_lesson_time_max_credit_per_heartbeat', 300 ) );
+		$interval     = absint( apply_filters( 'llms_lesson_time_heartbeat_interval', 30 ) );
+		$tolerance    = $interval;
+		$credit       = min( $delta, $max_credit );
+		$accumulated  = absint( $session->get( 'accumulated_seconds' ) );
+		$wall_elapsed = $now_ts - $start_ts;
+
+		$proposed = $accumulated + $credit;
+		if ( $proposed > $wall_elapsed + $tolerance ) {
+			$credit = max( 0, $wall_elapsed + $tolerance - $accumulated );
+		}
+
+		$session->set( 'accumulated_seconds', $accumulated + $credit );
+		$session->set( 'session_end', current_time( 'mysql' ) );
+		$session->set( 'last_heartbeat_at', current_time( 'mysql' ) );
+		$session->save();
+
+		$lesson_id = absint( $session->get( 'lesson_id' ) );
+		LLMS_Lesson_Time_Tracking::instance()->update_cached_time( $user_id, $lesson_id );
+
+		return array( 'ended' => true );
 	}
 }
 

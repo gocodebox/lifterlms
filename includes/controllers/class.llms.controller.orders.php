@@ -50,6 +50,16 @@ class LLMS_Controller_Orders {
 		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted.
 		add_action( 'llms_user_enrollment_deleted', array( $this, 'on_user_enrollment_deleted' ), 10, 3 );
 
+		// Keep the Orders & Transactions report's cached aggregates fresh when orders/transactions change.
+		add_action( 'save_post_llms_order', array( $this, 'clear_orders_transactions_report_cache' ) );
+		add_action( 'save_post_llms_transaction', array( $this, 'clear_orders_transactions_report_cache' ) );
+		add_action( 'before_delete_post', array( $this, 'maybe_clear_orders_transactions_report_cache' ) );
+
+		// Keep `_llms_has_transaction` in step with visible (non-trashed) transactions.
+		add_action( 'before_delete_post', array( $this, 'maybe_clear_order_has_transaction_flag' ) );
+		add_action( 'wp_trash_post', array( $this, 'maybe_clear_order_has_transaction_flag' ) );
+		add_action( 'untrash_post', array( $this, 'maybe_set_order_has_transaction_flag' ) );
+
 		// Transaction status changes cascade up to the order to change the order status.
 		add_action( 'lifterlms_transaction_status_failed', array( $this, 'transaction_failed' ), 10, 1 );
 		add_action( 'lifterlms_transaction_status_refunded', array( $this, 'transaction_refunded' ), 10, 1 );
@@ -198,6 +208,11 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
+		// Trashing an order doesn't unenroll the student while another of their orders grants access to the product.
+		if ( 'lifterlms_order_status_trash' === current_filter() && $this->keep_enrollment_for_another_order( $order ) ) {
+			return;
+		}
+
 		switch ( current_filter() ) {
 
 			case 'lifterlms_order_status_trash':
@@ -232,8 +247,147 @@ class LLMS_Controller_Orders {
 	public function on_delete_order( $post_id ) {
 
 		$order = llms_get_post( $post_id );
-		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+		if ( $order && is_a( $order, 'LLMS_Order' ) && ! $this->keep_enrollment_for_another_order( $order ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+		}
+	}
+
+	/**
+	 * Keep a student's enrollment when the order being trashed or deleted isn't the only one granting access to its product.
+	 *
+	 * Applies to an enrolled student whose enrollment was created by the removed order or has no stored trigger.
+	 * An enrollment created by the removed order is linked to the other order, so that order's status changes
+	 * and access expiration apply to it from then on. An enrollment created by anything else, such as another
+	 * order, isn't affected by removing this order and is left as it is.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order The order being trashed or deleted.
+	 * @return bool `true` when another order keeps the student enrolled, `false` otherwise.
+	 */
+	private function keep_enrollment_for_another_order( $order ) {
+
+		$student    = llms_get_student( $order->get( 'user_id' ) );
+		$product_id = $order->get( 'product_id' );
+		if ( ! $student || ! $student->is_enrolled( $product_id ) ) {
+			return false;
+		}
+
+		$trigger = $student->get_enrollment_trigger( $product_id );
+		if ( $trigger && 'order_' . $order->get( 'id' ) !== $trigger ) {
+			return false;
+		}
+
+		$other_order = $student->get_enrollment_order(
+			$product_id,
+			true,
+			array(
+				'post_status'  => array( 'llms-active', 'llms-completed' ),
+				'post__not_in' => array( $order->get( 'id' ) ),
+			)
+		);
+		if ( ! $other_order instanceof LLMS_Order || ! $other_order->has_access() ) {
+			return false;
+		}
+
+		if ( $trigger ) {
+			llms_update_user_postmeta( $student->get_id(), $product_id, '_enrollment_trigger', 'order_' . $other_order->get( 'id' ) );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Flush the Orders & Transactions admin report's cached aggregate queries.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function clear_orders_transactions_report_cache() {
+		if ( class_exists( 'LLMS_Table_Orders_Transactions' ) ) {
+			LLMS_Table_Orders_Transactions::clear_cache();
+		}
+	}
+
+	/**
+	 * Flush the Orders & Transactions report cache when an order or transaction is deleted.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param int $post_id WP_Post ID of the post being deleted.
+	 * @return void
+	 */
+	public function maybe_clear_orders_transactions_report_cache( $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( 'llms_order' === $post_type || 'llms_transaction' === $post_type ) {
+			$this->clear_orders_transactions_report_cache();
+		}
+	}
+
+	/**
+	 * Clear an order's `_llms_has_transaction` flag when its last visible transaction goes away.
+	 *
+	 * The report lists non-trashed transactions plus orders that have none. Trashing
+	 * the last transaction has to drop the flag too, or that order disappears from both sets.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param int $post_id WP_Post ID of the transaction being deleted or trashed.
+	 * @return void
+	 */
+	public function maybe_clear_order_has_transaction_flag( $post_id ) {
+
+		if ( 'llms_transaction' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		$order_id = absint( get_post_meta( $post_id, '_llms_order_id', true ) );
+		if ( ! $order_id ) {
+			return;
+		}
+
+		// Both hooks fire before the transaction leaves the visible set, so exclude it.
+		// `any` matches the report: trash and auto-draft are not visible rows.
+		$remaining = new WP_Query(
+			array(
+				'post_type'      => 'llms_transaction',
+				'post_status'    => 'any',
+				'fields'         => 'ids',
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+				'post__not_in'   => array( $post_id ),
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_order_id',
+						'value' => $order_id,
+					),
+				),
+			)
+		);
+
+		if ( empty( $remaining->posts ) ) {
+			delete_post_meta( $order_id, '_llms_has_transaction' );
+		}
+	}
+
+	/**
+	 * Flag an order when one of its transactions is restored from the trash.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param int $post_id WP_Post ID of the transaction being untrashed.
+	 * @return void
+	 */
+	public function maybe_set_order_has_transaction_flag( $post_id ) {
+
+		if ( 'llms_transaction' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		$order_id = absint( get_post_meta( $post_id, '_llms_order_id', true ) );
+		if ( $order_id && 'yes' !== get_post_meta( $order_id, '_llms_has_transaction', true ) ) {
+			update_post_meta( $order_id, '_llms_has_transaction', 'yes' );
 		}
 	}
 

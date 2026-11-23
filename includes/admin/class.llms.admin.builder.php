@@ -292,6 +292,29 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
+	 * Build a permalink template for previewing unsaved builder models client-side.
+	 *
+	 * Returns the post type's front-end URL with a `%pagename%` placeholder where the
+	 * slug belongs, e.g. `https://example.com/lesson/%pagename%/`.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param string $post_type Post type to build the template for.
+	 * @return string
+	 */
+	private static function get_sample_permalink_template( $post_type ) {
+
+		global $wp_rewrite;
+
+		$struct = $wp_rewrite->get_extra_permastruct( $post_type );
+		if ( $struct && $wp_rewrite->using_permalinks() ) {
+			return home_url( user_trailingslashit( str_replace( '%' . $post_type . '%', '%pagename%', $struct ) ) );
+		}
+
+		return add_query_arg( $post_type, '%pagename%', home_url( '/' ) );
+	}
+
+	/**
 	 * Retrieve the HTML of a JS template
 	 *
 	 * @since 3.16.0
@@ -337,13 +360,21 @@ class LLMS_Admin_Builder {
 
 				break;
 
+			case 'dismiss_starter':
+				return self::dismiss_starter_outline( $request['course_id'] );
+
 			case 'get_permalink':
 				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
 				if ( ! $id ) {
 					return array();
 				}
 				$parent_course = self::get_object_parent_course_id( $id );
-				if ( ! $parent_course || absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+				// Allow orphans the current user can edit (e.g. just-attached lessons before save).
+				if ( $parent_course ) {
+					if ( absint( $parent_course ) !== absint( $request['course_id'] ) ) {
+						return array();
+					}
+				} elseif ( ! current_user_can( 'edit_post', $id ) ) {
 					return array();
 				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
@@ -399,6 +430,41 @@ class LLMS_Admin_Builder {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Remember that the author removed every section so the demo outline is not inserted again.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $course_id Course ID.
+	 * @return array
+	 */
+	private static function dismiss_starter_outline( $course_id ) {
+
+		$course_id = absint( $course_id );
+		if ( ! $course_id || 'course' !== get_post_type( $course_id ) ) {
+			return array();
+		}
+
+		update_post_meta( $course_id, '_llms_builder_starter_dismissed', 'yes' );
+
+		return array(
+			'dismissed' => true,
+		);
+	}
+
+	/**
+	 * Whether the builder should skip the demo section and lessons.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $course_id Course ID.
+	 * @return bool
+	 */
+	private static function is_starter_outline_dismissed( $course_id ) {
+
+		return 'yes' === get_post_meta( absint( $course_id ), '_llms_builder_starter_dismissed', true );
 	}
 
 	/**
@@ -681,6 +747,7 @@ class LLMS_Admin_Builder {
 						'autosave'               => self::get_autosave_status(),
 						'admin_url'              => admin_url(),
 						'course'                 => $course->toArray(),
+						'seed_starter'           => ! self::is_starter_outline_dismissed( $course_id ),
 						'debug'                  => array(
 							'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 						),
@@ -701,6 +768,10 @@ class LLMS_Admin_Builder {
 						),
 						'enable_video_explainer' => true,
 						'home_url'               => home_url(),
+						'sample_permalinks'      => array(
+							'lesson'    => self::get_sample_permalink_template( 'lesson' ),
+							'llms_quiz' => self::get_sample_permalink_template( 'llms_quiz' ),
+						),
 					)
 				)
 			);
@@ -1182,13 +1253,25 @@ class LLMS_Admin_Builder {
 				$skip_props[] = 'parent_course';
 				$skip_props[] = 'parent_section';
 
+				// The server decides this flag: new lessons sync the model's empty default (which would
+				// scrub to "no" and hide the builder editor) and a stale client could send "yes".
+				unset( $lesson_data['content_added_in_builder'] );
+
+				// Raw content. get( 'content' ) runs llms_content(), which can make a blank lesson look occupied.
+				$existing_content = $lesson->get( 'content', true );
+
+				// The builder may only edit content it added itself and which hasn't since been
+				// converted to blocks or taken over by a page builder (e.g. edited in the block editor).
+				$builder_owns_content = llms_parse_bool( $lesson->get( 'content_added_in_builder' ) )
+					&& 'classic' === $lesson->get_content_editor_type();
+
 				// Don't overwrite content if the content editor doesn't display.
-				if ( ! $created && '' !== $lesson->get( 'content' ) && ! llms_parse_bool( $lesson->get( 'content_added_in_builder' ) ) ) {
+				if ( ! $created && '' !== $existing_content && ! $builder_owns_content ) {
 					$skip_props[] = 'content';
 				}
 
-				if ( '' === $lesson->get( 'content' ) && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
-					&& ! isset( $lesson_data['content_added_in_builder'] ) ) {
+				if ( '' === $existing_content && isset( $lesson_data['content'] ) && '' !== $lesson_data['content']
+					&& ! has_blocks( $lesson_data['content'] ) ) {
 					// We're adding content via the builder for the first time; add a flag saying so.
 					$lesson_data['content_added_in_builder'] = 'yes';
 				}
@@ -1208,27 +1291,51 @@ class LLMS_Admin_Builder {
 				$res['parent_section'] = $lesson->get( 'parent_section' );
 				$res['parent_course']  = $lesson->get( 'parent_course' );
 
+				// Course Builder lesson lists query by `_llms_order`. Ensure attached/created
+				// lessons always have one so they appear after reload even if the client
+				// omitted `order` from a partial sync payload.
+				if ( empty( $lesson->get( 'order' ) ) ) {
+					$order = isset( $lesson_data['order'] ) ? absint( $lesson_data['order'] ) : 0;
+					if ( ! $order ) {
+						$order = count( $section->get_lessons( 'ids' ) ) + 1;
+					}
+					$lesson->set( 'order', $order );
+				}
+				$res['order'] = $lesson->get( 'order' );
+
 				// Update all custom fields.
 				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );
 
 				// During clone's we want to ensure custom field data comes with the lesson.
 				if ( $created && isset( $lesson_data['custom'] ) ) {
-					foreach ( $lesson_data['custom'] as $custom_key => $custom_vals ) {
-						foreach ( $custom_vals as $val ) {
-							add_post_meta( $lesson->get( 'id' ), $custom_key, maybe_unserialize( $val ) );
+					foreach ( (array) $lesson_data['custom'] as $custom_key => $custom_vals ) {
+						foreach ( (array) $custom_vals as $val ) {
+							// Values come from `toArray()`, which has already unserialized them, so a serialized
+							// string here is never legitimate and is not stored to avoid later unserialization.
+							if ( is_serialized( $val ) ) {
+								continue;
+							}
+							add_post_meta( $lesson->get( 'id' ), $custom_key, $val );
 						}
 					}
 				}
 
-				// Ensure slug gets updated when changing title from default "New Lesson".
-				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
+				// Ensure slug gets updated when changing title from default "New Lesson",
+				// unless the slug was explicitly edited in the builder before saving.
+				$slug_edited = ! empty( $lesson_data['slug_edited'] ) && llms_parse_bool( $lesson_data['slug_edited'] );
+				if ( isset( $lesson_data['title'] ) && ! $slug_edited && ! $lesson->has_modified_slug() ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
 				// Include permalink, slug, and editor type in the response so the builder can update the model.
-				$res['permalink']                = get_permalink( $lesson->get( 'id' ) );
-				$res['name']                     = $lesson->get( 'name' );
-				$res['content_added_in_builder'] = $lesson->get( 'content_added_in_builder' );
+				$res['permalink'] = get_permalink( $lesson->get( 'id' ) );
+				$res['name']      = $lesson->get( 'name' );
+
+				// Report the effective flag so a stale client switches to the notice when the
+				// content has since been converted to blocks or taken over by a page builder.
+				$res['content_added_in_builder'] = 'classic' === $lesson->get_content_editor_type()
+					? $lesson->get( 'content_added_in_builder' )
+					: 'no';
 
 				// Remove revision prevention.
 				remove_filter( 'wp_revisions_to_keep', '__return_zero', 999 );
@@ -1349,9 +1456,11 @@ class LLMS_Admin_Builder {
 						} else {
 							$choice_res['id'] = $choice_id;
 
-							if ( isset( $c_data['choice']['id'] ) ) {
+							$choice_media_id = isset( $c_data['choice']['id'] ) ? absint( $c_data['choice']['id'] ) : 0;
+							// Only bind the protected-media meta when the current user is allowed to edit that specific media object.
+							if ( $choice_media_id && current_user_can( 'edit_post', $choice_media_id ) ) {
 								// The quiz IDs are needed for later verification of access by the protected media filters.
-								$quiz_ids = get_post_meta( $c_data['choice']['id'], '_llms_quiz_id', true );
+								$quiz_ids = get_post_meta( $choice_media_id, '_llms_quiz_id', true );
 								if ( ! is_array( $quiz_ids ) ) {
 									$quiz_ids = array();
 								}
@@ -1359,7 +1468,7 @@ class LLMS_Admin_Builder {
 								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
 									$quiz_ids[] = $quiz_id;
 								}
-								update_post_meta( $c_data['choice']['id'], '_llms_quiz_id', $quiz_ids );
+								update_post_meta( $choice_media_id, '_llms_quiz_id', $quiz_ids );
 							}
 						}
 

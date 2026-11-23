@@ -192,6 +192,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 */
 	public function test_get_cookie() {
 
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
+
 		$parts = LLMS_Unit_Test_Util::call_method( $this->main, 'get_cookie' );
 
 		$this->assertEquals( $this->main->get_id(), $parts[0] );
@@ -240,6 +243,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 */
 	public function test_init_cookie_from_existing_expiring() {
 
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
+
 		// Expiring is in the past.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'expiring', 0 );
 
@@ -261,6 +267,9 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 */
 	public function test_init_cookie_from_existing_user_logged_in() {
 
+		// The session cookie is emitted lazily on first write, so seed one.
+		$this->main->set( 'seed', 1 );
+
 		$id  = $this->main->get_id();
 		$uid = $this->factory->user->create();
 
@@ -275,20 +284,62 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test init_cookie() when a new cookie is created
+	 * Test init_cookie() when a new session is started.
 	 *
-	 * @since 4.0.0
+	 * A brand-new session does not emit a cookie until data is written, so anonymous,
+	 * cache-eligible responses stay free of a `Set-Cookie` header. The deferred cookie
+	 * is emitted the moment data is first written via `set()`.
+	 *
+	 * @since 10.0.7
 	 *
 	 * @return void
 	 */
 	public function test_init_cookie_new() {
 
-		$original = $this->get_raw_cookie();
 		$this->cookies->unset_all();
 
+		// New session, nothing written yet: no cookie emitted, flagged as new.
 		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
-		$this->assertNotEquals( $original, $this->get_raw_cookie() );
+		$this->assertNull( $this->get_raw_cookie() );
+		$this->assertTrue( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
 
+		// Writing the first piece of data emits the deferred cookie.
+		$this->main->set( 'something', 123 );
+		$this->assertNotNull( $this->get_raw_cookie() );
+		$this->assertFalse( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
+
+	}
+
+	/**
+	 * Test writing to a new session when its cookie can't be sent, e.g. because output
+	 * was flushed before a shortcode added a notice mid-render.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_set_new_session_cookie_not_sent() {
+
+		$this->cookies->unset_all();
+		LLMS_Unit_Test_Util::call_method( $this->main, 'init_cookie' );
+
+		// Simulate llms_setcookie() failing because headers were already sent.
+		$this->cookies->expect_error();
+		$this->main->set( 'llms_notices', array( 'notice' => array( 'Already have an account?' ) ) );
+
+		// The data is still usable for the rest of this request.
+		$this->assertEquals( array( 'notice' => array( 'Already have an account?' ) ), $this->main->get( 'llms_notices' ) );
+
+		// No later request can reference the session, so it isn't saved.
+		$this->assertTrue( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'is_new' ) );
+		$this->assertFalse( $this->main->maybe_save_data() );
+		$this->assertFalse( $this->main->read( $this->main->get_id(), false ) );
+
+		// A later write that does manage to send the cookie saves the session as usual.
+		$this->cookies->expect_success();
+		$this->main->set( 'something', 123 );
+		$this->assertNotNull( $this->get_raw_cookie() );
+		$this->assertTrue( $this->main->maybe_save_data() );
 
 	}
 

@@ -171,6 +171,27 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		LLMS_Unit_Test_Files::copy_asset( 'example-style-1.css', WP_CONTENT_DIR );
 		LLMS_Unit_Test_Files::copy_asset( 'example-style-2.css', WP_CONTENT_DIR );
 
+		// Stub remote fetches so the test doesn't depend on the live network (flaky).
+		$http_stub = function( $preempt, $args, $url ) {
+			$host = wp_parse_url( $url, PHP_URL_HOST );
+			if ( in_array( $host, array( 'unreacha.ble', 'unreach.able' ), true ) ) {
+				return new WP_Error( 'http_request_failed', 'Could not resolve host.' );
+			}
+			$bodies = array(
+				'raw.githubusercontent.com' => '.llms-remote-github-css{color:#123456;}',
+				'fonts.googleapis.com'      => '.llms-remote-google-css{color:#654321;}',
+			);
+			if ( isset( $bodies[ $host ] ) ) {
+				return array(
+					'body'     => $bodies[ $host ],
+					'response' => array( 'code' => 200, 'message' => 'OK' ),
+					'headers'  => array( 'content-type' => 'text/css' ),
+				);
+			}
+			return $preempt;
+		};
+		add_filter( 'pre_http_request', $http_stub, 10, 3 );
+
 		$stylesheet_hrefs = array(
 			get_site_url() . '/wp-content/example-style-1.css'                                                                                                                      => true, // Local.
 			get_home_url() . '/wp-content/example-style-2.css'                                                                                                                      => true, // Local.
@@ -235,6 +256,8 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			}
 		}
 
+		remove_filter( 'pre_http_request', $http_stub, 10 );
+
 		// Delete copied assets.
 		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-1.css' );
 		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-2.css' );
@@ -253,6 +276,27 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		// Copy test images to the local website for testing purpose.
 		LLMS_Unit_Test_Files::copy_asset( 'klim-musalimov-rDMacl1FDjw-unsplash.jpeg', WP_CONTENT_DIR );
 		LLMS_Unit_Test_Files::copy_asset( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg', WP_CONTENT_DIR );
+
+		// Stub remote fetches so the test doesn't depend on the live network (flaky).
+		$http_stub = function( $preempt, $args, $url ) {
+			$host = wp_parse_url( $url, PHP_URL_HOST );
+			if ( in_array( $host, array( 'unreacha.ble', 'unreach.able' ), true ) ) {
+				return new WP_Error( 'http_request_failed', 'Could not resolve host.' );
+			}
+			$bodies = array(
+				'raw.githubusercontent.com' => "\xFF\xD8\xFF\xE0\x00\x10JFIF github stub image bytes",
+				'upload.wikimedia.org'      => "\xFF\xD8\xFF\xE0\x00\x10JFIF wikimedia stub image bytes",
+			);
+			if ( isset( $bodies[ $host ] ) ) {
+				return array(
+					'body'     => $bodies[ $host ],
+					'response' => array( 'code' => 200, 'message' => 'OK' ),
+					'headers'  => array( 'content-type' => 'image/jpeg' ),
+				);
+			}
+			return $preempt;
+		};
+		add_filter( 'pre_http_request', $http_stub, 10, 3 );
 
 		$image_srcs = array(
 			get_site_url() . '/wp-content/klim-musalimov-rDMacl1FDjw-unsplash.jpeg'                                   => true, // Local.
@@ -343,6 +387,8 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			$this->assertEmpty( $img->getAttribute( 'sizes' ) );
 			$this->assertEmpty( $img->getAttribute( 'loading' ) );
 		}
+
+		remove_filter( 'pre_http_request', $http_stub, 10 );
 
 		// Clean added filters.
 		remove_all_filters( 'llms_certificate_export_blocked_image_hosts' );

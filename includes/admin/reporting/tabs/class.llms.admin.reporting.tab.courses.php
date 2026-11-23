@@ -77,6 +77,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				array(
 					'overview' => __( 'Overview', 'lifterlms' ),
 					'students' => __( 'Students', 'lifterlms' ),
+					'quizzes'  => __( 'Quizzes', 'lifterlms' ),
 				)
 			);
 

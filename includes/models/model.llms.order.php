@@ -152,6 +152,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		'coupon_type'          => 'text',
 		'coupon_used'          => 'text',
 		'currency'             => 'text',
+		'has_transaction'      => 'yesno',
 		'on_sale'              => 'text',
 		'order_key'            => 'text',
 		'order_type'           => 'text',
@@ -520,7 +521,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param string     $order_key The generated order key.
 		 * @param LLMS_Order $order_key Order object.
 		 */
-		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ), $this );
+		return apply_filters( 'lifterlms_generate_order_key', 'order-' . wp_generate_password( 32, false ), $this );
 	}
 
 	/**
@@ -568,6 +569,34 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return apply_filters( 'llms_order_get_access_expiration_date', $ret, $this, $format );
+	}
+
+	/**
+	 * Get a label describing when the order's access expires.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param string $format Optional. Date format. Defaults to the site's date format.
+	 * @return string "Expires: {date}" or "Expired: {date}" for limited access, otherwise the
+	 *                non-date value of `get_access_expiration_date()`, such as "Lifetime Access".
+	 */
+	public function get_access_expiration_label( $format = '' ) {
+
+		$expires = $this->get_access_expiration_date( 'U' );
+
+		if ( ! is_numeric( $expires ) ) {
+			return $expires;
+		}
+
+		$date = date_i18n( $format ? $format : get_option( 'date_format' ), $expires );
+
+		if ( $expires < llms_current_time( 'timestamp' ) ) {
+			/* translators: %s: date when access expired */
+			return sprintf( _x( 'Expired: %s', 'access plan expiration', 'lifterlms' ), $date );
+		}
+
+		/* translators: %s: date when access expires */
+		return sprintf( _x( 'Expires: %s', 'access plan expiration', 'lifterlms' ), $date );
 	}
 
 	/**
@@ -1746,15 +1775,20 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$timestamp = current_time( 'timestamp' ) + $current_rule['delay'];
 
-		$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $timestamp ) );
+		/**
+		 * The status must be set before scheduling the retry: transitioning an active order to on-hold
+		 * fires `LLMS_Controller_Orders::error_order()`, which unschedules pending recurring payments
+		 * and would cancel a retry scheduled prior to the status change.
+		 */
 		$this->set_status( $current_rule['status'] );
+		$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $timestamp ) );
 		$this->set( 'last_retry_rule', $current_rule_index );
 
 		$this->add_note(
 			sprintf(
 				// Translators: %s = next attempt date.
 				esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ),
-				date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
+				date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp )
 			)
 		);
 
@@ -1825,6 +1859,14 @@ class LLMS_Order extends LLMS_Post_Model {
 		$txn->set( 'payment_gateway', $payment_gateway );
 		$txn->set( 'payment_type', $payment_type );
 		$txn->set( 'status', $status );
+
+		// Flag the order as having at least one transaction so reporting queries can
+		// cheaply exclude it from the "transaction-less orders" set via an indexed
+		// `NOT EXISTS` lookup (see LLMS_Table_Orders_Transactions). Guarded to avoid a
+		// redundant write on every recurring charge.
+		if ( 'yes' !== $this->get( 'has_transaction' ) ) {
+			$this->set( 'has_transaction', 'yes' );
+		}
 
 		return $txn;
 	}

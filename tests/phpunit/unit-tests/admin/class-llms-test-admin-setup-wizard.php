@@ -280,6 +280,8 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		$this->assertStringContains( '<div id="llms-setup-wizard">', $output );
 		$this->assertStringContains( '<h1 id="llms-logo">', $output );
 		$this->assertStringContains( '<ul class="llms-setup-progress">', $output );
+		$this->assertStringContains( 'admin.php?page=llms-dashboard', $output );
+		$this->assertStringContains( 'Skip setup', $output );
 
 	}
 
@@ -517,6 +519,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test save_finish() when an error is encountered during generation
 	 *
 	 * @since 4.8.0
+	 * @since [version] Mock a JSON API response without a generator.
 	 *
 	 * @return void
 	 */
@@ -527,7 +530,13 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		) );
 
 		$handler = function( $res ) {
-			return array();
+			return array(
+				'body'     => wp_json_encode( array() ),
+				'response' => array(
+					'code'    => 200,
+					'message' => 'OK',
+				),
+			);
 		};
 		add_filter( 'pre_http_request', $handler );
 

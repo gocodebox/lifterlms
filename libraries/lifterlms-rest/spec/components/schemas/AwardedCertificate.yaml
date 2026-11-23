@@ -1,0 +1,74 @@
+description: A certificate awarded to a student.
+type: object
+properties:
+  id:
+    description: Unique awarded certificate identifer. The WordPress Post `ID`.
+    type: integer
+    example: 456
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+    readOnly: true
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_my_certificate
+  title:
+    description: The awarded certificate title.
+    type: object
+    readOnly: true
+    properties:
+      rendered:
+        type: string
+        description: Rendered title.
+        example: Certificate of Completion
+  content:
+    description: The awarded certificate content, with merge codes resolved.
+    type: object
+    readOnly: true
+    properties:
+      rendered:
+        type: string
+        description: Rendered content.
+  status:
+    description: The awarded certificate status.
+    type: string
+    example: publish
+    readOnly: true
+  certificate_id:
+    description: The WordPress post ID of the certificate template the certificate was awarded from.
+    type: integer
+    example: 345
+    readOnly: true
+  student_id:
+    description: The WordPress user ID of the student the certificate was awarded to.
+    type: integer
+    example: 123
+    readOnly: true
+  related_id:
+    description: The WordPress post ID of the related post (course, lesson, etc.) which triggered the award. `0` when awarded manually.
+    type: integer
+    example: 1234
+    readOnly: true
+  engagement_id:
+    description: The WordPress post ID of the engagement which triggered the award, if any.
+    type: integer
+    example: 0
+    readOnly: true
+  sequential_id:
+    description: The sequential ID of the awarded certificate within its template.
+    type: integer
+    example: 1
+    readOnly: true
+  allow_sharing:
+    description: Whether the student has enabled public sharing of the certificate.
+    type: boolean
+    readOnly: true

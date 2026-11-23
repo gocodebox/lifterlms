@@ -52,7 +52,7 @@ LifterLMS is a project that services a great many users. A feature which is attr
 
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork.
-+ Submit a pull request to the 'dev' branch of the LifterLMS repo.
++ Submit a pull request to the 'dev' branch of the LifterLMS repo. **Use the default pull request template** that's pre-filled when you open a PR. You're welcome to add extra detail, but all of the template's sections — including the **Checklist** — must remain and be completed. Completing the checklist confirms your code has been tested, follows the LifterLMS Coding & Documentation Standards, and that all existing automated tests pass.
 + We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
 
 #### Preserving Public API Signatures

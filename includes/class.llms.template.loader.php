@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
  * @since 3.41.1 Fixed content membership restricted post's content not restricted in REST requests.
  * @since 4.0.0 Don't pass objects by reference because it's unnecessary.
+ * @since 11.0.0 Restrict the content of posts listed on search results, archives, and in query loops.
  */
 class LLMS_Template_Loader {
 
@@ -32,6 +33,7 @@ class LLMS_Template_Loader {
 	 * @since 6.2.0 Added 'llms_template_loader_priority' filter.
 	 * @since 6.4.0 Reverted back the priority of the `$this->template_loader()` callback
 	 *              (`template_include` hook's callback) from 100 to 10.
+	 * @since 11.0.0 Predispose content restriction of listed posts.
 	 */
 	public function __construct() {
 
@@ -59,6 +61,12 @@ class LLMS_Template_Loader {
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
+		// Feeds (RSS/Atom) bypass `template_include` and never fire `rest_api_init`, so gate them separately.
+		add_action( 'template_redirect', array( $this, 'maybe_prepare_feed_content_restriction' ) );
+
+		// Posts listed on search results, archives, and in query loops are not covered by the single template.
+		add_action( 'template_redirect', array( $this, 'maybe_prepare_listed_content_restriction' ) );
+
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
 			'llms_restriction_reasons',
@@ -66,6 +74,7 @@ class LLMS_Template_Loader {
 				'course_prerequisite',
 				'course_track_prerequisite',
 				'course_time_period',
+				'course_unavailable',
 				'enrollment_lesson',
 				'lesson_drip',
 				'lesson_prerequisite',
@@ -101,7 +110,7 @@ class LLMS_Template_Loader {
 
 		if ( $redirect ) {
 			nocache_headers();
-			wp_redirect( $redirect );
+			wp_safe_redirect( $redirect );
 			exit;
 		}
 	}
@@ -240,6 +249,22 @@ class LLMS_Template_Loader {
 			apply_filters( 'llms_restricted_by_course_time_period_redirect', $redirect, $info ),
 			'notice'
 		);
+	}
+
+	/**
+	 * Handle messages when a user attempts to access a lesson or quiz of a course they can't view,
+	 * such as a draft, private, or trashed course.
+	 *
+	 * Displays a message without redirecting, since the course itself can't be viewed.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param array $info Array of restriction info from `llms_page_restricted()`.
+	 * @return void
+	 */
+	public function restricted_by_course_unavailable( $info ) {
+
+		$this->handle_restriction( llms_get_restriction_message( $info ), '', 'error' );
 	}
 
 	/**
@@ -685,6 +710,15 @@ class LLMS_Template_Loader {
 	public function maybe_prepare_post_content_restriction() {
 		// Fired on `setup_postdata()` see `WP_REST_Posts_Controller::prepare_item_for_response()`.
 		add_action( 'the_post', array( $this, 'maybe_restrict_post_content' ), 9999, 2 );
+
+		/*
+		 * REST requests never fire `template_redirect`, so restrict the content of posts listed inside the content
+		 * of a REST response item, such as lessons listed by a Query Loop block. `rest_api_init` also fires when
+		 * the block editor preloads REST responses in the admin.
+		 */
+		if ( llms_is_rest() ) {
+			$this->maybe_prepare_listed_content_restriction();
+		}
 	}
 
 	/**
@@ -693,12 +727,47 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
 	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
+	 * @since 11.1.0 Apply content restriction to LifterLMS post types on non-LifterLMS REST routes and skip it for users who can edit the post.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
 	 * @return void
 	 */
 	public function maybe_restrict_post_content( $post, $query ) {
+
+		// LifterLMS post types are restricted by the LifterLMS REST API on its own routes.
+		if ( in_array( get_post_type( $post ), $this->get_content_restriction_skip_post_types(), true ) && $this->is_llms_rest_request() ) {
+			return;
+		}
+
+		// Users who can edit the post must get its real content, otherwise saving it from the editor would overwrite it with the restriction message.
+		if ( current_user_can( 'edit_post', $post->ID ) ) {
+			return;
+		}
+
+		// Needed by `llms_page_restricted()` to work as expected.
+		$is_singular        = $query->is_singular;
+		$query->is_singular = true;
+
+		$page_restricted = llms_page_restricted( get_the_ID() );
+
+		if ( $page_restricted['is_restricted'] ) {
+			$msg                = $this->get_content_restriction_message( $page_restricted );
+			$post->post_content = $msg;
+			$post->post_excerpt = $msg;
+		}
+
+		$query->is_singular = $is_singular;
+	}
+
+	/**
+	 * Retrieve the post types whose content restriction is handled elsewhere (LifterLMS templates / REST API).
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return string[]
+	 */
+	private function get_content_restriction_skip_post_types() {
 		/**
 		 * Filters the post types that must be skipped.
 		 *
@@ -708,7 +777,7 @@ class LLMS_Template_Loader {
 		 *
 		 * @param string[] $post_types The array of post types to skip.
 		 */
-		$skip = apply_filters(
+		return apply_filters(
 			'llms_in_rest_restrict_content_skip_post_types',
 			array(
 				'course',
@@ -720,53 +789,426 @@ class LLMS_Template_Loader {
 				'llms_my_certificate',
 			)
 		);
+	}
 
-		if ( in_array( get_post_type( $post ), $skip, true ) ) {
+	/**
+	 * Determine if the current request is served by the LifterLMS REST API.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return boolean
+	 */
+	private function is_llms_rest_request() {
+
+		global $wp;
+
+		// The REST route is parsed into the main `WP` object, as read by `rest_api_loaded()`.
+		$route = ! empty( $wp->query_vars['rest_route'] ) ? $wp->query_vars['rest_route'] : '';
+
+		return ! empty( $route ) && 0 === strpos( $route, '/llms/' );
+	}
+
+	/**
+	 * Retrieve the message to display in place of restricted content.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param array $page_restricted Array of restriction info from `llms_page_restricted()`.
+	 * @return string
+	 */
+	private function get_content_restriction_message( $page_restricted ) {
+
+		$msg    = __( 'This content is restricted', 'lifterlms' );
+		$reason = $page_restricted['reason'];
+
+		if ( in_array( $reason, array( 'membership', 'sitewide_membership' ), true ) ) {
+
+			$membership_id = $page_restricted['restriction_id'];
+
+			if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
+
+				$membership = new LLMS_Membership( $membership_id );
+
+				if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
+					$msg = $membership->get( 'restriction_notice' );
+				}
+			}
+		}
+
+		/**
+		 * Filters the restriction message.
+		 *
+		 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
+		 *
+		 * @since 3.41.1
+		 *
+		 * @param string $message     Restriction message.
+		 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
+		 */
+		return apply_filters( "llms_in_rest_restricted_by_{$reason}_message", $msg, $page_restricted );
+	}
+
+	/**
+	 * Maybe restrict the content of posts listed on a front end page.
+	 *
+	 * The template loader only restricts the queried post of a singular request, so without this
+	 * a membership-restricted post or page is output in full (or as its excerpt) on search results,
+	 * archives, and in query loops.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function maybe_prepare_listed_content_restriction() {
+
+		add_filter( 'the_content', array( $this, 'maybe_restrict_listed_content' ), 9999 );
+		add_filter( 'get_the_excerpt', array( $this, 'maybe_restrict_listed_content' ), 9999, 2 );
+	}
+
+	/**
+	 * Determine whether the content or excerpt being filtered belongs to the item of a REST response.
+	 *
+	 * The item itself is restricted by `maybe_restrict_post_content()` or, for LifterLMS post types, by
+	 * the LifterLMS REST API. Posts listed inside the item's content (such as by a Query Loop block) are
+	 * filtered while the item's own `the_content` filter is running.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return bool
+	 */
+	private function is_rest_item_content() {
+
+		global $wp_current_filter;
+
+		if ( ! llms_is_rest() ) {
+			return false;
+		}
+
+		$depth = count( array_keys( $wp_current_filter, 'the_content', true ) );
+		if ( 'the_content' === current_filter() ) {
+			--$depth;
+		}
+
+		return $depth < 1;
+	}
+
+	/**
+	 * Replace the content or excerpt of a membership-restricted listed post with the restriction message.
+	 *
+	 * Runs on the `the_content` and `get_the_excerpt` filters: `get_the_content()` reads the global
+	 * `$pages` array and a stored excerpt never passes through `the_content`, so the strings must be
+	 * replaced here. The queried post of a singular request is skipped since the template loader
+	 * already handles it, as is the item of a REST response (see `is_rest_item_content()`), and so
+	 * are the other LifterLMS post types, whose listings show their public content.
+	 *
+	 * Lessons and quizzes are checked as their own (singular) page would be. For other posts the
+	 * membership helpers are called directly because `llms_page_restricted()` only applies
+	 * membership restrictions on singular requests.
+	 *
+	 * In a feed, posts listed inside a feed item (such as by a Query Loop block) are checked as an
+	 * anonymous visitor would see them, like the feed item itself, since feeds are commonly cached
+	 * with no per-user key. Post types that feeds never output (such as lessons and quizzes) are
+	 * removed from feed listings for every viewer.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param string       $content Post content or excerpt.
+	 * @param WP_Post|null $post    Optional. Post object, passed by `get_the_excerpt`. Default `null`.
+	 * @return string
+	 */
+	public function maybe_restrict_listed_content( $content, $post = null ) {
+
+		$post_id = $post instanceof WP_Post ? $post->ID : get_the_ID();
+
+		if ( ! $post_id || ( is_singular() && get_queried_object_id() === $post_id ) || $this->is_rest_item_content() ) {
+			return $content;
+		}
+
+		$post_type = get_post_type( $post_id );
+
+		// Feeds never output these post types, so don't list them inside a feed item either, whoever is viewing.
+		if ( is_feed() && in_array( $post_type, LLMS_Query::get_feed_excluded_post_types(), true ) ) {
+			return '';
+		}
+
+		if ( in_array( $post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
+			$restore         = $this->force_feed_restriction_query();
+			$page_restricted = llms_page_restricted( $post_id );
+			$this->restore_feed_restriction_query( $restore );
+
+			return $page_restricted['is_restricted'] ? $this->get_listed_content_restriction_message( $page_restricted ) : $content;
+		}
+
+		if ( in_array( $post_type, $this->get_content_restriction_skip_post_types(), true ) ) {
+			return $content;
+		}
+
+		if ( is_feed() ) {
+			$restriction = $this->get_feed_restriction( $post_id );
+			return empty( $restriction['is_restricted'] ) ? $content : $this->get_listed_content_restriction_message( $restriction );
+		}
+
+		$user_id        = get_current_user_id();
+		$reason         = 'sitewide_membership';
+		$restriction_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id );
+
+		if ( ! $restriction_id ) {
+			$reason         = 'membership';
+			$restriction_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
+		}
+
+		// The helpers return the membership ID for members too.
+		if ( ! $restriction_id || ( $user_id && llms_is_user_enrolled( $user_id, $restriction_id ) ) ) {
+			return $content;
+		}
+
+		return $this->get_listed_content_restriction_message(
+			array(
+				'content_id'     => $post_id,
+				'is_restricted'  => true,
+				'reason'         => $reason,
+				'restriction_id' => $restriction_id,
+			)
+		);
+	}
+
+	/**
+	 * Retrieve the message to display in place of a restricted listed post's content or excerpt.
+	 *
+	 * `the_content` runs `wpautop()` before the listing filter, so the message is wrapped in a
+	 * paragraph there. Without it, block themes (such as Twenty Twenty-Five) output the message as a
+	 * bare text node outside the post content's layout. Excerpts are left as-is because the theme
+	 * or excerpt block adds its own paragraph.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param array $restriction Array of restriction info, as from `llms_page_restricted()`.
+	 * @return string
+	 */
+	private function get_listed_content_restriction_message( $restriction ) {
+
+		$message = $this->get_content_restriction_message( $restriction );
+
+		return 'the_content' === current_filter() ? wpautop( $message ) : $message;
+	}
+
+	/**
+	 * Maybe restrict membership-restricted post content in feed (RSS/Atom) requests.
+	 *
+	 * Feeds are served by `do_feed()` after `template_redirect` and do not pass through the
+	 * `template_include` filter used to gate the front end, nor do they fire `rest_api_init`.
+	 * Without this, a membership-restricted standard post or page is exposed in full (or as its
+	 * excerpt) to anonymous callers of `/feed/`.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return void
+	 */
+	public function maybe_prepare_feed_content_restriction() {
+
+		if ( ! is_feed() ) {
 			return;
 		}
 
-		// Needed by `llms_page_restricted()` to work as expected.
-		$is_singular        = $query->is_singular;
-		$query->is_singular = true;
+		add_filter( 'the_content_feed', array( $this, 'maybe_restrict_feed_content' ), 9999 );
+		add_filter( 'the_excerpt_rss', array( $this, 'maybe_restrict_feed_content' ), 9999 );
+	}
 
-		$page_restricted = llms_page_restricted( get_the_ID() );
+	/**
+	 * Replace restricted post content/excerpt in a feed with the visitor-facing content.
+	 *
+	 * Runs on the `the_content_feed` and `the_excerpt_rss` filters. Unlike the front end and the
+	 * REST API, `get_the_content()` in a feed reads from the global `$pages` array set up by
+	 * `setup_postdata()`, so rewriting `$post->post_content` on `the_post` is not enough; the
+	 * value must be replaced at the feed-content filter itself.
+	 *
+	 * Feeds are commonly page or object cached with no per-user key, so the output never
+	 * depends on who is logged in: it is what an anonymous visitor may see.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @param string $content Feed content or excerpt.
+	 * @return string
+	 */
+	public function maybe_restrict_feed_content( $content ) {
 
-		if ( $page_restricted['is_restricted'] ) {
+		$post_id = get_the_ID();
 
-			$msg    = __( 'This content is restricted', 'lifterlms' );
-			$reason = $page_restricted['reason'];
-
-			if ( in_array( $reason, array( 'membership', 'sitewide_membership' ), true ) ) {
-
-				$membership_id = $page_restricted['restriction_id'];
-
-				if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
-
-					$membership = new LLMS_Membership( $membership_id );
-
-					if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
-						$msg = $membership->get( 'restriction_notice' );
-					}
-				}
-			}
-
-			/**
-			 * Filters the restriction message.
-			 *
-			 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
-			 *
-			 * @since 3.41.1
-			 *
-			 * @param string $message     Restriction message.
-			 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
-			 */
-			$msg = apply_filters( "llms_in_rest_restricted_by_{$reason}_message", $msg, $page_restricted );
-
-			$post->post_content = $msg;
-			$post->post_excerpt = $msg;
+		if ( ! $post_id ) {
+			return $content;
 		}
 
-		$query->is_singular = $is_singular;
+		$post_type = get_post_type( $post_id );
+
+		// Normally removed from the query by LLMS_Query, this covers posts injected by other code.
+		if ( in_array( $post_type, LLMS_Query::get_feed_excluded_post_types(), true ) ) {
+			return '';
+		}
+
+		if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+			return $this->get_product_feed_content( $content, $post_id );
+		}
+
+		$page_restricted = $this->get_feed_restriction( $post_id );
+
+		return empty( $page_restricted['is_restricted'] )
+			? $content
+			: $this->get_content_restriction_message( $page_restricted );
+	}
+
+	/**
+	 * Determine restrictions for a feed item as an anonymous visitor would see them.
+	 *
+	 * `llms_page_restricted()` is still consulted so third-party restrictions apply, but a
+	 * logged-in user with access cannot clear a membership restriction here.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array Restriction data in the `llms_page_restricted()` format.
+	 */
+	private function get_feed_restriction( $post_id ) {
+
+		$restore         = $this->force_feed_restriction_query();
+		$page_restricted = llms_page_restricted( $post_id );
+		$this->restore_feed_restriction_query( $restore );
+
+		if ( ! empty( $page_restricted['is_restricted'] ) ) {
+			return $page_restricted;
+		}
+
+		$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id );
+		$membership_id          = llms_is_post_restricted_by_membership( $post_id );
+
+		if ( $sitewide_membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'sitewide_membership';
+			$page_restricted['restriction_id'] = $sitewide_membership_id;
+		} elseif ( $membership_id ) {
+			$page_restricted['is_restricted']  = true;
+			$page_restricted['reason']         = 'membership';
+			$page_restricted['restriction_id'] = $membership_id;
+		}
+
+		return $page_restricted;
+	}
+
+	/**
+	 * Feed content for a course or membership.
+	 *
+	 * The sales page description is public when the product renders on its own URL, so it is
+	 * output for every viewer without the enrollment-dependent templates. A product with a
+	 * sales page redirect has no public body and gets the restriction notice.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param string $content Feed content or excerpt passed into the filter.
+	 * @param int    $post_id Post ID.
+	 * @return string
+	 */
+	private function get_product_feed_content( $content, $post_id ) {
+
+		$post    = get_post( $post_id );
+		$product = llms_get_post( $post );
+
+		if ( ! $post instanceof WP_Post || ! $product || ! is_callable( array( $product, 'has_sales_page_redirect' ) ) || $product->has_sales_page_redirect() ) {
+			return $this->get_content_restriction_message(
+				array(
+					'content_id'     => $post_id,
+					'is_restricted'  => true,
+					'reason'         => 'course' === get_post_type( $post ) ? 'enrollment_course' : 'enrollment_membership',
+					'restriction_id' => $post_id,
+				)
+			);
+		}
+
+		if ( 'the_content_feed' !== current_filter() ) {
+			// A stored excerpt is static; a generated one would be built from enrollment-dependent templates.
+			if ( '' !== trim( $post->post_excerpt ) ) {
+				return $content;
+			}
+
+			/** This filter is documented in wp-includes/formatting.php */
+			$length = (int) apply_filters( 'excerpt_length', 55 );
+			/** This filter is documented in wp-includes/formatting.php */
+			$more = apply_filters( 'excerpt_more', ' [&hellip;]' );
+
+			return wp_trim_words( wp_strip_all_tags( $this->render_feed_post_content( $post ) ), $length, $more );
+		}
+
+		return llms_get_post_sales_page_content( $post, $this->render_feed_post_content( $post ) );
+	}
+
+	/**
+	 * Render a post's stored content for a feed so that it is identical for every viewer.
+	 *
+	 * Dynamic blocks and shortcodes are removed the same way WordPress does when building an
+	 * excerpt: on a product they typically render enrollment-dependent output (pricing table,
+	 * progress, instructors). The `the_content` filter is not applied either, since page
+	 * builders and other plugins hook it to inject output for the current user.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return string
+	 */
+	private function render_feed_post_content( $post ) {
+
+		$content = excerpt_remove_blocks( strip_shortcodes( $post->post_content ) );
+
+		return wpautop( wptexturize( do_blocks( $content ) ) );
+	}
+
+	/**
+	 * Make restriction checks see a singular, non-search request.
+	 *
+	 * List feeds are not singular, so lesson, course, quiz, and membership checks never run.
+	 * A search feed also returns early from `llms_page_restricted()` before those checks.
+	 * Flags are restored by `restore_feed_restriction_query()`.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return array Previous query flags, keyed by flag name.
+	 */
+	private function force_feed_restriction_query() {
+
+		global $wp_query;
+
+		$restore = array();
+
+		if ( ! isset( $wp_query ) ) {
+			return $restore;
+		}
+
+		foreach ( array( 'is_singular', 'is_search' ) as $flag ) {
+			$restore[ $flag ] = (bool) $wp_query->$flag;
+		}
+
+		$wp_query->is_singular = true;
+		$wp_query->is_search   = false;
+
+		return $restore;
+	}
+
+	/**
+	 * Restore query flags changed for a feed restriction check.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param array $restore Flags from `force_feed_restriction_query()`.
+	 * @return void
+	 */
+	private function restore_feed_restriction_query( $restore ) {
+
+		global $wp_query;
+
+		if ( ! isset( $wp_query ) ) {
+			return;
+		}
+
+		foreach ( $restore as $flag => $value ) {
+			$wp_query->$flag = $value;
+		}
 	}
 }
 

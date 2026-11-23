@@ -38,18 +38,30 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			$protection_warning_html = '<div class="llms-media-protection-warning">' . sprintf( __( 'This media is not protected. If you select a product here, the media will be moved to the protected uploads directory and existing links to the media will no longer work. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) . '</div>';
 		}
 
+		$auth_filter        = $protector->get_authorization_filter_name( $post->ID );
+		$is_addon_protected = $auth_filter && 'llms_attachment_is_access_allowed' !== $auth_filter;
+		$is_core_protected  = $protector->is_media_protected( $post->ID ) && ! $is_addon_protected;
+
 		$form_fields['llms_media_protection_post'] = array(
 			'label' => __( 'LifterLMS Media Protection:', 'lifterlms' ),
 			'input' => 'html',
 			// TODO: Add selected course/membership to the select2 dropdown if known for this attachment post.
 			'html'  => "$protection_warning_html<select id='attachments-" . $post->ID . "-llms_media_protection_post' class='llms-posts-select2' data-no-view-button='true' data-allow_clear='false' data-post-type='course,llms_membership' name='attachments[" . $post->ID . "][llms_media_protection_post]'>$selected_product_html</select>",
-			'helps' => $protector->is_media_protected( $post->ID ) ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
+			'helps' => $is_core_protected ? sprintf( __( 'Access is restricted to the selected course/membership. %1$sLearn More%2$s', 'lifterlms' ), '<a target="_blank" href="https://lifterlms.com/docs/how-protected-media-files-work/?utm_source=LifterLMS%20Plugin&utm_medium=Media&utm_campaign=Backend%20Help%20Page">', '</a>' ) : '',
 		);
+
+		if ( $is_core_protected ) {
+			return $form_fields;
+		}
 
 		/**
 		 * Filter the LifterLMS media protection attachment field.
 		 *
-		 * @since 10.0.0
+		 * Only runs for unprotected files or files protected by add-ons (i.e., a filter hook
+		 * other than the default 'llms_attachment_is_access_allowed'). Core-protected files
+		 * use the standard label and help text above so add-ons cannot overwrite them.
+		 *
+		 * @since 10.1.0
 		 *
 		 * @param array                $field     Attachment field definition.
 		 * @param WP_Post              $post      Attachment post object.
@@ -110,23 +122,33 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 		$new_file = str_replace( wp_upload_dir()['basedir'], wp_upload_dir()['basedir'] . untrailingslashit( $protected_dir ), $file );
 		if ( ! $wp_filesystem->is_dir( dirname( $new_file ) ) ) {
 			wp_mkdir_p( dirname( $new_file ) );
+
+			// Write the protection files to the new folder before the file is moved in, regardless of when the daily check last ran.
+			delete_transient( 'lifterlms_check_media_protection_files' );
+			$protector->save_mod_rewrite_rules();
 		}
+
 		if ( $wp_filesystem->move( $file, $new_file ) ) {
-			// Move thumbnails if they exist.
-			if ( ! empty( $metadata['sizes'] ) ) {
+			// Move thumbnails and the original image of a scaled image if they exist.
+			$related_files = ! empty( $metadata['sizes'] ) ? wp_list_pluck( $metadata['sizes'], 'file' ) : array();
+			if ( ! empty( $metadata['original_image'] ) ) {
+				$related_files[] = $metadata['original_image'];
+			}
+
+			if ( $related_files ) {
 				$base_dir     = dirname( $file );
 				$new_base_dir = dirname( $new_file );
 
 				// Multiple registered sizes can share the same physical file.
 				$moved_files = array();
 
-				foreach ( $metadata['sizes'] as $size => $size_info ) {
-					if ( in_array( $size_info['file'], $moved_files, true ) ) {
+				foreach ( $related_files as $related_file ) {
+					if ( in_array( $related_file, $moved_files, true ) ) {
 						continue;
 					}
 
-					$old_thumb = $base_dir . '/' . $size_info['file'];
-					$new_thumb = $new_base_dir . '/' . $size_info['file'];
+					$old_thumb = $base_dir . '/' . $related_file;
+					$new_thumb = $new_base_dir . '/' . $related_file;
 					if ( ! $wp_filesystem->exists( $old_thumb ) ) {
 						error_log( 'Registered metadata thumbnail file does not exist. Skipping. ' . $old_thumb );
 						continue;
@@ -147,7 +169,7 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 						return false;
 					}
 
-					$moved_files[] = $size_info['file'];
+					$moved_files[] = $related_file;
 				}
 			}
 
@@ -161,6 +183,9 @@ class LLMS_Admin_Media_Protection_Attachment_Settings {
 			}
 
 			$protector->add_authorization_meta_to_media_post( $attachment_id );
+			// Clear the current user's cached authorization so the URL is rewritten on the
+			// next render, even when a persistent object cache (e.g. Object Cache Pro) is in use.
+			$protector->invalidate_authorization_cache( $attachment_id );
 
 			return true;
 		}

@@ -48,6 +48,20 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	protected $expiring;
 
 	/**
+	 * Whether a new session has been started whose cookie has not yet been emitted.
+	 *
+	 * A brand-new anonymous visitor does not receive a session cookie until something
+	 * actually writes to the session (an applied coupon, a queued notice, etc.). While
+	 * this flag is `true` the session exists only in memory: no `Set-Cookie` header has
+	 * been sent and no row has been written to the database. This keeps otherwise
+	 * anonymous page views free of a `Set-Cookie` header so full-page caches (Surge,
+	 * Cloudflare, Varnish, WP Super Cache, W3 Total Cache, and similar) can store them.
+	 *
+	 * @var boolean
+	 */
+	protected $is_new = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -83,7 +97,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
 
 		}
-
 	}
 
 	/**
@@ -108,7 +121,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		// Destroy the cookie.
 		return llms_setcookie( $this->cookie, '', time() - YEAR_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $this->use_secure_cookie(), true );
-
 	}
 
 	/**
@@ -148,7 +160,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return $parts;
-
 	}
 
 	/**
@@ -187,18 +198,90 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		} else {
 
-			$this->id       = $this->generate_id();
-			$this->data     = array();
-			$this->is_clean = false;
-			$set_cookie     = true;
+			$this->id   = $this->generate_id();
+			$this->data = array();
 			$this->set_expiration();
+
+			/**
+			 * Defer emitting the session cookie until session data is actually written.
+			 *
+			 * The session stays in memory only (no `Set-Cookie` header, no database row)
+			 * until `set()` stores something, which keeps anonymous, cache-eligible
+			 * responses free of a `Set-Cookie` header. The cookie is emitted from `set()`
+			 * the moment the first piece of data is written.
+			 */
+			$this->is_new = true;
+			$set_cookie   = false;
 
 		}
 
 		if ( $set_cookie ) {
 			$this->set_cookie();
 		}
+	}
 
+	/**
+	 * Store a piece of data on the session.
+	 *
+	 * Overrides the abstract setter so a deferred session cookie is emitted the
+	 * moment data is first written to a brand-new session. Anonymous visitors who
+	 * never write session data never receive the cookie, which keeps their page
+	 * views eligible for full-page caching. Most write paths (coupons, notices, gift
+	 * and group checkout) run during request processing, before any output. Some run
+	 * while the page renders (e.g. the checkout login notice); if output has already
+	 * been sent by then, the cookie can't be sent and the data only lasts for the
+	 * current request.
+	 *
+	 * @since 10.0.7
+	 * @since 11.0.0 Keep the session flagged as new when its cookie could not be sent.
+	 *
+	 * @param string $key   Session data key.
+	 * @param mixed  $value Session data value.
+	 * @return mixed The stored value.
+	 */
+	public function set( $key, $value ) {
+
+		$value = parent::set( $key, $value );
+
+		// A brand-new session now has data: emit the deferred cookie —
+		// but only if the data is actually non-empty. An empty write
+		// (e.g. llms_clear_notices storing []) should not trigger cookie
+		// emission or a database row.
+		if ( $this->is_new && ! $this->is_clean ) {
+			if ( $this->session_has_data() ) {
+				// If the cookie can't be sent (output already started), the session stays new:
+				// its data remains usable for this request but is not saved at shutdown.
+				$this->is_new = ! $this->set_cookie();
+			} else {
+				// All values are empty — reset so shutdown won't write a useless DB row.
+				$this->is_clean = true;
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Determine whether the session contains any non-empty data.
+	 *
+	 * Used by set() to decide whether a brand-new session should emit its
+	 * deferred cookie. An empty array written by llms_clear_notices() should
+	 * not trigger cookie emission or a database insert.
+	 *
+	 * @since 10.0.7
+	 *
+	 * @return boolean
+	 */
+	protected function session_has_data() {
+
+		foreach ( $this->data as $v ) {
+			$uv = maybe_unserialize( $v );
+			if ( is_array( $uv ) ? ! empty( $uv ) : ( null !== $uv && false !== $uv && '' !== $uv ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -220,7 +303,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -228,18 +310,21 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * Callback for `shutdown` action hook.
 	 *
+	 * A new session whose cookie was never sent is not saved: no later request can
+	 * reference it, so saving it would only leave an orphaned database row.
+	 *
 	 * @since 4.0.0
+	 * @since 11.0.0 Do not save a new session whose cookie was never sent.
 	 *
 	 * @return boolean
 	 */
 	public function maybe_save_data() {
 
-		if ( ! $this->is_clean ) {
+		if ( ! $this->is_clean && ! $this->is_new ) {
 			return $this->save( $this->expires );
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -261,7 +346,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -285,7 +369,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $init Whether or not initialization should take place.
 		 */
 		return apply_filters( 'llms_session_should_init', $init );
-
 	}
 
 	/**
@@ -309,7 +392,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -346,7 +428,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$this->expires  = time() + $duration;
 		$this->expiring = $this->expires - $variance;
-
 	}
 
 	/**
@@ -368,7 +449,5 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * @param boolean $secure Whether or not a secure cookie should be used.
 		 */
 		return apply_filters( 'llms_session_use_secure_cookie', $secure );
-
 	}
-
 }

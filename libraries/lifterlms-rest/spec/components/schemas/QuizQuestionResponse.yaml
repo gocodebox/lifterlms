@@ -1,0 +1,60 @@
+allOf:
+  - $ref: '#/components/schemas/QuizQuestion'
+  - type: object
+    properties:
+      title:
+        description: Question title. Most likely in the form of a question.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered title.
+            example: What is your favorite color?
+          raw:
+            type: string
+            description: Raw title. Useful when displaying title in the WP Editor. Only returned in `edit` context.
+            example: What is your favorite color?
+      content:
+        description: Question description content. Useful for providing additional information or context to the question.
+        type: object
+        properties:
+          rendered:
+            type: string
+            description: Rendered content.
+            example: <p>Expectoque quid ad id, quod quaerebam, respondeas.</p>
+          raw:
+            type: string
+            description: Raw content. Useful when displaying content in the WP Block Editor. Only returned in `edit` context.
+            example: <p>Expectoque quid ad id, quod quaerebam, respondeas.</p>
+      _links:
+        description: A map of links to other related API resources.
+        type: object
+        readOnly: true
+        properties:
+          self:
+            description: REST URI to the question.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/questions/456
+          collection:
+            description: REST URI to the questions collection.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/questions
+          quiz:
+            description: REST URI to the question's parent quiz.
+            type: array
+            items:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: /wp-json/llms/v1/quizzes/234

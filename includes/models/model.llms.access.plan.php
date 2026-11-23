@@ -226,8 +226,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// What type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
 
-		// Force redirect querystring parameter over all else.
+		// Querystring redirect wins only when it is same-origin or matches this plan's configured URL.
 		$redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) ?? '';
+		if ( $redirection && ! $this->is_allowed_checkout_redirect( $redirection ) ) {
+			$redirection = '';
+		}
 
 		if ( ! $redirection && ! $querystring_only ) {
 			$redirection = $this->calculate_redirection_url( $redirect_type );
@@ -247,6 +250,50 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$redirection = apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this, $querystring_only );
 
 		return $encode ? urlencode( $redirection ) : $redirection;
+	}
+
+	/**
+	 * Retrieve the redirect URL from this plan's settings only (ignores querystring).
+	 *
+	 * @since 10.1.1
+	 *
+	 * @return string
+	 */
+	public function get_configured_redirection_url() {
+		return $this->calculate_redirection_url( $this->get( 'checkout_redirect_type' ) );
+	}
+
+	/**
+	 * Whether a URL is allowed as a checkout redirect for this plan.
+	 *
+	 * Same-origin URLs are allowed. Off-site URLs are only allowed when they match
+	 * this plan's configured custom checkout redirect URL.
+	 *
+	 * @since 10.1.1
+	 *
+	 * @param string $url Candidate redirect URL.
+	 * @return bool
+	 */
+	public function is_allowed_checkout_redirect( $url ) {
+
+		if ( ! $url ) {
+			return false;
+		}
+
+		if ( wp_validate_redirect( $url, false ) ) {
+			return true;
+		}
+
+		if ( 'url' !== $this->get( 'checkout_redirect_type' ) ) {
+			return false;
+		}
+
+		$allowed = $this->get( 'checkout_redirect_url' );
+		if ( ! $allowed ) {
+			return false;
+		}
+
+		return untrailingslashit( esc_url_raw( $url ) ) === untrailingslashit( esc_url_raw( $allowed ) );
 	}
 
 	/**
@@ -274,9 +321,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$ret_params  = array(
 					'plan' => $this->get( 'id' ),
 				);
-				$redirection = $this->get_redirection_url( true, true );
-				if ( $redirection ) {
-					$ret_params['redirect'] = $redirection;
+				$redirection = $this->get_redirection_url( false, true );
+				// Only same-origin redirects belong in the checkout URL query string.
+				if ( $redirection && wp_validate_redirect( $redirection, false ) ) {
+					$ret_params['redirect'] = urlencode( $redirection );
 				}
 
 				$ret = llms_get_page_url( 'checkout', $ret_params );
@@ -290,12 +338,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// if there's only 1 plan associated with the membership return that url.
 			if ( 1 === count( $memberships ) ) {
 				$ret         = get_permalink( $memberships[0] );
-				$redirection = $this->get_redirection_url();
+				$redirection = $this->get_redirection_url( false );
 
-				if ( $redirection ) {
+				// Only put same-origin redirects in the URL; off-site thank-you URLs stay on the plan and are resolved at completion.
+				if ( $redirection && wp_validate_redirect( $redirection, false ) ) {
 					$ret = add_query_arg(
 						array(
-							'redirect' => $redirection,
+							'redirect' => urlencode( $redirection ),
 						),
 						$ret
 					);

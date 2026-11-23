@@ -39,6 +39,7 @@ class LLMS_Admin_Menus {
 		add_filter( 'custom_menu_order', array( $this, 'submenu_order' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
+		add_action( 'admin_menu', array( $this, 'display_orders_menu' ), 20 );
 
 		// Shame shame shame.
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
@@ -81,6 +82,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.2.0 Unknown.
 	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
 	 * @since 7.1.0 Added `llms-dashboard` to the order array in first position.
+	 * @since 10.3.0 Order Orders submenu: Orders, Customers, Coupons, Vouchers.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool
@@ -123,7 +125,62 @@ class LLMS_Admin_Menus {
 
 		}
 
+		if ( isset( $submenu['edit.php?post_type=llms_order'] ) ) {
+
+			$order_menu  = 'edit.php?post_type=llms_order';
+			$order       = array(
+				'llms-orders-transactions',
+				'llms-subscriptions',
+				'llms-customers',
+				'edit.php?post_type=llms_coupon',
+				'edit.php?post_type=llms_voucher',
+			);
+			$new_submenu = array();
+			$num_items   = count( $submenu[ $order_menu ] );
+
+			foreach ( $submenu[ $order_menu ] as $item ) {
+				$key = array_search( $item[2], $order, true );
+				if ( false === $key ) {
+					$key = ++$num_items;
+				}
+				$new_submenu[ $key ] = $item;
+			}
+
+			ksort( $new_submenu );
+			$submenu[ $order_menu ] = array_values( $new_submenu );
+		}
+
 		return $flag;
+	}
+
+	/**
+	 * Register the Customers submenu under Orders.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function display_orders_menu() {
+
+		add_submenu_page(
+			'edit.php?post_type=llms_order',
+			__( 'Customers', 'lifterlms' ),
+			__( 'Customers', 'lifterlms' ),
+			apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ),
+			'llms-customers',
+			array( $this, 'customers_page_init' )
+		);
+	}
+
+	/**
+	 * Output the Customers admin screen.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function customers_page_init() {
+		LLMS_Admin_Customers::output();
 	}
 
 	/**
@@ -190,6 +247,7 @@ class LLMS_Admin_Menus {
 	 *              submenu page in place of NULL.
 	 * @since 7.1.0 Added the 'Dashboard' submenu page.
 	 * @since 7.4.1 Added the 'Resources' submenu page.
+	 * @since 11.0.0 Process Scheduled Actions requests when the 'Status' page loads.
 	 *
 	 * @return void
 	 */
@@ -210,7 +268,8 @@ class LLMS_Admin_Menus {
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Import', 'lifterlms' ), __( 'Import', 'lifterlms' ), 'manage_lifterlms', 'llms-import', array( $this, 'import_page_init' ) );
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
+		$status_hook = add_submenu_page( 'lifterlms', __( 'LifterLMS Status', 'lifterlms' ), __( 'Status', 'lifterlms' ), 'manage_lifterlms', 'llms-status', array( $this, 'status_page_init' ) );
+		add_action( 'load-' . $status_hook, array( $this, 'status_page_load' ) );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Resources', 'lifterlms' ), __( 'Resources', 'lifterlms' ), 'manage_lifterlms', 'llms-resources', array( $this, 'resources_page_init' ) );
 
@@ -404,6 +463,22 @@ class LLMS_Admin_Menus {
 	public function status_page_actions() {
 		$this->status_page_includes();
 		LLMS_Admin_Page_Status::handle_actions();
+	}
+
+	/**
+	 * Process Scheduled Actions list table requests before the status page outputs anything
+	 *
+	 * The list table redirects after searches and bulk actions, which fails once
+	 * output has started and leaves the page blank.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function status_page_load() {
+		if ( 'action-scheduler' === llms_filter_input_sanitize_string( INPUT_GET, 'tab' ) ) {
+			ActionScheduler_AdminView::instance()->process_admin_ui();
+		}
 	}
 
 	/**

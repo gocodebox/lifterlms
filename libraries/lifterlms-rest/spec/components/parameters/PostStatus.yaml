@@ -1,0 +1,16 @@
+name: status
+in: query
+description: Limit result set to posts assigned one or more statuses.
+required: false
+schema:
+  type: string
+  enum:
+    - publish
+    - pending
+    - draft
+    - auto-draft
+    - future
+    - private
+    - trash
+  default: publish
+  example: draft

@@ -3,6 +3,12 @@
 //
 
 @import "_includes/vars";
+
+// Specificity 0. A theme :root rule wins even when this file loads later.
+:where(:root) {
+	@include llms-frontend-tokens;
+}
+
 @import "_includes/extends";
 @import "_includes/grid";
 @import "_includes/mixins";

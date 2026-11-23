@@ -35,6 +35,26 @@ class LLMS_Admin_Assets {
 		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_assets' ) );
+		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+	}
+
+	/**
+	 * Add WordPress version body classes used for admin CSS compatibility.
+	 *
+	 * @since 10.1.1
+	 *
+	 * @param string $classes Space-separated admin body classes.
+	 * @return string
+	 */
+	public function admin_body_class( $classes ) {
+
+		global $wp_version;
+
+		if ( version_compare( $wp_version, '7.0', '>=' ) ) {
+			$classes .= ' llms-wp-version-gte-70';
+		}
+
+		return $classes;
 	}
 
 	/**
@@ -257,6 +277,7 @@ class LLMS_Admin_Assets {
 				'course',
 				'lifterlms_page_llms-reporting',
 				'llms_membership',
+				'llms_order_page_llms-customers',
 			)
 		);
 		if ( in_array( $screen->id, $tables, true ) ) {
@@ -361,7 +382,7 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 			wp_enqueue_style( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.min.css', array(), '1.3.4' );
-			wp_enqueue_script( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.full' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.3.4', true );
+			wp_enqueue_script( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.full' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS_ASSETS_VERSION, true );
 
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
 				wp_enqueue_script( 'heartbeat' );
@@ -391,7 +412,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register the media protection scripts when the media is enqueued.
 	 *
-	 * @since 9.0.6
+	 * @since 10.2.0
 	 *
 	 * @return void
 	 */

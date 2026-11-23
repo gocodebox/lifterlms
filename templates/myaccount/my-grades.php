@@ -3,7 +3,8 @@
  * My Grades Template
  *
  * @since    3.24.0
- * @version  3.24.0
+ * @since 10.1.0 Added `wp-element-button` class to the sort button so it inherits theme button styling.
+ * @version 10.1.0
  */
 defined( 'ABSPATH' ) || exit;
 llms_print_notices();
@@ -70,7 +71,7 @@ llms_print_notices();
 							<option value="title_asc" <?php selected( 'title_asc', $sort ); ?>><?php esc_attr_e( 'Course Title (A-Z)', 'lifterlms' ); ?></option>
 							<option value="title_desc" <?php selected( 'title_desc', $sort ); ?>><?php esc_attr_e( 'Course Title (Z-A)', 'lifterlms' ); ?></option>
 						</select>
-						<button class="llms-button-secondary small" type="submit"><?php esc_html_e( 'Update', 'lifterlms' ); ?></button>
+						<button class="llms-button-secondary small wp-element-button" type="submit"><?php esc_html_e( 'Update', 'lifterlms' ); ?></button>
 					</form>
 				</td>
 		</tfoot>
