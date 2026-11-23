@@ -250,6 +250,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 		 */
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,
@@ -273,6 +274,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,
@@ -288,6 +290,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 		unset( $this->main->supports['modify_recurring_payments'] );
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,
@@ -305,6 +308,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,
@@ -328,6 +332,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,
@@ -344,6 +349,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			array(
+				'ajax_checkout'             => false,
 				'checkout_fields'           => false,
 				'cc_save'                   => false,
 				'refunds'                   => false,

@@ -125,14 +125,14 @@ class LLMS_Reviews {
 				foreach ( $posts_array as $post ) {
 					?>
 					<div class="llms_review">
-						<div class="llms_review_title"><strong><?php echo esc_html( get_the_title( $post->ID ) ); ?></strong></div>
+						<div class="llms_review_title"><strong><?php echo esc_html( self::strip_review_shortcodes( get_the_title( $post->ID ) ) ); ?></strong></div>
 						<div class="llms_review_name">
 							<?php
 							// Translators: %s = The author display name.
-							echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) );
+							echo esc_html( sprintf( __( 'By: %s', 'lifterlms' ), self::strip_review_shortcodes( get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ) ) );
 							?>
 						</div>
-						<p><?php echo esc_html( get_post_field( 'post_content', $post->ID ) ); ?></p>
+						<p><?php echo esc_html( self::strip_review_shortcodes( get_post_field( 'post_content', $post->ID ) ) ); ?></p>
 					</div>
 					<?php
 				}
@@ -143,9 +143,9 @@ class LLMS_Reviews {
 		}
 
 		/**
-		 * Check to see if reviews are open.
+		 * Check to see if reviews are open and the current user is enrolled in the course.
 		 */
-		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() ) {
+		if ( get_post_meta( get_the_ID(), '_llms_reviews_enabled', true ) && is_user_logged_in() && llms_is_user_enrolled( get_current_user_id(), get_the_ID() ) ) {
 
 			/**
 			 * Filters the thank you text.
@@ -189,6 +189,27 @@ class LLMS_Reviews {
 				<?php
 			}
 		}
+	}
+
+	/**
+	 * Strips shortcodes from review text.
+	 *
+	 * Reviews are output inside the course's `the_content`, where shortcodes are parsed after
+	 * this output is generated. `strip_shortcodes()` turns an escaped `[[shortcode]]` into
+	 * `[shortcode]`, so it runs until nothing is left to strip.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param string $text Review text.
+	 * @return string
+	 */
+	private static function strip_review_shortcodes( $text ) {
+		do {
+			$stripped = $text;
+			$text     = strip_shortcodes( $stripped );
+		} while ( $text !== $stripped );
+
+		return $text;
 	}
 
 	/**
@@ -251,6 +272,11 @@ class LLMS_Reviews {
 
 		// Check if reviews are disabled.
 		if ( ! get_post_meta( $parent_id, '_llms_reviews_enabled', true ) ) {
+			return false;
+		}
+
+		// Make sure the user is enrolled in the course.
+		if ( ! llms_is_user_enrolled( get_current_user_id(), absint( $parent_id ) ) ) {
 			return false;
 		}
 

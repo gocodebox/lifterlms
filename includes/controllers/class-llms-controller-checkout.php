@@ -176,6 +176,7 @@ class LLMS_Controller_Checkout {
 	 * should be redirected to the relevant course or membership URL.
 	 *
 	 * @since 7.0.0 Moved from `LLMS_Controller_Orders.
+	 * @since 11.0.0 Add an error notice when the submitted nonce can't be verified.
 	 *
 	 * @return null|boolean|void Returns `null` when the form isn't submitted or there's a nonce verification issue.
 	 *                           Returns `false` when the the request is missing the action parameter or the action doesn't match
@@ -185,6 +186,10 @@ class LLMS_Controller_Checkout {
 
 		$verify = $this->verify_request( '_llms_checkout_nonce', self::ACTION_CREATE_PENDING_ORDER );
 		if ( ! $verify ) {
+			// The form was submitted with an expired or invalid nonce, e.g. from a page served by a full-page cache.
+			if ( null === $verify && isset( $_POST['_llms_checkout_nonce'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce failed verification, only checking for its presence.
+				llms_add_notice( __( 'Your session has expired. Please review your information and submit the form again.', 'lifterlms' ), 'error' );
+			}
 			return $verify;
 		}
 
@@ -244,7 +249,7 @@ class LLMS_Controller_Checkout {
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
-			if ( $locate ) {
+			if ( $locate && $this->can_resume_order( $locate, $setup['person'] ) ) {
 				$order_id = $locate;
 			}
 		}
@@ -290,6 +295,40 @@ class LLMS_Controller_Checkout {
 
 		$this->start_ajax( 'create_pending_order' );
 
+		// This runs before the session is initialized on `init`, validation callbacks need it to add notices.
+		llms()->init_session();
+
+		/** This filter is documented in includes/controllers/class-llms-controller-checkout.php */
+		if ( apply_filters( 'llms_before_checkout_validation', false ) ) {
+
+			// Move the error notices added by validation callbacks into the JSON response.
+			$notices = llms()->session->get( 'llms_notices', array() );
+			$errors  = $notices['error'] ?? array();
+			unset( $notices['error'] );
+			llms()->session->set( 'llms_notices', $notices );
+
+			if ( ! $errors ) {
+				$errors[] = __( 'There was an error creating your order, please try again.', 'lifterlms' );
+			}
+
+			$error = new WP_Error();
+			foreach ( $errors as $message ) {
+				$error->add( 'llms-checkout-validation', $message );
+			}
+			$this->send_json( $error );
+		}
+
+		/*
+		 * The AJAX checkout doesn't register the user until the order is confirmed, so only gateways that
+		 * complete orders through that confirmation step can be used here.
+		 */
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( sanitize_text_field( wp_unslash( $_POST['llms_payment_gateway'] ?? 'manual' ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
+		if ( $gateway && ! $gateway->supports( 'ajax_checkout' ) ) {
+			$this->send_json(
+				new WP_Error( 'llms-checkout-gateway-unsupported', __( 'The selected payment method is not available.', 'lifterlms' ) )
+			);
+		}
+
 		// Generate the order.
 		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$order     = $generator->generate( $generator::UA_VALIDATE );
@@ -311,6 +350,29 @@ class LLMS_Controller_Checkout {
 		}
 
 		$this->send_json( $handle );
+	}
+
+	/**
+	 * Determines whether a located order can be reused by the person completing checkout.
+	 *
+	 * Only a pending order that has not been assigned to a user yet, or one that already
+	 * belongs to the given person, can be updated during checkout.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param integer      $order_id WP_Post ID of the located order.
+	 * @param LLMS_Student $person   The person completing checkout.
+	 * @return boolean
+	 */
+	private function can_resume_order( $order_id, $person ) {
+
+		if ( 'llms-pending' !== get_post_status( $order_id ) ) {
+			return false;
+		}
+
+		$owner_id = absint( ( new LLMS_Order( $order_id ) )->get( 'user_id' ) );
+
+		return ! $owner_id || absint( $person->get( 'id' ) ) === $owner_id;
 	}
 
 	/**

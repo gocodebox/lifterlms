@@ -240,24 +240,102 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			$fields['drip']['fields'][] = array(
 				'controller'       => '#' . $this->prefix . 'drip_method',
 				'controller_value' => 'date',
-				'class'            => 'llms-datepicker',
-				'date_format'      => 'yy-mm-dd',
+				'class'            => '',
+				'handler'          => 'drip_date_time',
 				'id'               => $this->prefix . 'date_available',
+				'input_type'       => 'date',
 				'label'            => __( 'Date Available', 'lifterlms' ),
-				'type'             => 'date',
+				// Without a max, browsers accept years with up to 6 digits.
+				'max'              => '9999-12-31',
+				'meta'             => $this->get_drip_input_value( 'date', $lesson->get( 'date_available' ) ),
+				'type'             => 'text',
 			);
 			$fields['drip']['fields'][] = array(
 				'controller'       => '#' . $this->prefix . 'drip_method',
 				'controller_value' => 'date',
 				'class'            => '',
-				'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
+				'desc'             => __( 'Optionally enter a time when the lesson should become available. If no time is supplied, the lesson will be available at 12:00 AM.', 'lifterlms' ),
+				'handler'          => 'drip_date_time',
 				'id'               => $this->prefix . 'time_available',
+				'input_type'       => 'time',
 				'label'            => __( 'Time Available', 'lifterlms' ),
+				'meta'             => $this->get_drip_input_value( 'time', $lesson->get( 'time_available' ) ),
 				'type'             => 'text',
 			);
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Convert a stored drip date or time into the value a native date or time input accepts.
+	 *
+	 * Dates are stored as `Y-m-d`, or `m/d/Y` when saved by this metabox before 8.0.7. Times are stored as `h:i A`
+	 * (Course Builder and this metabox), `H:i:s` (REST API), or free text typed into this metabox before it used a
+	 * time input. Values are read the way `strtotime()` reads them in `LLMS_Lesson::get_available_date()`, and a
+	 * value that can't be read returns an empty string. Matches `get_input_value()` in the Course Builder.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param string $type  Input type, `date` or `time`.
+	 * @param string $value Stored value.
+	 * @return string `Y-m-d` date, 24-hour `H:i` time, or an empty string.
+	 */
+	protected function get_drip_input_value( $type, $value ) {
+
+		$value = trim( (string) $value );
+
+		if ( 'date' === $type ) {
+			if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ) {
+				return $value;
+			}
+			return preg_match( '/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $value, $parts ) ? sprintf( '%s-%02d-%02d', $parts[3], $parts[1], $parts[2] ) : '';
+		}
+
+		if ( ! preg_match( '/^(\d{1,2})(?::(\d{2})(?::\d{2})?)?\s*(?:([ap])\.?m\.?)?$/i', $value, $parts ) || ( empty( $parts[2] ) && empty( $parts[3] ) ) ) {
+			return '';
+		}
+
+		$hour = (int) $parts[1];
+		$min  = empty( $parts[2] ) ? 0 : (int) $parts[2];
+
+		if ( ! empty( $parts[3] ) ) {
+			if ( $hour < 1 || $hour > 12 ) {
+				return '';
+			}
+			$hour = ( $hour % 12 ) + ( 'p' === strtolower( $parts[3] ) ? 12 : 0 );
+		}
+
+		return ( $hour > 23 || $min > 59 ) ? '' : sprintf( '%02d:%02d', $hour, $min );
+	}
+
+	/**
+	 * Save the drip date or time from its native input.
+	 *
+	 * The date is stored as the input's `Y-m-d` value. The time input's 24-hour `H:i` value is stored as `h:i A`,
+	 * the format the Course Builder saves. Anything else, including an empty input, is stored as an empty string;
+	 * an empty time makes the lesson available at 12:00 AM.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @param int   $post_id WP Post ID of the lesson.
+	 * @param array $field   Metabox field array.
+	 * @param array $request Posted data.
+	 * @return bool
+	 */
+	protected function handler_drip_date_time( $post_id, $field, $request ) {
+
+		$val    = isset( $request[ $field['id'] ] ) ? sanitize_text_field( wp_unslash( $request[ $field['id'] ] ) ) : '';
+		$format = 'time' === $field['input_type'] ? 'H:i' : 'Y-m-d';
+		$date   = DateTime::createFromFormat( '!' . $format, $val );
+
+		if ( ! $date || $date->format( $format ) !== $val ) {
+			$val = '';
+		} elseif ( 'time' === $field['input_type'] ) {
+			$val = $date->format( 'h:i A' );
+		}
+
+		return $this->save_field_db( $post_id, $field['id'], $val );
 	}
 
 	/**

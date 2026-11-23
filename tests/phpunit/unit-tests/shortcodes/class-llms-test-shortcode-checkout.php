@@ -244,6 +244,32 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	}
 
 	/**
+	 * Test the checkout form is not displayed for an access plan whose product is not published.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_output_unpublished_product() {
+
+		$plan = $this->get_mock_plan( 0, 0 );
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'draft' ) );
+
+		$this->mockGetRequest( array( 'plan' => $plan->get( 'id' ) ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringContainsString( 'Invalid access plan.', $output );
+		$this->assertStringNotContainsString( 'llms-product-purchase-form', $output );
+
+		wp_update_post( array( 'ID' => $plan->get( 'product_id' ), 'post_status' => 'publish' ) );
+
+		$output = $this->get_shortcode_output();
+		$this->assertStringNotContainsString( 'Invalid access plan.', $output );
+		$this->assertStringContainsString( 'llms-product-purchase-form', $output );
+
+	}
+
+	/**
 	 * Test checkout wrapper on confirm payment when no order is supplied.
 	 *
 	 * @since 7.0.0
@@ -324,6 +350,49 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
 		$wp = $wpt;
 
+	}
+
+	/**
+	 * Checkout shortcode attributes cannot choose the included template.
+	 *
+	 * @since 10.3.2
+	 *
+	 * @return void
+	 */
+	public function test_output_ignores_template_attributes() {
+		global $wp;
+		unset( $wp->query_vars['confirm-payment'] );
+
+		$plan   = $this->get_mock_plan();
+		$secret = get_temp_dir() . 'llms-checkout-secret-' . wp_generate_password( 8, false ) . '.php';
+		file_put_contents( $secret, '<?php echo "LLMS_SECRET_MARKER";' );
+
+		$this->mockGetRequest(
+			array(
+				'plan' => $plan->get( 'id' ),
+			)
+		);
+
+		$output = $this->get_output(
+			array(
+				'LLMS_Shortcode_Checkout',
+				'output',
+			),
+			array(
+				array(
+					'cols'          => 1,
+					'template_name' => ltrim( wp_normalize_path( $secret ), '/' ),
+					'default_path'  => '/',
+					'template_path' => '/',
+				),
+			)
+		);
+
+		unlink( $secret );
+
+		$this->assertStringContainsString( 'llms-checkout-cols-1', $output );
+		$this->assertStringNotContainsString( 'LLMS_SECRET_MARKER', $output );
+		$this->assertDoesNotMatchRegularExpression( '/root:.*:0:0:/', $output );
 	}
 
 }

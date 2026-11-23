@@ -9,6 +9,7 @@
  * @since 3.36.1
  * @since 3.37.0 Add testing for nonce verifications.
  * @since 3.40.0 Added additional coverage.
+ * @since 11.0.0 Moved tests that need the live SendWP plugin into the `external` group.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
@@ -164,6 +165,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * @since 3.37.0 Add mock nonce to test.
 	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
+	 * @group external
+	 *
 	 * @return void
 	 * @throws ReflectionException
 	 */
@@ -200,6 +203,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.40.0
 	 *
+	 * @group external
+	 *
 	 * @return void
 	 * @throws ReflectionException
 	 */
@@ -222,6 +227,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test should_output_inline() method.
 	 *
 	 * @since 3.40.0
+	 *
+	 * @group external
 	 *
 	 * @return void
 	 * @throws ReflectionException

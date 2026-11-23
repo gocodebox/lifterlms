@@ -4,6 +4,10 @@
  * An open Select2 dropdown pins scroll on #llms-editor-lesson. Choosing a drip
  * method re-renders that panel; the pin must be released or the panel jumps
  * back to the drip field. See #3376.
+ *
+ * Course Builder — the drip date and time are native date and time inputs that show and save the stored values. See #3492.
+ *
+ * Course Builder — leaving the page warns about a change while a lesson field still has focus. See #3498.
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
@@ -105,6 +109,100 @@ test.describe( 'Course Builder / Drip scroll', () => {
 			return el.scrollTop;
 		} );
 		expect( scrollTop ).toBe( 0 );
+	} );
+
+	test( 'drip date and time use native inputs and keep the stored formats', async ( {
+		page,
+		requestUtils,
+	} ) => {
+
+		const { course, lesson } = await createCourseWithLesson( requestUtils );
+
+		// The REST API stores the time as `H:i:s`.
+		await requestUtils.rest( {
+			method: 'POST',
+			path: `/llms/v1/lessons/${ lesson.id }`,
+			data: {
+				drip_method: 'date',
+				drip_date: '2030-12-12 14:30:00',
+			},
+		} );
+
+		await page.goto(
+			`/wp-admin/admin.php?page=llms-course-builder&course_id=${ course.id }#lesson:${ lesson.id }`
+		);
+
+		const date = page.locator( '#llms-editor-lesson input[data-attribute="date_available"]' );
+		const time = page.locator( '#llms-editor-lesson input[data-attribute="time_available"]' );
+		await expect( date ).toBeVisible( { timeout: 15000 } );
+
+		await expect( date ).toHaveAttribute( 'type', 'date' );
+		await expect( time ).toHaveAttribute( 'type', 'time' );
+		await expect( date ).toHaveValue( '2030-12-12' );
+		await expect( time ).toHaveValue( '14:30' );
+
+		const save = page.locator( '#llms-save-button' );
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		await date.fill( '2031-01-15' );
+		await date.blur();
+		await time.fill( '17:15' );
+		await time.blur();
+
+		await expect( save ).toHaveAttribute( 'data-status', 'unsaved' );
+		await save.click();
+		await expect( save ).toHaveAttribute( 'data-status', 'saved' );
+
+		const saved = await requestUtils.rest( { path: `/llms/v1/lessons/${ lesson.id }` } );
+		expect( saved.drip_date ).toBe( '2031-01-15 17:15:00' );
+
+		await expect( date ).toHaveValue( '2031-01-15' );
+		await expect( time ).toHaveValue( '17:15' );
+	} );
+
+	test( 'leaving the page warns about a drip date typed with the keyboard while the title has focus', async ( {
+		page,
+		requestUtils,
+	} ) => {
+
+		const { course, lesson } = await createCourseWithLesson( requestUtils );
+
+		await requestUtils.rest( {
+			method: 'POST',
+			path: `/llms/v1/lessons/${ lesson.id }`,
+			data: {
+				drip_method: 'date',
+				drip_date: '2030-12-12 14:30:00',
+			},
+		} );
+
+		await page.goto(
+			`/wp-admin/admin.php?page=llms-course-builder&course_id=${ course.id }#lesson:${ lesson.id }`
+		);
+
+		const date = page.locator( '#llms-editor-lesson input[data-attribute="date_available"]' );
+		const title = page.locator( '#llms-editor-lesson .llms-editable-title' );
+		await expect( date ).toHaveValue( '2030-12-12' );
+
+		// Type a new date and Tab away. The settings panel re-renders and the next Tabs land on the lesson title.
+		await date.focus();
+		await page.keyboard.type( '01152031' );
+		for ( let i = 0; i < 5 && ! ( await title.evaluate( ( el ) => el === document.activeElement ) ); i++ ) {
+			await page.keyboard.press( 'Tab' );
+		}
+		await expect( title ).toBeFocused();
+		await expect( date ).toHaveValue( '2031-01-15' );
+
+		let dialog = null;
+		page.on( 'dialog', async ( d ) => {
+			dialog = d.type();
+			await d.dismiss();
+		} );
+
+		// Dismissing the warning keeps the page, and the change is then shown as unsaved.
+		await page.reload( { timeout: 3000 } ).catch( () => {} );
+		expect( dialog ).toBe( 'beforeunload' );
+		await expect( page.locator( '#llms-save-button' ) ).toHaveAttribute( 'data-status', 'unsaved' );
 	} );
 
 } );

@@ -154,6 +154,183 @@ class LLMS_REST_Test_Lessons extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Logged-out collection requests are rejected before a query runs.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_items_logged_out_has_no_total() {
+
+		$lesson_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'lesson',
+				'post_status'  => 'publish',
+				'post_title'   => 'Paid lesson',
+				'post_content' => 'Secret lesson body token.',
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+		$response = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'include' => array( $lesson_id ),
+				'search'  => 'Secret',
+			)
+		);
+
+		$this->assertResponseStatusEquals( 401, $response );
+		$this->assertResponseCodeEquals( 'llms_rest_unauthorized_request', $response );
+		$this->assertArrayNotHasKey( 'X-WP-Total', $response->get_headers() );
+
+		wp_set_current_user( $this->user_forbidden );
+
+		$response = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'include' => array( $lesson_id ),
+				'search'  => 'Secret',
+			)
+		);
+
+		$this->assertResponseStatusEquals( 403, $response );
+		$this->assertResponseCodeEquals( 'llms_rest_forbidden_request', $response );
+		$this->assertArrayNotHasKey( 'X-WP-Total', $response->get_headers() );
+	}
+
+	/**
+	 * An instructor's collection total does not include another instructor's lesson.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_total_excludes_unreadable_lesson() {
+
+		$instructor_a = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$instructor_b = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$lesson_a = $this->factory->post->create(
+			array(
+				'post_type'    => 'lesson',
+				'post_status'  => 'publish',
+				'post_author'  => $instructor_a,
+				'post_content' => 'Secret lesson body token.',
+			)
+		);
+		$lesson_b = $this->factory->post->create(
+			array(
+				'post_type'    => 'lesson',
+				'post_status'  => 'publish',
+				'post_author'  => $instructor_b,
+				'post_content' => 'Secret lesson body token.',
+			)
+		);
+
+		wp_set_current_user( $instructor_a );
+
+		$hidden = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'include' => array( $lesson_b ),
+				'search'  => 'Secret',
+			)
+		);
+		$this->assertResponseStatusEquals( 200, $hidden );
+		$this->assertEquals( array(), $hidden->get_data() );
+		$this->assertEquals( 0, $hidden->get_headers()['X-WP-Total'] );
+
+		$own = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'include' => array( $lesson_a ),
+				'search'  => 'Secret',
+			)
+		);
+		$this->assertResponseStatusEquals( 200, $own );
+		$this->assertEquals( 1, $own->get_headers()['X-WP-Total'] );
+		$this->assertCount( 1, $own->get_data() );
+
+		$search = $this->perform_mock_request(
+			'GET',
+			$this->route,
+			array(),
+			array(
+				'search' => 'Secret',
+			)
+		);
+		$this->assertResponseStatusEquals( 200, $search );
+		$this->assertEquals( 1, $search->get_headers()['X-WP-Total'] );
+
+		wp_set_current_user( $this->user_allowed );
+
+		$admin = $this->perform_mock_request( 'GET', $this->route, array(), array( 'search' => 'Secret' ) );
+		$this->assertResponseStatusEquals( 200, $admin );
+		$this->assertEquals( 2, $admin->get_headers()['X-WP-Total'] );
+	}
+
+	/**
+	 * An instructor's collection covers the lessons of courses they instruct and paginates on that set.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_total_follows_course_instructors() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 3,
+			)
+		);
+		$other  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 3,
+			)
+		);
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		wp_set_current_user( $instructor );
+
+		$this->assertFalse( current_user_can( 'edit_post', $other->get_lessons( 'ids' )[0] ) );
+
+		$ids = array();
+		foreach ( array( 1, 2 ) as $page ) {
+			$response = $this->perform_mock_request(
+				'GET',
+				$this->route,
+				array(),
+				array(
+					'per_page' => 2,
+					'page'     => $page,
+				)
+			);
+			$this->assertResponseStatusEquals( 200, $response );
+			$this->assertEquals( 3, $response->get_headers()['X-WP-Total'] );
+			$this->assertEquals( 2, $response->get_headers()['X-WP-TotalPages'] );
+			$ids = array_merge( $ids, wp_list_pluck( $response->get_data(), 'id' ) );
+		}
+
+		$this->assertEqualSets( $course->get_lessons( 'ids' ), $ids );
+	}
+
+	/**
 	 * Test getting items.
 	 *
 	 * @since 1.0.0-beta.7

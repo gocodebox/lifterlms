@@ -1,6 +1,12 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+v0.3.1 - 2026-10-08
+----------
+
+* Changelog attributions accept a plain name when there is no GitHub username.
+
+
 v0.3.0 - 2026-05-12
 ----------
 

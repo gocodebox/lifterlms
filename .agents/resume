@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Runs after every orb activation and wake. Keep fast and idempotent.
+set -euo pipefail
+
+# MariaDB backs the PHPUnit suite; the Docker socket starts dockerd on demand for wp-env.
+sudo systemctl start mariadb docker.socket

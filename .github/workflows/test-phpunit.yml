@@ -35,7 +35,7 @@ jobs:
   ###
   set-matrix:
     name: Setup Matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.setup.outputs.matrix }}
     steps:
@@ -52,7 +52,7 @@ jobs:
     name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}
 
     needs: set-matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     continue-on-error: ${{ matrix.allow-failure }}
 
     strategy:
@@ -99,7 +99,7 @@ jobs:
   ###
   status:
     name: Test PHPUnit Status
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ always() }}
     needs: test
     steps:

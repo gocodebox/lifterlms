@@ -126,6 +126,47 @@ class LLMS_Frontend_Assets {
 	}
 
 	/**
+	 * Size loop titles like the theme's h4 when the theme has a theme.json.
+	 *
+	 * Loop titles were h4 until their tag became h2-h4 by context, so this keeps
+	 * their look. Classic themes use the stylesheet defaults.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	protected static function add_loop_title_styles() {
+
+		if ( ! function_exists( 'wp_theme_has_theme_json' ) || ! wp_theme_has_theme_json() ) {
+			return;
+		}
+
+		$h4      = wp_get_global_styles( array( 'elements', 'h4', 'typography' ) );
+		$heading = wp_get_global_styles( array( 'elements', 'heading', 'typography' ) );
+		$values  = array(
+			'size'        => $h4['fontSize'] ?? null,
+			'weight'      => $h4['fontWeight'] ?? $heading['fontWeight'] ?? null,
+			'line-height' => $h4['lineHeight'] ?? $heading['lineHeight'] ?? null,
+		);
+
+		$css = '';
+		foreach ( $values as $name => $value ) {
+			if ( ! is_scalar( $value ) || '' === (string) $value ) {
+				continue;
+			}
+			// Preset references such as "var:preset|font-size|medium".
+			if ( 0 === strpos( $value, 'var:' ) ) {
+				$value = 'var(--wp--' . str_replace( '|', '--', substr( $value, 4 ) ) . ')';
+			}
+			$css .= '--llms-loop-title-' . $name . ':' . preg_replace( '/[;{}<>]/', '', $value ) . ';';
+		}
+
+		if ( $css ) {
+			wp_add_inline_style( 'lifterlms-styles', ':where(:root){' . $css . '}' );
+		}
+	}
+
+	/**
 	 * Enqueue Styles
 	 *
 	 * @since 1.0.0
@@ -133,6 +174,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 * @since 5.0.0 Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+	 * @since 11.0.0 Add loop title sizes from the theme's theme.json.
 	 *
 	 * @return void
 	 */
@@ -144,6 +186,7 @@ class LLMS_Frontend_Assets {
 
 		llms()->assets->enqueue_style( 'webui-popover' );
 		llms()->assets->enqueue_style( 'lifterlms-styles' );
+		self::add_loop_title_styles();
 
 		if ( in_array( $post_type, array( 'llms_my_certificate', 'llms_certificate' ), true ) ) {
 			llms()->assets->enqueue_style( 'certificates' );
@@ -172,10 +215,11 @@ class LLMS_Frontend_Assets {
 	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
 	 * @since 7.5.0 Enqueue `llms-favorites` script on lesson and course page.
+	 * @since 11.0.0 Enqueue `llms-dashboard-nav` on the student dashboard.
 	 *
 	 * @return void
 	 */
-	public static function enqueue_scripts() {
+	 public static function enqueue_scripts() {
 
 		// I don't think we need these next 3 scripts.
 		wp_enqueue_script( 'jquery-ui-tooltip' );
@@ -194,6 +238,11 @@ class LLMS_Frontend_Assets {
 		llms()->assets->register_script( 'llms-notifications' );
 		if ( get_current_user_id() ) {
 			llms()->assets->enqueue_script( 'llms-notifications' );
+		}
+
+		llms()->assets->register_script( 'llms-dashboard-nav' );
+		if ( is_llms_account_page() ) {
+			llms()->assets->enqueue_script( 'llms-dashboard-nav' );
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.

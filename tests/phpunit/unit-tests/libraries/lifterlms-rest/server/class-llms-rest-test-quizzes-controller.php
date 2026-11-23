@@ -251,4 +251,114 @@ class LLMS_REST_Test_Quizzes_Controller extends LLMS_REST_Unit_Test_Case_Server 
 		$this->assertEquals( 'yes', $question->get( 'video_enabled' ) );
 		$this->assertEquals( 'yes', $question->get( 'description_enabled' ) );
 	}
+
+	/**
+	 * An instructor's quiz collection total does not include another instructor's quiz.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_total_excludes_unreadable_quiz() {
+
+		$this->assert_instructor_search_total_excludes_other_author( 'llms_quiz', $this->route );
+	}
+
+	/**
+	 * An instructor's question collection total does not include another instructor's question.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_total_excludes_unreadable_question() {
+
+		$this->assert_instructor_search_total_excludes_other_author( 'llms_question', '/llms/v1/questions' );
+	}
+
+	/**
+	 * Question collection totals for a course's instructors match the questions returned to them.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_get_questions_instructor_total_matches_items() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$assistant  = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+
+		// The course, quiz, and questions are created by an administrator.
+		wp_set_current_user( $this->user_allowed );
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$course->set_instructors( array( array( 'id' => $instructor ), array( 'id' => $assistant ) ) );
+
+		foreach ( array( $instructor, $assistant ) as $user_id ) {
+
+			wp_set_current_user( $user_id );
+
+			$res = $this->perform_mock_request( 'GET', '/llms/v1/questions', array(), array( 'per_page' => 100 ) );
+			$this->assertResponseStatusEquals( 200, $res );
+			$this->assertEquals( count( $res->get_data() ), $res->get_headers()['X-WP-Total'] );
+
+		}
+	}
+
+	/**
+	 * Search totals for a post type stay at zero for another instructor's post.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @param string $post_type Post type slug.
+	 * @param string $route     Collection route.
+	 * @return void
+	 */
+	private function assert_instructor_search_total_excludes_other_author( $post_type, $route ) {
+
+		$instructor_a = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$instructor_b = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$this->factory->post->create(
+			array(
+				'post_type'    => $post_type,
+				'post_status'  => 'publish',
+				'post_author'  => $instructor_a,
+				'post_content' => 'Secret lesson body token.',
+			)
+		);
+		$other_id = $this->factory->post->create(
+			array(
+				'post_type'    => $post_type,
+				'post_status'  => 'publish',
+				'post_author'  => $instructor_b,
+				'post_content' => 'Secret lesson body token.',
+			)
+		);
+
+		wp_set_current_user( $instructor_a );
+
+		$hidden = $this->perform_mock_request(
+			'GET',
+			$route,
+			array(),
+			array(
+				'include' => array( $other_id ),
+				'search'  => 'Secret',
+			)
+		);
+		$this->assertResponseStatusEquals( 200, $hidden );
+		$this->assertEquals( array(), $hidden->get_data() );
+		$this->assertEquals( 0, $hidden->get_headers()['X-WP-Total'] );
+
+		$search = $this->perform_mock_request(
+			'GET',
+			$route,
+			array(),
+			array(
+				'search' => 'Secret',
+			)
+		);
+		$this->assertResponseStatusEquals( 200, $search );
+		$this->assertEquals( 1, $search->get_headers()['X-WP-Total'] );
+	}
 }

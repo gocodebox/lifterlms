@@ -176,6 +176,8 @@ When contributing code use the placeholder `[version]` in favor of trying to gue
 
 Our release workflow automatically replaces `@since`, `@version`, and `@deprecated` followed by `[version]` with the actual version of the release being packaged.
 
+The REST API library (`libraries/lifterlms-rest`) has its own version. Use `[version]` there too and do not bump the library's version in a pull request: when the library changed since the last release, release preparation increments its patch version and replaces its placeholders with the library's version.
+
 For a new element:
 
 ```

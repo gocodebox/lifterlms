@@ -441,6 +441,89 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test submitting an email address change without providing, or with wrong current password
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_submit_account_update_email_change() {
+
+		$args = $this->get_data_for_form_submit(
+			array(
+				'display_name' => 'Disp', // Required on update.
+			)
+		);
+
+		// Register.
+		$user_id = $this->handler->submit( $args, 'checkout' );
+
+		$this->assertTrue( is_int( $user_id ) );
+		$user = new WP_User( $user_id );
+
+		// Update.
+		wp_set_current_user( $user_id );
+
+		// Change the email address without providing the current password.
+		$args['email_address']         = uniqid( 'fake-' ) . '@mock.tld';
+		$args['email_address_confirm'] = $args['email_address'];
+		unset( $args['password'], $args['password_confirm'] );
+
+		$ret = $this->handler->submit( $args, 'account' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+		$this->assertWPErrorMessageEquals( 'Current Password is a required field.', $ret );
+
+		// Provide a wrong current password.
+		$args['password_current'] = '12345678-wrong';
+		$ret = $this->handler->submit( $args, 'account' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( 'The submitted password was not correct.', $ret );
+
+		// Provide the correct current password.
+		$args['password_current'] = '12345678';
+		$this->assertSame( $user_id, $this->handler->submit( $args, 'account' ) );
+
+		$user = new WP_User( $user_id );
+		$this->assertEquals( $args['email_address'], $user->user_email );
+
+	}
+
+	/**
+	 * Test submitting an account update with an unchanged email address and no current password
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_submit_account_update_unchanged_email_no_current_password() {
+
+		$args = $this->get_data_for_form_submit(
+			array(
+				'display_name' => 'Disp', // Required on update.
+			)
+		);
+
+		// Register.
+		$user_id = $this->handler->submit( $args, 'checkout' );
+
+		$this->assertTrue( is_int( $user_id ) );
+		$user = new WP_User( $user_id );
+
+		// Update without changing the email address or the password.
+		wp_set_current_user( $user_id );
+		$args['first_name'] = 'Maude';
+		unset( $args['password'], $args['password_confirm'] );
+
+		$this->assertSame( $user_id, $this->handler->submit( $args, 'account' ) );
+
+		$user = new WP_User( $user_id );
+		$this->assertEquals( 'Maude', $user->first_name );
+
+	}
+
+	/**
 	 * Test submit() with a country that doesn't require states.
 	 *
 	 * @since 5.0.0

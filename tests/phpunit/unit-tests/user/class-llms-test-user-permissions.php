@@ -148,6 +148,46 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the `promote_user` capability follows the same rules as `edit_user`.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_promote_user_cap() {
+
+		extract( $this->create_mock_users() );
+
+		$ass_obj = llms_get_instructor( $assistant );
+		$ass_obj->add_parent( $instructor );
+		$other_assistant = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+
+		// Instructors can only change the role of their own assistants.
+		wp_set_current_user( $instructor );
+		$this->assertTrue( current_user_can( 'promote_users' ) );
+		$this->assertTrue( current_user_can( 'promote_user', $assistant ) );
+		foreach ( array( $admin, $editor, $subscriber, $student, $lms_manager, $other_assistant, $this->factory->user->create( array( 'role' => 'instructor' ) ) ) as $uid ) {
+			$this->assertFalse( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+		// LMS Managers can change the role of LMS roles only.
+		wp_set_current_user( $lms_manager );
+		foreach ( array( $student, $instructor, $assistant ) as $uid ) {
+			$this->assertTrue( current_user_can( 'promote_user', $uid ), $uid );
+		}
+		foreach ( array( $admin, $editor, $subscriber ) as $uid ) {
+			$this->assertFalse( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+		// Admins are unaffected.
+		wp_set_current_user( $admin );
+		foreach ( array( $admin2, $editor, $lms_manager, $instructor ) as $uid ) {
+			$this->assertTrue( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+	}
+
+	/**
 	 * Test the user_can_manage_user() for users with multiple roles.
 	 *
 	 * @since 3.41.0

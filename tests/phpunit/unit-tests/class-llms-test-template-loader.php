@@ -88,21 +88,94 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_restrict_post_content(): for a skipped post type.
+	 * Test maybe_restrict_post_content(): LifterLMS post types are not skipped outside LifterLMS REST API requests
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_post_content_llms_post_type_restricted_outside_llms_rest() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp, $wp_query, $post;
+
+		$post = $this->get_post_for_restrictions( 'course' );
+
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		// A namespace that only starts with "llms" is not the LifterLMS REST API.
+		$wp->query_vars['rest_route'] = '/llms-other/v1/items/987';
+
+		$post = $this->get_post_for_restrictions( 'course' );
+
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		unset( $wp->query_vars['rest_route'] );
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_post_content(): for a skipped post type on a LifterLMS REST API request.
 	 *
 	 * @since 3.41.1
+	 * @since 11.1.0 Skipped post types are only skipped on LifterLMS REST API requests.
 	 *
 	 * @return void
 	 */
 	public function test_maybe_restrict_post_content_skipped_post_type() {
 
-		global $wp_query;
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp, $wp_query, $post;
+
+		$wp->query_vars['rest_route'] = '/llms/v1/courses/987';
 
 		$post = $this->get_post_for_restrictions( 'course' );
 
 		$this->main->maybe_restrict_post_content( $post, $wp_query );
 
 		$this->assertContentEquals( $post );
+
+		unset( $wp->query_vars['rest_route'] );
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_post_content(): users who can edit the post get its real content.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_post_content_user_can_edit_post() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		global $wp_query, $post;
+
+		$post = $this->get_post_for_restrictions( 'lesson' );
+
+		// Another user can't edit the lesson: restricted.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'student' ) ) );
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
+
+		// The lesson's author can edit it: not restricted.
+		$post = $this->get_post_for_restrictions( 'lesson' );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+		wp_update_post( array( 'ID' => $post->ID, 'post_author' => get_current_user_id() ) );
+		$post = get_post( $post->ID );
+		$this->main->maybe_restrict_post_content( $post, $wp_query );
+		$this->assertContentEquals( $post );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
 
 	}
 
@@ -207,6 +280,267 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		$this->assertContentEquals( $post, 'This content is restricted', 'This content is restricted' );
 
 		remove_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10 );
+
+	}
+
+	/**
+	 * Test maybe_restrict_listed_content(): membership-restricted posts in search results show the restriction notice.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_search() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$restricted = array();
+		foreach ( array( 'post', 'page' ) as $post_type ) {
+			$restricted[ $post_type ] = $this->factory->post->create( array(
+				'post_type'    => $post_type,
+				'post_title'   => 'Zebracorn ' . $post_type,
+				'post_content' => 'SECRET_BODY',
+				'post_excerpt' => 'page' === $post_type ? 'SECRET_EXCERPT' : '',
+			) );
+			update_post_meta( $restricted[ $post_type ], '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+			update_post_meta( $restricted[ $post_type ], '_llms_is_restricted', 'yes' );
+		}
+		$public = $this->factory->post->create( array(
+			'post_title'   => 'Zebracorn public',
+			'post_content' => 'PUBLIC_BODY',
+		) );
+
+		LLMS_Install::create_visibilities();
+		$this->go_to( add_query_arg( 's', 'Zebracorn', home_url( '/' ) ) );
+		$this->assertTrue( is_search() );
+
+		$this->main->maybe_prepare_listed_content_restriction();
+
+		$render = function( $post_id ) use ( &$post ) {
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			return array(
+				apply_filters( 'the_content', get_the_content() ),
+				get_the_excerpt( $post ),
+			);
+		};
+
+		// Guests and logged in non-members.
+		foreach ( array( 0, $this->get_mock_student()->get( 'id' ) ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			foreach ( $restricted as $post_id ) {
+				$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $post_id ) );
+			}
+			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		}
+
+		// Members.
+		$student = $this->get_mock_student();
+		$student->enroll( $membership->get( 'id' ) );
+		wp_set_current_user( $student->get( 'id' ) );
+		$this->assertStringContainsString( 'SECRET_BODY', $render( $restricted['post'] )[0] );
+		$this->assertSame( 'SECRET_EXCERPT', $render( $restricted['page'] )[1] );
+
+		// Sitewide membership: every listed post is restricted for non-members only.
+		update_option( 'lifterlms_membership_required', $membership->get( 'id' ) );
+		$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		wp_set_current_user( 0 );
+		$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $public ) );
+		delete_option( 'lifterlms_membership_required' );
+
+		// The queried post of a singular request is left to the template loader.
+		$this->go_to( get_permalink( $restricted['post'] ) );
+		$this->assertStringContainsString( 'SECRET_BODY', $render( $restricted['post'] )[0] );
+
+		remove_filter( 'the_content', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		remove_filter( 'get_the_excerpt', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		wp_reset_postdata();
+
+	}
+
+	/**
+	 * Test maybe_restrict_listed_content(): posts listed inside a feed item are restricted as for an anonymous visitor.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_feed() {
+
+		global $post;
+
+		$membership = llms_get_post( $this->factory->post->create( array(
+			'post_type' => 'llms_membership',
+		) ) );
+		$membership->set( 'restriction_add_notice', 'yes' );
+		$membership->set( 'restriction_notice', 'no access.' );
+
+		$restricted = $this->factory->post->create( array(
+			'post_content' => 'SECRET_BODY',
+			'post_excerpt' => 'SECRET_EXCERPT',
+		) );
+		update_post_meta( $restricted, '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+		update_post_meta( $restricted, '_llms_is_restricted', 'yes' );
+		$public = $this->factory->post->create( array(
+			'post_content' => 'PUBLIC_BODY',
+		) );
+
+		$this->go_to( add_query_arg( array( 'feed' => 'rss2', 's' => 'Zebracorn' ), home_url( '/' ) ) );
+		$this->assertTrue( is_feed() );
+
+		$this->main->maybe_prepare_listed_content_restriction();
+
+		$render = function( $post_id ) use ( &$post ) {
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			return array(
+				apply_filters( 'the_content', get_the_content() ),
+				get_the_excerpt( $post ),
+			);
+		};
+
+		// Feeds may be cached without a per-user key, so members get the anonymous output too.
+		$student = $this->get_mock_student();
+		$student->enroll( $membership->get( 'id' ) );
+		foreach ( array( 0, $student->get( 'id' ) ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			$this->assertSame( array( "<p>no access.</p>\n", 'no access.' ), $render( $restricted ) );
+			$this->assertStringContainsString( 'PUBLIC_BODY', $render( $public )[0] );
+		}
+
+		remove_filter( 'the_content', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		remove_filter( 'get_the_excerpt', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		wp_reset_postdata();
+
+	}
+
+	/**
+	 * Test maybe_restrict_listed_content() on lesson and quiz listings.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_lessons_quizzes() {
+
+		global $post;
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 1 ) );
+		$lessons = $course->get_lessons();
+		if ( ! $lessons[0]->get( 'quiz' ) ) {
+			$lessons = array_reverse( $lessons );
+		}
+		$quiz_id = $lessons[0]->get( 'quiz' );
+		$this->assertNotEmpty( $quiz_id );
+		$lessons[0]->set( 'free_lesson', 'no' );
+		$lessons[1]->set( 'free_lesson', 'yes' );
+
+		foreach ( array( $lessons[0]->get( 'id' ), $lessons[1]->get( 'id' ), $quiz_id ) as $post_id ) {
+			wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish', 'post_content' => 'SECRET_BODY_' . $post_id, 'post_excerpt' => 'SECRET_EXCERPT_' . $post_id ) );
+		}
+
+		$this->go_to( add_query_arg( 'post_type', 'lesson', home_url( '/' ) ) );
+		$this->assertFalse( is_singular() );
+
+		$this->main->maybe_prepare_listed_content_restriction();
+
+		$render = function( $post_id ) use ( &$post ) {
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			return array(
+				apply_filters( 'the_content', get_the_content() ),
+				get_the_excerpt( $post ),
+			);
+		};
+
+		$restricted = array( "<p>This content is restricted</p>\n", 'This content is restricted' );
+
+		// Guests and logged in students who aren't enrolled.
+		foreach ( array( 0, $this->get_mock_student()->get( 'id' ) ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			$this->assertSame( $restricted, $render( $lessons[0]->get( 'id' ) ) );
+			$this->assertSame( $restricted, $render( $quiz_id ) );
+			$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[1]->get( 'id' ), $render( $lessons[1]->get( 'id' ) )[0] );
+		}
+
+		// Search results, which `llms_page_restricted()` otherwise treats as accessible.
+		$this->go_to( add_query_arg( array( 's' => 'SECRET', 'post_type' => 'lesson' ), home_url( '/' ) ) );
+		$this->assertTrue( is_search() );
+		$this->assertSame( $restricted, $render( $lessons[0]->get( 'id' ) ) );
+		$this->assertTrue( is_search() );
+		$this->assertFalse( is_singular() );
+
+		// Enrolled students.
+		$student = $this->get_mock_student();
+		$student->enroll( $course->get( 'id' ) );
+		wp_set_current_user( $student->get( 'id' ) );
+		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[0]->get( 'id' ), $render( $lessons[0]->get( 'id' ) )[0] );
+		$this->assertSame( 'SECRET_EXCERPT_' . $quiz_id, $render( $quiz_id )[1] );
+
+		// Feeds never output lessons or quizzes, so nothing is listed inside a feed item, even for enrolled students.
+		$this->go_to( add_query_arg( 'feed', 'rss2', home_url( '/' ) ) );
+		$this->assertTrue( is_feed() );
+		$this->assertSame( array( '', '' ), $render( $lessons[0]->get( 'id' ) ) );
+		$this->assertSame( array( '', '' ), $render( $quiz_id ) );
+
+		remove_filter( 'the_content', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		remove_filter( 'get_the_excerpt', array( $this->main, 'maybe_restrict_listed_content' ), 9999 );
+		wp_reset_postdata();
+
+	}
+
+	/**
+	 * Test lessons listed by a Query Loop block in a page are restricted in the page's REST API response.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_restrict_listed_content_rest() {
+
+		global $wp_rest_server, $post;
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		$lessons = $course->get_lessons( 'ids' );
+		llms_get_post( $lessons[0] )->set( 'free_lesson', 'no' );
+		llms_get_post( $lessons[1] )->set( 'free_lesson', 'yes' );
+		foreach ( $lessons as $lesson_id ) {
+			wp_update_post( array( 'ID' => $lesson_id, 'post_status' => 'publish', 'post_content' => 'SECRET_BODY_' . $lesson_id ) );
+		}
+
+		$page_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:query {"queryId":1,"query":{"perPage":10,"postType":"lesson","order":"desc","orderBy":"title","inherit":false}} --><div class="wp-block-query"><!-- wp:post-template --><!-- wp:post-content /--><!-- /wp:post-template --></div><!-- /wp:query --><!-- wp:paragraph --><p>PAGE_TEXT</p><!-- /wp:paragraph -->',
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+		// A new server fires `rest_api_init`, as on a REST request.
+		add_filter( 'llms_is_rest', '__return_true' );
+		$wp_rest_server = null;
+
+		$content = rest_get_server()->dispatch( new WP_REST_Request( 'GET', '/wp/v2/pages/' . $page_id ) )->get_data()['content']['rendered'];
+
+		$this->assertStringNotContainsString( 'SECRET_BODY_' . $lessons[0], $content );
+		$this->assertStringContainsString( 'This content is restricted', $content );
+		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[1], $content );
+		$this->assertStringContainsString( 'PAGE_TEXT', $content );
+
+		// The listing filters leave the item of a REST response to `maybe_restrict_post_content()` (on `the_post`) and the LifterLMS REST API.
+		$post = get_post( $lessons[0] );
+		$this->assertStringContainsString( 'SECRET_BODY_' . $lessons[0], apply_filters( 'the_content', $post->post_content ) );
+
+		$wp_rest_server = null;
+		wp_reset_postdata();
 
 	}
 

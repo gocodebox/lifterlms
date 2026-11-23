@@ -87,10 +87,11 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
-			'{{COURSE_TITLE}}'    => __( 'Course Title', 'lifterlms' ),
-			'{{SECTION_TITLE}}'   => __( 'Section Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}'    => __( 'Student Name', 'lifterlms' ),
+			'{{COURSE_PROGRESS}}'   => __( 'Course Progress Bar', 'lifterlms' ),
+			'{{COURSE_TITLE}}'      => __( 'Course Title', 'lifterlms' ),
+			'{{SECTION_TITLE}}'     => __( 'Section Title', 'lifterlms' ),
+			'{{STUDENT_NAME}}'      => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}' => __( 'Student Full Name', 'lifterlms' ),
 		);
 	}
 
@@ -126,6 +127,10 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				break;
+
+			case '{{STUDENT_FULL_NAME}}':
+				$code = $this->user->get_name();
 				break;
 
 		}

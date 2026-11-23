@@ -844,7 +844,7 @@ function llms_placeholder_img_src() {
  * @return string
  */
 function llms_placeholder_img( $size = 'full' ) {
-	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . esc_url( llms_placeholder_img_src() ) . '" alt="placeholder" class="llms-placeholder llms-featured-image wp-post-image" />' );
+	return apply_filters( 'lifterlms_placeholder_img', '<img src="' . esc_url( llms_placeholder_img_src() ) . '" alt="" class="llms-placeholder llms-featured-image wp-post-image" />' );
 }
 
 /**
@@ -864,7 +864,8 @@ function llms_featured_img( $post_id, $size ) {
 	$html = '';
 
 	if ( isset( $img[0] ) ) {
-		$html = '<img src="' . esc_url( $img[0] ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="llms-featured-image wp-post-image">';
+		$alt  = get_post_meta( get_post_thumbnail_id( $post_id ), '_wp_attachment_image_alt', true );
+		$html = '<img src="' . esc_url( $img[0] ) . '" alt="' . esc_attr( $alt ) . '" class="llms-featured-image wp-post-image">';
 	}
 
 	/**

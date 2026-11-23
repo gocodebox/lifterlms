@@ -10,8 +10,9 @@ describe( 'isAttributionValid', () => {
 		// Valid data.
 		[ 'Should accept a GitHub username', '@username', true ],
 		[ 'Should accept a markdown link', '[username](https://fake.tld)', true ],
+		[ 'Should accept a plain name', 'Huzaifa Jawaid', true ],
 		// Invalid data.
-		[ 'Should not accept a username without a leading @ symbol', 'username', false ],
+		[ 'Should not accept an empty name', '   ', false ],
 		[ 'Should not accept a markdown link without a fully qualified URL', '[username](www.fake.tld)', false ],
 		[ 'Should not accept a markdown reference link', '[username][link]', false ],
 		// Weird types.
@@ -144,11 +145,11 @@ describe( 'getChangelogValidationIssues', () => {
 	} );
 
 	it( 'should return errors when an invalid attribution is submitted', () => {
-		const { valid, errors, warnings } = getChangelogValidationIssues( { attributions: [ 'abc' ], type: 'changed', significance: 'patch', entry: 'Valid.' }, false );
+		const { valid, errors, warnings } = getChangelogValidationIssues( { attributions: [ '[user](not-a-url)' ], type: 'changed', significance: 'patch', entry: 'Valid.' }, false );
 
 		expect( valid ).toStrictEqual( false );
 		expect( warnings ).toStrictEqual( [] );
-		expect( errors ).toStrictEqual( [ 'The attribution "abc" is invalid.' ] );
+		expect( errors ).toStrictEqual( [ 'The attribution "[user](not-a-url)" is invalid.' ] );
 	} );
 
 	it( 'should return errors when an invalid link is submitted', () => {
@@ -177,7 +178,7 @@ describe( 'getChangelogValidationIssues', () => {
 				entry: 'Entry content.',
 				comment: 'A comment',
 				title: 'title',
-				attributions: [ '@username', '[user](https://fake.tld)' ],
+				attributions: [ '@username', '[user](https://fake.tld)', 'Huzaifa Jawaid' ],
 				links: [ '#1234', 'org/repo#123' ],
 			},
 			[],

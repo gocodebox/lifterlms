@@ -138,4 +138,147 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 
 		$this->assertSame( array(), $files );
 	}
+
+	/**
+	 * An instructor's attempt total does not include attempts on quizzes they cannot edit.
+	 *
+	 * The student filter, a missing student, and an unscoped list must all count
+	 * only readable quizzes. An LMS manager still receives the full total.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_total_matches_readable_attempts() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$other      = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$manager    = $this->factory->user->create( array( 'role' => 'lms_manager' ) );
+		$hidden     = $this->factory->student->create();
+		$student    = $this->factory->student->create();
+
+		$hidden_quiz = $this->create_quiz_post( $other );
+		$own_quiz    = $this->create_quiz_post( $instructor );
+
+		$this->create_quiz_attempt( $hidden_quiz, $hidden );
+		$this->create_quiz_attempt( $hidden_quiz, $student );
+		$own_attempt = $this->create_quiz_attempt( $own_quiz, $student );
+
+		wp_set_current_user( $instructor );
+
+		$foreign = $this->perform_mock_request( 'GET', $this->route, array(), array( 'student' => $hidden ) );
+		$this->assert_attempt_total( $foreign, 0, array() );
+
+		$missing = $this->perform_mock_request( 'GET', $this->route, array(), array( 'student' => 999999999 ) );
+		$this->assert_attempt_total( $missing, 0, array() );
+
+		$by_student = $this->perform_mock_request( 'GET', $this->route, array(), array( 'student' => $student ) );
+		$this->assert_attempt_total( $by_student, 1, array( $own_attempt ) );
+
+		$by_hidden_quiz = $this->perform_mock_request( 'GET', $this->route, array(), array( 'quiz' => $hidden_quiz ) );
+		$this->assert_attempt_total( $by_hidden_quiz, 0, array() );
+
+		$unscoped = $this->perform_mock_request( 'GET', $this->route );
+		$this->assert_attempt_total( $unscoped, 1, array( $own_attempt ) );
+
+		wp_set_current_user( $manager );
+
+		$manager_response = $this->perform_mock_request( 'GET', $this->route, array(), array( 'student' => $hidden ) );
+		$this->assertResponseStatusEquals( 200, $manager_response );
+		$this->assertEquals( 1, $manager_response->get_headers()['X-WP-Total'] );
+		$this->assertCount( 1, $manager_response->get_data() );
+	}
+
+	/**
+	 * An instructor sees attempts on a quiz they do not author when it belongs to a course they instruct.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_items_instructor_includes_attempt_on_course_quiz() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$author     = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$student    = $this->factory->student->create();
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+		$course->instructors()->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$lesson_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'lesson',
+				'post_status' => 'publish',
+				'post_author' => $author,
+			)
+		);
+		update_post_meta( $lesson_id, '_llms_parent_course', $course->get( 'id' ) );
+
+		$quiz_id = $this->create_quiz_post( $author );
+		update_post_meta( $quiz_id, '_llms_lesson_id', $lesson_id );
+		update_post_meta( $lesson_id, '_llms_quiz', $quiz_id );
+
+		$attempt_id = $this->create_quiz_attempt( $quiz_id, $student );
+
+		wp_set_current_user( $instructor );
+
+		$by_student = $this->perform_mock_request( 'GET', $this->route, array(), array( 'student' => $student ) );
+		$this->assert_attempt_total( $by_student, 1, array( $attempt_id ) );
+
+		$by_lesson = $this->perform_mock_request( 'GET', $this->route, array(), array( 'lesson' => $lesson_id ) );
+		$this->assert_attempt_total( $by_lesson, 1, array( $attempt_id ) );
+	}
+
+	/**
+	 * Assert a collection response status, total, and attempt ids.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param WP_REST_Response $response   Response object.
+	 * @param int              $total      Expected X-WP-Total and body length.
+	 * @param int[]            $attempt_ids Expected attempt ids in the body.
+	 * @return void
+	 */
+	private function assert_attempt_total( $response, $total, $attempt_ids ) {
+
+		$this->assertResponseStatusEquals( 200, $response );
+		$this->assertEquals( $total, $response->get_headers()['X-WP-Total'] );
+		$this->assertEquals( $attempt_ids, wp_list_pluck( $response->get_data(), 'id' ) );
+	}
+
+	/**
+	 * Create a published quiz authored by the given user.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param int $author Author WP_User ID.
+	 * @return int Quiz post ID.
+	 */
+	private function create_quiz_post( $author ) {
+
+		return $this->factory->post->create(
+			array(
+				'post_type'   => 'llms_quiz',
+				'post_status' => 'publish',
+				'post_author' => $author,
+			)
+		);
+	}
+
+	/**
+	 * Insert a quiz attempt for a student.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param int $quiz_id    Quiz post ID.
+	 * @param int $student_id Student WP_User ID.
+	 * @return int Attempt ID.
+	 */
+	private function create_quiz_attempt( $quiz_id, $student_id ) {
+
+		$attempt = LLMS_Quiz_Attempt::init( $quiz_id, 0, $student_id );
+		$attempt->save();
+
+		return (int) $attempt->get( 'id' );
+	}
 }

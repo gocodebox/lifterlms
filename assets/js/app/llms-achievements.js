@@ -4,7 +4,8 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version 6.10.2
+ * @since 11.0.0 Open from a title button and keep that button out of the modal.
+ * @version 11.0.0
  */
 
 LLMS.Achievements = {
@@ -35,6 +36,7 @@ LLMS.Achievements = {
 	 * Bind DOM events
 	 *
 	 * @since 3.14.0
+	 * @since 11.0.0 Look up the modal by ID instead of building a selector from the `data-id` attribute.
 	 *
 	 * @return {void}
 	 */
@@ -52,7 +54,7 @@ LLMS.Achievements = {
 
 			var $this  = $( this ),
 				id     = 'achievement-' + $this.attr( 'data-id' ),
-				$modal = $( '#' + id );
+				$modal = $( document.getElementById( id ) );
 
 			if ( ! $modal.length ) {
 				self.create_modal( $this );
@@ -68,6 +70,7 @@ LLMS.Achievements = {
 	 * Creates modal a modal for an achievement
 	 *
 	 * @since 3.14.0
+	 * @since 11.0.0 Don't parse the `data-id` attribute as HTML.
 	 *
 	 * @param obj $el The jQuery selector for the modal card.
 	 * @return {void}
@@ -75,10 +78,10 @@ LLMS.Achievements = {
 	create_modal: function( $el ) {
 
 		var id     = 'achievement-' + $el.attr( 'data-id' ),
-			$modal = $( '#' + id );
+			$modal = $( document.getElementById( id ) );
 
 		if ( ! $modal.length ) {
-			$modal = $( '<div class="llms-achievement-modal" id="' + id + '" />' );
+			$modal = $( '<div class="llms-achievement-modal" />' ).attr( 'id', id );
 			$( 'body' ).append( $modal );
 		}
 
@@ -93,14 +96,23 @@ LLMS.Achievements = {
 			width: 340,
 			onOpening: function( modal ) {
 
-				modal.setTitle( $el.find( '.llms-achievement-title' ).html() );
+				var $clone = $el.clone();
+				$clone.find( '.llms-achievement-trigger' ).each( function() {
+					$( this ).replaceWith( document.createTextNode( $( this ).text() ) );
+				} );
+
+				modal.setTitle( $el.find( '.llms-achievement-title' ).text() );
 				modal.setSubtitle( $el.find( '.llms-achievement-date' ).html() );
-				modal.setContent( '<div class="llms-achievement">' + $el.html() + '</div>' );
+				modal.setContent( '<div class="llms-achievement">' + $clone.html() + '</div>' );
 
 			},
 
 			onClosing: function() {
 				window.history.pushState( '', document.title, window.location.pathname + window.location.search );
+				var trigger = $el.find( '.llms-achievement-trigger' ).get( 0 );
+				if ( trigger ) {
+					trigger.focus();
+				}
 			},
 
 		} );
@@ -127,7 +139,14 @@ LLMS.Achievements = {
 			return;
 		}
 
-		const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` )
+		const card = document.querySelector( `.llms-achievement[data-id="${ hash[1] }"]` );
+		if ( card ) {
+			card.click();
+			return;
+		}
+
+		// Older template overrides wrap the card in an anchor.
+		const a = document.querySelector( `a[href="${ hash.join( '-' ) }"]` );
 		if ( ! a ) {
 			return;
 		}

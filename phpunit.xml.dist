@@ -20,6 +20,13 @@
 		</testsuite>
 	</testsuites>
 
+	<!-- Tests that download plugins from WordPress.org. Run weekly by .github/workflows/test-phpunit-external.yml. -->
+	<groups>
+		<exclude>
+			<group>external</group>
+		</exclude>
+	</groups>
+
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>

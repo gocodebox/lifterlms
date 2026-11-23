@@ -324,7 +324,7 @@ class LLMS_User_Permissions {
 		$user_id   = ! empty( $args[1] ) ? $args[1] : false;
 		$object_id = ! empty( $args[2] ) ? $args[2] : false;
 
-		if ( in_array( $required_cap, array( 'edit_users', 'delete_users' ), true ) ) {
+		if ( in_array( $required_cap, array( 'edit_users', 'delete_users', 'promote_users' ), true ) ) {
 			if ( $user_id && $object_id && false === $this->user_can_manage_user( $user_id, $object_id ) ) {
 				unset( $allcaps[ $required_cap ] );
 			}
@@ -358,7 +358,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Determine if a user can manage another user.
 	 *
-	 * Run on `user_has_cap` filters for the `edit_users` and `delete_users` capabilities.
+	 * Run on `user_has_cap` filters for the `edit_users`, `delete_users`, and `promote_users` capabilities.
 	 *
 	 * @since 3.34.0
 	 * @since 3.41.0 Better handling of users with multiple roles.

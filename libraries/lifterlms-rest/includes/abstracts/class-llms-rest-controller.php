@@ -809,7 +809,7 @@ abstract class LLMS_REST_Controller extends LLMS_REST_Controller_Stubs {
 							'register_rest_field()'
 						)
 					),
-					'[version]'
+					'1.0.0-beta.27'
 				);
 			}
 		}
