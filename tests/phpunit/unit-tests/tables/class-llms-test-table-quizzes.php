@@ -70,4 +70,48 @@ class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test filtering quizzes by attempts awaiting review.
+	 *
+	 * @return void
+	 */
+	public function test_filter_by_awaiting_review() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course   = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 3,
+			'quizzes'  => 3,
+		) );
+		$quiz_ids = array_map( function( $lesson ) {
+			return $lesson->get( 'quiz' );
+		}, $course->get_lessons() );
+
+		$student_id = $this->factory->student->create();
+
+		// No quiz has a pending attempt yet.
+		$this->table->get_results( array( 'filter' => 'pending', 'filterby' => 'pending' ) );
+		$this->assertEquals( array(), $this->table->get_tbody_data() );
+
+		// One graded attempt and one pending attempt on different quizzes.
+		$this->take_quiz( $quiz_ids[0], $student_id );
+		$this->take_quiz( $quiz_ids[1], $student_id )->set( 'status', 'pending', true );
+
+		$table = new LLMS_Table_Quizzes();
+		$table->get_results( array( 'filter' => 'pending', 'filterby' => 'pending' ) );
+		$this->assertEquals( array( $quiz_ids[1] ), wp_list_pluck( $table->get_tbody_data(), 'ID' ) );
+		$this->assertEquals( 1, LLMS_Unit_Test_Util::call_method( $table, 'get_data', array( 'pending', $quiz_ids[1] ) ) );
+
+		// The "any" option is the same as no filter.
+		$unfiltered = new LLMS_Table_Quizzes();
+		$unfiltered->get_results();
+
+		$table = new LLMS_Table_Quizzes();
+		$table->get_results( array( 'filter' => 'any', 'filterby' => 'pending' ) );
+		$this->assertEquals( wp_list_pluck( $unfiltered->get_tbody_data(), 'ID' ), wp_list_pluck( $table->get_tbody_data(), 'ID' ) );
+		$this->assertContains( $quiz_ids[0], wp_list_pluck( $table->get_tbody_data(), 'ID' ) );
+
+	}
+
 }
