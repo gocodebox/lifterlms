@@ -1,24 +1,23 @@
 <?php
 /**
- * Tests that course tags/categories/tracks wrappers and templates bail
+ * Tests that the course tags, categories, and tracks template functions bail
  * when global $post is not a WP_Post.
  *
- * Regression coverage for LifterLMS issue #2577 — the wrappers previously
- * loaded the template regardless of $post state, and the templates then
- * dereferenced $post->ID, emitting PHP warnings outside the loop.
+ * Regression coverage for LifterLMS issue #2577. The Course Information block
+ * calls these functions directly, so a block theme template rendered without a
+ * global post (for example a 404 or empty search page) loaded the templates and
+ * read $post->ID on null.
  *
  * @group LLMS_Templates
  *
- * @since 10.1.0
- * @version 10.1.0
+ * @since [version]
  */
 class LLMS_Test_Template_Course_Tags_Null_Post extends LLMS_UnitTestCase {
 
 	/**
 	 * Hold the prior global $post across calls.
 	 *
-	 * @since 10.1.0
-	 * @version 10.1.0
+	 * @since [version]
 	 *
 	 * @var mixed
 	 */
@@ -27,8 +26,7 @@ class LLMS_Test_Template_Course_Tags_Null_Post extends LLMS_UnitTestCase {
 	/**
 	 * Standard set_up.
 	 *
-	 * @since 10.1.0
-	 * @version 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -44,8 +42,7 @@ class LLMS_Test_Template_Course_Tags_Null_Post extends LLMS_UnitTestCase {
 	/**
 	 * Restore the original global $post.
 	 *
-	 * @since 10.1.0
-	 * @version 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -58,14 +55,13 @@ class LLMS_Test_Template_Course_Tags_Null_Post extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Each wrapper must emit nothing when global $post is null.
+	 * Each template function must emit nothing when global $post is null.
 	 *
-	 * @since 10.1.0
-	 * @version 10.1.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_wrappers_return_silently_when_global_post_is_null() {
+	public function test_template_functions_return_silently_when_global_post_is_null() {
 
 		ob_start();
 		lifterlms_template_single_course_tags();
@@ -74,5 +70,28 @@ class LLMS_Test_Template_Course_Tags_Null_Post extends LLMS_UnitTestCase {
 		$out = ob_get_clean();
 
 		$this->assertSame( '', $out );
+	}
+
+	/**
+	 * The Course Information block must render without warnings when global $post is null.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_course_information_block_renders_when_global_post_is_null() {
+
+		$block = array(
+			'blockName'    => 'llms/course-information',
+			'attrs'        => array(
+				'show_length'     => false,
+				'show_difficulty' => false,
+			),
+			'innerBlocks'  => array(),
+			'innerHTML'    => '',
+			'innerContent' => array(),
+		);
+
+		$this->assertIsString( render_block( $block ) );
 	}
 }

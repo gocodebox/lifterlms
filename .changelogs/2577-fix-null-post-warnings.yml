@@ -1,3 +1,3 @@
 significance: patch
 type: fixed
-entry: "Fixed PHP warnings emitted when reading post properties on an LLMS_Post_Model instance whose underlying WP_Post is missing, and when rendering course tag/category/track templates outside the loop."
+entry: "Fixed PHP warnings from the course tags, categories, and tracks templates when the Course Information block renders without a global post, for example on a block theme 404 or empty search page."
