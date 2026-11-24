@@ -248,7 +248,7 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->add_stripe_license();
 		$saved = llms_helper_options()->get_license_keys();
 		$this->lapse_stripe_license();
-		$this->age_lapse( 8 * DAY_IN_SECONDS );
+		$this->age_lapse( 9 * DAY_IN_SECONDS );
 		$notices->sync_notices();
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
 
@@ -368,7 +368,7 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	}
 
 	/**
-	 * Keys are checked once a week, and once a day during the month after a key lapsed.
+	 * Keys are checked once a week, and once a day during the week after a key lapsed.
 	 *
 	 * @since [version]
 	 *
@@ -398,16 +398,51 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->check_keys( $inactive, false );
 		$this->assertCount( 2, $this->status_requests );
 
-		// More than a month after the lapse: once a week again.
-		$this->age_lapse( 31 * DAY_IN_SECONDS );
+		// The seventh day after the lapse, by a cron event that runs an hour later than the one that found the lapse.
+		$this->age_lapse( 7 * DAY_IN_SECONDS + HOUR_IN_SECONDS );
+		llms_helper_options()->set_last_keys_cron_check( time() - 25 * HOUR_IN_SECONDS );
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 3, $this->status_requests );
+
+		// The eighth day: once a week again.
+		$this->age_lapse( DAY_IN_SECONDS );
+		llms_helper_options()->set_last_keys_cron_check( time() - DAY_IN_SECONDS );
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 3, $this->status_requests );
+
 		llms_helper_options()->set_last_keys_cron_check( time() - 6 * DAY_IN_SECONDS );
 		$this->check_keys( $inactive, false );
-		$this->assertCount( 2, $this->status_requests );
+		$this->assertCount( 3, $this->status_requests );
 
 		llms_helper_options()->set_last_keys_cron_check( time() - 8 * DAY_IN_SECONDS );
 		$this->check_keys( $active, false );
-		$this->assertCount( 3, $this->status_requests );
+		$this->assertCount( 4, $this->status_requests );
 		$this->assertSame( 'active', llms_helper_get_license_status() );
+
+	}
+
+	/**
+	 * A site without a saved license key and without a lapsed key to check sends no license check request.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_check_without_keys() {
+
+		$inactive = array( 'keys' => array( $this->key => array( 'status' => 0 ) ) );
+
+		// Never licensed, running a paid add-on.
+		$this->mock_plugins( array( 'lifterlms-stripe/lifterlms-stripe.php' ) );
+		$this->check_keys( $inactive, false );
+		$this->check_keys( $inactive );
+		$this->assertCount( 0, $this->status_requests );
+
+		// The key was removed by the site's admin.
+		$this->add_stripe_license();
+		LLMS_Helper_Keys::remove_license_key( $this->key );
+		$this->check_keys( $inactive );
+		$this->assertCount( 0, $this->status_requests );
 
 	}
 
@@ -528,7 +563,7 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	}
 
 	/**
-	 * A site whose license lapsed sees the lapsed license notice once the license has been lapsed for a week.
+	 * A site whose license lapsed sees the lapsed license notice once the license has been lapsed for 8 days.
 	 *
 	 * @since [version]
 	 *
@@ -542,15 +577,15 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->add_stripe_license();
 		$this->lapse_stripe_license();
 
-		// Six days after the lapse: only the notice that the key was deactivated.
-		$this->age_lapse( 6 * DAY_IN_SECONDS );
+		// Seven and a half days after the lapse: only the notice that the key was deactivated.
+		$this->age_lapse( 7.5 * DAY_IN_SECONDS );
 		$notices->sync_notices();
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
 
-		// Eight days after the lapse: the lapsed license notice replaces it.
-		$this->age_lapse( 2 * DAY_IN_SECONDS );
+		// Eight and a half days after the lapse: the lapsed license notice replaces it.
+		$this->age_lapse( DAY_IN_SECONDS );
 		$notices->sync_notices();
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
 		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );

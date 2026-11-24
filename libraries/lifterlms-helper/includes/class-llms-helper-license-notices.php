@@ -254,13 +254,15 @@ class LLMS_Helper_License_Notices {
 				/**
 				 * Filters how long after the site's last license key lapsed the lapsed license notice is first shown.
 				 *
-				 * The notice that the key was deactivated is shown as soon as the key lapses.
+				 * The notice that the key was deactivated is shown as soon as the key lapses. The delay leaves
+				 * time for a failed renewal payment to be retried, and for the daily checks of the week after
+				 * the lapse to restore the key, see {@see LLMS_Helper_Keys::check_keys()}.
 				 *
 				 * @since [version]
 				 *
 				 * @param int $delay Delay in seconds.
 				 */
-				$delay     = apply_filters( 'llms_helper_lapsed_license_notice_delay', WEEK_IN_SECONDS );
+				$delay     = apply_filters( 'llms_helper_lapsed_license_notice_delay', 8 * DAY_IN_SECONDS );
 				$lapsed_at = max( wp_list_pluck( llms_helper_options()->get_lapsed_license_keys(), 'time' ) );
 				$notice_id = time() >= $lapsed_at + $delay ? self::NOTICE_LAPSED : '';
 

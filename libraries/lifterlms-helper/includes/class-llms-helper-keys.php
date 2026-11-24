@@ -94,7 +94,7 @@ class LLMS_Helper_Keys {
 	 *
 	 * Runs on daily cron (`llms_check_license_keys`).
 	 *
-	 * Only make api calls to check once / week, or once / day while a key lapsed recently,
+	 * Only make api calls to check once / week, or once / day during the week after a key lapsed,
 	 * see {@see LLMS_Helper_Keys::get_check_interval()}.
 	 *
 	 * @since 3.0.0
@@ -118,7 +118,7 @@ class LLMS_Helper_Keys {
 		}
 
 		if ( ! $force ) {
-			// Only check keys once a week, or once a day while a key lapsed recently.
+			// Only check keys once a week, or once a day during the week after a key lapsed.
 			$last_send = llms_helper_options()->get_last_keys_cron_check();
 			if ( $last_send > apply_filters( 'llms_check_license_keys_interval', time() - self::get_check_interval( $lapsed ) ) ) {
 				return;
@@ -320,8 +320,10 @@ class LLMS_Helper_Keys {
 	/**
 	 * Retrieve how long to wait between two checks of the license keys.
 	 *
-	 * A key that lapsed recently is likely to become valid again, for example when a failed renewal
-	 * payment is retried or the customer updates their payment method, so it is checked every day.
+	 * A key that lapsed in the last week is likely to become valid again, for example when a failed
+	 * renewal payment is retried or the customer updates their payment method, so it is checked every
+	 * day. After that it is checked every week, so that sites whose license is not renewed do not
+	 * keep sending a request a day.
 	 *
 	 * @since [version]
 	 *
@@ -339,12 +341,17 @@ class LLMS_Helper_Keys {
 		 *
 		 * @param int $period Period in seconds.
 		 */
-		$period = apply_filters( 'llms_helper_lapsed_license_daily_check_period', MONTH_IN_SECONDS );
+		$period = apply_filters( 'llms_helper_lapsed_license_daily_check_period', WEEK_IN_SECONDS );
+
+		/*
+		 * The cron event runs once a day, never exactly 24 hours apart. Half a day lets every run check,
+		 * and keeps the run on the last day of the period from being skipped when it is late.
+		 */
+		$tolerance = DAY_IN_SECONDS / 2;
 
 		foreach ( $lapsed as $record ) {
-			if ( time() < $record['time'] + $period ) {
-				// The cron event runs once a day, never exactly 24 hours apart. Half a day lets every run check.
-				return DAY_IN_SECONDS / 2;
+			if ( time() < $record['time'] + $period + $tolerance ) {
+				return $tolerance;
 			}
 		}
 
