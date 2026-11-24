@@ -573,6 +573,27 @@ abstract class LLMS_Admin_Metabox {
 			$instructors[] = $instructor;
 		}
 
+		/*
+		 * When the author changed since the instructors were loaded (in the block editor's Author panel, saved
+		 * before the meta boxes, or the classic editor's Author meta box), make the new author the primary instructor
+		 * in place of the old one. Otherwise saving the instructors would revert the author to the old one.
+		 */
+		$author_id        = absint( get_post_field( 'post_author', $post_id ) );
+		$loaded_author_id = isset( $request['_llms_instructors_author'] ) ? absint( $request['_llms_instructors_author'] ) : 0;
+		if ( $author_id && $loaded_author_id && $author_id !== $loaded_author_id ) {
+			$loaded_author_index = array_search( $loaded_author_id, array_column( $instructors, 'id' ), true );
+			if ( false !== $loaded_author_index ) {
+				unset( $instructors[ $loaded_author_index ] );
+			}
+			$instructors = array_filter(
+				$instructors,
+				function ( $instructor ) use ( $author_id ) {
+					return $author_id !== $instructor['id'];
+				}
+			);
+			array_unshift( $instructors, array( 'id' => $author_id ) );
+		}
+
 		$post->set_instructors( $instructors );
 
 		return true;

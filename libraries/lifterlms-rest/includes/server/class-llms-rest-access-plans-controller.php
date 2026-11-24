@@ -560,6 +560,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * Prepares a single post for create or update
 	 *
 	 * @since 1.0.0-beta.18
+	 * @since [version] Give new plans the next `menu_order` among the product's plans when none is requested.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return array|WP_Error Array of llms post args or WP_Error.
@@ -592,6 +593,12 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 			$prepared_item['sku'] = $request['sku'];
 		}
 
+		// Place new plans after the product's existing plans unless a positive menu_order was requested.
+		// The shared posts schema defaults menu_order to 0, so treat 0 as "unset" here.
+		if ( empty( $request['id'] ) && ! empty( $prepared_item['product_id'] ) && empty( $prepared_item['menu_order'] ) ) {
+			$prepared_item['menu_order'] = $this->get_next_menu_order( $prepared_item['product_id'] );
+		}
+
 		/**
 		 * Filters the access plan data before inserting in the db
 		 *
@@ -604,6 +611,39 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 		$prepared_item = apply_filters( 'llms_rest_pre_insert_access_plan', $prepared_item, $request, $schema );
 
 		return $prepared_item;
+	}
+
+	/**
+	 * Retrieve the next menu_order for a new access plan of a product.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $product_id Course or membership post ID.
+	 * @return int
+	 */
+	protected function get_next_menu_order( $product_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'llms_access_plan',
+				'post_status'            => 'any',
+				'posts_per_page'         => 1,
+				'orderby'                => 'menu_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_key'               => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value'             => absint( $product_id ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_field( 'menu_order', $query->posts[0] ) ) + 1;
 	}
 
 	/**
