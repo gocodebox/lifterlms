@@ -81,6 +81,38 @@ function getEditorAuthor( page ) {
 	);
 }
 
+/**
+ * Edit the post in the block editor store, save it and wait for the meta boxes to save.
+ *
+ * @param {import('@playwright/test').Page} page  Playwright page.
+ * @param {Object}                          edits Post edits to make before saving.
+ * @return {Promise<void>}
+ */
+async function savePost( page, edits ) {
+	await page.evaluate(
+		( postEdits ) =>
+			window.wp.data.dispatch( 'core/editor' ).editPost( postEdits ),
+		edits
+	);
+	const topBar = page.getByRole( 'region', { name: 'Editor top bar' } );
+	const saveButton = topBar.getByRole( 'button', {
+		name: 'Save',
+		exact: true,
+	} );
+	await ( ( await saveButton.isVisible() )
+		? saveButton
+		: topBar.getByRole( 'button', { name: 'Update', exact: true } )
+	).click();
+	await page.waitForFunction( () => {
+		const { select } = window.wp.data;
+		return (
+			! select( 'core/editor' ).isSavingPost() &&
+			! select( 'core/edit-post' ).isSavingMetaBoxes() &&
+			! select( 'core/editor' ).isEditedPostDirty()
+		);
+	} );
+}
+
 test.describe( 'Admin/InstructorsAuthorSync', () => {
 	const ids = [];
 	let courseId;
@@ -135,24 +167,7 @@ test.describe( 'Admin/InstructorsAuthorSync', () => {
 		await dragToTop( page, rows, 1 );
 		await expect.poll( () => getEditorAuthor( page ) ).toBe( ids[ 1 ] );
 
-		const topBar = page.getByRole( 'region', { name: 'Editor top bar' } );
-		const saveButton = topBar.getByRole( 'button', {
-			name: 'Save',
-			exact: true,
-		} );
-		await ( ( await saveButton.isVisible() )
-			? saveButton
-			: topBar.getByRole( 'button', { name: 'Update', exact: true } )
-		).click();
-		await page.waitForFunction( () => {
-			const { select } = window.wp.data;
-			return (
-				! select( 'core/editor' ).isSavingPost() &&
-				! select( 'core/edit-post' ).isSavingMetaBoxes() &&
-				! select( 'core/editor' ).isEditedPostDirty()
-			);
-		} );
-
+		await savePost( page, { excerpt: 'Instructors moved.' } );
 		const course = await requestUtils.rest( {
 			path: `/llms/v1/courses/${ courseId }`,
 		} );
@@ -161,5 +176,30 @@ test.describe( 'Admin/InstructorsAuthorSync', () => {
 		await admin.editPost( courseId );
 		rows = await openInstructorsTab( page, 2 );
 		expect( await getEditorAuthor( page ) ).toBe( ids[ 1 ] );
+	} );
+
+	test( 'picking the previous author again after moving an instructor saves that author', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		await admin.editPost( courseId );
+		const rows = await openInstructorsTab( page, 2 );
+		const previous = await getEditorAuthor( page );
+		const moved = previous === ids[ 0 ] ? ids[ 1 ] : ids[ 0 ];
+
+		await dragToTop( page, rows, 1 );
+		await expect.poll( () => getEditorAuthor( page ) ).toBe( moved );
+
+		// As the Author panel does.
+		await savePost( page, { author: previous } );
+		const course = await requestUtils.rest( {
+			path: `/llms/v1/courses/${ courseId }`,
+		} );
+		expect( course.instructors[ 0 ] ).toBe( previous );
+
+		await admin.editPost( courseId );
+		await openInstructorsTab( page, course.instructors.length );
+		expect( await getEditorAuthor( page ) ).toBe( previous );
 	} );
 } );
