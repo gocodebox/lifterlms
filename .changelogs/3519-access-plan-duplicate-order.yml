@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+entry: "Fixed access plans that share an order number overwriting each other's settings when saved in the course or membership editor, and access plans created through the REST API all getting the same order number."
+links:
+  - "#3519"

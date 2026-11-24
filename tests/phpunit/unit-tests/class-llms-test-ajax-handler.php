@@ -1019,6 +1019,89 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Saving the access plans metabox keeps plans that share a `menu_order` separate.
+	 *
+	 * Plans created outside the course editor, such as through the REST API, can share a `menu_order`.
+	 * Their fields must not collide in the submitted form data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_update_access_plans_with_duplicate_menu_order() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+		$free   = llms_insert_access_plan(
+			array(
+				'product_id' => $course,
+				'title'      => 'Free',
+				'is_free'    => 'yes',
+				'price'      => 0,
+				'menu_order' => 0,
+			)
+		);
+		$paid   = llms_insert_access_plan(
+			array(
+				'product_id' => $course,
+				'title'      => 'Paid',
+				'price'      => 49,
+				'on_sale'    => 'yes',
+				'sale_price' => 29,
+				'menu_order' => 0,
+			)
+		);
+
+		$metabox       = new LLMS_Meta_Box_Product();
+		$metabox->post = get_post( $course );
+
+		// Submit the plan fields the way the browser and PHP do: same-named fields overwrite each other.
+		$dom    = new DOMDocument();
+		libxml_use_internal_errors( true );
+		$dom->loadHTML( $metabox->get_html() );
+		libxml_clear_errors();
+		$xpath  = new DOMXPath( $dom );
+		$fields = array();
+		foreach ( $xpath->query( '//*[@id="llms-access-plans"]//*[(self::input or self::select or self::textarea) and starts-with(@name, "_llms_plans[") and not(@disabled)]' ) as $el ) {
+			if ( 'select' === $el->nodeName ) {
+				$option = $xpath->query( './/option[@selected]', $el )->item( 0 ) ?? $xpath->query( './/option', $el )->item( 0 );
+				$value  = $option ? $option->getAttribute( 'value' ) : '';
+			} elseif ( 'textarea' === $el->nodeName ) {
+				$value = $el->textContent;
+			} elseif ( in_array( $el->getAttribute( 'type' ), array( 'checkbox', 'radio' ), true ) && ! $el->hasAttribute( 'checked' ) ) {
+				continue;
+			} else {
+				$value = $el->getAttribute( 'value' );
+			}
+			$fields[] = rawurlencode( $el->getAttribute( 'name' ) ) . '=' . rawurlencode( $value );
+		}
+		parse_str( implode( '&', $fields ), $posted );
+
+		$this->assertCount( 2, $posted['_llms_plans'] );
+
+		LLMS_AJAX_Handler::llms_update_access_plans(
+			array(
+				'post_id' => $course,
+				'plans'   => $posted['_llms_plans'],
+			)
+		);
+
+		$free = llms_get_post( $free->get( 'id' ) );
+		$this->assertTrue( $free->is_free() );
+		$this->assertEquals( 'Free', $free->get( 'title' ) );
+		$this->assertEquals( 'no', $free->get( 'on_sale' ) );
+
+		$paid = llms_get_post( $paid->get( 'id' ) );
+		$this->assertFalse( $paid->is_free() );
+		$this->assertEquals( 49, $paid->get( 'price' ) );
+		$this->assertEquals( 29, $paid->get( 'sale_price' ) );
+
+		// The save gives each plan its own order, in the displayed order.
+		$this->assertNotEquals( $free->get( 'menu_order' ), $paid->get( 'menu_order' ) );
+	}
+
+	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * @since 3.32.0
