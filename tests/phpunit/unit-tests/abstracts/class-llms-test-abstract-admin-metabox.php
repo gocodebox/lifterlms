@@ -470,6 +470,26 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 		$this->assertEquals( $other, get_post_field( 'post_author', $course->get( 'id' ) ) );
 		$this->assertEquals( array( $other, $new_author ), wp_list_pluck( $course->instructors()->get_instructors(), 'id' ) );
 
+		// Reordering the Instructors tab saves over AJAX first, so the author already is the new first instructor
+		// while the form still lists the author it loaded. Every instructor is kept, in the submitted order.
+		$course->instructors()->set_instructors( array( array( 'id' => $other ), array( 'id' => $old_author ), array( 'id' => $new_author ) ) );
+		$this->mockPostRequest( array(
+			'_llms_instructors_author' => $old_author,
+			'_llms_id_1'               => $other,
+			'_llms_label_1'            => 'Author',
+			'_llms_visibility_1'       => 'visible',
+			'_llms_id_2'               => $old_author,
+			'_llms_label_2'            => 'Author',
+			'_llms_visibility_2'       => 'visible',
+			'_llms_id_3'               => $new_author,
+			'_llms_label_3'            => 'Author',
+			'_llms_visibility_3'       => 'visible',
+		) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $stub, 'save_field', array( $course->get( 'id' ), $field ) ) );
+
+		$this->assertEquals( $other, get_post_field( 'post_author', $course->get( 'id' ) ) );
+		$this->assertEquals( array( $other, $old_author, $new_author ), wp_list_pluck( $course->instructors()->get_instructors(), 'id' ) );
+
 	}
 
 }
