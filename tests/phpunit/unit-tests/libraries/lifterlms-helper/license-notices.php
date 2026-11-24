@@ -433,12 +433,17 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->assertStringContainsString( '<strong>LifterLMS PDFs</strong> is not covered by an active license key', $row );
 		$this->assertStringContainsString( 'plugin-update-tr llms-license-row-notice active', $row );
 		$this->assertStringContainsString( 'href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '"', $row );
-		$this->assertStringContainsString( 'href="https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin', $row );
+		$this->assertStringContainsString(
+			'href="' . esc_url( 'https://lifterlms.com/pricing?utm_source=LifterLMS%20Plugin&utm_medium=Plugins%20Screen&utm_campaign=Plugin%20to%20Sale&utm_content=Unlicensed%20LifterLMS%20PDFs' ) . '"',
+			$row
+		);
+		$this->assertStringNotContainsString( 'lifterlms.com/product/', $row );
 
 		$row = $get_row( $groups );
 		$this->assertStringContainsString( '<strong>LifterLMS Groups</strong> is not covered by an active license key', $row );
 		$this->assertStringNotContainsString( 'llms-license-row-notice active', $row );
-		$this->assertStringContainsString( 'href="https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin', $row );
+		$this->assertStringContainsString( 'utm_content=Unlicensed%20LifterLMS%20Groups"', $row );
+		$this->assertStringNotContainsString( 'lifterlms.com/product/', $row );
 
 		$this->assertSame( '', $get_row( $stripe ) );
 		$this->assertSame( '', $get_row( $core ) );

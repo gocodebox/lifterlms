@@ -24,7 +24,7 @@ A site running unlicensed add-ons sees one dismissible notice on LifterLMS scree
 
 Filter `llms_helper_license_notice` to change which notice is shown. Return an empty string to show none.
 
-On the Plugins screen, each installed add-on without a license, active or not, also has a message under its row with links to enter a license key and to purchase a license. It replaces the "unlicensed and cannot be updated" message that used to appear only when an update was available.
+On the Plugins screen, each installed add-on without a license, active or not, also has a message under its row with links to the Add-ons screen, to enter a license key, and to the LifterLMS.com pricing page, to purchase a license. It replaces the "unlicensed and cannot be updated" message that used to appear only when an update was available.
 
 ### Banner notifications feed
 

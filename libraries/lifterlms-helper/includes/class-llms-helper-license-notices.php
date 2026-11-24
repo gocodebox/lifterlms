@@ -105,6 +105,7 @@ class LLMS_Helper_License_Notices {
 		}
 
 		$active_class = $add_on->is_active() ? ' active' : '';
+		$pricing_url  = $this->get_pricing_url( 'Unlicensed ' . $add_on->get( 'title' ), 'Plugins Screen' );
 		?>
 		<tr class="plugin-update-tr llms-license-row-notice<?php echo esc_attr( $active_class ); ?>">
 			<td colspan="<?php echo esc_attr( $colspan ); ?>" class="plugin-update colspanchange">
@@ -112,12 +113,12 @@ class LLMS_Helper_License_Notices {
 					<p>
 					<?php
 					printf(
-						// Translators: %1$s = Add-on name; %2$s = Opening anchor tag to the add-ons screen; %3$s = Closing anchor tag; %4$s = Opening anchor tag to LifterLMS.com.
+						// Translators: %1$s = Add-on name; %2$s = Opening anchor tag to the add-ons screen; %3$s = Closing anchor tag; %4$s = Opening anchor tag to the LifterLMS.com pricing page.
 						esc_html__( '%1$s is not covered by an active license key, so it does not receive updates. %2$sEnter a license key%3$s or %4$spurchase a license%3$s.', 'lifterlms' ),
 						'<strong>' . esc_html( $add_on->get( 'title' ) ) . '</strong>',
 						'<a href="' . esc_url( admin_url( 'admin.php?page=llms-add-ons' ) ) . '">',
 						'</a>',
-						'<a href="' . esc_url( $add_on->get_permalink( 'Plugins Screen' ) ) . '" target="_blank" rel="noopener noreferrer">'
+						'<a href="' . esc_url( $pricing_url ) . '" target="_blank" rel="noopener noreferrer">'
 					);
 					?>
 					</p>
@@ -161,14 +162,15 @@ class LLMS_Helper_License_Notices {
 	 * @since [version]
 	 *
 	 * @param string $content Value of the `utm_content` query arg.
+	 * @param string $medium  Value of the `utm_medium` query arg.
 	 * @return string
 	 */
-	private function get_pricing_url( $content ) {
+	private function get_pricing_url( $content, $medium = 'Banner' ) {
 
 		return add_query_arg(
 			array(
 				'utm_source'   => rawurlencode( 'LifterLMS Plugin' ),
-				'utm_medium'   => rawurlencode( 'Banner' ),
+				'utm_medium'   => rawurlencode( $medium ),
 				'utm_campaign' => rawurlencode( 'Plugin to Sale' ),
 				'utm_content'  => rawurlencode( $content ),
 			),
