@@ -36,9 +36,111 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test the llms_get_progress_cache_keys() function.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_progress_cache_keys() {
+
+		$course     = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$course_id  = $course->get( 'id' );
+		$section_id = $course->get_sections( 'ids' )[0];
+		$lesson_id  = $course->get_lessons( 'ids' )[0];
+
+		$expected = array(
+			sprintf( 'section_%d_progress', $section_id ),
+			sprintf( 'course_%d_progress', $course_id ),
+		);
+
+		$this->assertEquals( $expected, llms_get_progress_cache_keys( $lesson_id, 'lesson' ) );
+
+		// Type derived from the post when omitted.
+		$this->assertEquals( $expected, llms_get_progress_cache_keys( $section_id ) );
+
+		$this->assertEquals(
+			array( sprintf( 'course_%d_progress', $course_id ) ),
+			llms_get_progress_cache_keys( $course_id, 'course' )
+		);
+
+		$this->assertEquals( array(), llms_get_progress_cache_keys( 999999999 ) );
+
+	}
+
+	/**
+	 * Test that trashing, untrashing, and deleting a lesson resets all students' cached progress.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_structural_changes_reset_progress_cache() {
+
+		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		$course_id = $course->get( 'id' );
+		$lessons   = $course->get_lessons( 'ids' );
+
+		$student = $this->factory->student->create_and_get();
+		$student->enroll( $course_id );
+
+		llms_mark_complete( $student->get( 'id' ), $lessons[0], 'lesson' );
+
+		// Prime the cache.
+		$this->assertEquals( 50, $student->get_progress( $course_id, 'course' ) );
+
+		// Trashing the incomplete lesson leaves only the completed one.
+		wp_trash_post( $lessons[1] );
+		$this->assertEquals( 100, $student->get_progress( $course_id, 'course' ) );
+
+		// Untrashing restores it (re-publish to counter the untrash-to-draft default).
+		wp_untrash_post( $lessons[1] );
+		wp_publish_post( $lessons[1] );
+		$this->assertEquals( 50, $student->get_progress( $course_id, 'course' ) );
+
+		// Hard delete.
+		wp_delete_post( $lessons[1], true );
+		$this->assertEquals( 100, $student->get_progress( $course_id, 'course' ) );
+
+	}
+
+	/**
+	 * Test that reparenting a lesson resets cached progress for both the old and new ancestor trees.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_reparent_lesson_resets_progress_cache() {
+
+		$course_a = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		$course_b = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+
+		$student = $this->factory->student->create_and_get();
+		$student->enroll( $course_a->get( 'id' ) );
+		$student->enroll( $course_b->get( 'id' ) );
+
+		$completed_lesson_id = $course_a->get_lessons( 'ids' )[0];
+		llms_mark_complete( $student->get( 'id' ), $completed_lesson_id, 'lesson' );
+
+		// Prime both caches.
+		$this->assertEquals( 50, $student->get_progress( $course_a->get( 'id' ), 'course' ) );
+		$this->assertEquals( 0, $student->get_progress( $course_b->get( 'id' ), 'course' ) );
+
+		// Move the completed lesson into course B's section.
+		$lesson = llms_get_post( $completed_lesson_id );
+		$lesson->set( 'parent_section', $course_b->get_sections( 'ids' )[0] );
+
+		$this->assertEquals( 0, $student->get_progress( $course_a->get( 'id' ), 'course' ) );
+		$this->assertEquals( 50, $student->get_progress( $course_b->get( 'id' ), 'course' ) );
+
+	}
+
+	/**
 	 * Test the llms_can_user_complete_lesson() function.
 	 *
 	 * @since 10.0.7
+	 * @since 11.1.0 Test lesson prerequisites.
 	 *
 	 * @return void
 	 */
@@ -68,6 +170,42 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
 
 		$lesson->set( 'drip_method', '' );
+
+		// Enrolled but the course time period has ended or hasn't started yet.
+		$course->set( 'time_period', 'yes' );
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '-7 days' ) ) );
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '+1 day' ) ) );
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '+7 days' ) ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		// Allowed while the course is open.
+		$course->set( 'start_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $lesson_id ) );
+
+		// An instructor/admin who can edit the lesson is still allowed after the course ends.
+		$course->set( 'end_date', date( 'm/d/Y', strtotime( '-1 day' ) ) );
+		$instructor = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $instructor );
+		$this->assertTrue( llms_can_user_complete_lesson( $instructor, $lesson_id ) );
+		wp_set_current_user( $student->get( 'id' ) );
+
+		$course->set( 'time_period', 'no' );
+
+		// Enrolled and available, but the lesson's prerequisite is incomplete.
+		$prereq_course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2, 'quizzes' => 0 ) );
+		list( $prereq, $gated ) = $prereq_course->get_lessons();
+		$gated->set( 'has_prerequisite', 'yes' );
+		$gated->set( 'prerequisite', $prereq->get( 'id' ) );
+		$student->enroll( $prereq_course->get( 'id' ) );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $prereq ) );
+		$this->assertFalse( llms_can_user_complete_lesson( $student->get( 'id' ), $gated ) );
+
+		// Allowed once the prerequisite is complete.
+		llms_mark_complete( $student->get( 'id' ), $prereq->get( 'id' ), 'lesson' );
+		$this->assertTrue( llms_can_user_complete_lesson( $student->get( 'id' ), $gated ) );
 
 		// An instructor/admin who can edit the lesson is always allowed, even when not enrolled.
 		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );

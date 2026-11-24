@@ -11,6 +11,7 @@ import {
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 import apiFetch from '@wordpress/api-fetch';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useState, useMemo } from '@wordpress/element';
@@ -55,7 +56,7 @@ const Edit = ( props ) => {
 
 	users.forEach( ( user ) => {
 		userOptions.push( {
-			label: user.name,
+			label: decodeEntities( user.name ),
 			value: user.id,
 		} );
 	} );

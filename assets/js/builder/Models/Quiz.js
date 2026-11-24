@@ -109,6 +109,9 @@ define( [
 
 			this.set( '_points', this.get_total_points() );
 
+			this.on( 'change:title', this.preview_permalink, this );
+			this.preview_permalink();
+
 			// when a quiz is published, ensure the parent lesson is marked as "Enabled" for quizzing
 			this.on( 'change:status', function() {
 				if ( 'publish' === this.get( 'status' ) ) {

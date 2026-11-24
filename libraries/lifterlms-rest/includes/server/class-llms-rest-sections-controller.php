@@ -225,9 +225,121 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			}
 
 			$prepared_item['order'] = $request['order'];
+		} elseif ( empty( $request['id'] ) && ! is_wp_error( $prepared_item ) && ! empty( $prepared_item['parent_course'] ) ) {
+			$prepared_item['order'] = $this->get_next_order( $prepared_item['parent_course'] );
 		}
 
 		return $prepared_item;
+	}
+
+	/**
+	 * Retrieve the next order for a new section in a course.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $parent_id Course post ID.
+	 * @return int
+	 */
+	protected function get_next_order( $parent_id ) {
+
+		$query = new WP_Query(
+			array(
+				'post_type'              => 'section',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => 1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'DESC',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_course',
+						'value' => absint( $parent_id ),
+					),
+				),
+			)
+		);
+
+		if ( empty( $query->posts ) ) {
+			return 1;
+		}
+
+		return absint( get_post_meta( $query->posts[0], '_llms_order', true ) ) + 1;
+	}
+
+	/**
+	 * Resequence section orders after a create/update with an explicit order.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param LLMS_Section    $section       LLMS_Section instance.
+	 * @param WP_REST_Request $request       Full details about the request.
+	 * @param array           $schema        The item schema.
+	 * @param array           $prepared_item Prepared item array.
+	 * @param bool            $creating      Optional. Whether we're in creation or update phase. Default true (create).
+	 * @return bool|WP_Error True on success or false if nothing to update, WP_Error object if something went wrong during the update.
+	 */
+	protected function update_additional_object_fields( $section, $request, $schema, $prepared_item, $creating = true ) {
+
+		// An explicit order is a position request: resequence siblings so orders stay unique.
+		if ( ! empty( $schema['properties']['order'] ) && ! empty( $request['order'] ) ) {
+			$this->resequence_siblings( $section );
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Insert a section at its explicit order among its course siblings and resequence them.
+	 *
+	 * The explicit `order` is treated as a 1-based position: the position is clamped to the
+	 * number of sections in the course, siblings at that position and after are shifted,
+	 * and all sibling orders are rewritten sequentially (1..n) so they remain unique.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param LLMS_Section $section Section instance whose stored order is the requested position.
+	 * @return void
+	 */
+	protected function resequence_siblings( $section ) {
+
+		$parent_id = absint( $section->get( 'parent_course' ) );
+		if ( ! $parent_id ) {
+			return;
+		}
+
+		$siblings = get_posts(
+			array(
+				'post_type'              => 'section',
+				'post_status'            => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'posts_per_page'         => -1,
+				'orderby'                => 'meta_value_num',
+				'meta_key'               => '_llms_order',
+				'order'                  => 'ASC',
+				'fields'                 => 'ids',
+				'post__not_in'           => array( $section->get( 'id' ) ),
+				'update_post_term_cache' => false,
+				'meta_query'             => array(
+					array(
+						'key'   => '_llms_parent_course',
+						'value' => $parent_id,
+					),
+				),
+			)
+		);
+
+		$position = min( max( 1, absint( $section->get( 'order' ) ) ), count( $siblings ) + 1 );
+		array_splice( $siblings, $position - 1, 0, array( absint( $section->get( 'id' ) ) ) );
+
+		foreach ( $siblings as $index => $sibling_id ) {
+			if ( absint( get_post_meta( $sibling_id, '_llms_order', true ) ) !== $index + 1 ) {
+				update_post_meta( $sibling_id, '_llms_order', $index + 1 );
+			}
+		}
 	}
 
 	/**
@@ -257,14 +369,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 
 		// Section order.
 		$schema['properties']['order'] = array(
-			'description' => __( 'Order of the section within the course.', 'lifterlms' ),
+			'description' => __( 'Order of the section within the course. Treated as a 1-based position on create/update: sibling sections at that position and after are shifted so orders remain unique. Omit to append the section after its siblings.', 'lifterlms' ),
 			'type'        => 'integer',
-			'default'     => 1,
 			'context'     => array( 'view', 'edit' ),
 			'arg_options' => array(
 				'sanitize_callback' => 'absint',
 			),
-			'required'    => true,
 		);
 
 		// remove unnecessary properties.
@@ -329,6 +439,12 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['parent_id'] = array(
+			'description'       => __( 'Alias for `parent`. Ignored when `parent` is provided.', 'lifterlms' ),
+			'type'              => 'integer',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		return $query_params;
 	}
 
@@ -383,14 +499,21 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			);
 		}
 
+		// `parent_id` is an alias for `parent`, matching the item schema's field name.
+		if ( empty( $request['parent'] ) && ! empty( $request['parent_id'] ) ) {
+			$request['parent'] = absint( $request['parent_id'] );
+		}
+
 		if ( isset( $this->parent_id ) ) {
 			$parent_id = $this->parent_id;
 		} elseif ( ! empty( $request['parent'] ) && $request['parent'] > 1 ) {
 			$parent_id = $request['parent'];
 		}
 
+		$parent_id = empty( $parent_id ) ? 0 : absint( $parent_id );
+
 		// Filter by parent.
-		if ( ! empty( $parent_id ) ) {
+		if ( $parent_id ) {
 			$query_args = array_merge(
 				$query_args,
 				array(
@@ -405,7 +528,7 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 			);
 		}
 
-		return $query_args;
+		return $this->limit_query_to_readable_courses( $query_args, $request, $parent_id );
 	}
 
 	/**
@@ -473,14 +596,42 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 	}
 
 	/**
+	 * Check if a given request has access to read items.
+	 *
+	 * Sections are not public REST content: listing them requires an authenticated user.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function get_items_permissions_check( $request ) {
+
+		if ( ! is_user_logged_in() ) {
+			return llms_rest_authorization_required_error();
+		}
+
+		return parent::get_items_permissions_check( $request );
+	}
+
+	/**
 	 * Checks if a Section can be read
 	 *
 	 * @since 1.0.0-beta.1
+	 * @since 1.1.3 Sections cannot be read by unauthenticated users, or when their course cannot be read.
 	 *
 	 * @param LLMS_Section $section The Section oject.
 	 * @return bool Whether the post can be read.
 	 */
 	protected function check_read_permission( $section ) {
+
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		if ( ! $this->check_update_permission( $section ) && ! $this->can_read_related_post( $section->get( 'parent_course' ) ) ) {
+			return false;
+		}
 
 		/**
 		 * As of now, sections of password protected courses cannot be read
@@ -490,6 +641,99 @@ class LLMS_REST_Sections_Controller extends LLMS_REST_Posts_Controller {
 		}
 
 		return parent::check_read_permission( $section );
+	}
+
+	/**
+	 * Retrieve the IDs of the sections the current user can read.
+	 *
+	 * Pagination totals come from the collection query, before the per-item
+	 * read check runs. Sections of password protected or unreadable courses
+	 * are refused by {@see LLMS_REST_Sections_Controller::check_read_permission()},
+	 * so {@see LLMS_REST_Sections_Controller::limit_query_to_readable_courses()}
+	 * removes them from the collection query to keep the pagination totals
+	 * identical to the returned items. Only requests for sections of
+	 * non-public statuses need the per-section check run here.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param array           $query_args Collection query arguments.
+	 * @param WP_REST_Request $request    Request object.
+	 * @return int[]|null Readable section IDs, or `null` when the query needs no restriction.
+	 */
+	protected function constrain_readable_post_ids( $query_args, $request = null ) {
+
+		// Mirror the per-item check, which skips the parent course password check in edit context.
+		$edit = $request && 'edit' === $request['context'];
+		if ( $edit ) {
+			add_filter( 'post_password_required', '__return_false' );
+		}
+
+		$readable = parent::constrain_readable_post_ids( $query_args );
+
+		if ( $edit ) {
+			remove_filter( 'post_password_required', '__return_false' );
+		}
+
+		return $readable;
+	}
+
+	/**
+	 * Restrict collection query arguments to the sections of courses the current user can read.
+	 *
+	 * Mirrors the course checks of {@see LLMS_REST_Sections_Controller::check_read_permission()}:
+	 * the course must be published, or readable or editable by the current user,
+	 * and not password protected outside of the edit context.
+	 *
+	 * @since 1.1.3
+	 *
+	 * @param array           $query_args Collection query arguments.
+	 * @param WP_REST_Request $request    Request object.
+	 * @param int             $parent_id  Parent course ID the collection is limited to, or `0`.
+	 * @return array
+	 */
+	protected function limit_query_to_readable_courses( $query_args, $request, $parent_id ) {
+
+		// Users who can edit every section can read every section.
+		if ( $this->can_edit_others_posts() ) {
+			return $query_args;
+		}
+
+		$edit = 'edit' === $request['context'];
+
+		// Sections of one course: check that course only.
+		if ( $parent_id ) {
+			$readable = ( $this->can_read_related_post( $parent_id ) || current_user_can( 'edit_post', $parent_id ) )
+				&& ( $edit || ! post_password_required( $parent_id ) );
+			if ( ! $readable ) {
+				$query_args['post__in'] = array( 0 );
+			}
+			return $query_args;
+		}
+
+		$args = array( 'post_type' => 'course' );
+		if ( ! $edit ) {
+			$args['has_password'] = false;
+		}
+
+		// Published courses, and the current user's own courses whatever their status.
+		$course_ids = $this->query_post_ids( array_merge( $args, array( 'post_status' => get_post_stati( array( 'public' => true ) ) ) ) );
+		if ( get_current_user_id() ) {
+			$course_ids = array_merge( $course_ids, $this->query_post_ids( array_merge( $args, array( 'author' => get_current_user_id() ) ) ) );
+		}
+
+		if ( ! $course_ids ) {
+			$query_args['post__in'] = array( 0 );
+			return $query_args;
+		}
+
+		$query_args['meta_query']   = isset( $query_args['meta_query'] ) ? $query_args['meta_query'] : array();
+		$query_args['meta_query'][] = array(
+			'key'     => '_llms_parent_course',
+			'value'   => array_values( array_unique( $course_ids ) ),
+			'compare' => 'IN',
+		);
+
+		return $query_args;
 	}
 
 	/**

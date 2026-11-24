@@ -10,11 +10,14 @@
  * @since 3.37.18 Don't localize the price "step" html attribute.
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
  * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
- * @version 7.3.0
+ * @since 10.2.1 Link Earth Bundle in the manual-gateway payment notice.
+ * @since [version] Key fields by the plan's position in the list so plans sharing a `menu_order` don't collide.
+ * @version [version]
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.
  * @var LLMS_Access_Plan $plan                       LLMS_Access_Plan.
+ * @var int              $plan_order                 Optional. The plan's 1-based position in the list.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +34,7 @@ if ( ! isset( $plan ) ) {
 } else {
 
 	$id                    = 'llms-access-plan-' . $plan->get( 'id' );
-	$order                 = $plan->get( 'menu_order' );
+	$order                 = isset( $plan_order ) ? $plan_order : $plan->get( 'menu_order' );
 	$visibility            = $plan->get_visibility();
 	$frequency             = $plan->get( 'frequency' );
 	$period                = $plan->get( 'period' );
@@ -390,22 +393,13 @@ if ( ! isset( $plan ) ) {
 
 								<div class="llms-admin-notice-content">
 								<?php
-									$allowed_ecommerce_add_ons_html = array(
-										'a'  => array(
-											'href'   => array(),
-											'target' => array(),
-											'title'  => array(),
-											'rel'    => array(),
-										),
-										'em' => array(),
-									);
 									printf(
-										wp_kses(
-											/* translators: %s: URL to the LifterLMS Ecommerce Add-ons page */
-											__( 'Your site is not set up to process payments. Check out the <a href="%s" target="_blank">Ecommerce Add-ons for LifterLMS</a> to enable live payments via credit card, PayPal, and more.', 'lifterlms' ),
-											$allowed_ecommerce_add_ons_html
-										),
-										'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale'
+										/* translators: 1: opening anchor for ecommerce add-ons; 2: closing anchor; 3: opening anchor for Earth Bundle; 4: closing anchor */
+										esc_html__( 'Your site is not set up to process payments. Check out the %1$sEcommerce Add-ons for LifterLMS%2$s to enable live payments via credit card, PayPal, and more. All Ecommerce Add-ons are available in the %3$sEarth Bundle%4$s and higher plans.', 'lifterlms' ),
+										'<a href="' . esc_url( 'https://lifterlms.com/product-category/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale' ) . '" target="_blank">',
+										'</a>',
+										'<a href="' . esc_url( 'https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=Access%20Plans&utm_campaign=Plugin%20to%20Sale' ) . '" target="_blank">',
+										'</a>'
 									);
 								?>
 									<a href="
@@ -552,8 +546,8 @@ if ( ! isset( $plan ) ) {
 			<div class="llms-metabox-field d-1of4" data-controller="llms-on-sale" data-value-is="yes">
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_start]">
 					<?php esc_html_e( 'Sale Start Date', 'lifterlms' ); ?>
-					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?></span>
-					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'Specify when the sale period starts. ', 'lifterlms' ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'The sale starts at the beginning of this date (12:00 AM in the site\'s timezone).', 'lifterlms' ); ?></span>
+					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'The sale starts at the beginning of this date (12:00 AM in the site\'s timezone).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
@@ -563,8 +557,8 @@ if ( ! isset( $plan ) ) {
 			<div class="llms-metabox-field d-1of4" data-controller="llms-on-sale" data-value-is="yes">
 				<label for="_llms_plans[<?php echo esc_attr( $order ); ?>][sale_end]">
 					<?php esc_html_e( 'Sale End Date', 'lifterlms' ); ?>
-					<span class="screen-reader-text"><?php esc_html_e( 'Specify when the sale period ends.', 'lifterlms' ); ?></span>
-					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Specify when the sale period ends.', 'lifterlms' ); ?>">
+					<span class="screen-reader-text"><?php esc_html_e( 'The sale runs through the end of this date (11:59 PM in the site\'s timezone).', 'lifterlms' ); ?></span>
+					<span class="tip--top-left" data-tip="<?php esc_attr_e( 'The sale runs through the end of this date (11:59 PM in the site\'s timezone).', 'lifterlms' ); ?>">
 						<i class="fa fa-question-circle"></i>
 					</span>
 				</label>
@@ -822,7 +816,7 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
-		<input class="plan-order" name="_llms_plans[<?php echo esc_attr( $order ); ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? esc_attr( $plan->get( 'menu_order' ) ) : esc_attr( $order ); ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+		<input class="plan-order" name="_llms_plans[<?php echo esc_attr( $order ); ?>][menu_order]" type="hidden" value="<?php echo esc_attr( $order ); ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo esc_attr( $order ); ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'id' ) ) . '"' : ' disabled="disabled"'; ?>>
 
 		<?php

@@ -96,6 +96,10 @@ class LLMS_Admin_Post_Table_Courses {
 
 		foreach ( $post_ids as $post_id ) {
 
+			if ( 'course' !== get_post_type( $post_id ) || ! current_user_can( 'edit_course', $post_id ) ) {
+				continue;
+			}
+
 			$c                 = new LLMS_Course( $post_id );
 			$data['courses'][] = $c->toArray();
 
@@ -113,7 +117,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 		echo json_encode( $data );
 
-		die;
+		llms_exit();
 	}
 
 	/**
@@ -144,6 +148,8 @@ class LLMS_Admin_Post_Table_Courses {
 		// Add a new column for Lessons.
 		$new_columns            = array();
 		$new_columns['lessons'] = __( 'Lessons', 'lifterlms' );
+		$new_columns['course_id'] = __( 'Course ID', 'lifterlms' );
+
 
 		// Insert column into third position in existing columns array.
 		$columns = array_merge( array_slice( $columns, 0, 3 ), $new_columns, array_slice( $columns, 3 ) );
@@ -163,8 +169,13 @@ class LLMS_Admin_Post_Table_Courses {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		if ( 'lessons' !== $column ) {
+		if ( ! in_array( $column, array( 'lessons', 'course_id' ), true ) ) {
 			return $column;
+		}
+
+		if ( 'course_id' === $column ) {
+			echo $post_id;
+			return;
 		}
 
 		// Get a count of lessons in the course.

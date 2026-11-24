@@ -45,14 +45,29 @@ class LLMS_Export_API {
 				'timeout' => 15,
 			)
 		);
+		if ( is_wp_error( $req ) ) {
+			return $req;
+		}
+
+		$code = wp_remote_retrieve_response_code( $req );
 		$body = json_decode( wp_remote_retrieve_body( $req ), true );
-		if ( 200 === wp_remote_retrieve_response_code( $req ) ) {
+		if ( 200 === $code && is_array( $body ) ) {
 			return $body;
 		}
 
-		// If there's a body it's a json encoded error object, otherwise it's already an error object.
-		return $body && ! empty( $body['code'] ) ? new WP_Error( $body['code'], $body['message'], $body['data'] ) : $req;
+		// A JSON-encoded error object from the API.
+		if ( is_array( $body ) && ! empty( $body['code'] ) ) {
+			return new WP_Error( $body['code'], $body['message'] ?? '', $body['data'] ?? null );
+		}
 
+		return new WP_Error(
+			'llms-export-api-invalid-response',
+			sprintf(
+				// Translators: %s = HTTP response status code.
+				__( 'Unexpected response from the LifterLMS.com exports API (HTTP status code: %s).', 'lifterlms' ),
+				$code ? $code : __( 'none', 'lifterlms' )
+			)
+		);
 	}
 
 	/**

@@ -234,6 +234,18 @@
 		margin: 20px auto;
 		padding: 0;
 
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			box-shadow: none;
+			margin: 0;
+			border-top: 1px solid #e0e0e0;
+			border-bottom: 1px solid #e0e0e0;
+
+			.llms-nav-items {
+				padding-left: 16px;
+				padding-right: 16px;
+			}
+		}
+
 		.llms-reporting-stab {
 			padding: 30px;
 
@@ -324,6 +336,11 @@
 	.llms-reporting-tab-main {
 		flex: 3;
 		max-width: 75%;
+
+		// No events sidebar (e.g. the single student's course view): use the full width.
+		&:only-child {
+			max-width: none;
+		}
 	}
 	.llms-reporting-tab-side {
 		flex: 1;
@@ -339,6 +356,31 @@
 
 .llms-reporting-widgets {
 	@include clearfix;
+}
+
+// Stat tile grid. Flexbox keeps tiles on aligned rows regardless of how many are
+// shown or how tall any one tile is, unlike the legacy float grid where an uneven
+// tile height (or a tile added by an add-on) would snag and land in the wrong column.
+.llms-reporting-widgets-grid {
+	align-items: stretch;
+	clear: both; // Header actions (e.g. the PDF "Download" button) float right; keep tiles below, not beside, them.
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+	row-gap: 10px;
+
+	// The column wrappers (.d-1of3, .d-1of5, ...) still supply the per-tile width and
+	// horizontal gutter; flex just replaces their float-based flow.
+	> * {
+		box-sizing: border-box;
+		display: flex;
+		float: none;
+	}
+
+	.llms-reporting-widget {
+		flex: 1 1 auto;
+		margin-bottom: 0;
+	}
 }
 
 .llms-reporting-widget {

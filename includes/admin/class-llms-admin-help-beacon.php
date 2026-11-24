@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Settings, Reporting, etc.) and on the screens that live under the Courses,
  * Memberships, Engagements, and Orders admin menus. This includes the post types
  * nested under those menus (e.g. Achievements, Certificates, and Emails under
- * Engagements; Coupons and Vouchers under Orders) and their taxonomy screens.
+ * Engagements; Customers, Coupons, and Vouchers under Orders) and their taxonomy screens.
  *
  * For the Courses and Memberships menus the beacon is intentionally not loaded on
  * the block editor (add or edit), where it would clutter the editing UI. For the
@@ -90,6 +90,7 @@ class LLMS_Admin_Help_Beacon {
 			'lifterlms_page_llms-status',
 			'lifterlms_page_llms-resources',
 			'lifterlms_page_llms-add-ons',
+			'llms_order_page_llms-customers',
 		);
 
 		/**
@@ -117,8 +118,8 @@ class LLMS_Admin_Help_Beacon {
 		 * These are grouped by the admin menu they live under. The Courses and Memberships
 		 * menus omit the `post` base so the beacon does not clutter the block editor. The
 		 * Engagements menu (engagements, achievements, certificates, emails) and the Orders
-		 * menu (orders, coupons, vouchers) include the `post` base so the beacon appears on
-		 * all of their pages, including the editors.
+		 * menu (orders, customers, coupons, vouchers) include the `post` base so the beacon
+		 * appears on all of their pages, including the editors.
 		 */
 		$post_types = array(
 			// Courses menu.

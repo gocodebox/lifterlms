@@ -47,12 +47,11 @@ class LLMS_Helper_Admin_Add_Ons {
 		// Filter the content display for a section.
 		add_filter( 'llms_admin_add_ons_get_current_section_default_content', array( $this, 'filter_get_current_section_content' ), 10, 2 );
 
-		// Add install & update actions to the list of available management actions powered by the bulk actions functions in core.
+		// Add the install action to the list of available management actions powered by the bulk actions functions in core.
 		add_filter( 'llms_admin_add_ons_manage_actions', array( $this, 'filter_manage_actions' ) );
 
-		// Output html for helper-powered actions (install & update).
+		// Output html for the helper-powered install action.
 		add_action( 'llms_add_ons_single_item_actions', array( $this, 'output_single_install_action' ), 5, 2 );
-		add_action( 'llms_add_ons_single_item_after_actions', array( $this, 'output_single_update_action' ), 5, 2 );
 
 		add_filter( 'llms_admin_addon_features_exclude_ids', array( $this, 'filter_feature_exclude_ids' ) );
 	}
@@ -114,7 +113,9 @@ class LLMS_Helper_Admin_Add_Ons {
 	}
 
 	/**
-	 * Add installatino & update actions to the list of available management actions
+	 * Add the installation action to the list of available management actions.
+	 *
+	 * Updates are applied from the WordPress Plugins or Themes screen.
 	 *
 	 * @since 3.0.0
 	 *
@@ -122,7 +123,7 @@ class LLMS_Helper_Admin_Add_Ons {
 	 * @return array
 	 */
 	public function filter_manage_actions( $actions ) {
-		return array_merge( array( 'install', 'update' ), $actions );
+		return array_merge( array( 'install' ), $actions );
 	}
 
 	/**
@@ -344,40 +345,6 @@ class LLMS_Helper_Admin_Add_Ons {
 				<span class="llms-status-text"><?php esc_html_e( 'Install', 'lifterlms' ); ?></span>
 			</label>
 			<a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $addon->get( 'id' ) . '&section=changelog&TB_iframe=true&width=600&height=800' ) ); ?>" class="thickbox open-plugin-details-modal tip--bottom-left" data-tip="<?php esc_attr_e( 'View add-on details', 'lifterlms' ); ?>">
-				<i class="fa fa-info-circle" aria-hidden="true"></i>
-			</a>
-			<?php
-		}
-	}
-
-	/**
-	 * Output html for update action
-	 *
-	 * Does not output for "featured" items on general settings.
-	 *
-	 * @since 3.0.0
-	 * @since 3.2.1 Output single update action if the addon doesn't require license (e.g. free product).
-	 * @since 3.4.0 Use core textdomain.
-	 *
-	 * @param obj    $addon    LLMS_Add_On instance.
-	 * @param string $curr_tab Slug of the current tab being viewed.
-	 * @return void
-	 */
-	public function output_single_update_action( $addon, $curr_tab ) {
-
-		if ( 'featured' === $curr_tab || ! current_user_can( 'install_plugins' ) ) {
-			return;
-		}
-
-		if ( $addon->is_installable() && $addon->is_installed() && ( ! $addon->requires_license() || $addon->is_licensed() ) && $addon->has_available_update() ) {
-			?>
-			<label class="llms-status-icon status--update-available" for="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>">
-				<input class="llms-bulk-check" data-action="update" name="llms_update[]" id="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
-				<i class="fa fa-check-square-o" aria-hidden="true"></i>
-				<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-				<span class="llms-status-text"><?php esc_html_e( 'Update', 'lifterlms' ); ?></span>
-			</label>
-			<a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $addon->get( 'id' ) . '&section=changelog&TB_iframe=true&width=600&height=800' ) ); ?>" class="thickbox open-plugin-details-modal tip--bottom-left" data-tip="<?php esc_attr_e( 'View update details', 'lifterlms' ); ?>">
 				<i class="fa fa-info-circle" aria-hidden="true"></i>
 			</a>
 			<?php

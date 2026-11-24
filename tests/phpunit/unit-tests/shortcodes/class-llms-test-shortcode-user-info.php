@@ -69,6 +69,10 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 		$this->assertShortcodeOutputEquals( '', '[llms-user first_name]' );
 		$this->assertShortcodeOutputEquals( 'Pal', '[llms-user first_name or="Pal"]' );
 
+		// Markup rebuilt from escaped attribute values is filtered; newer WordPress versions never rebuild it.
+		$expect = $this->wp_encodes_escaped_shortcode_markup() ? '&lt;em&gt;Pal&lt;/em&gt;&lt;img src=x onerror=alert(1)&gt;' : '<em>Pal</em><img src="x">';
+		$this->assertShortcodeOutputEquals( $expect, '[llms-user or=\x3cem\x3ePal\x3c/em\x3e\x3cimg\x20src=x\x20onerror=alert(1)\x3e]' );
+
 	}
 
 	/**
@@ -96,6 +100,9 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 
 		// Blocked.
 		$this->assertShortcodeOutputEquals( '', '[llms-user user_pass]' );
+
+		update_user_meta( $user->ID, 'description', '<strong>Bio</strong><img src="x" onerror="alert(1)">' );
+		$this->assertShortcodeOutputEquals( '<strong>Bio</strong><img src="x">', '[llms-user description]' );
 
 		update_user_meta( $user->ID, 'llms_phone', '123456789' );
 		$this->assertShortcodeOutputEquals( '123456789', '[llms-user llms_phone]' );

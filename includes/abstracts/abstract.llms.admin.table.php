@@ -425,6 +425,20 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
+	 * Whether the current user may load or export this table.
+	 *
+	 * Reporting tables use `view_lifterlms_reports`. Tables that show order data
+	 * override this with the Orders screen capability.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return bool
+	 */
+	public function user_can_access() {
+		return current_user_can( 'view_lifterlms_reports' );
+	}
+
+	/**
 	 * Retrieve the max number of pages for the table.
 	 *
 	 * @since 3.15.0
@@ -650,7 +664,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	public function output_table_search_form_html() {
 		?>
 		<div class="llms-table-search">
-			<input class="regular-text" id="<?php echo esc_attr( $this->id ); ?>-search-input" placeholder="<?php echo esc_attr( $this->get_table_search_form_placeholder() ); ?>" type="text">
+			<input autocomplete="off" class="regular-text" id="<?php echo esc_attr( $this->id ); ?>-search-input" placeholder="<?php echo esc_attr( $this->get_table_search_form_placeholder() ); ?>" type="text">
 		</div>
 		<?php
 	}
@@ -886,7 +900,10 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		<tr>
 			<?php foreach ( $this->get_columns() as $id => $data ) : ?>
 				<th class="<?php echo esc_attr( $id ); ?>">
-					<?php if ( is_array( $data ) ) : ?>
+					<?php if ( 'cb' === $id ) : ?>
+						<input class="llms-table-select-all" id="llms-table-select-all-<?php echo esc_attr( $this->id ); ?>" type="checkbox">
+						<label for="llms-table-select-all-<?php echo esc_attr( $this->id ); ?>"><span class="screen-reader-text"><?php esc_html_e( 'Select All', 'lifterlms' ); ?></span></label>
+					<?php elseif ( is_array( $data ) ) : ?>
 						<?php if ( isset( $data['sortable'] ) && $data['sortable'] ) : ?>
 							<a class="llms-sortable<?php echo ( $this->get_orderby() === $id ) ? ' active' : ''; ?>" data-order="<?php echo esc_attr( $this->get_new_order( $id ) ); ?>" data-orderby="<?php echo esc_attr( $id ); ?>" href="#llms-gb-table-resort">
 								<?php echo esc_html( $data['title'] ); ?>

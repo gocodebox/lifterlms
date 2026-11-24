@@ -112,6 +112,36 @@ class LLMS_Media_Protector {
 	public const URL_PARAMETER_ID = 'llms_media_id';
 
 	/**
+	 * The name of the URL parameter for a signed download URL's expiration timestamp.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_EXPIRES = 'llms_media_expires';
+
+	/**
+	 * The name of the URL parameter for a signed download URL's HMAC token.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_TOKEN = 'llms_media_token';
+
+	/**
+	 * The name of the cosmetic URL parameter carrying the file name on signed download URLs.
+	 *
+	 * Not used for validation. Appended last so the URL string ends with the file
+	 * extension, which helps clients that detect file types from the URL.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_FILE = 'llms_media_file';
+
+	/**
 	 * The name of the URL parameter for when the LifterLMS rewrite rule changes a URL that directly accesses the
 	 * 'llms-uploads' directory into '/index.php?llms_protected_url=llms-uploads/PATH_TO_FILE'.
 	 *
@@ -177,6 +207,7 @@ class LLMS_Media_Protector {
 	 * by {@see LLMS_Media_Protector::register_callbacks()}.
 	 *
 	 * @since 7.7.0
+	 * @since 11.0.0 Return `$image` unchanged when it is not an array, e.g. for non-image attachments.
 	 *
 	 * @param array|false  $image    {
 	 *     Array of image data, or boolean false if no image is available.
@@ -206,6 +237,11 @@ class LLMS_Media_Protector {
 		} elseif ( false === $is_authorized ) {
 			// Return the same thing that wp_get_attachment_image_src would return if no image found.
 			return false;
+		}
+
+		if ( ! is_array( $image ) ) {
+			// No image source to rewrite, e.g. a non-image attachment without an icon.
+			return $image;
 		}
 
 		$image[0] = add_query_arg(
@@ -278,6 +314,7 @@ class LLMS_Media_Protector {
 		$attachment = get_post( $media_id );
 		if ( $attachment && 'attachment' === $attachment->post_type && isset( $_REQUEST['llms'] ) && '1' === $_REQUEST['llms'] ) {
 			$this->add_authorization_meta_to_media_post( $media_id );
+			$this->protect_upload_folder();
 		}
 	}
 
@@ -399,9 +436,58 @@ class LLMS_Media_Protector {
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ), 10, 1 );
 		$media_id = media_handle_upload( $file_id, $post_id, $post_data, $overrides );
 		remove_filter( 'upload_dir', array( $this, 'upload_dir' ), 10 );
-		$this->add_authorization_meta_to_media_post( $media_id );
+		$this->add_authorization_meta_to_media_post( $media_id, $hook_name );
+		$this->protect_upload_folder();
 
 		return $media_id;
+	}
+
+	/**
+	 * Returns the IDs of attachments embedded in HTML content, such as a quiz question description.
+	 *
+	 * Finds images inserted by the editor (`wp-image-{ID}` class) and protected media URLs (`llms_media_id` parameter).
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content HTML content.
+	 * @return int[]
+	 */
+	public function get_media_ids_in_content( $content ) {
+
+		if ( ! is_string( $content ) || ! preg_match_all( '/wp-image-(\d+)|[?&;]' . self::URL_PARAMETER_ID . '=(\d+)/', $content, $matches ) ) {
+			return array();
+		}
+
+		return array_values( array_unique( array_filter( array_map( 'absint', array_merge( $matches[1], $matches[2] ) ) ) ) );
+	}
+
+	/**
+	 * Links a media file to a quiz so students who attempt the quiz are authorized to view it.
+	 *
+	 * Keeps quiz IDs already linked to the media file. Callers must check that the user may edit the media file.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $quiz_id  WP_Post ID of the quiz.
+	 * @return void
+	 */
+	public function link_to_quiz( $media_id, $quiz_id ) {
+
+		$media_id = absint( $media_id );
+		$quiz_id  = absint( $quiz_id );
+		if ( ! $media_id || ! $quiz_id ) {
+			return;
+		}
+
+		$quiz_ids = get_post_meta( $media_id, '_llms_quiz_id', true );
+		if ( ! is_array( $quiz_ids ) ) {
+			$quiz_ids = array();
+		}
+		if ( ! in_array( $quiz_id, array_map( 'absint', $quiz_ids ), true ) ) {
+			$quiz_ids[] = $quiz_id;
+			update_post_meta( $media_id, '_llms_quiz_id', $quiz_ids );
+		}
 	}
 
 	/**
@@ -413,6 +499,90 @@ class LLMS_Media_Protector {
 	 */
 	public function is_media_protected( $media_id ) {
 		return (bool) get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
+	}
+
+	/**
+	 * Returns a time-limited, signed URL which allows the media file to be downloaded
+	 * without a WordPress session.
+	 *
+	 * The token authorizes access to this one file until the expiration timestamp,
+	 * similar to an S3 presigned URL. Only generate signed URLs in contexts that have
+	 * already verified the current user may access the file (e.g. REST responses
+	 * behind a permission check).
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $ttl      Optional. Number of seconds the URL remains valid. Default `HOUR_IN_SECONDS`.
+	 * @return string The signed URL, or an empty string if the media file doesn't exist.
+	 */
+	public function get_signed_url( $media_id, $ttl = HOUR_IN_SECONDS ) {
+
+		$media_id = absint( $media_id );
+
+		if ( ! $media_id || 'attachment' !== get_post_type( $media_id ) ) {
+			return '';
+		}
+
+		/**
+		 * Filters the number of seconds a signed media download URL remains valid.
+		 *
+		 * @since 10.2.0
+		 *
+		 * @param int $ttl      Time-to-live, in seconds.
+		 * @param int $media_id The post ID of the media file.
+		 */
+		$ttl = apply_filters( 'llms_media_signed_url_ttl', $ttl, $media_id );
+
+		$expires = time() + max( 1, absint( $ttl ) );
+
+		$args = array(
+			self::URL_PARAMETER_ID      => $media_id,
+			self::URL_PARAMETER_EXPIRES => $expires,
+			self::URL_PARAMETER_TOKEN   => $this->get_signed_url_token( $media_id, $expires ),
+		);
+
+		// Cosmetic, unvalidated: keep the file name last so the URL ends with the extension.
+		$filename = basename( (string) get_post_meta( $media_id, '_wp_attached_file', true ) );
+		if ( $filename ) {
+			$args[ self::URL_PARAMETER_FILE ] = rawurlencode( $filename );
+		}
+
+		return add_query_arg( $args, trailingslashit( home_url() ) );
+	}
+
+	/**
+	 * Computes the HMAC token for a signed media download URL.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $expires  Unix timestamp when the token expires.
+	 * @return string
+	 */
+	protected function get_signed_url_token( $media_id, $expires ) {
+		return hash_hmac( 'sha256', absint( $media_id ) . ':' . absint( $expires ), wp_salt( 'auth' ) );
+	}
+
+	/**
+	 * Determines whether the current request carries a valid, unexpired signed URL token
+	 * for the given media file.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @return bool
+	 */
+	public function is_valid_signed_request( $media_id ) {
+
+		$token   = (string) llms_filter_input( INPUT_GET, self::URL_PARAMETER_TOKEN );
+		$expires = absint( llms_filter_input( INPUT_GET, self::URL_PARAMETER_EXPIRES, FILTER_SANITIZE_NUMBER_INT ) );
+
+		if ( ! $token || ! $expires || time() > $expires ) {
+			return false;
+		}
+
+		return hash_equals( $this->get_signed_url_token( $media_id, $expires ), $token );
 	}
 
 	/**
@@ -470,10 +640,11 @@ class LLMS_Media_Protector {
 			$is_authorized = true;
 		} else {
 			$user          = wp_get_current_user();
-			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || intval( get_post_field( 'post_author', $media_id ) ) === $user_id;
+			// Only a real user can be the uploader: logged-out visitors (user ID 0) would otherwise match media with no author.
+			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || ( $user_id > 0 && intval( get_post_field( 'post_author', $media_id ) ) === $user_id );
 		}
 
-		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
+		// Allow student to view if they have an attempt for a quiz this media is for.
 		if ( ! $is_authorized && llms_get_student() ) {
 			// Check if the student is enrolled in a course that has access to the media.
 			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
@@ -485,20 +656,12 @@ class LLMS_Media_Protector {
 			}
 
 			if ( ! $is_authorized ) {
-				$authorized_quiz_ids = (array) get_post_meta( $media_id, '_llms_quiz_id', true );
+				// Ignore empty and invalid quiz IDs.
+				$authorized_quiz_ids = array_filter( array_map( 'absint', (array) get_post_meta( $media_id, '_llms_quiz_id', true ) ) );
 
-				if ( $authorized_quiz_ids ) {
-					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
-					foreach ( $student_quizzes as $student_quiz_attempt ) {
-						$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
-						if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
-							continue;
-						}
-						if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
-							$is_authorized = true;
-							break;
-						}
-					}
+				// Any attempt counts: an incomplete one is the quiz being taken, a finished one shows its images on the results page.
+				if ( $authorized_quiz_ids && llms_get_student()->quizzes()->get_all( $authorized_quiz_ids ) ) {
+					$is_authorized = true;
 				}
 			}
 		}
@@ -709,13 +872,21 @@ class LLMS_Media_Protector {
 		// TODO: Different for multi-site?
 
 		if ( false === get_transient( 'lifterlms_check_media_protection_files' ) ) {
+
+			// Check at most once a day on admin requests, even when the folder
+			// can't be protected yet: protected uploads, which create the
+			// folder, run the check right away (see {@see LLMS_Media_Protector::protect_upload_folder()}).
+			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
+
 			global $wp_filesystem;
 			/** @var WP_Filesystem_Base $wp_filesystem */
 
 			/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 
-			WP_Filesystem();
+			if ( ! WP_Filesystem() ) {
+				return;
+			}
 
 			$uploads = wp_get_upload_dir();
 
@@ -723,6 +894,11 @@ class LLMS_Media_Protector {
 			$htaccess_file = $upload_path . '/.htaccess';
 
 			$upload_path_writeable = $wp_filesystem->is_writable( $upload_path );
+
+			// The folder is created by the first protected upload: check again until it exists.
+			if ( ! $upload_path_writeable ) {
+				return;
+			}
 
 			$rules  = "Options -Indexes\n";
 			$rules .= "deny from all\n";
@@ -765,9 +941,22 @@ class LLMS_Media_Protector {
 					$wp_filesystem->put_contents( $dir . 'index.html', '' );
 				}
 			}
-
-			set_transient( 'lifterlms_check_media_protection_files', true, DAY_IN_SECONDS );
 		}
+	}
+
+	/**
+	 * Adds the protection files to the upload directory right after a protected upload.
+	 *
+	 * The first protected upload creates the directory, so the daily check of
+	 * {@see LLMS_Media_Protector::save_mod_rewrite_rules()} is run again regardless of when it last ran.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	private function protect_upload_folder() {
+		delete_transient( 'lifterlms_check_media_protection_files' );
+		$this->save_mod_rewrite_rules();
 	}
 
 	/**
@@ -966,12 +1155,17 @@ class LLMS_Media_Protector {
 			llms_exit();
 		}
 
-		// Is the user authorized to view the file?
-		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
-		if ( false === $is_authorized ) {
-			status_header( 404 );
-			nocache_headers();
-			die( 'File not found.' );
+		// Is the user authorized to view the file? A valid signed URL token authorizes the
+		// request on its own (time-limited delegation minted behind a permission check).
+		if ( $this->is_valid_signed_request( $media_id ) ) {
+			$is_authorized = true;
+		} else {
+			$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
+			if ( false === $is_authorized ) {
+				status_header( 404 );
+				nocache_headers();
+				die( 'File not found.' );
+			}
 		}
 
 		// An HTTP client, but not a proxy, is allowed to cache the file, but must check with the server before reuse.

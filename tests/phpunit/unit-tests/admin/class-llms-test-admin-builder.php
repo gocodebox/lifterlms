@@ -915,6 +915,68 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test that saving a question links its image, choice images, and images in its description and clarifications
+	 * to the quiz, including inside a question group.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_questions_links_images_to_quiz() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1, 'questions' => 0 ) );
+		$quiz   = $course->get_lessons()[0]->get_quiz();
+		$images = $this->factory->post->create_many( 5, array( 'post_type' => 'attachment' ) );
+
+		// The question image is already linked to another quiz, which must be kept.
+		update_post_meta( $images[0], '_llms_quiz_id', array( 123456 ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_questions',
+			array(
+				array(
+					array(
+						'id'            => 'temp_1',
+						'title'         => 'Pick one',
+						'question_type' => 'picture_choice',
+						'image'         => array( 'enabled' => 'yes', 'id' => $images[0], 'src' => '' ),
+						'content'       => '<p><img class="alignnone size-full wp-image-' . $images[3] . '" src="https://example.org/x.png"></p>',
+						'clarifications' => '<img src="https://example.org/?llms_media_id=' . $images[4] . '&amp;llms_media_image_size=full">',
+						'choices'       => array(
+							array( 'id' => 'temp_2', 'choice_type' => 'image', 'choice' => array( 'id' => $images[1], 'src' => '' ), 'marker' => 'A' ),
+						),
+					),
+					array(
+						'id'            => 'temp_3',
+						'title'         => 'Group',
+						'question_type' => 'group',
+						'questions'     => array(
+							array(
+								'id'            => 'temp_4',
+								'title'         => 'In group',
+								'question_type' => 'choice',
+								'image'         => array( 'enabled' => 'yes', 'id' => $images[2], 'src' => '' ),
+							),
+						),
+					),
+				),
+				$quiz,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( array( 123456, $quiz->get( 'id' ) ), get_post_meta( $images[0], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[1], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[2], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[3], '_llms_quiz_id', true ) );
+		$this->assertEquals( array( $quiz->get( 'id' ) ), get_post_meta( $images[4], '_llms_quiz_id', true ) );
+	}
+
+	/**
 	 * Test that a user who can edit one course cannot use a builder heartbeat to move one of its
 	 * questions into a quiz belonging to a course they are not allowed to edit.
 	 *
@@ -996,6 +1058,319 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
 		// Quiz B gains no questions from the crafted request.
 		$this->assertEquals( $quiz_b_count_start, count( $quiz_b->get_questions() ) );
+	}
+
+	/**
+	 * Test attaching an orphan lesson via update_lessons while also updating title and slug.
+	 *
+	 * @since 10.1.1
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_can_attach_orphan_with_title_and_name() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+		$section = $course->get_sections()[0];
+
+		// Orphan lesson (no parent course/section) with a quiz, matching the attach path.
+		$orphan_id = $this->factory->post->create( array(
+			'post_type'  => 'lesson',
+			'post_title' => 'Orphan Lesson',
+			'post_name'  => 'orphan-lesson',
+		) );
+		$orphan    = llms_get_post( $orphan_id );
+		$this->assertTrue( $orphan->is_orphan() );
+
+		$quiz = new LLMS_Quiz( 'new', array( 'post_title' => 'Orphan Quiz' ) );
+		$orphan->set( 'quiz', $quiz->get( 'id' ) );
+		$orphan->set( 'quiz_enabled', 'yes' );
+		$quiz->set( 'lesson_id', $orphan->get( 'id' ) );
+
+		$lessons_data = array(
+			array(
+				'id'             => $orphan->get( 'id' ),
+				'title'          => 'Attached Lesson Title',
+				'name'           => 'attached-lesson-slug',
+				'parent_course'  => $course->get( 'id' ),
+				'parent_section' => $section->get( 'id' ),
+				// Intentionally omit `order` — partial syncs after attach can leave it out,
+				// and the builder's section lesson query requires `_llms_order`.
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array( $lessons_data, $section, $course->get( 'id' ) )
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$orphan = llms_get_post( $orphan->get( 'id' ) );
+		$this->assertEquals( $course->get( 'id' ), $orphan->get( 'parent_course' ) );
+		$this->assertEquals( $section->get( 'id' ), $orphan->get( 'parent_section' ) );
+		$this->assertEquals( 'Attached Lesson Title', $orphan->get( 'title', true ) );
+		$this->assertEquals( 'attached-lesson-slug', $orphan->get( 'name' ) );
+		$this->assertNotEmpty( $orphan->get( 'order' ) );
+		$this->assertFalse( $orphan->is_orphan() );
+
+		// Fresh section instance — builder reload queries lessons by `_llms_parent_section` + `_llms_order`.
+		$section         = llms_get_post( $section->get( 'id' ) );
+		$section_lessons = $section->get_lessons( 'ids' );
+		$this->assertContains( $orphan->get( 'id' ), $section_lessons );
+	}
+
+	/**
+	 * A new lesson saved with content from the builder must keep the builder editor.
+	 *
+	 * New lessons sync every attribute, including the default empty
+	 * `content_added_in_builder` value. That empty value must not be stored as "no",
+	 * which hides the editor behind the outside-the-builder notice.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_content_is_added_in_builder() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$content = '<p>Adding some content here.</p>';
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => 'temp_1',
+						'title'                    => 'New Lesson',
+						'content'                  => $content,
+						'content_added_in_builder' => '',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( 'yes', $res[0]['content_added_in_builder'] );
+
+		$lesson = llms_get_post( $res[0]['id'] );
+		$this->assertEquals( $content, $lesson->get( 'content', true ) );
+		$this->assertEquals( 'yes', $lesson->get( 'content_added_in_builder' ) );
+	}
+
+	/**
+	 * Custom data on a new lesson is stored as-is and serialized strings are never unserialized.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_new_lesson_custom_data_is_not_unserialized() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 0,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'     => 'temp_1',
+						'title'  => 'New Lesson',
+						'custom' => array(
+							'_mock_array'        => array( array( 'data' => true ) ),
+							'_mock_string'       => array( 'value' ),
+							'_mock_object'       => array( 'O:8:"stdClass":0:{}' ),
+							'_mock_serialized'   => array( serialize( array( 'data' => true ) ) ),
+							'_mock_not_an_array' => 'value',
+						),
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$lesson_id = $res[0]['id'];
+		$this->assertEquals( array( 'data' => true ), get_post_meta( $lesson_id, '_mock_array', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_string', true ) );
+		$this->assertEquals( 'value', get_post_meta( $lesson_id, '_mock_not_an_array', true ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_object' ) );
+		$this->assertFalse( metadata_exists( 'post', $lesson_id, '_mock_serialized' ) );
+	}
+
+	/**
+	 * Content created outside the builder must not be overwritten by a builder save.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_does_not_overwrite_content_added_outside_builder() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$lesson  = $course->get_lessons()[0];
+		$lesson->set( 'content', '<p>Written in the block editor.</p>' );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => $lesson->get( 'id' ),
+						'content'                  => '<p>Builder content that must not replace the original.</p>',
+						'content_added_in_builder' => '',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+
+		$lesson = llms_get_post( $lesson->get( 'id' ) );
+		$this->assertEquals( '<p>Written in the block editor.</p>', $lesson->get( 'content', true ) );
+		$this->assertEquals( 'no', $lesson->get( 'content_added_in_builder' ) );
+	}
+
+	/**
+	 * Builder-added content later converted to blocks must not be editable or overwritten by the builder.
+	 *
+	 * The stored `content_added_in_builder` flag stays "yes" after a lesson is converted
+	 * to blocks in the block editor. The builder must detect the block content, skip the
+	 * client's content, and report the effective flag as "no" so the editor is replaced
+	 * with the outside-the-builder notice.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_update_lessons_skips_content_converted_to_blocks() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$course  = $this->factory->course->create_and_get(
+			array(
+				'sections' => 1,
+				'lessons'  => 1,
+				'quizzes'  => 0,
+			)
+		);
+		$section = $course->get_sections()[0];
+		$lesson  = $course->get_lessons()[0];
+
+		// Content originally added in the builder, since converted to blocks in the block editor.
+		$block_content = "<!-- wp:paragraph -->\n<p>Converted to blocks.</p>\n<!-- /wp:paragraph -->";
+		$lesson->set( 'content', $block_content );
+		$lesson->set( 'content_added_in_builder', 'yes' );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				array(
+					array(
+						'id'                       => $lesson->get( 'id' ),
+						'content'                  => '<p>Stale builder tab content.</p>',
+						'content_added_in_builder' => 'yes',
+					),
+				),
+				$section,
+				$course->get( 'id' ),
+			)
+		);
+
+		$this->assertArrayNotHasKey( 'error', $res[0] );
+		$this->assertEquals( 'no', $res[0]['content_added_in_builder'] );
+
+		$lesson = llms_get_post( $lesson->get( 'id' ) );
+		$this->assertEquals( $block_content, $lesson->get( 'content', true ) );
+	}
+
+	/**
+	 * Deleting every section records that the demo outline should not be inserted again.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @return void
+	 */
+	public function test_dismiss_starter_outline() {
+
+		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0, 'lessons' => 0 ) );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+
+		$this->assertTrue( $res['dismissed'] );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_starter_outline_dismissed', array( $course_id ) ) );
+
+		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $student );
+		$denied = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'handle_ajax',
+			array(
+				array(
+					'action_type' => 'dismiss_starter',
+					'course_id'   => $course_id,
+				),
+			)
+		);
+		$this->assertSame( array(), $denied );
+
 	}
 
 	/**

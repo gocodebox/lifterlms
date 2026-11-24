@@ -84,9 +84,10 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{TITLE}}'        => __( 'Title', 'lifterlms' ),
-			'{{TYPE}}'         => __( 'Type (Course or Membership)', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
+			'{{TITLE}}'             => __( 'Title', 'lifterlms' ),
+			'{{TYPE}}'              => __( 'Type (Course or Membership)', 'lifterlms' ),
+			'{{STUDENT_NAME}}'      => __( 'Student Name or "You"', 'lifterlms' ),
+			'{{STUDENT_FULL_NAME}}' => __( 'Student Full Name', 'lifterlms' ),
 		);
 	}
 
@@ -112,6 +113,10 @@ class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View 
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				break;
+
+			case '{{STUDENT_FULL_NAME}}':
+				$code = $this->user->get_name();
 				break;
 
 		}

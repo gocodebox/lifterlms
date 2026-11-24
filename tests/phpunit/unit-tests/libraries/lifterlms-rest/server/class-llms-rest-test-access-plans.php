@@ -222,6 +222,41 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * New access plans are ordered after the product's existing plans unless a menu_order is requested.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_access_plan_menu_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+		$other  = $this->factory->course->create( array( 'sections' => 0 ) );
+		$create = function ( $product_id, $args = array() ) {
+			$response = $this->perform_mock_request(
+				'POST',
+				$this->route,
+				array_merge( $this->sample_access_plan_args, array( 'post_id' => $product_id ), $args )
+			);
+			$this->assertResponseStatusEquals( 201, $response );
+			return $response->get_data()['menu_order'];
+		};
+
+		$this->assertEquals( 1, $create( $course ) );
+		$this->assertEquals( 2, $create( $course ) );
+
+		// An explicit order is kept, and later plans follow the highest one.
+		$this->assertEquals( 5, $create( $course, array( 'menu_order' => 5 ) ) );
+		$this->assertEquals( 6, $create( $course ) );
+
+		// Another product's plans don't count.
+		$this->assertEquals( 1, $create( $other ) );
+
+	}
+
+	/**
 	 * Test producing bad request error when creating a single access-plans
 	 *
 	 * @since 1.0.0-beta.18
@@ -1089,6 +1124,44 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * Test the access plan limit check when `post_id` is not a single course or membership ID.
+	 *
+	 * WordPress runs the create permission check with the collection request when it computes the `Allow` header.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plan_limit_check_with_non_product_post_id() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		// A deleted product that still has the maximum number of access plans.
+		$deleted_product = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $this->factory->post->create_many( 6, array( 'post_type' => $this->post_type ) ) as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', $deleted_product );
+		}
+		wp_delete_post( $deleted_product, true );
+
+		// A course with the maximum number of access plans, requested as the collection's list of IDs.
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $this->factory->post->create_many( 6, array( 'post_type' => $this->post_type ) ) as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', $course );
+		}
+
+		foreach ( array( $deleted_product, array( $course ) ) as $post_id ) {
+			$request = new WP_REST_Request( 'GET', $this->route );
+			$request->set_param( 'post_id', $post_id );
+			$this->assertTrue( $this->endpoint->create_item_permissions_check( $request ) );
+		}
+
+		// The limit is still enforced for a single course ID.
+		$request = new WP_REST_Request( 'POST', $this->route );
+		$request->set_param( 'post_id', $course );
+		$this->assertWPErrorCodeEquals( 'llms_rest_bad_request', $this->endpoint->create_item_permissions_check( $request ) );
+	}
+
+	/**
 	 * Test creation defaults respected
 	 *
 	 * @since 1.0.0-beta.18
@@ -1125,6 +1198,8 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 
 			'trial_length' => 0, // This is not set if 'trial_offer' is 'no' (default).
 			'trial_period' => '', // This is not set if 'trial_offer' is 'no' (default).
+
+			'menu_order' => 1, // The default 0 means "after the product's existing plans", and this is its first plan.
 		);
 
 		foreach ( array_merge( $this->defaults, $deps ) as $prop => $val ) {
@@ -1315,6 +1390,108 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 			$response->get_links()['post'][0]['href']
 		);
 
+
+	}
+
+	/**
+	 * Hidden access plans are only output to users who can edit the plan or its related product.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_hidden_access_plans_readability() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+		$visible = new LLMS_Access_Plan( 'new', 'Visible plan' );
+		$visible->set( 'product_id', $course->get( 'id' ) );
+
+		$hidden = new LLMS_Access_Plan( 'new', 'Hidden plan' );
+		$hidden->set( 'product_id', $course->get( 'id' ) );
+		$hidden->set_visibility( 'hidden' );
+
+		$query = array( 'post_id' => $course->get( 'id' ) );
+		$cases = array(
+			'anonymous'           => array( 0, 401, false ),
+			'student'             => array( $this->factory->user->create( array( 'role' => 'student' ) ), 403, false ),
+			'other instructor'    => array( $this->factory->user->create( array( 'role' => 'instructor' ) ), 403, false ),
+			'course instructor'   => array( $instructor, 200, true ),
+			'administrator'       => array( $this->user_allowed, 200, true ),
+		);
+
+		foreach ( $cases as $who => $case ) {
+
+			list( $user_id, $single_status, $can_read_hidden ) = $case;
+			wp_set_current_user( $user_id );
+
+			$expected = $can_read_hidden ? array( $visible->get( 'id' ), $hidden->get( 'id' ) ) : array( $visible->get( 'id' ) );
+
+			$res = $this->perform_mock_request( 'GET', $this->route, array(), $query );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+			$this->assertEqualSets( $expected, wp_list_pluck( $res->get_data(), 'id' ), $who );
+			$this->assertEquals( count( $expected ), $res->get_headers()['X-WP-Total'], $who );
+
+			$res = $this->perform_mock_request( 'GET', $this->route . '/' . $hidden->get( 'id' ) );
+			$this->assertResponseStatusEquals( $single_status, $res, $who );
+
+			$res = $this->perform_mock_request( 'GET', $this->route . '/' . $visible->get( 'id' ) );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+
+		}
+
+	}
+
+	/**
+	 * Access plans of draft and private products are only output to users who can read the product.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_access_plans_of_unpublished_products_readability() {
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$plans = array();
+		foreach ( array( 'publish', 'draft', 'private' ) as $status ) {
+			$course = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+			wp_update_post( array( 'ID' => $course->get( 'id' ), 'post_status' => $status ) );
+			$course->set_instructors( array( array( 'id' => $instructor ) ) );
+
+			$plan = new LLMS_Access_Plan( 'new', "Plan of a {$status} course" );
+			$plan->set( 'product_id', $course->get( 'id' ) );
+			$plans[ $status ] = $plan->get( 'id' );
+		}
+
+		$cases = array(
+			'anonymous'         => array( 0, 401, array( 'publish' ) ),
+			'student'           => array( $this->factory->user->create( array( 'role' => 'student' ) ), 403, array( 'publish' ) ),
+			'other instructor'  => array( $this->factory->user->create( array( 'role' => 'instructor' ) ), 403, array( 'publish' ) ),
+			'course instructor' => array( $instructor, 403, array( 'publish', 'draft', 'private' ) ),
+			'administrator'     => array( $this->user_allowed, 403, array( 'publish', 'draft', 'private' ) ),
+		);
+
+		foreach ( $cases as $who => $case ) {
+
+			list( $user_id, $forbidden_status, $readable ) = $case;
+			wp_set_current_user( $user_id );
+
+			$expected = array_values( array_intersect_key( $plans, array_flip( $readable ) ) );
+
+			$res = $this->perform_mock_request( 'GET', $this->route, array(), array( 'include' => array_values( $plans ) ) );
+			$this->assertResponseStatusEquals( 200, $res, $who );
+			$this->assertEqualSets( $expected, wp_list_pluck( $res->get_data(), 'id' ), $who );
+			$this->assertEquals( count( $expected ), $res->get_headers()['X-WP-Total'], $who );
+
+			foreach ( $plans as $status => $plan_id ) {
+				$res = $this->perform_mock_request( 'GET', $this->route . '/' . $plan_id );
+				$this->assertResponseStatusEquals( in_array( $status, $readable, true ) ? 200 : $forbidden_status, $res, "$who $status" );
+			}
+		}
 
 	}
 

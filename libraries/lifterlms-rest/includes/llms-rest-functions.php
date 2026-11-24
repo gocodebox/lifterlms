@@ -32,19 +32,21 @@ function llms_rest_api_hash( $data ) {
  *
  * @see LLMS_REST_Webhook::schedule()
  *
- * @param int   $webhook_id Webhook id.
- * @param array $args Numeric array of arguments from the originating hook.
+ * @param int    $webhook_id  Webhook id.
+ * @param array  $args        Numeric array of arguments from the originating hook.
+ * @param int    $attempt     Delivery attempt. The first attempt is 1.
+ * @param string $delivery_id Delivery ID shared by every attempt. Generated when empty.
  * @return void
  */
-function llms_rest_deliver_webhook_async( $webhook_id, $args ) {
+function llms_rest_deliver_webhook_async( $webhook_id, $args, $attempt = 1, $delivery_id = '' ) {
 
 	$webhook = LLMS_REST_API()->webhooks()->get( $webhook_id );
 	if ( $webhook ) {
-		$webhook->deliver( $args );
+		$webhook->deliver( $args, $attempt, $delivery_id );
 	}
 
 }
-add_action( 'lifterlms_rest_deliver_webhook_async', 'llms_rest_deliver_webhook_async', 10, 2 );
+add_action( 'lifterlms_rest_deliver_webhook_async', 'llms_rest_deliver_webhook_async', 10, 4 );
 
 /**
  * Get data from a WP Rest API endpoint.
@@ -53,9 +55,10 @@ add_action( 'lifterlms_rest_deliver_webhook_async', 'llms_rest_deliver_webhook_a
  *
  * @param string $endpoint API endpoint, eg "/llms/v1/courses".
  * @param array  $params Query params to add to the request.
+ * @param bool   $embed Whether to embed linked resources in the response data.
  * @return array|WP_Error
  */
-function llms_rest_get_api_endpoint_data( $endpoint, $params = array() ) {
+function llms_rest_get_api_endpoint_data( $endpoint, $params = array(), $embed = false ) {
 
 	$req = new WP_Rest_Request( 'GET', $endpoint );
 	if ( $params ) {
@@ -64,7 +67,7 @@ function llms_rest_get_api_endpoint_data( $endpoint, $params = array() ) {
 
 	$res    = rest_do_request( $req );
 	$server = rest_get_server();
-	$json   = wp_json_encode( $server->response_to_data( $res, false ) );
+	$json   = wp_json_encode( $server->response_to_data( $res, $embed ) );
 
 	return json_decode( $json, true );
 

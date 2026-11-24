@@ -1,5 +1,3 @@
-@use 'sass:color';
-
 @mixin clearfix() {
 	&:before,
 	&:after {
@@ -76,7 +74,7 @@
 @mixin order_status_badges() {
 
 	.llms-status {
-		border-radius: $radius-small;
+		border-radius: llms-var( radius-sm );
 		display: inline-block;
 		font-size: 13px;
 		font-weight: 700;
@@ -93,8 +91,8 @@
 		&.llms-completed,
 		&.llms-pass, // quiz
 		&.llms-txn-succeeded {
-			color: $color-green;
-			background-color: color.change( $color-green, $alpha: 0.15 );
+			color: llms-var( color-success );
+			background-color: llms-var( color-success-subtle );
 		}
 
 		&.llms-fail, // quiz
@@ -102,8 +100,8 @@
 		&.llms-expired,
 		&.llms-cancelled,
 		&.llms-txn-failed {
-			color: $color-red;
-			background-color: color.change( $color-red, $alpha: 0.15 );
+			color: llms-var( color-danger );
+			background-color: llms-var( color-danger-subtle );
 		}
 
 		&.llms-incomplete, // assignment
@@ -113,8 +111,8 @@
 		&.llms-refunded,
 		&.llms-txn-pending,
 		&.llms-txn-refunded {
-			color: $color-orange;
-			background-color: color.change( $color-orange, $alpha: 0.15 );
+			color: llms-var( color-warning );
+			background-color: llms-var( color-warning-subtle );
 		}
 
 	}

@@ -1,0 +1,12 @@
+allOf:
+  - $ref: '#/components/schemas/Certificate'
+  - type: object
+    properties:
+      title:
+        type: string
+        description: Raw title, used for administrative purposes.
+        example: Certificate of Completion Template
+      content:
+        type: string
+        description: Raw content of the certificate body. May contain LifterLMS merge codes which are resolved when the certificate is awarded.
+        example: <p>Awarded to {first_name} {last_name} on {current_date}.</p>

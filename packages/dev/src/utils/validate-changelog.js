@@ -29,20 +29,29 @@ function highlight( text, formatting = true ) {
  * Attributions are valid in the following formats:
  *   + GitHub username reference: @thomasplevy
  *   + Markdown link: [Jeffrey Lebowski](https://elduderino.geocites.com/)
+ *   + Plain name: Huzaifa Jawaid
  *
  * @since 0.0.1
+ * @since 0.3.1 Plain names are valid when no GitHub username is available.
  *
  * @param {string} attr User-submitted attribution string.
  * @return {boolean} Returns `true` if the attribution string is valid, otherwise `false`.
  */
 function isAttributionValid( attr ) {
-	attr = attr.toString();
+	attr = attr.toString().trim();
 
-	const firstChar = attr.charAt( 0 );
+	if ( ! attr ) {
+		return false;
+	}
 
 	// GitHub username.
-	if ( '@' === firstChar ) {
+	if ( '@' === attr.charAt( 0 ) ) {
 		return true;
+	}
+
+	// Plain name. Markdown-looking strings fall through so a broken link is rejected.
+	if ( ! /[[\]()]/.test( attr ) ) {
+		return ! /^\d+$/.test( attr );
 	}
 
 	const

@@ -58,7 +58,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -76,7 +75,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -113,10 +111,18 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 
 		if ( 'lesson' !== $post->get( 'type' ) ) {
 			llms_mark_incomplete( $request['id'], $post->get( 'id' ), $post->get( 'type' ) );
+		} else {
+			// The raw meta deletion above bypasses `llms_mark_incomplete()`, so reset the
+			// student's cached progress for the lesson's ancestors (section, course, tracks).
+			$student = llms_get_student( $request['id'] );
+			if ( $student ) {
+				foreach ( llms_get_progress_cache_keys( $post->get( 'id' ), 'lesson' ) as $key ) {
+					$student->set( $key, '' );
+				}
+			}
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -162,7 +168,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -179,7 +184,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		$response = $this->prepare_item_for_response( $object, $request );
 
 		return rest_ensure_response( $response );
-
 	}
 
 	/**
@@ -242,7 +246,7 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 					'readonly'    => true,
 				),
 				'status'       => array(
-					'description' => __( 'The status of the enrollment.', 'lifterlms' ),
+					'description' => __( 'The completion status of the item for the student.', 'lifterlms' ),
 					'enum'        => array( 'complete', 'incomplete' ),
 					'context'     => array( 'view', 'edit' ),
 					'type'        => 'string',
@@ -255,9 +259,14 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 					'type'        => 'number',
 					'readonly'    => true,
 				),
+				'grade'        => array(
+					'description' => __( 'Student\'s grade for the course or lesson as a percentage. `null` when no gradable elements have been graded yet.', 'lifterlms' ),
+					'type'        => array( 'number', 'null' ),
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
 			),
 		);
-
 	}
 
 	/**
@@ -303,11 +312,13 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 
 		$obj->status = $obj->progress < 100 ? 'incomplete' : 'complete';
 
+		$grade      = $student->get_grade( $post_id, false );
+		$obj->grade = is_numeric( $grade ) ? (float) $grade : null;
+
 		$obj->date_updated = $this->get_date( $student, $post, 'DESC' );
 		$obj->date_created = $this->get_date( $student, $post, 'ASC' );
 
 		return $obj;
-
 	}
 
 	/**
@@ -321,7 +332,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 	protected function get_object_id( $object ) {
 
 		return array( $object->student_id, $object->post_id );
-
 	}
 
 
@@ -339,7 +349,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		$prepared['id'] = $request['id'];
 
 		return $prepared;
-
 	}
 
 	/**
@@ -382,7 +391,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		);
 
 		return $links;
-
 	}
 
 	/**
@@ -397,7 +405,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 	protected function prepare_object_for_response( $object, $request ) {
 
 		return (array) $object;
-
 	}
 
 	/**
@@ -445,7 +452,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-
 	}
 
 	/**
@@ -463,7 +469,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -494,7 +499,6 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 		}
 
 		return $this->get_object( array( $prepared['id'], $prepared['post_id'] ) );
-
 	}
 
 	/**
@@ -543,5 +547,4 @@ class LLMS_REST_Students_Progress_Controller extends LLMS_REST_Controller {
 
 		return true;
 	}
-
 }

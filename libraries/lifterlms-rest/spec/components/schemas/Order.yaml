@@ -1,0 +1,184 @@
+description: The order object. Orders are read-only via the REST API.
+type: object
+properties:
+  id:
+    description: Unique order identifer. The WordPress Post `ID`.
+    type: integer
+    example: 987
+    readOnly: true
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+    readOnly: true
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+    readOnly: true
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+    type: string
+    default: llms_order
+  title:
+    description: Order title.
+    type: object
+    readOnly: true
+    properties:
+      rendered:
+        type: string
+        description: Rendered title.
+        example: Order &ndash; May 20, 2019 @ 05:22 PM
+      raw:
+        type: string
+        description: Raw title. Only returned in `edit` context.
+        example: Order – May 20, 2019 @ 05:22 PM
+  status:
+    description: The order status, with the `llms-` prefix stripped.
+    type: string
+    example: active
+    enum:
+      - active
+      - cancelled
+      - completed
+      - expired
+      - failed
+      - on-hold
+      - pending-cancel
+      - pending
+      - refunded
+    readOnly: true
+  order_key:
+    description: The unique order key.
+    type: string
+    example: order-5ce2fabc12345
+    readOnly: true
+  order_type:
+    description: The order type.
+    type: string
+    enum:
+      - single
+      - recurring
+    readOnly: true
+  user_id:
+    description: The WordPress user ID of the student who placed the order.
+    type: integer
+    example: 123
+    readOnly: true
+  billing_email:
+    description: Billing email address.
+    type: string
+    example: jamie@example.tld
+    readOnly: true
+  billing_first_name:
+    description: Billing first name.
+    type: string
+    example: Jamie
+    readOnly: true
+  billing_last_name:
+    description: Billing last name.
+    type: string
+    example: Doe
+    readOnly: true
+  product_id:
+    description: The WordPress post ID of the purchased product (course or membership).
+    type: integer
+    example: 1234
+    readOnly: true
+  product_type:
+    description: The purchased product type.
+    type: string
+    example: course
+    readOnly: true
+  plan_id:
+    description: The WordPress post ID of the access plan used to place the order.
+    type: integer
+    example: 567
+    readOnly: true
+  coupon_id:
+    description: The WordPress post ID of the coupon used, if any.
+    type: integer
+    example: 0
+    readOnly: true
+  coupon_code:
+    description: The coupon code used, if any.
+    type: string
+    example: SAVE20
+    readOnly: true
+  payment_gateway:
+    description: The LifterLMS payment gateway ID used to process the order.
+    type: string
+    example: manual
+    readOnly: true
+  currency:
+    description: The order currency code.
+    type: string
+    example: USD
+    readOnly: true
+  original_total:
+    description: Total price of the order before coupon adjustments.
+    type: number
+    example: 99.99
+    readOnly: true
+  coupon_amount:
+    description: Amount of the coupon adjustment applied to the order.
+    type: number
+    example: 0
+    readOnly: true
+  sale_value:
+    description: Amount saved due to a sale in effect at the time of purchase.
+    type: number
+    example: 0
+    readOnly: true
+  total:
+    description: Total price of the order after all adjustments.
+    type: number
+    example: 99.99
+    readOnly: true
+  trial_original_total:
+    description: Total price of the trial before applicable coupon adjustments.
+    type: number
+    readOnly: true
+  trial_total:
+    description: Total price of the trial after applicable coupon adjustments.
+    type: number
+    readOnly: true
+  billing_frequency:
+    description: Billing frequency for recurring orders. `0` for one-time payments.
+    type: integer
+    example: 1
+    readOnly: true
+  billing_period:
+    description: Billing period for recurring orders.
+    type: string
+    example: month
+    readOnly: true
+  billing_length:
+    description: Number of billing intervals for recurring orders. `0` means "until cancelled".
+    type: integer
+    example: 0
+    readOnly: true
+  date_next_payment:
+    description: 'Date of the next scheduled payment for recurring orders. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-06-20 17:22:05'
+    readOnly: true
+  date_access_expires:
+    description: 'Date when the student''s access to the product expires. Format: `Y-m-d H:i:s`.'
+    type: string
+    readOnly: true
+  date_trial_end:
+    description: 'Date when the trial period ends for recurring orders with a trial. Format: `Y-m-d H:i:s`.'
+    type: string
+    readOnly: true

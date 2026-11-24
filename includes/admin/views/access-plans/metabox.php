@@ -6,7 +6,8 @@
  *
  * @since 3.0.0
  * @since 6.0.0 Fix closing tag inside the `llms-no-plans-msg` div element.
- * @version 6.0.0
+ * @since [version] Pass each plan's position to the plan view as `$plan_order`.
+ * @version [version]
  *
  * @var LLMS_Course $course
  * @var array $checkout_redirection_types checkout redirect setting options.
@@ -33,8 +34,12 @@ defined( 'ABSPATH' ) || exit;
 		<div class="llms-no-plans-msg">
 			<div class="notice notice-warning inline"><p><?php printf( esc_html__( 'No access plans exist for your %s, click "Add New" to get started.', 'lifterlms' ), esc_html( strtolower( $product->get_post_type_label( 'singular_name' ) ) ) ); ?></p></div>
 		</div>
-		<?php foreach ( $product->get_access_plans( false, false ) as $plan ) : ?>
-			<?php include 'access-plan.php'; ?>
+		<?php foreach ( array_values( $product->get_access_plans( false, false ) ) as $plan_index => $plan ) : ?>
+			<?php
+			// Number the fields by position: plans created outside the editor can share a `menu_order`.
+			$plan_order = $plan_index + 1;
+			include 'access-plan.php';
+			?>
 		<?php endforeach; ?>
 	</section>
 
@@ -55,7 +60,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 		// unset $plan so it's not used for the model.
-		unset( $plan );
+		unset( $plan, $plan_order );
 		// model of an access plan we'll clone when clicking the "add" button.
 		require 'access-plan.php';
 	?>

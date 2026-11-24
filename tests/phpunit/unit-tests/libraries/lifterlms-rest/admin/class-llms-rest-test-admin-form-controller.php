@@ -27,6 +27,8 @@ class LLMS_REST_Test_Admin_Form_Controller extends LLMS_REST_Unit_Test_Case_Base
 		LLMS_REST_API()->includes();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		$this->obj = new LLMS_REST_Admin_Form_Controller();
 
 	}
@@ -352,14 +354,14 @@ class LLMS_REST_Test_Admin_Form_Controller extends LLMS_REST_Unit_Test_Case_Base
 
 		// Nonce present but no key.
 		$this->mockGetRequest( array(
-			'key-revoke-nonce' => wp_create_nonce( 'revoke' ),
+			'key-revoke-nonce' => wp_create_nonce( 'revoke-' ),
 		) );
 		$this->assertFalse( $this->obj->handle_events() );
 
 		// Nonce & key but key is fake.
 		$this->mockGetRequest( array(
 			'revoke-key' => 9324234,
-			'key-revoke-nonce' => wp_create_nonce( 'revoke' ),
+			'key-revoke-nonce' => wp_create_nonce( 'revoke-9324234' ),
 		) );
 		$this->assertFalse( $this->obj->handle_events() );
 
@@ -378,7 +380,7 @@ class LLMS_REST_Test_Admin_Form_Controller extends LLMS_REST_Unit_Test_Case_Base
 		$key_id = $key->get( 'id' );
 		$this->mockGetRequest( array(
 			'revoke-key' => $key->get( 'id' ),
-			'key-revoke-nonce' => wp_create_nonce( 'revoke' ),
+			'key-revoke-nonce' => wp_create_nonce( 'revoke-' . $key->get( 'id' ) ),
 		) );
 
 		// redirect and exit back to the keys list.
@@ -422,14 +424,14 @@ class LLMS_REST_Test_Admin_Form_Controller extends LLMS_REST_Unit_Test_Case_Base
 
 		// Nonce present but no key.
 		$this->mockGetRequest( array(
-			'delete-webhook-nonce' => wp_create_nonce( 'delete' ),
+			'delete-webhook-nonce' => wp_create_nonce( 'delete-' ),
 		) );
 		$this->assertFalse( $this->obj->handle_events() );
 
 		// Nonce & key but key is fake.
 		$this->mockGetRequest( array(
 			'delete-webhook' => 9324234,
-			'delete-webhook-nonce' => wp_create_nonce( 'delete' ),
+			'delete-webhook-nonce' => wp_create_nonce( 'delete-9324234' ),
 		) );
 		$this->assertFalse( $this->obj->handle_events() );
 
@@ -448,7 +450,7 @@ class LLMS_REST_Test_Admin_Form_Controller extends LLMS_REST_Unit_Test_Case_Base
 		$webhook_id = $webhook->get( 'id' );
 		$this->mockGetRequest( array(
 			'delete-webhook' => $webhook->get( 'id' ),
-			'delete-webhook-nonce' => wp_create_nonce( 'delete' ),
+			'delete-webhook-nonce' => wp_create_nonce( 'delete-' . $webhook->get( 'id' ) ),
 		) );
 
 		// redirect and exit back to the webhooks list.

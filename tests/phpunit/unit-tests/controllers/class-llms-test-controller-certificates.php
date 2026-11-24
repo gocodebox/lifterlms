@@ -328,6 +328,41 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Preview-access roles cannot change sharing on another user's certificate.
+	 *
+	 * @since 10.3.1
+	 *
+	 * @return void
+	 */
+	public function test_change_sharing_settings_preview_role() {
+
+		$original = get_option( 'llms_grant_site_access' );
+		update_option(
+			'llms_grant_site_access',
+			array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' )
+		);
+
+		$earned = $this->earn_certificate( $this->factory->student->create(), $this->create_certificate_template(), $this->factory->post->create() );
+		$cert   = new LLMS_User_Certificate( $earned[1] );
+
+		foreach ( array( 'instructor', 'instructors_assistant' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+
+			$res = LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $earned[1], true ) );
+			$this->assertIsWPError( $res );
+			$this->assertWPErrorCodeEquals( 'insufficient-permissions', $res );
+			$this->assertEmpty( $cert->get( 'allow_sharing' ) );
+		}
+
+		if ( false === $original ) {
+			delete_option( 'llms_grant_site_access' );
+		} else {
+			update_option( 'llms_grant_site_access', $original );
+		}
+
+	}
+
+	/**
 	 * Test maybe_handle_awarded_engagement_sync_actions() when not supplying a certificate/template id.
 	 *
 	 * @since 6.0.0

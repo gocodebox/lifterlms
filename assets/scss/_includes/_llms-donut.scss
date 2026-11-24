@@ -2,10 +2,10 @@
 
 	@include clearfix;
 
-	background-color: #f1f1f1;
+	background-color: llms-var( color-surface );
 	background-image: none;
 	border-radius: 50%;
-	color: $color-brand-blue;
+	color: llms-var( color-primary );
 	height: 200px;
 	overflow: hidden;
 	position: relative;
@@ -20,7 +20,7 @@
 	svg path {
 		fill: none;
 		stroke-width: 35px;
-		stroke: $color-brand-blue;
+		stroke: llms-var( color-primary );
 	}
 
 	&.mini {

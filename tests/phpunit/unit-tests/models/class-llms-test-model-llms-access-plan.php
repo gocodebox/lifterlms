@@ -250,17 +250,26 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		// No redirect query arg added to the checkout url, the redirect will be added to the checkout form as hidden input field.
 		$this->assertEquals( get_permalink( $membership_id ), $this->obj->get_checkout_url() );
 
-		// Force the redirect via INPUT_GET
+		// Force the redirect via INPUT_GET — untrusted off-site URLs are ignored.
 		$this->mockGetRequest(
 			array(
 				'redirect' => 'https://example-redirect-get.com',
 			)
 		);
-		// Expect the redirect URL via INPUT_GET to be added to the membership's permalink.
+		// Off-site GET redirect is not added to the membership permalink.
+		$this->assertEquals( get_permalink( $membership_id ), $this->obj->get_checkout_url() );
+
+		// Same-origin GET redirect is allowed on the membership permalink.
+		$local_redirect = home_url( '/local-thanks/' );
+		$this->mockGetRequest(
+			array(
+				'redirect' => $local_redirect,
+			)
+		);
 		$this->assertEquals(
 			add_query_arg(
 				'redirect',
-				urlencode( 'https://example-redirect-get.com' ),
+				urlencode( $local_redirect ),
 				get_permalink( $membership_id )
 			),
 			$this->obj->get_checkout_url()
@@ -268,28 +277,19 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 		// Enable the option that forces the access plan redirection settings to take over the membership redirections.
 		$this->obj->set( 'checkout_redirect_forced', 'yes' );
-		// The INPUT_GET will win.
-		// Expect the redirect URL to be added to the membership's permalink.
+		// Same-origin INPUT_GET still wins and is added to the membership permalink.
 		$this->assertEquals(
 			add_query_arg(
 				'redirect',
-				urlencode( 'https://example-redirect-get.com' ),
+				urlencode( $local_redirect ),
 				get_permalink( $membership_id )
 			),
 			$this->obj->get_checkout_url()
 		);
 
-		// Reset the INPUT_GET
+		// Reset the INPUT_GET — plan off-site thank-you URL is not put in the membership URL.
 		$this->mockGetRequest( array() );
-		// Expect the redirect URL to be added to the membership's permalink.
-		$this->assertEquals(
-			add_query_arg(
-				'redirect',
-				urlencode( $this->obj->get( 'checkout_redirect_url' ) ),
-				get_permalink( $membership_id )
-			),
-			$this->obj->get_checkout_url()
-		);
+		$this->assertEquals( get_permalink( $membership_id ), $this->obj->get_checkout_url() );
 
 		// Multiple returns the hash for popover display.
 		$this->obj->set( 'availability_restrictions', array( $membership_id, 1234 ) );
@@ -789,6 +789,74 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		// set current current time as first second of $future day plus 1
 		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
 		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_reset_current_time();
+
+		// Datetime values (Y-m-d H:i:s), as stored by the REST API.
+		$now_ts = current_time( 'timestamp' );
+
+		// Start in future.
+		$this->obj->set( 'sale_start', date( 'Y-m-d H:i:s', strtotime( '+1 day', $now_ts ) ) );
+		$this->obj->set( 'sale_end', '' );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		// End in past.
+		$this->obj->set( 'sale_start', '' );
+		$this->obj->set( 'sale_end', date( 'Y-m-d H:i:s', strtotime( '-1 day', $now_ts ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		// Start in past & end in future.
+		$this->obj->set( 'sale_start', date( 'Y-m-d H:i:s', strtotime( '-1 day', $now_ts ) ) );
+		$this->obj->set( 'sale_end', date( 'Y-m-d H:i:s', strtotime( '+1 day', $now_ts ) ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		// The time part is ignored: the sale starts at 00:00 of the start day and runs through the end day.
+		$this->obj->set( 'sale_start', $future . ' 10:00:00' );
+		$this->obj->set( 'sale_end', $future . ' 10:00:00' );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:00' ) - 1 );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:01' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 23:59:59' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		// Date values (m/d/Y), as stored by the admin screen.
+		$this->obj->set( 'sale_start', date( 'm/d/Y', strtotime( $future ) ) );
+		$this->obj->set( 'sale_end', date( 'm/d/Y', strtotime( $future ) ) );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 00:00:00' ) - 1 );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( $future . ' 23:59:59' ) );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
+		llms_tests_reset_current_time();
+
+		// An end date that cannot be parsed: the plan is not on sale.
+		foreach ( array( 'not a date', '25/11/2026' ) as $unparseable ) {
+
+			$this->obj->set( 'sale_start', '' );
+			$this->obj->set( 'sale_end', $unparseable );
+			$this->assertFalse( $this->obj->is_on_sale(), $unparseable );
+
+			$this->obj->set( 'sale_start', date( 'm/d/Y', strtotime( '-1 day', $now_ts ) ) );
+			$this->assertFalse( $this->obj->is_on_sale(), $unparseable );
+
+		}
+
+		// A start date that cannot be parsed is ignored.
+		$this->obj->set( 'sale_start', 'not a date' );
+		$this->obj->set( 'sale_end', '' );
+		$this->assertTrue( $this->obj->is_on_sale() );
 
 	}
 
@@ -1340,34 +1408,50 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		// Expect empty string.
 		$this->assertEmpty( $this->obj->get_redirection_url() );
 
+		// Untrusted off-site GET redirect is ignored.
 		$this->mockGetRequest(
 			array(
 				'redirect' => 'https://example-redirect-get.com',
 			)
 		);
-		// Expect the encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
-		// Require only querystring, expect the encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
+		$this->assertEmpty( $this->obj->get_redirection_url() );
+		$this->assertEmpty( $this->obj->get_redirection_url( true, true ) );
+		$this->assertEmpty( $this->obj->get_redirection_url( false ) );
+		$this->assertEmpty( $this->obj->get_redirection_url( false, true ) );
 
-		// Expect the not-encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
-		// Require only querystring, expect the not-encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
+		// Same-origin GET redirect is honored.
+		$local_redirect = home_url( '/local-thanks/' );
+		$this->mockGetRequest(
+			array(
+				'redirect' => $local_redirect,
+			)
+		);
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( $local_redirect ) );
+		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( $local_redirect ) );
+		$this->assertEquals( $this->obj->get_redirection_url( false ), $local_redirect );
+		$this->assertEquals( $this->obj->get_redirection_url( false, true ), $local_redirect );
 
-		// Set access plan redirect options, still the $_GET variable will win.
+		// Plan-configured off-site URL is allowed via GET when it matches the plan setting.
 		$this->obj->set( 'checkout_redirect_type', 'url' );
 		$this->obj->set( 'checkout_redirect_url', 'https://example.com' );
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example.com',
+			)
+		);
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example.com' ) );
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example.com' );
 
-		// Expect the encoded url.
-		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example-redirect-get.com' ) );
-		// Require only querystring, expect the encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url( true, true ), urlencode( 'https://example-redirect-get.com' ) );
-
-		// Expect the not-encoded url.
-		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example-redirect-get.com' );
-		// Require only querystring, expect the not-encoded URL.
-		$this->assertEquals( $this->obj->get_redirection_url( false, true ), 'https://example-redirect-get.com' );
+		// Untrusted off-site GET still loses to the plan's configured URL when not querystring-only.
+		$this->mockGetRequest(
+			array(
+				'redirect' => 'https://example-redirect-get.com',
+			)
+		);
+		$this->assertEquals( $this->obj->get_redirection_url(), urlencode( 'https://example.com' ) );
+		$this->assertEmpty( $this->obj->get_redirection_url( true, true ) );
+		$this->assertEquals( $this->obj->get_redirection_url( false ), 'https://example.com' );
+		$this->assertEmpty( $this->obj->get_redirection_url( false, true ) );
 
 		$this->obj->set( 'checkout_redirect_type', 'self' ); // Default.
 		$this->obj->set( 'checkout_redirect_url', '' );

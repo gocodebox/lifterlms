@@ -1,6 +1,7 @@
 .llms-student-dashboard {
 
-	.llms-sd-nav select {
+	.llms-sd-nav > select,
+	.llms-sd-nav .llms-sd-mobile-nav {
 
 		display: none;
 
@@ -8,6 +9,21 @@
 			display: block;
 			margin-bottom: 30px;
 			width: 100%;
+		}
+	}
+
+	.llms-sd-nav .llms-sd-mobile-nav {
+
+		@media all and ( max-width: 600px ) {
+			align-items: center;
+			display: flex;
+			gap: 8px;
+
+			select {
+				flex: 1;
+				margin: 0;
+				width: auto;
+			}
 		}
 	}
 
@@ -83,7 +99,7 @@
 	}
 
 	.orders-table {
-		border: 1px solid $color-border;
+		border: llms-element-border();
 		border-spacing: 0;
 		width: 100%;
 		margin: 10px 0;
@@ -125,8 +141,8 @@
 		}
 
 		th, td {
-			border-color: $color-border;
-			border-style: solid;
+			border-color: llms-var( color-border );
+			border-style: llms-var( element-border-style );
 			border-width: 0;
 			display: block;
 			padding: 15px 20px;
@@ -137,7 +153,7 @@
 			}
 
 			&:last-child {
-				border-bottom-width: 1px;
+				border-bottom-width: llms-var( element-border-width );
 			}
 
 			&:before {
@@ -145,7 +161,7 @@
 			}
 
 			@media all and ( min-width: 600px ) {
-				border-bottom-width: 1px;
+				border-bottom-width: llms-var( element-border-width );
 				display: table-cell;
 				text-align: left;
 				&:first-child { width: 220px; }
@@ -216,8 +232,8 @@
 	 */
 	&.dashboard {
 		.llms-sd-section {
-			border: 1px solid $color-border;
-			border-radius: $radius-small;
+			border: llms-element-border();
+			border-radius: llms-var( radius-sm );
 			padding: 20px;
 			margin-bottom: 40px;
 		}
@@ -236,7 +252,7 @@
 			display: grid;
 			grid-gap: 25px;
 			grid-template-areas: "nav header" "nav tab";
-			grid-template-columns: 200px 1fr;
+			grid-template-columns: 200px minmax( 0, 1fr ); // minmax() lets wide content scroll instead of widening the column.
 			grid-template-rows: auto 1fr;
 
 			&:has(> .llms-notice) {
@@ -311,14 +327,14 @@
 	}
 }
 
+// The grades tables scroll sideways when they don't fit, instead of widening the page.
+.llms-sd-grades > .llms-sd-section {
+	overflow-x: auto;
+	position: relative; // Keep positioned content, such as tooltips, inside the scroll area.
+}
+
 // grades table for a single course
 .llms-table.llms-single-course-grades {
-
-	tbody {
-		tr:first-child td, tr:first-child th {
-			background-color: #eaeaea;
-		}
-	}
 
 	th {
 		font-weight: 400;
@@ -338,11 +354,14 @@
 		}
 	}
 
-	th.llms-section_title {
+	caption.llms-section_title {
+		caption-side: top;
 		font-size: 110%;
 		font-weight: 700;
+		text-align: left;
 	}
 
+	th.llms-lesson_title,
 	td.llms-lesson_title {
 		max-width: 40%;
 	}
@@ -353,6 +372,7 @@
 			vertical-align: middle;
 		}
 	}
+	th.llms-lesson_title,
 	td.llms-lesson_title {
 		a[href="#"] {
 			pointer-events: none;
@@ -372,26 +392,23 @@
 }
 
 .llms-sd-widgets {
-	display: flex;
+	// Wrap onto more rows when there isn't room for every widget side by side.
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat( auto-fit, minmax( 140px, 1fr ) );
+	margin: 10px 0 20px;
 
 	.llms-sd-widget {
 		background: $color-white;
-		border: 1px solid $color-border;
-		border-bottom-right-radius: $radius-small;
-		border-bottom-left-radius: $radius-small;
-		flex: 1;
-		margin: 10px 10px 20px;
+		border: llms-element-border();
+		border-bottom-right-radius: llms-var( radius-sm );
+		border-bottom-left-radius: llms-var( radius-sm );
+		min-width: 0;
 		padding: 0 0 20px;
-		&:first-child {
-			margin-left: 0;
-		}
-		&:last-child {
-			margin-right: 0;
-		}
 
 		.llms-sd-widget-title {
-			background: $color-brand-blue;
-			color: #fff;
+			background: llms-var( color-primary );
+			color: llms-var( color-on-primary );
 			font-size: 18px;
 			line-height: 1;
 			margin: 0 0 20px;
@@ -451,8 +468,8 @@
 		input[type="text"] {
 			background-color: $color-white;
 			background-clip: padding-box;
-			border: 1px solid $color-grey;
-			border-radius: $radius-small;
+			border: 1px solid llms-var( color-input-border );
+			border-radius: llms-var( radius-sm );
 			box-sizing: border-box;
 			font-size: 16px;
 			line-height: 1;
@@ -476,8 +493,8 @@
 
 .llms-sd-notification-center {
 	background: $color-white;
-	border: 1px solid $color-border;
-	border-radius: $radius-small;
+	border: llms-element-border();
+	border-radius: llms-var( radius-sm );
 	padding: 20px;
 
 	.llms-notification-list-item {

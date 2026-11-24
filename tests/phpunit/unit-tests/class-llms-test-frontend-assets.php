@@ -121,6 +121,33 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test loop title sizes come from a block theme's h4 styles.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_enqueue_styles_loop_title_from_theme_json() {
+
+		$theme = get_stylesheet();
+
+		switch_theme( 'twentytwentyfive' );
+		wp_clean_theme_json_cache();
+		LLMS_Frontend_Assets::enqueue_styles();
+		$inline = implode( '', (array) wp_styles()->get_data( 'lifterlms-styles', 'after' ) );
+		wp_styles()->add_data( 'lifterlms-styles', 'after', array() );
+
+		switch_theme( $theme );
+		wp_clean_theme_json_cache();
+		LLMS_Frontend_Assets::enqueue_styles();
+		$classic = wp_styles()->get_data( 'lifterlms-styles', 'after' );
+
+		$this->assertStringContainsString( '--llms-loop-title-size:var(--wp--preset--font-size--medium);--llms-loop-title-weight:400;--llms-loop-title-line-height:1.125;', $inline );
+		$this->assertEmpty( $classic );
+
+	}
+
+	/**
 	 * Test get_checkout_urls().
 	 *
 	 * @since 7.0.0

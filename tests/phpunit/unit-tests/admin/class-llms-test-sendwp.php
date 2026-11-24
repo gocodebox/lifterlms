@@ -9,6 +9,7 @@
  * @since 3.36.1
  * @since 3.37.0 Add testing for nonce verifications.
  * @since 3.40.0 Added additional coverage.
+ * @since 11.0.0 Moved tests that need the live SendWP plugin into the `external` group.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
@@ -164,6 +165,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * @since 3.37.0 Add mock nonce to test.
 	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
+	 * @group external
+	 *
 	 * @return void
 	 * @throws ReflectionException
 	 */
@@ -174,14 +177,24 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
 		) );
 
-		// Install.
-		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
-		$this->assertEquals( array( 'success', ), array_keys( $res ) );
+		// The SendWP plugin emits deprecation notices when loaded on PHP 8.4+; any notice displayed
+		// while `activate_plugin()` runs makes the activation fail with an `unexpected_output` error.
+		$error_reporting = error_reporting( error_reporting() & ~E_DEPRECATED );
 
-		// Already installed, activate.
-		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install_verify' );
-		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
-		$this->assertEquals( 2007, $res['partner_id'] );
+		try {
+
+			// Install.
+			$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
+			$this->assertEquals( array( 'success', ), array_keys( $res ) );
+
+			// Already installed, activate.
+			$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install_verify' );
+			$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
+			$this->assertEquals( 2007, $res['partner_id'] );
+
+		} finally {
+			error_reporting( $error_reporting );
+		}
 
 	}
 
@@ -189,6 +202,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test get_connect_setting()
 	 *
 	 * @since 3.40.0
+	 *
+	 * @group external
 	 *
 	 * @return void
 	 * @throws ReflectionException
@@ -212,6 +227,8 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test should_output_inline() method.
 	 *
 	 * @since 3.40.0
+	 *
+	 * @group external
 	 *
 	 * @return void
 	 * @throws ReflectionException

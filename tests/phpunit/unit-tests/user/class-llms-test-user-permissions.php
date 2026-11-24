@@ -148,6 +148,46 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the `promote_user` capability follows the same rules as `edit_user`.
+	 *
+	 * @since 11.1.0
+	 *
+	 * @return void
+	 */
+	public function test_promote_user_cap() {
+
+		extract( $this->create_mock_users() );
+
+		$ass_obj = llms_get_instructor( $assistant );
+		$ass_obj->add_parent( $instructor );
+		$other_assistant = $this->factory->user->create( array( 'role' => 'instructors_assistant' ) );
+
+		// Instructors can only change the role of their own assistants.
+		wp_set_current_user( $instructor );
+		$this->assertTrue( current_user_can( 'promote_users' ) );
+		$this->assertTrue( current_user_can( 'promote_user', $assistant ) );
+		foreach ( array( $admin, $editor, $subscriber, $student, $lms_manager, $other_assistant, $this->factory->user->create( array( 'role' => 'instructor' ) ) ) as $uid ) {
+			$this->assertFalse( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+		// LMS Managers can change the role of LMS roles only.
+		wp_set_current_user( $lms_manager );
+		foreach ( array( $student, $instructor, $assistant ) as $uid ) {
+			$this->assertTrue( current_user_can( 'promote_user', $uid ), $uid );
+		}
+		foreach ( array( $admin, $editor, $subscriber ) as $uid ) {
+			$this->assertFalse( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+		// Admins are unaffected.
+		wp_set_current_user( $admin );
+		foreach ( array( $admin2, $editor, $lms_manager, $instructor ) as $uid ) {
+			$this->assertTrue( current_user_can( 'promote_user', $uid ), $uid );
+		}
+
+	}
+
+	/**
 	 * Test the user_can_manage_user() for users with multiple roles.
 	 *
 	 * @since 3.41.0
@@ -428,6 +468,53 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 			$this->assertTrue( current_user_can( 'view_grades', $users['student'] ), $role );
 
 		}
+	}
+
+	/**
+	 * Test that the REST author query includes LifterLMS roles.
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1953
+	 *
+	 * @return void
+	 */
+	public function test_filter_rest_user_query_who_authors() {
+
+		$users = $this->create_mock_users();
+		wp_set_current_user( $users['admin'] );
+
+		$args = $this->obj->filter_rest_user_query( array( 'who' => 'authors' ), new WP_REST_Request( 'GET', '/wp/v2/users' ) );
+
+		$this->assertArrayNotHasKey( 'who', $args );
+		$this->assertEquals( 'edit_posts', $args['capability'] );
+
+		$args['fields'] = 'ID';
+		$found          = array_map( 'absint', ( new WP_User_Query( $args ) )->get_results() );
+
+		foreach ( array( 'admin', 'admin2', 'editor', 'lms_manager', 'instructor', 'assistant' ) as $role ) {
+			$this->assertContains( $users[ $role ], $found, $role );
+		}
+
+		foreach ( array( 'student', 'subscriber' ) as $role ) {
+			$this->assertNotContains( $users[ $role ], $found, $role );
+		}
+	}
+
+	/**
+	 * Test that REST user queries without `who=authors` are not changed for non-instructors.
+	 *
+	 * @return void
+	 */
+	public function test_filter_rest_user_query_not_authors() {
+
+		$users = $this->create_mock_users();
+		wp_set_current_user( $users['admin'] );
+
+		$args = array(
+			'number'         => 10,
+			'capability__in' => array( 'list_users' ),
+		);
+
+		$this->assertEquals( $args, $this->obj->filter_rest_user_query( $args, new WP_REST_Request( 'GET', '/wp/v2/users' ) ) );
 	}
 
 

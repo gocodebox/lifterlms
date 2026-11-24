@@ -60,7 +60,10 @@ class LLMS_Blocks_Migrate {
 
 	/**
 	 * Don't remove core template actions when a sales page is enabled and the page is restricted.
-
+	 *
+	 * The sales page (the post excerpt) only replaces the post's blocks when it has content, see `llms_get_post_sales_page_content()`.
+	 * Without an excerpt the blocks are displayed, so the template actions are still removed.
+	 *
 	 * @since 1.2.0
 	 * @since 1.3.1 Unknown.
 	 *
@@ -71,7 +74,7 @@ class LLMS_Blocks_Migrate {
 	public static function check_sales_page( $ret, $post_id ) {
 
 		$page_restricted = llms_page_restricted( $post_id );
-		if ( $page_restricted['is_restricted'] ) {
+		if ( $page_restricted['is_restricted'] && get_post_field( 'post_excerpt', $post_id ) ) {
 			$sales_page = get_post_meta( $post_id, '_llms_sales_page_content_type', true );
 			if ( '' === $sales_page || 'content' === $sales_page ) {
 				$ret = false;
@@ -271,7 +274,12 @@ class LLMS_Blocks_Migrate {
 		$post_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		$post    = $post_id ? get_post( $post_id ) : false;
 
-		if ( ! $post || ! $this->should_migrate_post( $post->ID ) ) {
+		// current_screen runs from admin.php, before post.php checks edit_post.
+		if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
+			return;
+		}
+
+		if ( ! $this->should_migrate_post( $post->ID ) ) {
 			return;
 		}
 
@@ -448,6 +456,12 @@ class LLMS_Blocks_Migrate {
 	/**
 	 * Update the post content for a given post.
 	 *
+	 * Writes the column directly. `wp_update_post()` unslashes array input, saves a
+	 * revision, bumps `post_modified`, and fires `save_post` while `current_screen`
+	 * is still running. The same writer is used by the bulk unmigrate tool.
+	 * The post cache is cleared so a persistent object cache does not keep serving
+	 * the previous content to the editor.
+	 *
 	 * @since 1.4.0
 	 *
 	 * @param int    $id WP_Post ID.
@@ -467,9 +481,15 @@ class LLMS_Blocks_Migrate {
 			),
 			array( '%s' ),
 			array( '%d' )
-		); // db no-cache okay.
+		);
 
-		return false === $update ? false : true;
+		if ( false === $update ) {
+			return false;
+		}
+
+		clean_post_cache( $id );
+
+		return true;
 	}
 }
 

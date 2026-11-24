@@ -44,6 +44,19 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
+	// Lessons and quizzes, free lessons included, can't be viewed while their course can't be (draft, private, trashed...).
+	if ( is_singular() && in_array( $post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
+		$course    = llms_get_post_parent_course( $post_id );
+		$course_id = $course ? $course->get( 'id' ) : 0;
+		if ( $course_id && ! is_post_publicly_viewable( $course_id ) && ! user_can( (int) $user_id, 'read_post', $course_id ) ) {
+			$results['is_restricted']  = true;
+			$results['reason']         = 'course_unavailable';
+			$results['restriction_id'] = $course_id;
+			/* This filter is documented below. */
+			return apply_filters( 'llms_page_restricted', $results, $post_id );
+		}
+	}
+
 	/**
 	 * Do checks to determine if the content should be restricted.
 	 */
@@ -395,6 +408,10 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	}
 
 	$lesson = llms_get_post( $lesson_id );
+	if ( ! $lesson ) {
+		return false;
+	}
+
 	$course = $lesson->get_course();
 
 	if ( ! $course ) {
@@ -475,7 +492,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 				return false;
 			}
 			$lesson = llms_get_post( $lesson_id );
-			if ( ! $lesson_id ) {
+			if ( ! $lesson ) {
 				return false;
 			}
 			$course_id = $lesson->get( 'parent_course' );

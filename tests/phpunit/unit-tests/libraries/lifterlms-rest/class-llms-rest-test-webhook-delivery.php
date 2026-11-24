@@ -32,6 +32,8 @@ class LLMS_REST_Test_Webhook_Delivery extends LLMS_REST_Unit_Test_Case_Base {
 			'delivery_url' => $this->endpoint,
 			'topic' => $topic,
 			'status' => 'active',
+			// Payloads are built as the webhook's creator, which is an administrator in practice.
+			'user_id' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
 		) );
 		$this->hook->enqueue();
 

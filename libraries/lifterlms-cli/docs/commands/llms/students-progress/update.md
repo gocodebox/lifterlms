@@ -17,7 +17,7 @@ Updates an existing students-progress.
 : Creation date. Format: Y-m-d H:i:s
 
 \--status=&lt;status&gt;
-: The status of the enrollment.
+: The completion status of the item for the student.
 \---
 options:
   - complete

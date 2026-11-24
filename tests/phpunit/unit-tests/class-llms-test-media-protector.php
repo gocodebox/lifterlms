@@ -174,4 +174,483 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 		$this->assertNotSame( 'null', $cached, 'Cached value should be overwritten once protection is set.' );
 		$this->assertTrue( (bool) $cached );
 	}
+
+	/**
+	 * Test that a logged-out visitor isn't authorized for protected media with no author.
+	 *
+	 * Media imported without an author (e.g. `wp media import` without `--user`) has a post_author of 0,
+	 * which matches the user ID of a logged-out visitor.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_logged_out_authorless_media() {
+
+		wp_set_current_user( 0 );
+
+		$attachment_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => 0,
+			)
+		);
+		update_post_meta( $attachment_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+
+		$this->assertSame( 0, intval( get_post_field( 'post_author', $attachment_id ) ) );
+		$this->assertFalse( ( new LLMS_Media_Protector() )->is_authorized_to_view( 0, $attachment_id ) );
+	}
+
+	/**
+	 * Test that an incomplete quiz attempt only authorizes media linked to that quiz.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_incomplete_quiz_attempt() {
+
+		$course  = llms_get_post( $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) ) );
+		$quiz_id = $course->get_quizzes()[0];
+
+		$student_id = $this->factory->student->create();
+		wp_set_current_user( $student_id );
+		LLMS_Quiz_Attempt::init( $quiz_id, llms_get_post( $quiz_id )->get( 'lesson_id' ), $student_id )->start();
+
+		$protector = new LLMS_Media_Protector();
+
+		// Media not linked to any quiz, uploaded by another user.
+		$media_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $this->factory->user->create(),
+			)
+		);
+		update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+		$this->assertFalse( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// The same media once linked to the quiz the student is taking.
+		update_post_meta( $media_id, '_llms_quiz_id', $quiz_id );
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+	}
+
+	/**
+	 * Test that quiz media stays viewable during the last allowed attempt and on the results after submitting,
+	 * and is not viewable to an enrolled student who has not attempted the quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_authorized_to_view_quiz_media_last_attempt_and_results() {
+
+		$course  = llms_get_post( $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) ) );
+		$quiz    = llms_get_post( $course->get_quizzes()[0] );
+		$quiz_id = $quiz->get( 'id' );
+		$quiz->set( 'limit_attempts', 'yes' );
+		$quiz->set( 'allowed_attempts', 1 );
+
+		$media_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $this->factory->user->create(),
+			)
+		);
+		update_post_meta( $media_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+		update_post_meta( $media_id, '_llms_quiz_id', array( $quiz_id ) );
+
+		$protector  = new LLMS_Media_Protector();
+		$student_id = $this->factory->student->create();
+		llms_enroll_student( $student_id, $course->get( 'id' ) );
+		wp_set_current_user( $student_id );
+
+		// Enrolled, but the quiz has not been started.
+		$this->assertFalse( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Taking the only allowed attempt leaves 0 attempts remaining.
+		$attempt = LLMS_Quiz_Attempt::init( $quiz_id, $quiz->get( 'lesson_id' ), $student_id )->start();
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Viewing the submitted attempt's results.
+		$attempt->end();
+		$protector->invalidate_authorization_cache( $media_id, $student_id );
+		$this->assertTrue( $protector->is_authorized_to_view( $student_id, $media_id ) );
+
+		// Another enrolled student who has not attempted the quiz.
+		$other_id = $this->factory->student->create();
+		llms_enroll_student( $other_id, $course->get( 'id' ) );
+		wp_set_current_user( $other_id );
+		$this->assertFalse( $protector->is_authorized_to_view( $other_id, $media_id ) );
+	}
+
+	/**
+	 * Create a protected attachment post with a real file in the uploads directory.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return int Attachment post ID.
+	 */
+	private function create_protected_attachment() {
+
+		$author_id     = $this->factory->user->create();
+		$attachment_id = $this->factory->post->create(
+			array(
+				'post_type'   => 'attachment',
+				'post_author' => $author_id,
+			)
+		);
+
+		$upload_dir = wp_upload_dir();
+		$filename   = 'llms-signed-url-test-' . $attachment_id . '.pdf';
+		file_put_contents( trailingslashit( $upload_dir['basedir'] ) . $filename, 'test file contents' );
+
+		update_post_meta( $attachment_id, '_wp_attached_file', $filename );
+		update_post_meta( $attachment_id, LLMS_Media_Protector::AUTHORIZATION_FILTER_KEY, 'llms_test_media_authorization' );
+
+		return $attachment_id;
+	}
+
+	/**
+	 * Mock the current request with the query args parsed from a signed URL.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @param string $url Signed URL as returned by LLMS_Media_Protector::get_signed_url().
+	 * @return array Parsed query args.
+	 */
+	private function mock_signed_request( $url ) {
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+		$this->mockGetRequest( $args );
+
+		return $args;
+	}
+
+	/**
+	 * Test that get_signed_url() produces a URL with the expected parameters.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$url           = ( new LLMS_Media_Protector() )->get_signed_url( $attachment_id );
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+
+		$this->assertEquals( $attachment_id, $args[ LLMS_Media_Protector::URL_PARAMETER_ID ] );
+		$this->assertGreaterThan( time(), (int) $args[ LLMS_Media_Protector::URL_PARAMETER_EXPIRES ] );
+		$this->assertMatchesRegularExpression( '/^[0-9a-f]{64}$/', $args[ LLMS_Media_Protector::URL_PARAMETER_TOKEN ] );
+
+		// The cosmetic file name parameter is last so the URL ends with the file extension.
+		$this->assertStringEndsWith( '.pdf', $url );
+	}
+
+	/**
+	 * Test that get_signed_url() returns an empty string for invalid media IDs.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url_invalid_media() {
+
+		$protector = new LLMS_Media_Protector();
+
+		$this->assertSame( '', $protector->get_signed_url( 0 ) );
+		$this->assertSame( '', $protector->get_signed_url( 999999999 ) );
+
+		// Non-attachment posts cannot be signed.
+		$this->assertSame( '', $protector->get_signed_url( $this->factory->post->create() ) );
+	}
+
+	/**
+	 * Test that the llms_media_signed_url_ttl filter controls the expiration timestamp.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_get_signed_url_ttl_filter() {
+
+		$attachment_id = $this->create_protected_attachment();
+
+		$ttl_filter = function () {
+			return 5 * MINUTE_IN_SECONDS;
+		};
+		add_filter( 'llms_media_signed_url_ttl', $ttl_filter );
+
+		$url = ( new LLMS_Media_Protector() )->get_signed_url( $attachment_id, DAY_IN_SECONDS );
+
+		remove_filter( 'llms_media_signed_url_ttl', $ttl_filter );
+
+		$args = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $args );
+
+		$expires = (int) $args[ LLMS_Media_Protector::URL_PARAMETER_EXPIRES ];
+		$this->assertLessThanOrEqual( time() + 5 * MINUTE_IN_SECONDS, $expires );
+	}
+
+	/**
+	 * Test that a signed URL validates via is_valid_signed_request().
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		$this->assertTrue( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that an expired token is rejected.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request_expired() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$expires = time() - 10;
+		$token   = LLMS_Unit_Test_Util::call_method( $protector, 'get_signed_url_token', array( $attachment_id, $expires ) );
+
+		$this->mockGetRequest(
+			array(
+				LLMS_Media_Protector::URL_PARAMETER_ID      => $attachment_id,
+				LLMS_Media_Protector::URL_PARAMETER_EXPIRES => $expires,
+				LLMS_Media_Protector::URL_PARAMETER_TOKEN   => $token,
+			)
+		);
+
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that tampered tokens and parameters are rejected.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_is_valid_signed_request_tampered() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		$args = $this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		// Tampered token.
+		$this->mockGetRequest(
+			array_merge(
+				$args,
+				array( LLMS_Media_Protector::URL_PARAMETER_TOKEN => str_repeat( '0', 64 ) )
+			)
+		);
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+
+		// Extended expiration with the original token.
+		$this->mockGetRequest(
+			array_merge(
+				$args,
+				array( LLMS_Media_Protector::URL_PARAMETER_EXPIRES => time() + YEAR_IN_SECONDS )
+			)
+		);
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+
+		// Token minted for another file.
+		$other_attachment_id = $this->create_protected_attachment();
+		$this->mockGetRequest( $args );
+		$this->assertFalse( $protector->is_valid_signed_request( $other_attachment_id ) );
+
+		// Missing token / expires.
+		$this->mockGetRequest( array( LLMS_Media_Protector::URL_PARAMETER_ID => $attachment_id ) );
+		$this->assertFalse( $protector->is_valid_signed_request( $attachment_id ) );
+	}
+
+	/**
+	 * Test that serve_file() authorizes a valid signed request for a protected file
+	 * even when the current user is not authorized to view it.
+	 *
+	 * The `llms_media_serve_method` filter runs immediately after the authorization
+	 * decision and receives it, making it a safe observation point which avoids
+	 * actually serving the file.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_serve_file_authorizes_valid_signed_request() {
+
+		$attachment_id = $this->create_protected_attachment();
+		$protector     = new LLMS_Media_Protector();
+
+		// The current (anonymous) user is not authorized on their own.
+		wp_set_current_user( 0 );
+		add_filter( 'llms_test_media_authorization', '__return_false' );
+		$this->assertFalse( $protector->is_authorized_to_view( 0, $attachment_id ) );
+
+		$this->mock_signed_request( $protector->get_signed_url( $attachment_id ) );
+
+		$authorized   = null;
+		$interceptor  = function ( $serve_method, $media_id, $is_authorized ) use ( &$authorized ) {
+			$authorized = $is_authorized;
+			throw new LLMS_Unit_Test_Exception_Exit( 'intercepted' );
+		};
+		add_filter( 'llms_media_serve_method', $interceptor, 10, 3 );
+
+		// Swallow "headers already sent" warnings raised by header() calls in the CLI test environment.
+		set_error_handler(
+			function ( $errno, $errstr ) {
+				return false !== strpos( $errstr, 'Cannot modify header information' );
+			},
+			E_WARNING
+		);
+
+		try {
+			$protector->serve_file();
+		} catch ( LLMS_Unit_Test_Exception_Exit $exception ) {
+			// Expected: serving was intercepted after the authorization decision.
+		} finally {
+			restore_error_handler();
+			remove_filter( 'llms_media_serve_method', $interceptor );
+			remove_filter( 'llms_test_media_authorization', '__return_false' );
+		}
+
+		$this->assertTrue( $authorized );
+	}
+
+	/**
+	 * Test that authorize_media_image_src() returns false unchanged for an authorized, protected non-image attachment.
+	 *
+	 * Before the fix, writing `$image[0]` on `false` raised a PHP 8.1+ deprecation notice.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_authorize_media_image_src_non_image() {
+
+		$attachment_id = $this->create_protected_attachment();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$errors = array();
+		set_error_handler(
+			function ( $errno, $errstr ) use ( &$errors ) {
+				$errors[] = $errstr;
+				return true;
+			}
+		);
+
+		try {
+			$image = ( new LLMS_Media_Protector() )->authorize_media_image_src( false, $attachment_id, 'thumbnail', false );
+		} finally {
+			restore_error_handler();
+		}
+
+		$this->assertFalse( $image );
+		$this->assertSame( array(), $errors );
+	}
+
+	/**
+	 * Test that handle_upload() stores the supplied authorization hook name.
+	 *
+	 * @since 10.2.0
+	 *
+	 * @return void
+	 */
+	public function test_handle_upload_persists_custom_hook_name() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
+		file_put_contents( $tmp, 'test' );
+
+		$_FILES['file'] = array(
+			'name'     => 'llms-media-protector-test.txt',
+			'tmp_name' => $tmp,
+			'type'     => 'text/plain',
+			'error'    => 0,
+			'size'     => filesize( $tmp ),
+		);
+
+		$protector = new LLMS_Media_Protector();
+		$media_id  = $protector->handle_upload(
+			'file',
+			0,
+			'llms_test_authorize_media_view',
+			array(),
+			array(
+				'test_form' => false,
+				'action'    => 'testing',
+			)
+		);
+
+		unset( $_FILES['file'] );
+
+		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
+		$this->assertSame( 'llms_test_authorize_media_view', $protector->get_authorization_filter_name( $media_id ) );
+	}
+
+	/**
+	 * Test that the upload folder protection files are written once the folder is created by the first protected upload.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @return void
+	 */
+	public function test_protection_files_written_after_first_upload() {
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		// Fresh site: the protected folder doesn't exist yet.
+		$protector   = new LLMS_Media_Protector( '', '/llms-test-' . uniqid() );
+		$upload_path = wp_get_upload_dir()['basedir'] . $protector->get_base_upload_path();
+		$htaccess    = $upload_path . '/.htaccess';
+		$this->assertDirectoryDoesNotExist( $upload_path );
+		delete_transient( 'lifterlms_check_media_protection_files' );
+
+		// Admin requests check at most once a day, even before the folder exists.
+		$protector->save_mod_rewrite_rules();
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+		$this->assertDirectoryDoesNotExist( $upload_path );
+
+		$tmp = wp_tempnam( 'llms-media-protector-test.txt' );
+		file_put_contents( $tmp, 'test' );
+		$_FILES['file'] = array(
+			'name'     => 'llms-media-protector-test.txt',
+			'tmp_name' => $tmp,
+			'type'     => 'text/plain',
+			'error'    => 0,
+			'size'     => filesize( $tmp ),
+		);
+		$media_id = $protector->handle_upload( 'file', 0, 'llms_test_authorize_media_view', array(), array( 'test_form' => false, 'action' => 'testing' ) );
+		unset( $_FILES['file'] );
+
+		$this->assertFalse( is_wp_error( $media_id ), is_wp_error( $media_id ) ? $media_id->get_error_message() : '' );
+		$this->assertStringStartsWith( $upload_path . '/', get_attached_file( $media_id ) );
+		$this->assertFileExists( $htaccess );
+		$this->assertStringContainsString( 'deny from all', file_get_contents( $htaccess ) );
+		$this->assertNotFalse( get_transient( 'lifterlms_check_media_protection_files' ) );
+
+		$GLOBALS['wp_filesystem']->rmdir( $upload_path, true );
+	}
 }
