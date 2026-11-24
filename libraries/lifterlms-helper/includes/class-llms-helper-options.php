@@ -141,8 +141,10 @@ class LLMS_Helper_Options {
 	 * @return array[] {
 	 *     Array of lapsed license records, keyed by the obfuscated license key.
 	 *
-	 *     @type string $product_id ID of the product the license key was for.
-	 *     @type int    $time       Timestamp of when the key was removed.
+	 *     @type string $product_id  ID of the product the license key was for.
+	 *     @type int    $time        Timestamp of when the key was removed.
+	 *     @type string $license_key The license key. Only set while the key is checked again, see {@see LLMS_Helper_Keys::check_keys()}.
+	 *     @type string $update_key  The update key. Only set while the key is checked again.
 	 * }
 	 */
 	public function get_lapsed_license_keys() {

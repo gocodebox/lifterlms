@@ -18,6 +18,13 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	private $key = 'aaaaaaa-mock-license-key-zzzzzzz';
 
 	/**
+	 * Keys sent to the LifterLMS.com license status endpoint, one array of license key => update key per request.
+	 *
+	 * @var array[]
+	 */
+	private $status_requests = array();
+
+	/**
 	 * Set up the test.
 	 *
 	 * @since [version]
@@ -91,7 +98,51 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	}
 
 	/**
-	 * Run the weekly license check with LifterLMS.com reporting the saved key as inactive.
+	 * Run the license check with a mocked response from the LifterLMS.com license status endpoint.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data  The `data` of the response: `keys`, an array of activation details keyed by license key, and `errors`.
+	 * @param bool  $force Whether to check regardless of when the keys were last checked.
+	 * @return void
+	 */
+	private function check_keys( $data, $force = true ) {
+
+		$mock = function ( $pre, $args, $url ) use ( $data ) {
+
+			if ( 'https://lifterlms.com/wp-json/llms/v3/license/status' !== $url ) {
+				return $pre;
+			}
+
+			$this->status_requests[] = $args['body']['keys'];
+
+			return array(
+				'headers'  => array(),
+				'body'     => wp_json_encode(
+					array(
+						'code'    => 'success',
+						'message' => 'Success',
+						'data'    => array_merge( array( 'status' => 200 ), $data ),
+					)
+				),
+				'response' => array(
+					'code'    => 200,
+					'message' => 'OK',
+				),
+				'cookies'  => array(),
+				'filename' => null,
+			);
+
+		};
+
+		add_filter( 'pre_http_request', $mock, 5, 3 );
+		LLMS_Helper_Keys::check_keys( $force );
+		remove_filter( 'pre_http_request', $mock, 5 );
+
+	}
+
+	/**
+	 * Run the license check with LifterLMS.com reporting the saved key as inactive.
 	 *
 	 * @since [version]
 	 *
@@ -99,29 +150,26 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 	 */
 	private function lapse_stripe_license() {
 
-		$this->mock_http_request(
-			'https://lifterlms.com/wp-json/llms/v3/license/status',
-			array(
-				'body'     => wp_json_encode(
-					array(
-						'code'    => 'success',
-						'message' => 'Success',
-						'data'    => array(
-							'status' => 200,
-							'keys'   => array(
-								$this->key => array( 'status' => 0 ),
-							),
-						),
-					)
-				),
-				'response' => array(
-					'code'    => 200,
-					'message' => 'OK',
-				),
-			)
-		);
+		$this->check_keys( array( 'keys' => array( $this->key => array( 'status' => 0 ) ) ) );
 
-		LLMS_Helper_Keys::check_keys( true );
+	}
+
+	/**
+	 * Retrieve what LifterLMS.com reports for the key once it is active again.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function get_active_stripe_license_data() {
+
+		return array(
+			'id'          => 'lifterlms-com-stripe-extension',
+			'license_key' => $this->key,
+			'status'      => 1,
+			'update_key'  => 'mock-update-key',
+			'addons'      => array( 'lifterlms-com-stripe-extension' ),
+		);
 
 	}
 
@@ -174,13 +222,192 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->assertSame( 'lifterlms-com-stripe-extension', $lapsed['aaaaaaa******************zzzzzzz']['product_id'] );
 		$this->assertEqualsWithDelta( $time, $lapsed['aaaaaaa******************zzzzzzz']['time'], 5 );
 
-		// The full key is not kept.
-		$this->assertStringNotContainsString( $this->key, wp_json_encode( get_option( 'llms_helper_options' ) ) );
+		// The key and its update key are kept to check the key again.
+		$this->assertSame( $this->key, $lapsed['aaaaaaa******************zzzzzzz']['license_key'] );
+		$this->assertSame( 'mock-update-key', $lapsed['aaaaaaa******************zzzzzzz']['update_key'] );
 
 		// Licensed again.
 		$this->add_stripe_license();
 		$this->assertSame( 'active', llms_helper_get_license_status() );
 		$this->assertSame( array(), llms_helper_options()->get_lapsed_license_keys() );
+
+	}
+
+	/**
+	 * A lapsed key is checked again and restored once LifterLMS.com reports it as active.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lapsed_key_is_restored() {
+
+		$this->mock_plugins( array( 'lifterlms-stripe/lifterlms-stripe.php' ) );
+		$notices = new LLMS_Helper_License_Notices();
+
+		$this->add_stripe_license();
+		$saved = llms_helper_options()->get_license_keys();
+		$this->lapse_stripe_license();
+		$this->age_lapse( 8 * DAY_IN_SECONDS );
+		$notices->sync_notices();
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
+
+		// Still inactive: the key is sent with its update key, stays lapsed, and the lapse keeps its date.
+		$lapsed = llms_helper_options()->get_lapsed_license_keys();
+		$this->lapse_stripe_license();
+		$this->assertCount( 2, $this->status_requests );
+		$this->assertSame( array( $this->key => 'mock-update-key' ), $this->status_requests[1] );
+		$this->assertSame( $lapsed, llms_helper_options()->get_lapsed_license_keys() );
+		$this->assertSame( 'lapsed', llms_helper_get_license_status() );
+
+		// Active again: the key is saved as it was and nothing is left of the lapse.
+		LLMS_Admin_Notices::add_notice( 'key_check_aaaaaaa******************zzzzzzz', 'Deactivated.' );
+		$this->check_keys( array( 'keys' => array( $this->key => $this->get_active_stripe_license_data() ) ) );
+
+		$this->assertCount( 3, $this->status_requests );
+		$this->assertSame( array( $this->key => 'mock-update-key' ), $this->status_requests[2] );
+		$this->assertSame( $saved, llms_helper_options()->get_license_keys() );
+		$this->assertSame( array(), llms_helper_options()->get_lapsed_license_keys() );
+		$this->assertSame( 'active', llms_helper_get_license_status() );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
+
+		$notices->sync_notices();
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-lapsed' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+
+	}
+
+	/**
+	 * One key becoming active again does not end the checks of another lapsed key.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lapsed_keys_are_restored_independently() {
+
+		$other = 'bbbbbbb-mock-license-key-yyyyyyy';
+
+		$this->add_stripe_license();
+		LLMS_Helper_Keys::add_license_key(
+			array(
+				'id'          => 'lifterlms-com-lifterlms-pdfs',
+				'license_key' => $other,
+				'update_key'  => 'other-update-key',
+				'addons'      => array( 'lifterlms-com-lifterlms-pdfs' ),
+			)
+		);
+
+		$this->check_keys(
+			array(
+				'keys' => array(
+					$this->key => array( 'status' => 0 ),
+					$other     => array( 'status' => 0 ),
+				),
+			)
+		);
+		$this->assertSame( array(), llms_helper_options()->get_license_keys() );
+
+		$this->check_keys(
+			array(
+				'keys' => array(
+					$this->key => $this->get_active_stripe_license_data(),
+					$other     => array( 'status' => 0 ),
+				),
+			)
+		);
+
+		$this->assertSame( array( $this->key ), array_keys( llms_helper_options()->get_license_keys() ) );
+		$this->assertSame( array( 'bbbbbbb******************yyyyyyy' ), array_keys( llms_helper_options()->get_lapsed_license_keys() ) );
+
+		// The other key is still checked, along with the saved one.
+		$this->check_keys( array( 'keys' => array() ) );
+		$this->assertCount( 3, $this->status_requests );
+		$this->assertSame(
+			array(
+				$this->key => 'mock-update-key',
+				$other     => 'other-update-key',
+			),
+			$this->status_requests[2]
+		);
+
+	}
+
+	/**
+	 * A key that LifterLMS.com cannot locate for the site cannot become active again and is not checked again.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_unlocatable_key_is_not_checked_again() {
+
+		// Reported as unlocatable while it was saved.
+		$this->add_stripe_license();
+		$this->check_keys( array( 'errors' => array( $this->key => 'Could not be located.' ) ) );
+
+		$this->assertSame( 'lapsed', llms_helper_get_license_status() );
+		$this->assertStringNotContainsString( $this->key, wp_json_encode( get_option( 'llms_helper_options' ) ) );
+
+		$this->check_keys( array( 'keys' => array() ) );
+		$this->assertCount( 1, $this->status_requests );
+
+		// Reported as unlocatable after it lapsed.
+		$this->add_stripe_license();
+		$this->lapse_stripe_license();
+		$this->assertStringContainsString( 'reactivated on this site automatically', LLMS_Admin_Notices::get_notice( 'key_check_aaaaaaa******************zzzzzzz' )['html'] );
+		$this->check_keys( array( 'errors' => array( $this->key => 'Could not be located.' ) ) );
+		$this->assertStringNotContainsString( 'reactivated', LLMS_Admin_Notices::get_notice( 'key_check_aaaaaaa******************zzzzzzz' )['html'] );
+
+		$this->assertSame( 'lapsed', llms_helper_get_license_status() );
+		$this->assertStringNotContainsString( $this->key, wp_json_encode( get_option( 'llms_helper_options' ) ) );
+
+		$this->check_keys( array( 'keys' => array() ) );
+		$this->assertCount( 3, $this->status_requests );
+
+	}
+
+	/**
+	 * Keys are checked once a week, and once a day during the month after a key lapsed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_check_keys_interval() {
+
+		$inactive = array( 'keys' => array( $this->key => array( 'status' => 0 ) ) );
+		$active   = array( 'keys' => array( $this->key => $this->get_active_stripe_license_data() ) );
+
+		// Saved keys only: once a week.
+		$this->add_stripe_license();
+		llms_helper_options()->set_last_keys_cron_check( time() - 6 * DAY_IN_SECONDS );
+		$this->check_keys( $active, false );
+		$this->assertCount( 0, $this->status_requests );
+
+		llms_helper_options()->set_last_keys_cron_check( time() - 8 * DAY_IN_SECONDS );
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 1, $this->status_requests );
+
+		// The key lapsed: not again within the same day.
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 1, $this->status_requests );
+
+		// The next day, by a cron event that runs earlier in the day than the day before.
+		llms_helper_options()->set_last_keys_cron_check( time() - 20 * HOUR_IN_SECONDS );
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 2, $this->status_requests );
+
+		// More than a month after the lapse: once a week again.
+		$this->age_lapse( 31 * DAY_IN_SECONDS );
+		llms_helper_options()->set_last_keys_cron_check( time() - 6 * DAY_IN_SECONDS );
+		$this->check_keys( $inactive, false );
+		$this->assertCount( 2, $this->status_requests );
+
+		llms_helper_options()->set_last_keys_cron_check( time() - 8 * DAY_IN_SECONDS );
+		$this->check_keys( $active, false );
+		$this->assertCount( 3, $this->status_requests );
+		$this->assertSame( 'active', llms_helper_get_license_status() );
 
 	}
 

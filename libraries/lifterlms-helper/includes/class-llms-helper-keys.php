@@ -75,21 +75,12 @@ class LLMS_Helper_Keys {
 	 */
 	public static function add_license_key( $activation_data ) {
 
-		$keys                                    = llms_helper_options()->get_license_keys();
-		$keys[ $activation_data['license_key'] ] = array(
-			'product_id'  => $activation_data['id'],
-			'status'      => 1,
-			'license_key' => $activation_data['license_key'],
-			'update_key'  => $activation_data['update_key'],
-			'addons'      => $activation_data['addons'],
-		);
-
 		// The site is licensed again, any earlier lapse no longer describes it.
 		if ( llms_helper_options()->get_lapsed_license_keys() ) {
 			llms_helper_options()->set_lapsed_license_keys( array() );
 		}
 
-		return llms_helper_options()->set_license_keys( $keys );
+		return self::save_license_key( $activation_data );
 	}
 
 	/**
@@ -97,9 +88,14 @@ class LLMS_Helper_Keys {
 	 *
 	 * Outputs warnings if the key has expired or the status has changed remotely.
 	 *
+	 * Also checks the keys that were removed because LifterLMS.com reported them as no longer valid
+	 * and restores the ones it reports as valid again, for example after a failed renewal payment
+	 * was recovered.
+	 *
 	 * Runs on daily cron (`llms_check_license_keys`).
 	 *
-	 * Only make api calls to check once / week.
+	 * Only make api calls to check once / week, or once / day while a key lapsed recently,
+	 * see {@see LLMS_Helper_Keys::get_check_interval()}.
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.0 Use core textdomain.
@@ -115,15 +111,16 @@ class LLMS_Helper_Keys {
 		}
 
 		// Don't proceed if we don't have any keys to check.
-		$keys = llms_helper_options()->get_license_keys();
-		if ( ! $keys ) {
+		$keys   = llms_helper_options()->get_license_keys();
+		$lapsed = self::get_lapsed_keys_to_check();
+		if ( ! $keys && ! $lapsed ) {
 			return;
 		}
 
 		if ( ! $force ) {
-			// Only check keys once a week.
+			// Only check keys once a week, or once a day while a key lapsed recently.
 			$last_send = llms_helper_options()->get_last_keys_cron_check();
-			if ( $last_send > apply_filters( 'llms_check_license_keys_interval', strtotime( '-1 week' ) ) ) {
+			if ( $last_send > apply_filters( 'llms_check_license_keys_interval', time() - self::get_check_interval( $lapsed ) ) ) {
 				return;
 			}
 		}
@@ -136,7 +133,7 @@ class LLMS_Helper_Keys {
 			'url'  => get_site_url(),
 		);
 
-		foreach ( $keys as $key ) {
+		foreach ( array_merge( array_values( $keys ), array_values( $lapsed ) ) as $key ) {
 			$data['keys'][ $key['license_key'] ] = $key['update_key'];
 		}
 
@@ -146,42 +143,43 @@ class LLMS_Helper_Keys {
 			$res = $req->get_result();
 			include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
-			/* Translators: %s = License Key */
-			$msg = __( 'The license "%s" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information.', 'lifterlms' );
-
-			// Output error responses.
+			// LifterLMS.com has no activation of these keys for this site, they cannot become valid again.
 			if ( isset( $res['data']['errors'] ) ) {
 				foreach ( array_keys( $res['data']['errors'] ) as $key ) {
-					self::lapse_license_key( $key );
-					LLMS_Admin_Notices::add_notice(
-						'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) ),
-						make_clickable( sprintf( $msg, llms_obfuscate_license_key( $key ) ) ),
-						array(
-							'type'             => 'error',
-							'dismiss_for_days' => 0,
-						)
-					);
-				}
-			}
 
-			// Check status of keys, if the status has changed remove it locally.
-			if ( isset( $res['data']['keys'] ) ) {
-				foreach ( $res['data']['keys'] as $key => $data ) {
-
-					if ( $data['status'] ) {
+					if ( isset( $lapsed[ $key ] ) ) {
+						self::stop_checking_lapsed_key( $key );
+						// The notice no longer tells that the key will be reactivated.
+						if ( LLMS_Admin_Notices::has_notice( 'key_check_' . llms_obfuscate_license_key( $key ) ) ) {
+							self::add_lapse_notice( $key, false );
+						}
 						continue;
 					}
 
 					self::lapse_license_key( $key );
-					LLMS_Admin_Notices::add_notice(
-						'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) ),
-						make_clickable( sprintf( $msg, llms_obfuscate_license_key( $key ) ) ),
-						array(
-							'type'             => 'error',
-							'dismiss_for_days' => 0,
-						)
-					);
+					self::add_lapse_notice( $key, false );
+				}
+			}
 
+			// Check status of keys, if the status has changed remove or restore it locally.
+			if ( isset( $res['data']['keys'] ) ) {
+				foreach ( $res['data']['keys'] as $key => $key_data ) {
+
+					// A lapsed key stays lapsed until LifterLMS.com reports it as valid again.
+					if ( isset( $lapsed[ $key ] ) ) {
+						if ( ! empty( $key_data['status'] ) ) {
+							self::restore_license_key( $key, $key_data );
+						}
+						continue;
+					}
+
+					if ( $key_data['status'] ) {
+						continue;
+					}
+
+					// The key is inactive, for example while a failed renewal payment is retried, and can become valid again.
+					self::lapse_license_key( $key, true );
+					self::add_lapse_notice( $key, true );
 				}
 			}
 		}
@@ -242,25 +240,33 @@ class LLMS_Helper_Keys {
 	 * Removing the key leaves no trace of the site ever having been licensed. The lapse record
 	 * lets the site tell "the license expired" apart from "never licensed".
 	 *
-	 * The record holds the obfuscated key, never the key itself.
+	 * The record holds the obfuscated key. It also holds the key itself and its update key when the
+	 * key is to be checked again, so that it can be restored once LifterLMS.com reports it as valid.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $key License key.
+	 * @param string $key     License key.
+	 * @param bool   $recheck Whether {@see LLMS_Helper_Keys::check_keys()} keeps checking the key and restores it when it is valid again.
 	 * @return boolean True if the key was saved on this site and has been removed, false otherwise.
 	 */
-	public static function lapse_license_key( $key ) {
+	public static function lapse_license_key( $key, $recheck = false ) {
 
 		$saved = self::get( $key );
 		if ( ! $saved ) {
 			return false;
 		}
 
-		$lapsed = llms_helper_options()->get_lapsed_license_keys();
-		$lapsed[ llms_obfuscate_license_key( $key ) ] = array(
+		$record = array(
 			'product_id' => $saved['product_id'],
 			'time'       => time(),
 		);
+		if ( $recheck ) {
+			$record['license_key'] = $saved['license_key'];
+			$record['update_key']  = $saved['update_key'];
+		}
+
+		$lapsed                                       = llms_helper_options()->get_lapsed_license_keys();
+		$lapsed[ llms_obfuscate_license_key( $key ) ] = $record;
 		llms_helper_options()->set_lapsed_license_keys( $lapsed );
 
 		return self::remove_license_key( $key );
@@ -280,5 +286,159 @@ class LLMS_Helper_Keys {
 			unset( $keys[ $key ] );
 		}
 		return llms_helper_options()->set_license_keys( $keys );
+	}
+
+	/**
+	 * Add the admin notice telling that a license key is no longer valid and was deactivated.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key     License key.
+	 * @param bool   $recheck Whether the key is checked again and restored when it is valid again.
+	 * @return void
+	 */
+	private static function add_lapse_notice( $key, $recheck ) {
+
+		if ( $recheck ) {
+			/* Translators: %s = License Key */
+			$msg = __( 'The license "%s" is no longer valid and was deactivated. It will be reactivated on this site automatically if it becomes valid again. Please visit your account dashboard at https://lifterlms.com/my-account for more information.', 'lifterlms' );
+		} else {
+			/* Translators: %s = License Key */
+			$msg = __( 'The license "%s" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information.', 'lifterlms' );
+		}
+
+		LLMS_Admin_Notices::add_notice(
+			'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) ),
+			make_clickable( sprintf( $msg, llms_obfuscate_license_key( $key ) ) ),
+			array(
+				'type'             => 'error',
+				'dismiss_for_days' => 0,
+			)
+		);
+	}
+
+	/**
+	 * Retrieve how long to wait between two checks of the license keys.
+	 *
+	 * A key that lapsed recently is likely to become valid again, for example when a failed renewal
+	 * payment is retried or the customer updates their payment method, so it is checked every day.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $lapsed Lapsed license keys to check, see {@see LLMS_Helper_Keys::get_lapsed_keys_to_check()}.
+	 * @return int Interval in seconds.
+	 */
+	private static function get_check_interval( $lapsed ) {
+
+		/**
+		 * Filters how long after a license key lapsed it is checked every day.
+		 *
+		 * After that, the key is checked every week, like the saved license keys.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $period Period in seconds.
+		 */
+		$period = apply_filters( 'llms_helper_lapsed_license_daily_check_period', MONTH_IN_SECONDS );
+
+		foreach ( $lapsed as $record ) {
+			if ( time() < $record['time'] + $period ) {
+				// The cron event runs once a day, never exactly 24 hours apart. Half a day lets every run check.
+				return DAY_IN_SECONDS / 2;
+			}
+		}
+
+		return WEEK_IN_SECONDS;
+	}
+
+	/**
+	 * Retrieve the lapsed license keys that can become valid again.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] Lapsed license records, see {@see LLMS_Helper_Options::get_lapsed_license_keys()}, keyed by the license key.
+	 */
+	private static function get_lapsed_keys_to_check() {
+
+		$keys = array();
+		foreach ( llms_helper_options()->get_lapsed_license_keys() as $record ) {
+			if ( ! empty( $record['license_key'] ) && ! empty( $record['update_key'] ) ) {
+				$keys[ $record['license_key'] ] = $record;
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Save a lapsed license key that LifterLMS.com reports as valid again and forget that it lapsed.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key      License key.
+	 * @param array  $key_data Details of the key's activation from the api call.
+	 * @return boolean True if the key was restored, false if the api call lacks the details needed to save it.
+	 */
+	private static function restore_license_key( $key, $key_data ) {
+
+		if ( ! isset( $key_data['id'], $key_data['update_key'], $key_data['addons'] ) ) {
+			return false;
+		}
+
+		$obfuscated = llms_obfuscate_license_key( $key );
+
+		$lapsed = llms_helper_options()->get_lapsed_license_keys();
+		unset( $lapsed[ $obfuscated ] );
+		llms_helper_options()->set_lapsed_license_keys( $lapsed );
+
+		if ( LLMS_Admin_Notices::has_notice( 'key_check_' . $obfuscated ) ) {
+			LLMS_Admin_Notices::delete_notice( 'key_check_' . $obfuscated );
+		}
+
+		$key_data['license_key'] = $key;
+		return self::save_license_key( $key_data );
+	}
+
+	/**
+	 * Save a single license key.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $activation_data Array of activation details from an api call.
+	 * @return boolean True if option value has changed, false if not or if update failed.
+	 */
+	private static function save_license_key( $activation_data ) {
+
+		$keys                                    = llms_helper_options()->get_license_keys();
+		$keys[ $activation_data['license_key'] ] = array(
+			'product_id'  => $activation_data['id'],
+			'status'      => 1,
+			'license_key' => $activation_data['license_key'],
+			'update_key'  => $activation_data['update_key'],
+			'addons'      => $activation_data['addons'],
+		);
+
+		return llms_helper_options()->set_license_keys( $keys );
+	}
+
+	/**
+	 * Stop checking a lapsed license key that cannot become valid again.
+	 *
+	 * The record that the key lapsed is kept, without the key.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key License key.
+	 * @return void
+	 */
+	private static function stop_checking_lapsed_key( $key ) {
+
+		$obfuscated = llms_obfuscate_license_key( $key );
+
+		$lapsed = llms_helper_options()->get_lapsed_license_keys();
+		if ( isset( $lapsed[ $obfuscated ] ) ) {
+			unset( $lapsed[ $obfuscated ]['license_key'], $lapsed[ $obfuscated ]['update_key'] );
+			llms_helper_options()->set_lapsed_license_keys( $lapsed );
+		}
 	}
 }
