@@ -226,10 +226,14 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		$this->assertSame( $this->key, $lapsed['aaaaaaa******************zzzzzzz']['license_key'] );
 		$this->assertSame( 'mock-update-key', $lapsed['aaaaaaa******************zzzzzzz']['update_key'] );
 
-		// Licensed again.
+		// Licensed again by entering the key: the notice that it was deactivated goes, the one of another key stays.
+		LLMS_Admin_Notices::add_notice( 'key_check_bbbbbbb******************yyyyyyy', 'Deactivated.' );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
 		$this->add_stripe_license();
 		$this->assertSame( 'active', llms_helper_get_license_status() );
 		$this->assertSame( array(), llms_helper_options()->get_lapsed_license_keys() );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'key_check_aaaaaaa******************zzzzzzz' ) );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'key_check_bbbbbbb******************yyyyyyy' ) );
 
 	}
 

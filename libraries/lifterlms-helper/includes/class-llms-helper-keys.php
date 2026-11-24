@@ -80,6 +80,9 @@ class LLMS_Helper_Keys {
 			llms_helper_options()->set_lapsed_license_keys( array() );
 		}
 
+		// Nor does the notice telling that this key was deactivated.
+		self::delete_lapse_notice( $activation_data['license_key'] );
+
 		return self::save_license_key( $activation_data );
 	}
 
@@ -318,6 +321,24 @@ class LLMS_Helper_Keys {
 	}
 
 	/**
+	 * Delete the admin notice telling that a license key is no longer valid and was deactivated.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $key License key.
+	 * @return void
+	 */
+	private static function delete_lapse_notice( $key ) {
+
+		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+
+		$notice_id = 'key_check_' . llms_obfuscate_license_key( sanitize_text_field( $key ) );
+		if ( LLMS_Admin_Notices::has_notice( $notice_id ) ) {
+			LLMS_Admin_Notices::delete_notice( $notice_id );
+		}
+	}
+
+	/**
 	 * Retrieve how long to wait between two checks of the license keys.
 	 *
 	 * A key that lapsed in the last week is likely to become valid again, for example when a failed
@@ -398,9 +419,7 @@ class LLMS_Helper_Keys {
 		unset( $lapsed[ $obfuscated ] );
 		llms_helper_options()->set_lapsed_license_keys( $lapsed );
 
-		if ( LLMS_Admin_Notices::has_notice( 'key_check_' . $obfuscated ) ) {
-			LLMS_Admin_Notices::delete_notice( 'key_check_' . $obfuscated );
-		}
+		self::delete_lapse_notice( $key );
 
 		$key_data['license_key'] = $key;
 		return self::save_license_key( $key_data );
