@@ -41,7 +41,8 @@ import {
  * @param {Object}    args.additionalSearchArgs    Object of additional query string arguments to use with the API request.
  * @param {?string}   args.label                   Search control label, passed to <BaseControl>.
  * @param {?string}   args.id                      Search control HTML ID attribute, passed to <BaseControl>.
- * @param {?Object[]} args.defaultOptions          Array of hydrated objects to preload into the select as options.
+ * @param {?Object[]} args.defaultOptions          Array of hydrated objects to preload into the select as options. When omitted,
+ *                                                 the first page of results is loaded from the API on mount.
  * @param {?Function} args.getSearchArgs           Function invoked to generate the query string arguments used when fetching
  *                                                 results from the API. The callback function is passed the search string.
  * @param {?Function} args.getSearchURL            Function invoked to create the search URL used to fetch results. The function
@@ -137,15 +138,18 @@ export default function BaseSearchControl( {
 		( searchQuery, callback ) => {
 			apiFetch( {
 				path: getSearchURL( searchPath, getSearchArgs( searchQuery ) ),
-			} ).then( ( results ) => {
-				const formatted = formatSearchResults(
-					results,
-					formatSearchResultLabel,
-					formatSearchResultValue
-				);
-				addLoadedResults( formatted );
-				callback( formatted );
-			} );
+			} )
+				.then( ( results ) => {
+					const formatted = formatSearchResults(
+						results,
+						formatSearchResultLabel,
+						formatSearchResultValue
+					);
+					addLoadedResults( formatted );
+					callback( formatted );
+				} )
+				// Stop the loading state if the request fails.
+				.catch( () => callback( [] ) );
 		}
 	);
 
@@ -175,9 +179,10 @@ export default function BaseSearchControl( {
 	selectProps.styles = selectProps.styles || defaultStyles;
 	selectProps.theme = selectProps.theme || defaultTheme;
 
-	if ( null === defaultOptions && value.length ) {
+	// Load the first results when nothing is cached so the menu doesn't show "No options" before typing.
+	if ( null === defaultOptions ) {
 		defaultOptions = loadedResults.length
-			? uniqBy( loadedResults, 'id' )
+			? uniqBy( loadedResults, 'value' )
 			: true;
 	}
 
