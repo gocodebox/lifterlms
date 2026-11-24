@@ -540,6 +540,12 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 							),
 						),
 					),
+					array(
+						'id'        => $this->prefix . 'instructors_author',
+						'type'      => 'hidden',
+						'value'     => $course->get( 'author' ),
+						'skip_save' => true,
+					),
 				),
 			),
 		);

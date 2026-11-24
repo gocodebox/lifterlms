@@ -418,4 +418,58 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 
 	}
 
+	/**
+	 * Test saving the instructors field keeps an author changed in the same save and still lets the instructors set the author.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_field_instructors_keeps_changed_author() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		list( $old_author, $new_author, $other ) = $this->factory->user->create_many( 3, array( 'role' => 'instructor' ) );
+
+		$course = llms_get_post( $this->factory->course->create( array( 'sections' => 0, 'post_author' => $old_author ) ) );
+		$course->instructors()->set_instructors( array( array( 'id' => $old_author ), array( 'id' => $other ) ) );
+
+		$stub  = $this->get_stub();
+		$field = array(
+			'id'      => '_llms_instructors_data',
+			'handler' => 'instructors_mb_store',
+		);
+
+		// The author was changed to a user who isn't an instructor before the meta box, still listing the old author, saves.
+		wp_update_post( array( 'ID' => $course->get( 'id' ), 'post_author' => $new_author ) );
+		$this->mockPostRequest( array(
+			'_llms_instructors_author' => $old_author,
+			'_llms_id_1'               => $old_author,
+			'_llms_label_1'            => 'Author',
+			'_llms_visibility_1'       => 'visible',
+			'_llms_id_2'               => $other,
+			'_llms_label_2'            => 'Author',
+			'_llms_visibility_2'       => 'visible',
+		) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $stub, 'save_field', array( $course->get( 'id' ), $field ) ) );
+
+		$this->assertEquals( $new_author, get_post_field( 'post_author', $course->get( 'id' ) ) );
+		$this->assertEquals( array( $new_author, $other ), wp_list_pluck( $course->instructors()->get_instructors(), 'id' ) );
+
+		// With the author unchanged, the first listed instructor becomes the author.
+		$this->mockPostRequest( array(
+			'_llms_instructors_author' => $new_author,
+			'_llms_id_1'               => $other,
+			'_llms_label_1'            => 'Author',
+			'_llms_visibility_1'       => 'visible',
+			'_llms_id_2'               => $new_author,
+			'_llms_label_2'            => 'Author',
+			'_llms_visibility_2'       => 'visible',
+		) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $stub, 'save_field', array( $course->get( 'id' ), $field ) ) );
+
+		$this->assertEquals( $other, get_post_field( 'post_author', $course->get( 'id' ) ) );
+		$this->assertEquals( array( $other, $new_author ), wp_list_pluck( $course->instructors()->get_instructors(), 'id' ) );
+
+	}
+
 }
