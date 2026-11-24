@@ -85,7 +85,19 @@
 
 			// Block editor Author panel, for post types that support an author.
 			if ( $( 'body' ).hasClass( 'block-editor-page' ) && window.wp && wp.data && undefined !== wp.data.select( 'core/editor' ).getEditedPostAttribute( 'author' ) ) {
-				wp.data.dispatch( 'core/editor' ).editPost( { author: parseInt( author_id, 10 ) } );
+				var editor = wp.data.select( 'core/editor' ),
+					type   = editor.getCurrentPostType(),
+					record = wp.data.select( 'core' ).getEntityRecord( 'postType', type, editor.getCurrentPostId() ),
+					id     = parseInt( author_id, 10 );
+
+				// The instructors already saved the new author, so update the loaded post instead of adding an unsaved
+				// change. Otherwise picking the previous author again would look unchanged and not be saved.
+				if ( record ) {
+					wp.data.dispatch( 'core' ).receiveEntityRecords( 'postType', type, [ $.extend( {}, record, { author: id } ) ] );
+				}
+
+				// Replaces an unsaved Author panel change, if any (an edit equal to the loaded post is dropped).
+				wp.data.dispatch( 'core/editor' ).editPost( { author: id } );
 			}
 
 			// Classic editor Author meta box, when the user is one of its options.
