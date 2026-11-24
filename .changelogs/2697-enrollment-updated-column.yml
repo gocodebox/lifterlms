@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: "Renamed the \"Updated\" column to \"Enrollment Updated\" in the student courses reporting table, so it is clear the date is when the enrollment was last updated."
