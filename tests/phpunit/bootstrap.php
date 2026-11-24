@@ -120,7 +120,7 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * - Any other request to academy.lifterlms.com or demo.lifterlms.com, such as an image in an export, and any
 	 *   lifterlms.com request outside its REST API, such as an oEmbed probe: an error.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param false|array|WP_Error $preempt Response from an earlier filter, or `false` to make the request.
 	 * @param array                $args    HTTP request arguments.

@@ -214,7 +214,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Creates a published 100%-off coupon that can be used once.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $code Coupon code.
 	 * @return LLMS_Coupon
@@ -234,7 +234,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Saves an order that used the coupon, as a concurrent checkout would.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param LLMS_Coupon $coupon Coupon.
 	 * @return LLMS_Order
@@ -250,7 +250,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test with_usage_lock() runs the callback and releases the lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -295,7 +295,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	 * The order saved in the `query` filter stands in for a concurrent checkout that
 	 * finishes after this request validated the coupon and before it saved its order.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Databases that can't provide the usage lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return array[]
 	 */
@@ -345,7 +345,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test with_usage_lock() re-checks the remaining uses without the lock when the lock can't be acquired.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @dataProvider provider_lock_unavailable
 	 *
@@ -396,7 +396,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test with_usage_lock() runs the callback when the lock is turned off.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -427,7 +427,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test with_usage_lock() runs the callback without a lock for coupons without a usage limit.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

@@ -260,7 +260,7 @@ class LLMS_Controller_Orders {
 	 * and access expiration apply to it from then on. An enrollment created by anything else, such as another
 	 * order, isn't affected by removing this order and is left as it is.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param LLMS_Order $order The order being trashed or deleted.
 	 * @return bool `true` when another order keeps the student enrolled, `false` otherwise.

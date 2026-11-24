@@ -224,7 +224,7 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	/**
 	 * New access plans are ordered after the product's existing plans unless a menu_order is requested.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

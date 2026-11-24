@@ -350,7 +350,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that trashing an order does not unenroll a student who has another active order.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -385,7 +385,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that permanently deleting an order does not remove enrollment when another active order exists.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -420,7 +420,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that trashing an older order matching the trigger does not unenroll a student with a newer active order.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -453,7 +453,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that trashing an order unenrolls the student if another order exists but its access has expired.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -486,7 +486,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that order expiration unenrolls the student even if another completed order exists.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -517,7 +517,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test that trashing or deleting an order the enrollment isn't linked to leaves the enrollment and its trigger alone.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -566,7 +566,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * and that the enrollment is deleted once no other order grants access.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

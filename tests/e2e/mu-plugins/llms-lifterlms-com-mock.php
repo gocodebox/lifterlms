@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Tests/E2E
  *
- * @since [version]
+ * @since 11.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Any other request to lifterlms.com or one of its subdomains, such as the dashboard widget feeds, translations,
  * notifications, or an image in an imported course, fails as if the site were unreachable.
  *
- * @since [version]
+ * @since 11.1.1
  *
  * @param false|array|WP_Error $preempt Whether to preempt the request.
  * @param array                $args    HTTP request arguments.

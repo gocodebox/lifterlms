@@ -11,8 +11,8 @@
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
  * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
  * @since 10.2.1 Link Earth Bundle in the manual-gateway payment notice.
- * @since [version] Key fields by the plan's position in the list so plans sharing a `menu_order` don't collide.
- * @version [version]
+ * @since 11.1.1 Key fields by the plan's position in the list so plans sharing a `menu_order` don't collide.
+ * @version 11.1.1
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.

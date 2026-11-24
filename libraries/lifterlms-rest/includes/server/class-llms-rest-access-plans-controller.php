@@ -560,7 +560,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	 * Prepares a single post for create or update
 	 *
 	 * @since 1.0.0-beta.18
-	 * @since [version] Give new plans the next `menu_order` among the product's plans when none is requested.
+	 * @since 1.1.5 Give new plans the next `menu_order` among the product's plans when none is requested.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return array|WP_Error Array of llms post args or WP_Error.
@@ -616,7 +616,7 @@ class LLMS_REST_Access_Plans_Controller extends LLMS_REST_Posts_Controller {
 	/**
 	 * Retrieve the next menu_order for a new access plan of a product.
 	 *
-	 * @since [version]
+	 * @since 1.1.5
 	 *
 	 * @param int $product_id Course or membership post ID.
 	 * @return int

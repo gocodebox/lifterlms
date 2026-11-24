@@ -354,7 +354,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test that a student cannot start or continue a quiz that isn't published.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

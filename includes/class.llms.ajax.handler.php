@@ -145,7 +145,7 @@ class LLMS_AJAX_Handler {
 	 * Move a Product Access Plan to the trash
 	 *
 	 * @since 3.0.0
-	 * @since [version] Only trash access plans.
+	 * @since 11.1.1 Only trash access plans.
 	 *
 	 * @param array $request $_REQUEST object.
 	 * @return bool|WP_Error WP_Error on error, true if successful.

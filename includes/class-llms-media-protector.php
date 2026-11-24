@@ -447,7 +447,7 @@ class LLMS_Media_Protector {
 	 *
 	 * Finds images inserted by the editor (`wp-image-{ID}` class) and protected media URLs (`llms_media_id` parameter).
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $content HTML content.
 	 * @return int[]
@@ -466,7 +466,7 @@ class LLMS_Media_Protector {
 	 *
 	 * Keeps quiz IDs already linked to the media file. Callers must check that the user may edit the media file.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param int $media_id The post ID of the media file.
 	 * @param int $quiz_id  WP_Post ID of the quiz.

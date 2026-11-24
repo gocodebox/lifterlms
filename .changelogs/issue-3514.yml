@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: "Fixed HTML entities, such as `&#8211;` or `&amp;`, showing in block editor labels for course, membership, and access plan titles, category names, and user names."

@@ -1,6 +1,42 @@
 LifterLMS Changelog
 ===================
 
+v11.1.1 - 2026-11-24
+--------------------
+
+##### Updates and Enhancements
+
++ Changing the primary instructor in the Instructors tab now updates the Author shown in the block and classic editors. [#3523](https://github.com/gocodebox/lifterlms/issues/3523)
+
+##### Bug Fixes
+
++ Prevented trashing or deleting an order from unenrolling a student or deleting their enrollment when another order granting access exists for the same product. [#3464](https://github.com/gocodebox/lifterlms/issues/3464)
++ Fixed the course builder not warning about unsaved changes when leaving the page while a lesson field, such as the title, has focus. [#3498](https://github.com/gocodebox/lifterlms/issues/3498)
++ Fixed access plans that share an order number overwriting each other's settings when saved in the course or membership editor, and access plans created through the REST API all getting the same order number. [#3519](https://github.com/gocodebox/lifterlms/issues/3519)
++ Fixed the course importer treating an unexpected (non-JSON or error) response from the LifterLMS.com exports API as course data instead of showing an error.
++ Instructors, assistants and LMS managers now show in the block editor author list. [#1953](https://github.com/gocodebox/lifterlms/issues/1953)
++ Changing a course's author in the editor now saves and makes them the primary instructor instead of reverting to the previous author. [#3521](https://github.com/gocodebox/lifterlms/issues/3521)
++ Fixed access plan sale start and end dates set via the REST API being ignored when checking if the plan is on sale.
++ On the Edit Account form, the Current Password field no longer disappears when one of the email or password changes is cancelled while the other is still open.
++ Fix fatal error when accessing a quiz whose parent lesson has been deleted. Thanks [@thisismyurl](https://github.com/thisismyurl)!
++ Fixed protected quiz question images not loading for students while taking a quiz or viewing its results.
++ Prevent duplicate orders, enrollments, and accounts when the free enrollment or checkout form is submitted more than once at the same time, such as by a double click.
++ Fixed post titles showing HTML entities, such as `&#8211;` instead of a dash, in post search results like the Award Certificate template search.
++ Fixed HTML entities, such as `&#8211;` or `&amp;`, showing in block editor labels for course, membership, and access plan titles, category names, and user names.
++ Fixed a fatal error when the related courses shortcode finds courses to display.
++ Fixed an instructor added in the Instructors tab after removing another one replacing an existing instructor when the course or membership is saved.
++ Fixed the course information, instructors, pricing table, and syllabus displaying twice to visitors when a course's sales page is set to show custom content but the content is empty.
+
+##### Security Fixes
+
++ Additional checks when deleting access plans.
++ Additional checks on course element shortcodes and blocks.
++ Additional checks on REST API quiz attempt requests.
++ Additional checks on quiz AJAX requests.
++ Additional checks on coupon usage during checkout.
++ Additional checks on voucher redemption.
+
+
 v11.1.0 - 2026-11-17
 --------------------
 

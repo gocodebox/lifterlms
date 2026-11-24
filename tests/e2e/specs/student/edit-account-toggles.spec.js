@@ -1,7 +1,7 @@
 /**
  * Student dashboard Edit Account email and password toggles.
  *
- * @since [version]
+ * @since 11.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

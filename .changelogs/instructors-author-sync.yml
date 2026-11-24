@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#3523"
-entry: "Changing the primary instructor in the Instructors tab now updates the Author shown in the block and classic editors."

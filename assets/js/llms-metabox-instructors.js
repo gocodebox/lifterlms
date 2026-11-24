@@ -61,7 +61,7 @@
 		/**
 		 * Get the user ID of the first (primary) instructor in the repeater
 		 *
-		 * @since [version]
+		 * @since 11.1.1
 		 *
 		 * @param {Object} $repeater jQuery selector for the instructors repeater.
 		 * @return {string|undefined}
@@ -73,7 +73,7 @@
 		/**
 		 * Show the new primary instructor in the editor's Author control
 		 *
-		 * @since [version]
+		 * @since 11.1.1
 		 *
 		 * @param {string} author_id WP_User ID of the new primary instructor.
 		 * @return {void}

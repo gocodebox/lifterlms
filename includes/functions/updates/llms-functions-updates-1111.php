@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 11.1.1
+ * @version 11.1.1
  */
 
 namespace LLMS\Updates\Version_11_1_1;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 11.1.1
  *
  * @access private
  *
@@ -37,7 +37,7 @@ function _get_db_version() {
  * Returns `true` while a full page was processed so the background updater calls it again,
  * otherwise `false`. Re-running is safe.
  *
- * @since [version]
+ * @since 11.1.1
  *
  * @return bool
  */
@@ -97,7 +97,7 @@ function link_question_media_to_quizzes() {
 /**
  * Update db version to 11.1.1.
  *
- * @since [version]
+ * @since 11.1.1
  *
  * @return false
  */

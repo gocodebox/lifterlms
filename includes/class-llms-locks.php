@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 11.1.1
+ * @version 11.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * MySQL before 5.7.5 and MariaDB before 10.0.2 hold one named lock per connection: acquiring a second lock releases
  * the first one, which leaves the request with the most recent lock only.
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Locks {
 
@@ -53,7 +53,7 @@ class LLMS_Locks {
 	/**
 	 * Waits for a lock, then holds it until it is released or the request ends.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key     Identifies what is locked, such as `checkout_enroll_{$user_id}_{$product_id}`.
 	 * @param int    $timeout Seconds to wait for a request that already holds the lock.
@@ -70,7 +70,7 @@ class LLMS_Locks {
 		 *
 		 * Return `0` to skip the lock.
 		 *
-		 * @since [version]
+		 * @since 11.1.1
 		 *
 		 * @param int    $timeout Seconds to wait for the lock.
 		 * @param string $key     The lock key.
@@ -121,7 +121,7 @@ class LLMS_Locks {
 	 *
 	 * Locks that aren't released are released when the request ends.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key The lock key passed to `acquire()`.
 	 * @return bool Whether the lock was released. `false` when the request doesn't hold the lock.

@@ -403,7 +403,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Databases that can't provide a checkout lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return array[]
 	 */
@@ -418,7 +418,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_setup_pending_order() still registers and sets up the order when checkout locks are unavailable.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @dataProvider provider_locks_unavailable
 	 *

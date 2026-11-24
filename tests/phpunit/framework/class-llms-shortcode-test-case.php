@@ -57,7 +57,7 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	 * decodes an escape such as `\x3c` to `&lt;` instead of `<`, so escaped attribute values no longer
 	 * rebuild markup.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return bool
 	 */

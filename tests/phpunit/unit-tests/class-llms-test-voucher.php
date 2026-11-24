@@ -6,14 +6,14 @@
  *
  * @group voucher
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 
 	/**
 	 * A code stops granting enrollments once its redemption limit is reached.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * The same user cannot redeem one code twice.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -67,7 +67,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	 *
 	 * Checking the limit before the lock is acquired would let this redemption through.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * A redemption saved by the same user's overlapping request while this one waited for the lock is found.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	 *
 	 * The competing row is saved from the `query` filter when the lock is asked for.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param LLMS_Voucher $voucher            Voucher being redeemed.
 	 * @param object       $code               Voucher code row.
@@ -149,7 +149,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * The redemption is saved and the lock released before the user is enrolled, and the lock is released when a redemption is refused.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * Databases that can't provide the redemption lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return array[]
 	 */
@@ -227,7 +227,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * Without the lock a code is still redeemed, the limit still applies, and no database error is printed.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @dataProvider provider_lock_unavailable
 	 *
@@ -277,7 +277,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * With the lock turned off a code is still redeemed and the limit still applies.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -312,7 +312,7 @@ class LLMS_Test_Voucher extends LLMS_UnitTestCase {
 	/**
 	 * Count redemption rows for a voucher code.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param int $code_id Voucher code ID.
 	 * @return int

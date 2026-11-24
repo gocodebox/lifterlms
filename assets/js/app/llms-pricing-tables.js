@@ -58,7 +58,7 @@ LLMS.Pricing_Tables = {
 	/**
 	 * Submit each free enrollment form only once, so a double click doesn't send a second enrollment request.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

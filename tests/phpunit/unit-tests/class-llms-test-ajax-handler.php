@@ -226,7 +226,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test delete_access_plan() only trashes access plans.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -1059,7 +1059,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * Plans created outside the course editor, such as through the REST API, can share a `menu_order`.
 	 * Their fields must not collide in the submitted form data.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

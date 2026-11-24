@@ -421,7 +421,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test saving the instructors field keeps an author changed in the same save and still lets the instructors set the author.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

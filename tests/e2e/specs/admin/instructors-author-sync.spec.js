@@ -1,7 +1,7 @@
 /**
  * The block editor's Author panel follows the primary instructor set in the Instructors tab.
  *
- * @since [version]
+ * @since 11.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

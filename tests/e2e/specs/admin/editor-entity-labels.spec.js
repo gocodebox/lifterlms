@@ -5,7 +5,7 @@
  * term names and user names (`&amp;`). Labels in editor controls must show the
  * decoded text instead of the entities.
  *
- * @since [version]
+ * @since 11.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

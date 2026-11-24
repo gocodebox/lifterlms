@@ -538,7 +538,7 @@ class LLMS_Test_Controller_Checkout extends LLMS_UnitTestCase {
 	/**
 	 * Test create_pending_order() does not create an order when another order uses up the coupon after validation.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

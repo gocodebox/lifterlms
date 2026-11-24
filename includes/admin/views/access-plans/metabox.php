@@ -6,8 +6,8 @@
  *
  * @since 3.0.0
  * @since 6.0.0 Fix closing tag inside the `llms-no-plans-msg` div element.
- * @since [version] Pass each plan's position to the plan view as `$plan_order`.
- * @version [version]
+ * @since 11.1.1 Pass each plan's position to the plan view as `$plan_order`.
+ * @version 11.1.1
  *
  * @var LLMS_Course $course
  * @var array $checkout_redirection_types checkout redirect setting options.

@@ -229,7 +229,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * If the lock can't be acquired, because the database doesn't provide one or another checkout held it
 	 * until the timeout, the remaining uses are re-checked without it so the checkout can still go ahead.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @see LLMS_Locks
 	 *

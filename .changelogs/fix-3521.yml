@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#3521"
-entry: "Changing a course's author in the editor now saves and makes them the primary instructor instead of reverting to the previous author."

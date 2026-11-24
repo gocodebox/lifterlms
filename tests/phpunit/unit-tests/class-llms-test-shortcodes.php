@@ -312,7 +312,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test that course element and outline shortcodes only output courses the current user can view.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -355,7 +355,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Test that the related courses shortcode outputs published courses.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

@@ -1,7 +1,7 @@
 /**
  * Instructors added after one is removed are all saved.
  *
- * @since [version]
+ * @since 11.1.1
  */
 
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';

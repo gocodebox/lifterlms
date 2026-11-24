@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version [version]
+ * @version 11.1.1
  */
 
 defined( 'ABSPATH' ) || exit;

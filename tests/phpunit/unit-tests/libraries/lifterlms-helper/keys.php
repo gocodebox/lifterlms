@@ -107,7 +107,7 @@ class LLMS_Helper_Test_Keys extends LLMS_Helper_Unit_Test_Case {
 	 * Test activate_keys() with an invalid key
 	 *
 	 * @since 3.2.1
-	 * @since [version] Renamed from `test_activate_keys_real_fake_key()` and mocked the API response.
+	 * @since 11.1.1 Renamed from `test_activate_keys_real_fake_key()` and mocked the API response.
 	 *
 	 * @return void
 	 */

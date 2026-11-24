@@ -239,7 +239,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test that get_enrollment_order() returns the most recently modified order when the enrollment has no order trigger.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -278,7 +278,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Test get_enrollment_order() with skip_trigger and custom query arguments.
 	 *
 	 * @ticket 3464
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

@@ -918,7 +918,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Test that saving a question links its image, choice images, and images in its description and clarifications
 	 * to the quiz, including inside a question group.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

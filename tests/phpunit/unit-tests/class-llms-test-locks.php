@@ -6,7 +6,7 @@
  *
  * @group locks
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 
@@ -45,7 +45,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the test case.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve the database name of a lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key Lock key.
 	 * @return string
@@ -92,7 +92,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Try to take a lock from the other connection without waiting.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key Lock key.
 	 * @return bool Whether the other connection now holds the lock.
@@ -104,7 +104,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Determine whether the other connection holds a lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key Lock key.
 	 * @return bool
@@ -116,7 +116,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Skip a test that needs a database with named locks.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param bool $multiple Whether the test holds several locks on one connection.
 	 * @return void
@@ -134,7 +134,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Release a lock held by the other connection.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $key Lock key.
 	 * @return void
@@ -148,7 +148,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	 *
 	 * Database errors are displayed while the callback runs, so an error that isn't suppressed ends up in the output.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string   $replacement SQL run in place of `GET_LOCK()` and `RELEASE_LOCK()` queries.
 	 * @param callable $callback    Callback.
@@ -188,7 +188,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Databases that can't provide a lock.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return array[]
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * A held lock keeps an overlapping request out until it is released.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -228,7 +228,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Acquiring a lock the request already holds doesn't stack: one release frees it.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -247,7 +247,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Locks with different keys are independent, and several can be held at once.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -272,7 +272,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * A lock held by an overlapping request is waited for, then the request continues without it.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -300,7 +300,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	 *
 	 * A persistent database connection outlives the request, and would keep them.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -340,7 +340,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Without a lock the request continues, nothing is printed, and nothing is released later.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @dataProvider provider_unavailable
 	 *
@@ -379,7 +379,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Whatever the test database supports, asking for a lock prints nothing and reports whether the lock is held.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -402,7 +402,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * The timeout filter can turn a lock off, and sets how long to wait.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -446,7 +446,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * Database drop-ins that send reads to replicas.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return array[]
 	 */
@@ -460,7 +460,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 	/**
 	 * With a database drop-in that sends reads to replicas, the lock is taken on the primary.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @dataProvider provider_replica_drop_ins
 	 *
@@ -487,7 +487,7 @@ class LLMS_Test_Locks extends LLMS_Unit_Test_Case {
 /**
  * Stands in for HyperDB's `$wpdb`.
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Test_Locks_Hyperdb {
 
@@ -515,7 +515,7 @@ class LLMS_Test_Locks_Hyperdb {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param wpdb $db The real database connection.
 	 */
@@ -527,7 +527,7 @@ class LLMS_Test_Locks_Hyperdb {
 	/**
 	 * Send the rest of the request's reads to the primary.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -538,7 +538,7 @@ class LLMS_Test_Locks_Hyperdb {
 	/**
 	 * Run a query and return its first value.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $query SQL.
 	 * @return string|null
@@ -551,7 +551,7 @@ class LLMS_Test_Locks_Hyperdb {
 	/**
 	 * Pass everything else to the real connection.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param string $name Method name.
 	 * @param array  $args Arguments.
@@ -565,14 +565,14 @@ class LLMS_Test_Locks_Hyperdb {
 /**
  * Stands in for LudicrousDB's `$wpdb`, which has both methods and reports the older one as deprecated.
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Test_Locks_Ludicrousdb extends LLMS_Test_Locks_Hyperdb {
 
 	/**
 	 * Send the rest of the request's reads to the primary.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

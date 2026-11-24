@@ -596,7 +596,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * Each media file is only linked when the current user can edit it.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param int[] $media_ids WP_Post IDs of the attachments.
 	 * @param int   $quiz_id   WP_Post ID of the quiz.

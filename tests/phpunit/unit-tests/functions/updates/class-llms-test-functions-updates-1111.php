@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_1111
  *
- * @since [version]
+ * @since 11.1.1
  */
 class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	/**
 	 * Number of items per update batch.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return int
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	/**
 	 * Create an attachment, optionally protected.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @param bool $protected Whether to protect the attachment.
 	 * @return int
@@ -58,7 +58,7 @@ class LLMS_Test_Functions_Updates_1111 extends LLMS_UnitTestCase {
 	 * Test that protected media in questions is linked to the question's quiz across batches, including inside
 	 * a question group, and unprotected media and existing links are left alone.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

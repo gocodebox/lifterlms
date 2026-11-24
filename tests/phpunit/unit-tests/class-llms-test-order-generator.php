@@ -303,7 +303,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test generate() does not create an order when another order uses up the coupon after validation.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

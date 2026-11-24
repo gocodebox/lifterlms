@@ -239,7 +239,7 @@ class LLMS_Test_Media_Protector extends LLMS_UnitTestCase {
 	 * Test that quiz media stays viewable during the last allowed attempt and on the results after submitting,
 	 * and is not viewable to an enrolled student who has not attempted the quiz.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */
