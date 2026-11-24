@@ -141,8 +141,14 @@ this.repeaters = {
 			$rows     = $repeater.find( '.llms-repeater-rows' ),
 			$model    = $repeater.find( '.llms-repeater-model' ),
 			$row      = self.clone_row( $model.find( '.llms-repeater-row' ) ),
-			new_index = $repeater.find( '.llms-repeater-row' ).length,
-			editor    = self.reindex( $row, new_index );
+			new_index = 1,
+			editor;
+
+		// Number the row after the highest one in use: counting rows would reuse a number after a row is removed.
+		$rows.find( '.llms-repeater-row' ).each( function() {
+			new_index = Math.max( new_index, ( parseInt( $( this ).attr( 'data-row-order' ), 10 ) || 0 ) + 1 );
+		} );
+		editor = self.reindex( $row, new_index );
 
 		if ( data ) {
 			$.each( data, function( key, val ) {

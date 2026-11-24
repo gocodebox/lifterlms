@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed an instructor added in the Instructors tab after removing another one replacing an existing instructor when the course or membership is saved."
