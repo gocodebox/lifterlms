@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/navigation-link",
+  "title": "LifterLMS Link",
+  "category": "llms-blocks",
+  "parent": [
+    "core/navigation"
+  ],
+  "description": "Add dynamic LifterLMS links to navigation menus.",
+  "keywords": [
+    "LifterLMS",
+    "Dashboard",
+    "My Courses",
+    "My Grades",
+    "My Memberships",
+    "My Achievements",
+    "My Certificates",
+    "Notifications",
+    "Edit Account",
+    "Redeem a Voucher",
+    "Order History",
+    "Sign In",
+    "Sign Out"
+  ],
+  "textdomain": "lifterlms",
+  "attributes": {
+    "label": {
+      "type": "string",
+      "default": "Dashboard"
+    },
+    "page": {
+      "type": "string",
+      "default": "dashboard"
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "typography": {
+      "fontSize": true,
+      "fontFamily": true,
+      "fontWeight": true,
+      "lineHeight": true,
+      "textDecoration": true,
+      "textTransform": true,
+      "letterSpacing": true
+    },
+    "spacing": {
+      "width": true
+    }
+  },
+  "editorScript": "file:./index.js"
+}

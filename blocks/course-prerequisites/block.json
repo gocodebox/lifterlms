@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/course-prerequisites",
+  "title": "Course Prerequisites",
+  "category": "llms-blocks",
+  "description": "Display a notice describing unfulfilled prerequisites for a course.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "course_id": {
+      "type": "integer"
+    },
+    "llms_visibility": {
+      "type": "string"
+    },
+    "llms_visibility_in": {
+      "type": "string"
+    },
+    "llms_visibility_posts": {
+      "type": "string"
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js"
+}

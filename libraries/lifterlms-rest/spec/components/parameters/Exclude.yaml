@@ -1,6 +1,0 @@
-name: exclude
-in: query
-description: Exclude a list of `id`s from results. Accepts a single `id` or a comma separated list of `id`s.
-schema:
-  type: string
-  example: [10,11,12]

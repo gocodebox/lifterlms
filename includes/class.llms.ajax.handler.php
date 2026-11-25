@@ -145,6 +145,7 @@ class LLMS_AJAX_Handler {
 	 * Move a Product Access Plan to the trash
 	 *
 	 * @since 3.0.0
+	 * @since 11.1.1 Only trash access plans.
 	 *
 	 * @param array $request $_REQUEST object.
 	 * @return bool|WP_Error WP_Error on error, true if successful.
@@ -156,7 +157,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		$access_plan = llms_get_post( $request['plan_id'] );
-		if ( ! $access_plan->get( 'product_id' ) ) {
+		if ( ! $access_plan instanceof LLMS_Access_Plan || ! $access_plan->get( 'product_id' ) ) {
 			wp_die();
 		}
 		if ( ! llms_current_user_can_edit_product( $access_plan->get( 'product_id' ) ) ) {
@@ -446,6 +447,11 @@ class LLMS_AJAX_Handler {
 
 		if ( $quiz_id && absint( $lesson->get( 'quiz' ) ) !== absint( $quiz_id ) ) {
 			return new WP_Error( 403, __( 'This quiz does not belong to the specified lesson.', 'lifterlms' ) );
+		}
+
+		$lesson_quiz_id = absint( $lesson->get( 'quiz' ) );
+		if ( $lesson_quiz_id && ! is_post_publicly_viewable( $lesson_quiz_id ) && ! current_user_can( 'read_post', $lesson_quiz_id ) ) {
+			return new WP_Error( 403, __( 'This quiz is not available.', 'lifterlms' ) );
 		}
 
 		$course = $lesson->get_course();

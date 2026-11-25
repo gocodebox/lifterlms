@@ -314,15 +314,24 @@ class LLMS_Voucher {
 	 *
 	 * @param string $code    Voucher code of the voucher being redeemed.
 	 * @param int    $user_id WP_User ID of the user redeeming the voucher.
-	 * @return bool|WP_Error Error object on failure, `true` when successful.
+	 * @return bool|WP_Error|null Error object on failure, `true` when successful, `null` when the voucher has no products.
 	 */
 	public function use_voucher( $code, $user_id ) {
 
 		$code = sanitize_text_field( $code );
 
-		$voucher = $this->check_voucher( $code );
+		// Overlapping requests redeeming this code run one after another, so each one's checks see the redemptions saved before it.
+		// Without the lock, the checks run as they are.
+		$lock = 'voucher_' . strtolower( $code );
+		LLMS_Locks::instance()->acquire( $lock );
 
-		if ( ! is_wp_error( $voucher ) ) {
+		try {
+
+			$voucher = $this->check_voucher( $code );
+
+			if ( is_wp_error( $voucher ) ) {
+				return $voucher;
+			}
 
 			$this->id = $voucher->voucher_id;
 
@@ -336,45 +345,42 @@ class LLMS_Voucher {
 			// Get products linked to the voucher.
 			$products = $this->get_products();
 
-			if ( ! empty( $products ) ) {
+			if ( empty( $products ) ) {
+				return null;
+			}
 
-				// Loop through all of them and attempt enrollment.
-				foreach ( $products as $product ) {
-
-					llms_enroll_student( $user_id, $product, 'voucher' );
-
-				}
-
-				/**
-				 * Perform action before voucher redeemed.
-				 *
-				 * Action to perform before the voucher redeemed.
-				 *
-				 * @since 2.2.1
-				 * @since 3.24.1 Added $voucher_title parameter.
-				 * @since 3.27.0 Changed $voucher_title to $voucher_code to fix undefined property notice.
-				 *
-				 * @param int    $voucher_id   Voucher id of the voucher being redeemed.
-				 * @param int    $user_id      WP_User ID of the user redeeming the voucher.
-				 * @param string $voucher_code Voucher code of the voucher being redeemed.
-				 */
-				do_action( 'llms_voucher_used', $voucher->id, $user_id, $voucher->code );
-
-				// Use voucher code.
-				$data = array(
+			// Save the redemption before enrolling, so it counts for the next request as soon as the lock is released.
+			$this->save_redeemed_code(
+				array(
 					'user_id' => $user_id,
 					'code_id' => $voucher->id,
-				);
-				$this->save_redeemed_code( $data );
+				)
+			);
 
-				return true;
+		} finally {
+			LLMS_Locks::instance()->release( $lock );
+		}
 
-			}
-		} else {
+		foreach ( $products as $product ) {
 
-			return $voucher;
+			llms_enroll_student( $user_id, $product, 'voucher' );
 
 		}
+
+		/**
+		 * Fires after a voucher code is redeemed and the user is enrolled in its products.
+		 *
+		 * @since 2.2.1
+		 * @since 3.24.1 Added $voucher_title parameter.
+		 * @since 3.27.0 Changed $voucher_title to $voucher_code to fix undefined property notice.
+		 *
+		 * @param int    $voucher_id   Voucher id of the voucher being redeemed.
+		 * @param int    $user_id      WP_User ID of the user redeeming the voucher.
+		 * @param string $voucher_code Voucher code of the voucher being redeemed.
+		 */
+		do_action( 'llms_voucher_used', $voucher->id, $user_id, $voucher->code );
+
+		return true;
 	}
 
 	/**

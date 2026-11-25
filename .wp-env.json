@@ -1,7 +1,0 @@
-{
-	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
-	"mappings": {
-		"wp-content/plugins/lifterlms": ".",
-		"wp-content/mu-plugins": "./tests/e2e/mu-plugins"
-	}
-}

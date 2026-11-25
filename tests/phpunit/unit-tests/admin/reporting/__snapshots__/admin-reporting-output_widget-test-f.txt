@@ -1,8 +1,0 @@
-<div class="d-1of2">
-	<div class="llms-reporting-widget test-f" id="test-f">
-				<div class="llms-reporting-widget-data">
-			<strong>January 1, 2022</strong>
-					</div>
-		<small>Test Letter F</small>
-	</div>
-</div>

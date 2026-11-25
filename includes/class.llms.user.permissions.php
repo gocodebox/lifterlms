@@ -111,6 +111,17 @@ class LLMS_User_Permissions {
 	 */
 	public function filter_rest_user_query( $args, $request ) {
 
+		/**
+		 * The block editor loads the author list with `who=authors`, which only matches users with a user level.
+		 * LifterLMS roles have no user level, so check the `edit_posts` capability instead, like core does since WP 5.9.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1953
+		 */
+		if ( isset( $args['who'] ) && 'authors' === $args['who'] ) {
+			unset( $args['who'] );
+			$args['capability'] = 'edit_posts';
+		}
+
 		$user = wp_get_current_user();
 
 		if ( ! $user ) {

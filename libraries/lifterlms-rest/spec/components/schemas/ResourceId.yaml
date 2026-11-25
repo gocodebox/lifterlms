@@ -1,5 +1,0 @@
-description: Unique Resource Identifier.
-type: integer
-minimum: 1
-example: 123
-readOnly: true

@@ -667,6 +667,12 @@ class LLMS_REST_Quiz_Attempts_Controller extends LLMS_REST_Controller {
 			// Protected uploads require a WordPress session to download; provide a signed,
 			// expiring URL so external tools (e.g. AI graders) can fetch the file.
 			if ( $protector && $protector->is_media_protected( $id ) ) {
+
+				// Answers are student input: only sign files the requester may already view.
+				if ( ! $protector->is_authorized_to_view( get_current_user_id(), $id ) ) {
+					continue;
+				}
+
 				$download_url = $protector->get_signed_url( $id );
 			}
 

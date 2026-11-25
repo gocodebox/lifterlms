@@ -443,6 +443,54 @@ class LLMS_Media_Protector {
 	}
 
 	/**
+	 * Returns the IDs of attachments embedded in HTML content, such as a quiz question description.
+	 *
+	 * Finds images inserted by the editor (`wp-image-{ID}` class) and protected media URLs (`llms_media_id` parameter).
+	 *
+	 * @since 11.1.1
+	 *
+	 * @param string $content HTML content.
+	 * @return int[]
+	 */
+	public function get_media_ids_in_content( $content ) {
+
+		if ( ! is_string( $content ) || ! preg_match_all( '/wp-image-(\d+)|[?&;]' . self::URL_PARAMETER_ID . '=(\d+)/', $content, $matches ) ) {
+			return array();
+		}
+
+		return array_values( array_unique( array_filter( array_map( 'absint', array_merge( $matches[1], $matches[2] ) ) ) ) );
+	}
+
+	/**
+	 * Links a media file to a quiz so students who attempt the quiz are authorized to view it.
+	 *
+	 * Keeps quiz IDs already linked to the media file. Callers must check that the user may edit the media file.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @param int $media_id The post ID of the media file.
+	 * @param int $quiz_id  WP_Post ID of the quiz.
+	 * @return void
+	 */
+	public function link_to_quiz( $media_id, $quiz_id ) {
+
+		$media_id = absint( $media_id );
+		$quiz_id  = absint( $quiz_id );
+		if ( ! $media_id || ! $quiz_id ) {
+			return;
+		}
+
+		$quiz_ids = get_post_meta( $media_id, '_llms_quiz_id', true );
+		if ( ! is_array( $quiz_ids ) ) {
+			$quiz_ids = array();
+		}
+		if ( ! in_array( $quiz_id, array_map( 'absint', $quiz_ids ), true ) ) {
+			$quiz_ids[] = $quiz_id;
+			update_post_meta( $media_id, '_llms_quiz_id', $quiz_ids );
+		}
+	}
+
+	/**
 	 * See if the media is protected with an authorization filter.
 	 *
 	 * @param $media_id
@@ -596,7 +644,7 @@ class LLMS_Media_Protector {
 			$is_authorized = in_array( 'llms_manager', $user->roles, true ) || ( $user_id > 0 && intval( get_post_field( 'post_author', $media_id ) ) === $user_id );
 		}
 
-		// Allow student to view if they have an incomplete attempt for a quiz this media is for.
+		// Allow student to view if they have an attempt for a quiz this media is for.
 		if ( ! $is_authorized && llms_get_student() ) {
 			// Check if the student is enrolled in a course that has access to the media.
 			$authorized_product_id = get_post_meta( $media_id, '_llms_media_protection_product_id', true );
@@ -611,18 +659,9 @@ class LLMS_Media_Protector {
 				// Ignore empty and invalid quiz IDs.
 				$authorized_quiz_ids = array_filter( array_map( 'absint', (array) get_post_meta( $media_id, '_llms_quiz_id', true ) ) );
 
-				if ( $authorized_quiz_ids ) {
-					$student_quizzes = llms_get_student()->quizzes()->get_all( $authorized_quiz_ids );
-					foreach ( $student_quizzes as $student_quiz_attempt ) {
-						$quiz_id = $student_quiz_attempt->get( 'quiz_id' );
-						if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() ) {
-							continue;
-						}
-						if ( 'incomplete' === $student_quiz_attempt->get( 'status' ) ) {
-							$is_authorized = true;
-							break;
-						}
-					}
+				// Any attempt counts: an incomplete one is the quiz being taken, a finished one shows its images on the results page.
+				if ( $authorized_quiz_ids && llms_get_student()->quizzes()->get_all( $authorized_quiz_ids ) ) {
+					$is_authorized = true;
 				}
 			}
 		}

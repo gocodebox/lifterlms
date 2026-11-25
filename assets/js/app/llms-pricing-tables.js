@@ -20,6 +20,8 @@ LLMS.Pricing_Tables = {
 			return;
 		}
 
+		this.bind_free_enroll();
+
 		if ( $( '.llms-access-plans' ).length ) {
 
 			LLMS.wait_for_matchHeight( function() {
@@ -50,6 +52,37 @@ LLMS.Pricing_Tables = {
 
 		$( '.llms-access-plan-content' ).matchHeight();
 		$( '.llms-access-plan-pricing.trial' ).matchHeight();
+
+	},
+
+	/**
+	 * Submit each free enrollment form only once, so a double click doesn't send a second enrollment request.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	bind_free_enroll: function() {
+
+		$( document ).on( 'submit', '.llms-free-enroll-form', function( e ) {
+
+			var $form = $( this );
+
+			if ( $form.hasClass( 'llms-is-processing' ) ) {
+				e.preventDefault();
+				return;
+			}
+
+			$form.addClass( 'llms-is-processing' ).find( 'button[type="submit"]' ).prop( 'disabled', true );
+
+		} );
+
+		// Re-enable forms when the page is restored from the back/forward cache.
+		$( window ).on( 'pageshow', function( e ) {
+			if ( e.originalEvent && e.originalEvent.persisted ) {
+				$( '.llms-free-enroll-form' ).removeClass( 'llms-is-processing' ).find( 'button[type="submit"]' ).prop( 'disabled', false );
+			}
+		} );
 
 	},
 

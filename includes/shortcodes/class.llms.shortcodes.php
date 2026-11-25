@@ -565,16 +565,16 @@ class LLMS_Shortcodes {
 
 		if ( $query->have_posts() ) {
 
-			lifterlms_course_loop_start();
+			lifterlms_loop_start();
 
 			while ( $query->have_posts() ) :
 				$query->the_post();
 
-				llms_get_template_part( 'content', 'course' );
+				llms_get_template_part( 'loop/content', get_post_type() );
 
 			endwhile;
 
-			lifterlms_course_loop_end();
+			lifterlms_loop_end();
 
 			$courses = ob_get_clean();
 			wp_reset_postdata();
