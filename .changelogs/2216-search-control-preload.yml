@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+entry: "Search dropdowns, like the student and template selects in the award certificate modal, now show the first results when opened instead of \"No options\"."
+links:
+  - "#2216"
