@@ -238,6 +238,17 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				}
 				break;
 
+			case 'pending':
+				$query = new LLMS_Query_Quiz_Attempt(
+					array(
+						'quiz_id'    => $quiz->get( 'id' ),
+						'status'     => 'pending',
+						'count_only' => true,
+					)
+				);
+				$value = $query->get_count_only_result();
+				break;
+
 			case 'lesson':
 				$value  = '&mdash;';
 				$lesson = $quiz->get_lesson();
@@ -289,6 +300,22 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Retrieve the IDs of quizzes that have at least one attempt awaiting review.
+	 *
+	 * @since [version]
+	 *
+	 * @return int[]
+	 */
+	private function get_quiz_ids_awaiting_review() {
+
+		global $wpdb;
+
+		$ids = $wpdb->get_col( "SELECT DISTINCT quiz_id FROM {$wpdb->prefix}lifterlms_quiz_attempts WHERE status = 'pending'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
+		return array_map( 'absint', $ids );
+	}
+
+	/**
 	 * Execute a query to retrieve results from the table
 	 *
 	 * @since 3.16.0
@@ -327,6 +354,14 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 		if ( isset( $args['search'] ) ) {
 			$query_args['s'] = sanitize_text_field( $args['search'] );
+		}
+
+		if ( 'pending' === $this->filterby && 'pending' === $this->filter ) {
+			$quiz_ids = $this->get_quiz_ids_awaiting_review();
+			if ( empty( $quiz_ids ) ) {
+				return;
+			}
+			$query_args['post__in'] = $quiz_ids;
 		}
 
 		// if you can view others reports, make a regular query.
@@ -451,6 +486,14 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			'average'  => array(
 				'exportable' => true,
 				'title'      => __( 'Average Grade', 'lifterlms' ),
+				'sortable'   => false,
+			),
+			'pending'  => array(
+				'exportable' => true,
+				'filterable' => array(
+					'pending' => __( 'Awaiting Review', 'lifterlms' ),
+				),
+				'title'      => __( 'Awaiting Review', 'lifterlms' ),
 				'sortable'   => false,
 			),
 			'actions'  => array(

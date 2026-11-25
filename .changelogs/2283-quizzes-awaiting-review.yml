@@ -1,0 +1,5 @@
+significance: minor
+type: added
+entry: "Added an \"Awaiting Review\" column and filter to the Quizzes reporting table so quizzes with attempts that need grading are easy to find."
+links:
+  - "#2283"
