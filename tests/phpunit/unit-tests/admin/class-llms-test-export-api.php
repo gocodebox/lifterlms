@@ -63,6 +63,46 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get() when the API responds with something other than JSON data or a JSON error.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_get_invalid_response() {
+
+		$responses = array(
+			'HTML with 200'        => array( 200, '<html><body>Just a moment...</body></html>' ),
+			'HTML with 503'        => array( 503, '<html><body>Service Unavailable</body></html>' ),
+			'JSON without error'   => array( 500, '{"status":"fail"}' ),
+			'empty body with 502'  => array( 502, '' ),
+			'JSON scalar with 200' => array( 200, '"ok"' ),
+		);
+
+		foreach ( $responses as $desc => list( $code, $body ) ) {
+
+			$this->mock_http_request(
+				'https://academy.lifterlms.com/wp-json/llms-academy/v1/exports',
+				array(
+					'body'     => $body,
+					'response' => array(
+						'code'    => $code,
+						'message' => get_status_header_desc( $code ),
+					),
+				),
+				true
+			);
+
+			$res = LLMS_Export_API::get( array( 1 ) );
+			$this->assertInstanceOf( 'WP_Error', $res, $desc );
+			$this->assertSame( 'llms-export-api-invalid-response', $res->get_error_code(), $desc );
+			$this->assertStringContainsString( (string) $code, $res->get_error_message(), $desc );
+
+		}
+
+	}
+
+	/**
 	 * Test get() for success response
 	 *
 	 * @since 4.8.0

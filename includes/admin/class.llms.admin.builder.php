@@ -592,6 +592,27 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
+	 * Link quiz question media to its quiz so protected media authorizes students who attempt the quiz.
+	 *
+	 * Each media file is only linked when the current user can edit it.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @param int[] $media_ids WP_Post IDs of the attachments.
+	 * @param int   $quiz_id   WP_Post ID of the quiz.
+	 * @return void
+	 */
+	private static function link_media_to_quiz( $media_ids, $quiz_id ) {
+
+		$protector = new LLMS_Media_Protector();
+		foreach ( array_filter( array_map( 'absint', (array) $media_ids ) ) as $media_id ) {
+			if ( current_user_can( 'edit_post', $media_id ) ) {
+				$protector->link_to_quiz( $media_id, $quiz_id );
+			}
+		}
+	}
+
+	/**
 	 * Resolve the parent course ID for a builder child object.
 	 *
 	 * Supports section, lesson, llms_quiz, and llms_question post types.
@@ -1421,6 +1442,20 @@ class LLMS_Admin_Builder {
 
 				$question = $parent->questions()->get_question( $question_id );
 
+				// A question inside a group belongs to the group's quiz.
+				$quiz_id = $parent->get( 'parent_id' ) ? $parent->get( 'parent_id' ) : $parent->get( 'id' );
+
+				// The question image and media in the description and clarifications, all shown while taking the quiz or on its results.
+				$protector = new LLMS_Media_Protector();
+				self::link_media_to_quiz(
+					array_merge(
+						array( isset( $q_data['image']['id'] ) ? $q_data['image']['id'] : 0 ),
+						$protector->get_media_ids_in_content( isset( $q_data['content'] ) ? $q_data['content'] : '' ),
+						$protector->get_media_ids_in_content( isset( $q_data['clarifications'] ) ? $q_data['clarifications'] : '' )
+					),
+					$quiz_id
+				);
+
 				/**
 				 * When saving a question, make sure that it has a question type set
 				 * otherwise set it by default to `'choice'`.
@@ -1456,20 +1491,7 @@ class LLMS_Admin_Builder {
 						} else {
 							$choice_res['id'] = $choice_id;
 
-							$choice_media_id = isset( $c_data['choice']['id'] ) ? absint( $c_data['choice']['id'] ) : 0;
-							// Only bind the protected-media meta when the current user is allowed to edit that specific media object.
-							if ( $choice_media_id && current_user_can( 'edit_post', $choice_media_id ) ) {
-								// The quiz IDs are needed for later verification of access by the protected media filters.
-								$quiz_ids = get_post_meta( $choice_media_id, '_llms_quiz_id', true );
-								if ( ! is_array( $quiz_ids ) ) {
-									$quiz_ids = array();
-								}
-								$quiz_id = $parent->get( 'parent_id' ) ? $parent->get( 'parent_id' ) : $parent->get( 'id' );
-								if ( ! in_array( $quiz_id, $quiz_ids ) ) {
-									$quiz_ids[] = $quiz_id;
-								}
-								update_post_meta( $choice_media_id, '_llms_quiz_id', $quiz_ids );
-							}
+							self::link_media_to_quiz( isset( $c_data['choice']['id'] ) ? $c_data['choice']['id'] : 0, $quiz_id );
 						}
 
 						array_push( $ret['choices'], $choice_res );

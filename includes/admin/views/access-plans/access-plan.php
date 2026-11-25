@@ -11,11 +11,13 @@
  * @since 4.14.0 Get the access plan's raw content to display it in the wp_editor.
  * @since 7.3.0 Added another icon for possible issues with the access plan configuration.
  * @since 10.2.1 Link Earth Bundle in the manual-gateway payment notice.
- * @version 10.2.1
+ * @since 11.1.1 Key fields by the plan's position in the list so plans sharing a `menu_order` don't collide.
+ * @version 11.1.1
  *
  * @var LLMS_Course      $course                     LLMS_Course.
  * @var array            $checkout_redirection_types Checkout redirect setting options.
  * @var LLMS_Access_Plan $plan                       LLMS_Access_Plan.
+ * @var int              $plan_order                 Optional. The plan's 1-based position in the list.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +34,7 @@ if ( ! isset( $plan ) ) {
 } else {
 
 	$id                    = 'llms-access-plan-' . $plan->get( 'id' );
-	$order                 = $plan->get( 'menu_order' );
+	$order                 = isset( $plan_order ) ? $plan_order : $plan->get( 'menu_order' );
 	$visibility            = $plan->get_visibility();
 	$frequency             = $plan->get( 'frequency' );
 	$period                = $plan->get( 'period' );
@@ -814,7 +816,7 @@ if ( ! isset( $plan ) ) {
 
 		<div class="clear"></div>
 
-		<input class="plan-order" name="_llms_plans[<?php echo esc_attr( $order ); ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? esc_attr( $plan->get( 'menu_order' ) ) : esc_attr( $order ); ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+		<input class="plan-order" name="_llms_plans[<?php echo esc_attr( $order ); ?>][menu_order]" type="hidden" value="<?php echo esc_attr( $order ); ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo esc_attr( $order ); ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . esc_attr( $plan->get( 'id' ) ) . '"' : ' disabled="disabled"'; ?>>
 
 		<?php

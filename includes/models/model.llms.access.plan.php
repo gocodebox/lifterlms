@@ -836,12 +836,20 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$start = $this->get( 'sale_start' );
 			$end   = $this->get( 'sale_end' );
 
-			// Add times if the values exist (start of day & end of day).
-			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
-			$end   = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
+			// Use the start of the start day & the end of the end day. Stored values may be dates (m/d/Y) or datetimes (Y-m-d H:i:s).
+			// A start date that cannot be parsed is treated as not set.
+			$start = ( $start ) ? strtotime( $start ) : $start;
+			$end   = ( $end ) ? strtotime( $end ) : $end;
+			$start = ( $start ) ? strtotime( 'midnight', $start ) : $start;
+			$end   = ( $end ) ? strtotime( 'tomorrow', $end ) : $end;
 
-			// No dates, the product is indefinitely on sale.
-			if ( ! $start && ! $end ) {
+			// An end date that cannot be parsed, the product is not on sale.
+			if ( false === $end ) {
+
+				$ret = false;
+
+				// No dates, the product is indefinitely on sale.
+			} elseif ( ! $start && ! $end ) {
 
 				$ret = true;
 

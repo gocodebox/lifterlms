@@ -106,6 +106,8 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 	 */
 	public function test_get_answer_files_protected() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		$attachment_id = $this->create_test_attachment( true );
 
 		$files = LLMS_Unit_Test_Util::call_method(
@@ -119,6 +121,30 @@ class LLMS_REST_Test_Quiz_Attempts_Controller extends LLMS_REST_Unit_Test_Case_S
 		$this->assertStringContainsString( LLMS_Media_Protector::URL_PARAMETER_EXPIRES . '=', $files[0]['download_url'] );
 		$this->assertStringContainsString( LLMS_Media_Protector::URL_PARAMETER_ID . '=' . $attachment_id, $files[0]['download_url'] );
 		$this->assertNotEquals( $files[0]['url'], $files[0]['download_url'] );
+	}
+
+	/**
+	 * Test that protected attachments the requester may not view are not returned or signed.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_get_answer_files_protected_unauthorized() {
+
+		$protected   = $this->create_test_attachment( true );
+		$unprotected = $this->create_test_attachment();
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'instructor' ) ) );
+
+		$files = LLMS_Unit_Test_Util::call_method(
+			$this->endpoint,
+			'get_answer_files',
+			array( $this->mock_attempt_question( array( (string) $protected, (string) $unprotected ) ) )
+		);
+
+		$this->assertCount( 1, $files );
+		$this->assertEquals( $unprotected, $files[0]['id'] );
 	}
 
 	/**

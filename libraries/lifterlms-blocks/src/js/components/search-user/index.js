@@ -6,6 +6,7 @@
  */
 
 // WP Deps.
+import { decodeEntities } from '@wordpress/html-entities';
 import { _x, sprintf } from '@wordpress/i18n';
 
 // Internal Deps.
@@ -65,7 +66,7 @@ export default class SearchUser extends Search {
 		sprintf(
 			// Translators: %1$s = User's name; %2$s = User's id.
 			_x( '%1$s (ID# %2$d)', 'User search result label', 'lifterlms' ),
-			result.name,
+			decodeEntities( result.name ),
 			result.id
 		);
 }

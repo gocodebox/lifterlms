@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 11.0.0
+ * @version 11.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -226,6 +226,14 @@ return array(
 		'updates'   => array(
 			'replace_weak_password_meter_descriptions',
 			'backfill_has_transaction_flag',
+			'update_db_version',
+		),
+	),
+	'11.1.1' => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'link_question_media_to_quizzes',
 			'update_db_version',
 		),
 	),

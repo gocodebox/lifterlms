@@ -77,6 +77,11 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 
 		}
 
+		// Only output elements of a course the current user can view.
+		if ( ! is_post_publicly_viewable( $course ) && ! current_user_can( 'read_post', $course->ID ) ) {
+			return '';
+		}
+
 		ob_start();
 
 		// Hack the global so our syllabus template works.

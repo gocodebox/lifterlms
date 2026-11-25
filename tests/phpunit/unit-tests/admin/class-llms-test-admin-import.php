@@ -204,13 +204,16 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test cloud_import() with a real API error from submitting invalid ids
+	 * Test cloud_import() with an API error from submitting an ID with no export
+	 *
+	 * The test bootstrap fakes the exports API, which responds with a `not-found` error for this ID.
 	 *
 	 * @since 4.8.0
+	 * @since 11.1.1 Renamed from `test_cloud_import_error_api_real()`.
 	 *
 	 * @return void
 	 */
-	public function test_cloud_import_error_api_real() {
+	public function test_cloud_import_error_api_not_found() {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
@@ -230,13 +233,20 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Test cloud_import() with a generator error
 	 *
 	 * @since 4.8.0
+	 * @since 11.1.1 Mock a JSON API response without a generator.
 	 *
 	 * @return void
 	 */
 	public function test_cloud_import_error_generator() {
 
 		$handler = function( $preempt ) {
-			return array( 'fake api response' );
+			return array(
+				'body'     => wp_json_encode( array( 'fake api response' ) ),
+				'response' => array(
+					'code'    => 200,
+					'message' => 'OK',
+				),
+			);
 		};
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );

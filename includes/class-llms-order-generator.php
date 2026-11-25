@@ -231,19 +231,22 @@ class LLMS_Order_Generator {
 	 */
 	protected function create() {
 
-		$order = new LLMS_Order( $this->get_order_id() );
+		$create = function () {
 
-		// If there's no id we can't proceed, return an error.
-		if ( ! $order->get( 'id' ) ) {
-			return $this->error(
-				self::E_CREATE_ORDER,
-				__( 'There was an error creating your order, please try again.', 'lifterlms' )
-			);
-		}
+			$order = new LLMS_Order( $this->get_order_id() );
 
-		$order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
+			// If there's no id we can't proceed, return an error.
+			if ( ! $order->get( 'id' ) ) {
+				return $this->error(
+					self::E_CREATE_ORDER,
+					__( 'There was an error creating your order, please try again.', 'lifterlms' )
+				);
+			}
 
-		return $order;
+			return $order->init( $this->get_user_data(), $this->plan, $this->gateway, $this->coupon );
+		};
+
+		return $this->coupon ? $this->coupon->with_usage_lock( $create ) : $create();
 	}
 
 	/**
@@ -703,8 +706,12 @@ class LLMS_Order_Generator {
 
 		// If validation passes, determine if the user already exists and, if they do, validate their enrollment.
 		$email = $this->data['email_address'] ?? null;
-		$user  = $email ? get_user_by( 'email', $email ) : false;
-		if ( $user && llms_is_user_enrolled( $user->ID, $this->plan->get( 'product_id' ) ) ) {
+		if ( $email ) {
+			// Wait for any overlapping checkout with this email to finish, so the checks below see the account and enrollment it created.
+			LLMS_Locks::instance()->acquire( 'checkout_email_' . strtolower( $email ) );
+		}
+		$user = $email ? get_user_by( 'email', $email ) : false;
+		if ( $user && llms_is_user_enrolled( $user->ID, $this->plan->get( 'product_id' ), 'all', false ) ) {
 			return $this->error(
 				self::E_USER_ENROLLED,
 				sprintf(
