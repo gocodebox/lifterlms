@@ -247,7 +247,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
 			'updated'   => array(
-				'title'    => __( 'Updated', 'lifterlms' ),
+				'title'    => __( 'Enrollment Updated', 'lifterlms' ),
 				'sortable' => true,
 			),
 			'completed' => array(
