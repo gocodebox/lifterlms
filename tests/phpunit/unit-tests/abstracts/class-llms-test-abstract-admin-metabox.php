@@ -492,4 +492,41 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 
 	}
 
+	/**
+	 * Test saving the instructors field keeps an author picked for a post that had no author.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_field_instructors_keeps_author_picked_for_authorless_post() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$new_author = $this->factory->user->create( array( 'role' => 'instructor' ) );
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+		wp_update_post( array( 'ID' => $course_id, 'post_author' => 0 ) );
+		delete_post_meta( $course_id, '_llms_instructors' );
+
+		$stub  = $this->get_stub();
+		$field = array(
+			'id'      => '_llms_instructors_data',
+			'handler' => 'instructors_mb_store',
+		);
+
+		// The Author panel or meta box saved a new author first; the meta box still lists the empty author it loaded.
+		wp_update_post( array( 'ID' => $course_id, 'post_author' => $new_author ) );
+		$this->mockPostRequest( array(
+			'_llms_instructors_author' => 0,
+			'_llms_id_1'               => 0,
+			'_llms_label_1'            => 'Author',
+			'_llms_visibility_1'       => 'visible',
+		) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $stub, 'save_field', array( $course_id, $field ) ) );
+
+		$this->assertEquals( $new_author, get_post_field( 'post_author', $course_id ) );
+		$this->assertEquals( array( $new_author ), wp_list_pluck( llms_get_post( $course_id )->instructors()->get_instructors(), 'id' ) );
+
+	}
+
 }

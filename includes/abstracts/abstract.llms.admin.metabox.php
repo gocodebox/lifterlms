@@ -579,11 +579,12 @@ abstract class LLMS_Admin_Metabox {
 		 * in place of the old one. Otherwise saving the instructors would revert the author to the old one.
 		 * When the author is already the first listed instructor, the instructors set it themselves (reordering the
 		 * Instructors tab saves over AJAX first), so the list is saved as submitted.
+		 * A loaded author of 0 means the post had no author, so picking one is also a change.
 		 */
 		$author_id        = absint( get_post_field( 'post_author', $post_id ) );
-		$loaded_author_id = isset( $request['_llms_instructors_author'] ) ? absint( $request['_llms_instructors_author'] ) : 0;
+		$loaded_author_id = isset( $request['_llms_instructors_author'] ) ? absint( $request['_llms_instructors_author'] ) : null;
 		$first_listed_id  = $instructors ? $instructors[0]['id'] : 0;
-		if ( $author_id && $loaded_author_id && $author_id !== $loaded_author_id && $author_id !== $first_listed_id ) {
+		if ( $author_id && null !== $loaded_author_id && $author_id !== $loaded_author_id && $author_id !== $first_listed_id ) {
 			$loaded_author_index = array_search( $loaded_author_id, array_column( $instructors, 'id' ), true );
 			if ( false !== $loaded_author_index ) {
 				unset( $instructors[ $loaded_author_index ] );

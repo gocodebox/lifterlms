@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed the Author of a course with no author reverting to no author when one was picked and saved."
