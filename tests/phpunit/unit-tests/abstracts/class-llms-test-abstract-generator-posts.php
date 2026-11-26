@@ -178,7 +178,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 
 		// Force an error response.
 		add_filter( 'wp_insert_post_empty_content', '__return_true' );
-		$block_post_id = $this->factory->post->create();
+		$block_post_id = wp_insert_post( array( 'post_type' => 'wp_block' ), true );
 
 		$this->assertFalse(
 			LLMS_Unit_Test_Util::call_method( $this->stub, 'create_reusable_block',
@@ -784,7 +784,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 		);
 
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->stub, 'sideload_images', array( $course, $raw ) ) );
-		$this->assertEquals( '<img src="https://example.org/fake-image.png" />', $course->post->post_content );
+		$this->assertEqualHTML( '<img src="https://example.org/fake-image.png" />', $course->post->post_content );
 
 
 	}

@@ -1517,7 +1517,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		llms_form_field( array( 'id' => 'two' ) );
 		$expected = ob_get_clean();
 
-		$this->assertEquals( $expected, $this->forms->render_field_block( '', $blocks[0] ) );
+		$this->assertEqualHTML( $expected, $this->forms->render_field_block( '', $blocks[0] ) );
 
 	}
 

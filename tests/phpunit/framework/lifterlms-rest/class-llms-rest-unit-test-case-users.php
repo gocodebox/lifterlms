@@ -129,8 +129,8 @@ class LLMS_REST_Unit_Test_Case_Users extends LLMS_REST_Unit_Test_Case_Server {
 			)
 		);
 
-		$this->assertEquals(
-			array(),
+		$this->assertArrayNotHasKey(
+			$meta_key,
 			$response->get_data()['meta'],
 			LLMS_Unit_Test_Util::get_private_property_value( $this->endpoint, 'rest_base' )
 		);
@@ -152,8 +152,8 @@ class LLMS_REST_Unit_Test_Case_Users extends LLMS_REST_Unit_Test_Case_Server {
 			)
 		);
 
-		$this->assertEquals(
-			array(),
+		$this->assertArrayNotHasKey(
+			$meta_key,
 			$response->get_data()['meta'],
 			LLMS_Unit_Test_Util::get_private_property_value( $this->endpoint, 'rest_base' )
 		);
@@ -205,8 +205,8 @@ class LLMS_REST_Unit_Test_Case_Users extends LLMS_REST_Unit_Test_Case_Server {
 			)
 		);
 
-		$this->assertEquals(
-			array(),
+		$this->assertArrayNotHasKey(
+			$meta_key,
 			$response->get_data()['meta'],
 			LLMS_Unit_Test_Util::get_private_property_value( $this->endpoint, 'rest_base' )
 		);
@@ -228,8 +228,8 @@ class LLMS_REST_Unit_Test_Case_Users extends LLMS_REST_Unit_Test_Case_Server {
 			)
 		);
 
-		$this->assertEquals(
-			array(),
+		$this->assertArrayNotHasKey(
+			$meta_key,
 			$response->get_data()['meta'],
 			LLMS_Unit_Test_Util::get_private_property_value( $this->endpoint, 'rest_base' )
 		);

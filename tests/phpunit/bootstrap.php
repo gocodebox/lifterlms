@@ -223,6 +223,10 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
 
+		// uninstall.php deletes the options with direct queries, which leaves them in the object cache.
+		// Without this, the reinstall's update_option() calls see the cached values and write nothing.
+		wp_cache_flush();
+
 	}
 
 }

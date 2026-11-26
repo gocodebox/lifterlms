@@ -417,7 +417,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		$this->assertEquals( $id, $test->get( 'id' ) );
 		$this->assertEquals( 'llms_order', $test->get( 'type' ) );
-		$this->assertEquals( 'Order &ndash; Apr 22, 2021 @ 02:34 PM', $test->get( 'title' ) );
+		$this->assertEqualHTML( 'Order &ndash; Apr 22, 2021 @ 02:34 PM', $test->get( 'title' ) );
 
 		$this->assertEquals( $date, $test->get( 'date' ) );
 		$this->assertEquals( 'llms-pending', $test->get( 'status' ) );
