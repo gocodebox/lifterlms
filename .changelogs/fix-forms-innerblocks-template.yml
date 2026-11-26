@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed a WordPress 7.2 deprecation warning about the InnerBlocks template prop in the form editor."

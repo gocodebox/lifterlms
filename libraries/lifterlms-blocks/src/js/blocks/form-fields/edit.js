@@ -19,6 +19,7 @@ import {
 import { dispatch, select } from '@wordpress/data';
 import { PanelBody, Slot, Fill } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
+import { addFilter } from '@wordpress/hooks';
 
 // Internal Deps.
 import Field from './field';
@@ -27,6 +28,31 @@ import { isUnique } from './checks';
 import manageFieldGroupAttributes from './group-data';
 import GroupLayoutControl from './group-layout-control';
 import { store as fieldsStore } from '../../data/fields';
+
+/**
+ * Declare each field group's InnerBlocks template in its block type settings.
+ *
+ * WordPress 7.2+ reads the template from there; a template computed from the block
+ * (confirm group) only applies to an empty group, so its empty-group result is used.
+ *
+ * @since [version]
+ */
+addFilter(
+	'blocks.registerBlockType',
+	'llms/form-fields/inner-blocks-template',
+	( settings ) => {
+		const template = settings.llmsInnerBlocks?.template;
+		if ( undefined === template || undefined !== settings.template ) {
+			return settings;
+		}
+
+		return {
+			...settings,
+			template:
+				'function' === typeof template ? template( {} ) : template,
+		};
+	}
+);
 
 /**
  * Generate a unique "name" attribute.
@@ -249,7 +275,7 @@ export function EditGroup( props ) {
 		{ getBlock } = select( blockEditorStore ),
 		block = getBlock( clientId ),
 		blockType = getBlockType( name ),
-		{ allowed, template, lock } = blockType.llmsInnerBlocks,
+		{ allowed, lock } = blockType.llmsInnerBlocks,
 		primaryBlock =
 			block &&
 			block.innerBlocks.length &&
@@ -297,16 +323,10 @@ export function EditGroup( props ) {
 			>
 				<InnerBlocks
 					allowedBlocks={ allowed }
-					template={
-						'function' === typeof template
-							? template( {
-									attributes,
-									clientId,
-									block,
-									blockType,
-							  } )
-							: template
-					}
+					// WordPress 7.2+ reads the template from the block type and deprecates the prop.
+					{ ...( window.llmsBlocks?.innerBlocksTemplateProp
+						? { template: blockType.template }
+						: {} ) }
 					templateLock={ lock }
 					orientation={ orientation }
 				/>

@@ -164,6 +164,7 @@ class LLMS_Blocks_Assets {
 			array(
 				'variationIconCanBeObject' => self::can_variation_transform_icon_be_an_object(),
 				'courseId'                 => self::get_course_id(),
+				'innerBlocksTemplateProp'  => self::use_inner_blocks_template_prop(),
 			)
 		);
 
@@ -209,6 +210,22 @@ class LLMS_Blocks_Assets {
 
 		return version_compare( $wp_version, '6.0-src', '<' ) && ! defined( 'GUTENBERG_VERSION' )
 			|| ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '13.0', '<' ) );
+	}
+
+	/**
+	 * Whether InnerBlocks templates must be passed as the `template` prop.
+	 *
+	 * WordPress 7.2 reads the template from the block type settings and deprecates the prop.
+	 * Earlier versions only read the prop.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	private static function use_inner_blocks_template_prop(): bool {
+		global $wp_version;
+
+		return version_compare( $wp_version, '7.2-alpha', '<' );
 	}
 
 	/**
