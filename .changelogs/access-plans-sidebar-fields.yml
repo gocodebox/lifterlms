@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed access plan fields, including Price, being too narrow to see or edit when the Access Plans box is moved to the editor sidebar."
