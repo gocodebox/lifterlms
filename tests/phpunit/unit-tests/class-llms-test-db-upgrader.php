@@ -155,6 +155,52 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test enqueue_updates() doesn't queue updates that are already waiting in the queue.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_enqueue_updates_skips_already_queued() {
+
+		$schema = array(
+			'1.5.0' => array(
+				'type'    => 'auto',
+				'updates' => array(
+					'update_150',
+				),
+			),
+		);
+
+		( new LLMS_DB_Upgrader( '1.2.3', $schema ) )->enqueue_updates();
+		$updater = LLMS_Install::$background_updater;
+
+		// The queue never ran and the healthcheck was lost, as when the shutdown dispatch never happens.
+		wp_clear_scheduled_hook( 'wp_llms_bg_updater_cron' );
+
+		// Upgrading again with nothing new doesn't queue the update a second time, but schedules the healthcheck.
+		( new LLMS_DB_Upgrader( '1.2.3', $schema ) )->enqueue_updates();
+		$this->assertSame( array( 'update_150' ), $updater->get_queued_callbacks() );
+		$this->assertNotFalse( wp_next_scheduled( 'wp_llms_bg_updater_cron' ) );
+
+		// An upgrade that adds an update queues only the new one.
+		$schema['2.0.0'] = array(
+			'type'    => 'auto',
+			'updates' => array(
+				'update_200',
+			),
+		);
+		( new LLMS_DB_Upgrader( '1.2.3', $schema ) )->enqueue_updates();
+		$this->assertSame( array( 'update_150', 'update_200' ), $updater->get_queued_callbacks() );
+
+		wp_clear_scheduled_hook( 'wp_llms_bg_updater_cron' );
+
+		// Reinit the updater for future tests.
+		LLMS_Install::init_background_updater();
+
+	}
+
+	/**
 	 * Test enuqeue_updates() when manual updating is required
 	 *
 	 * @since 5.2.0

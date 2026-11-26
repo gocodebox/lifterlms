@@ -149,13 +149,20 @@ class LLMS_DB_Upgrader {
 	 */
 	public function enqueue_updates() {
 
-		$queued = false;
+		$queued         = false;
+		$already_queued = $this->updater->get_queued_callbacks();
 		foreach ( $this->get_required_updates() as $version => $info ) {
 
 			$prefix = $this->get_callback_prefix( $info, $version );
 			foreach ( $info['updates'] as $callback ) {
 
 				$callback = $prefix . $callback;
+
+				// Updates queued by an earlier upgrade that haven't run yet would otherwise run once per upgrade.
+				if ( in_array( $callback, $already_queued, true ) ) {
+					$this->updater->log( sprintf( 'Already queued %s - %s', $version, $callback ) );
+					continue;
+				}
 
 				$this->updater->log( sprintf( 'Queuing %s - %s', $version, $callback ) );
 				$this->updater->push_to_queue( $callback );
@@ -164,13 +171,13 @@ class LLMS_DB_Upgrader {
 			}
 		}
 
-		// No updates to add, return early.
-		if ( ! $queued ) {
+		// Nothing new to add and nothing waiting, return early.
+		if ( ! $queued && ! $already_queued ) {
 			return;
 		}
 
 		// Show a start and complete notice for manual updates.
-		if ( ! $this->can_auto_update() ) {
+		if ( $queued && ! $this->can_auto_update() ) {
 			$this->show_notice_started();
 			$this->updater->push_to_queue( array( $this, 'show_notice_complete' ) );
 		}

@@ -197,14 +197,54 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	}
 
 	/**
+	 * Retrieve the callbacks waiting in all saved batches of the queue, in the order they will run.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public function get_queued_callbacks() {
+
+		global $wpdb;
+
+		$table        = $wpdb->options;
+		$column       = 'option_name';
+		$key_column   = 'option_id';
+		$value_column = 'option_value';
+
+		if ( is_multisite() ) {
+			$table        = $wpdb->sitemeta;
+			$column       = 'meta_key';
+			$key_column   = 'meta_id';
+			$value_column = 'meta_value';
+		}
+
+		// In the order the batches are processed.
+		$values = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads the queue batches like the parent class.
+			$wpdb->prepare(
+				"SELECT {$value_column} FROM {$table} WHERE {$column} LIKE %s ORDER BY {$key_column} ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table and column names are not user input.
+				$wpdb->esc_like( $this->identifier . '_batch_' ) . '%'
+			)
+		); // db call ok; no-cache ok.
+
+		$callbacks = array();
+		foreach ( $values as $value ) {
+			$callbacks = array_merge( $callbacks, array_values( (array) maybe_unserialize( $value ) ) );
+		}
+
+		return $callbacks;
+	}
+
+	/**
 	 * Save queue
 	 *
 	 * Overwrites parent method to empty `$this->data` following a save.
 	 *
 	 * This ensures save() can be called multiple times without recording duplicates.
 	 *
-	 * Also schedules the cron healthcheck that processes the queue. The queue is otherwise started
-	 * by a request sent at shutdown, which never happens when another plugin stops the request first.
+	 * Also schedules the cron healthcheck that processes the queue, when there is anything to process.
+	 * The queue is otherwise started by a request sent at shutdown, which never happens when another
+	 * plugin stops the request first.
 	 *
 	 * @since 5.2.0
 	 *
@@ -212,7 +252,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 */
 	public function save() {
 
-		if ( ! empty( $this->data ) ) {
+		if ( ! empty( $this->data ) || ! $this->is_queue_empty() ) {
 			$this->schedule_event();
 		}
 
