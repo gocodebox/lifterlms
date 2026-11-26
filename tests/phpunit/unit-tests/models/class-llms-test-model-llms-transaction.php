@@ -70,7 +70,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 
 		$this->assertEquals( $id, $test->get( 'id' ) );
 		$this->assertEquals( 'llms_transaction', $test->get( 'type' ) );
-		$this->assertEquals( 'Transaction for Order #123 &ndash; Mar 05, 2021 @ 01:05 AM', $test->get( 'title' ) );
+		$this->assertEqualHTML( 'Transaction for Order #123 &ndash; Mar 05, 2021 @ 01:05 AM', $test->get( 'title' ) );
 
 		$this->assertEquals( '2021-03-05 01:05:23', $test->get( 'date' ) );
 		$this->assertEquals( 'llms-txn-pending', $test->get( 'status' ) );

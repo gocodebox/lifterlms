@@ -118,7 +118,7 @@ class LLMS_Test_Admin_Reporting extends LLMS_Unit_Test_Case {
 
 			$snap = file_get_contents( $snap_path );
 
-			$this->assertEquals( trim( $snap ), trim( $output ) );
+			$this->assertEqualHTML( trim( $snap ), trim( $output ) );
 
 		}
 
