@@ -203,11 +203,18 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 *
 	 * This ensures save() can be called multiple times without recording duplicates.
 	 *
+	 * Also schedules the cron healthcheck that processes the queue. The queue is otherwise started
+	 * by a request sent at shutdown, which never happens when another plugin stops the request first.
+	 *
 	 * @since 5.2.0
 	 *
 	 * @return LLMS_Background_Updater
 	 */
 	public function save() {
+
+		if ( ! empty( $this->data ) ) {
+			$this->schedule_event();
+		}
 
 		parent::save();
 		// Reset data to avoid duplicates if save() is called more than once.

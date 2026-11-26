@@ -142,6 +142,13 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 
 		$this->assertEquals( array( 'update_auto' ), $batch );
 
+		// The healthcheck that processes the queue is scheduled without waiting for the dispatch at shutdown.
+		$this->assertNotFalse( wp_next_scheduled( 'wp_llms_bg_updater_cron' ) );
+
+		// Clean up the queue and healthcheck.
+		wp_clear_scheduled_hook( 'wp_llms_bg_updater_cron' );
+		LLMS_Unit_Test_Util::call_method( $updater, 'delete', array( LLMS_Unit_Test_Util::call_method( $updater, 'get_batch' )->key ) );
+
 		// Reinit the updater for future tests.
 		LLMS_Install::init_background_updater();
 

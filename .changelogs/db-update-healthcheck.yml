@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed database updates staying queued and never running when another plugin stops the page request before it finishes."
