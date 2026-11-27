@@ -77,15 +77,19 @@ function llms_helper_get_license_status() {
 /**
  * Retrieve the add-ons that require a license and are not covered by a license key saved on the site.
  *
+ * Reads the cached list of add-ons and never requests it from LifterLMS.com: this runs on every admin
+ * page load, also on sites that have no license key. The list is requested and cached for a day by the
+ * code that needs it, such as the upgrader on admin requests, see {@see llms_get_add_ons()}.
+ *
  * @since [version]
  *
  * @param bool $active_only If `true`, only includes active add-ons. If `false`, also includes add-ons that are installed and inactive.
- * @return LLMS_Helper_Add_On[] Array of add-ons. An empty array when the list of add-ons cannot be retrieved from LifterLMS.com.
+ * @return LLMS_Helper_Add_On[] Array of add-ons. An empty array when the list of add-ons is not cached.
  */
 function llms_helper_get_unlicensed_add_ons( $active_only = true ) {
 
-	$products = llms_get_add_ons();
-	if ( is_wp_error( $products ) || empty( $products['items'] ) ) {
+	$products = get_transient( 'llms_products_api_result' );
+	if ( ! is_array( $products ) || empty( $products['items'] ) ) {
 		return array();
 	}
 

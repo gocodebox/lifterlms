@@ -17,7 +17,7 @@ Define `LLMS_HELPER_DISABLE` as true before LifterLMS loads to skip loading it.
 
 When LifterLMS.com reports a saved key as inactive, which it also does while a failed renewal payment is retried, the Helper removes the key and keeps checking it: every day for a week, filterable with `llms_helper_lapsed_license_daily_check_period`, then every week along with the saved keys. A site with no saved key and no lapsed key to check sends no license check request. Once LifterLMS.com reports the key as active again the Helper saves it back and the site is `active` again, without anyone entering the key. The notice telling that the key was deactivated is removed then, and also when the key is activated again by hand. A key that LifterLMS.com cannot locate for the site is removed and not checked again.
 
-`llms_helper_get_unlicensed_add_ons()` returns the active add-ons that require a license and are not covered by a saved key. Pass `false` to include the ones that are installed and inactive.
+`llms_helper_get_unlicensed_add_ons()` returns the active add-ons that require a license and are not covered by a saved key. Pass `false` to include the ones that are installed and inactive. It reads the cached list of add-ons and returns an empty array when the list is not cached.
 
 A site running unlicensed add-ons sees one dismissible notice on LifterLMS screens, the Dashboard, and the Plugins, Themes, and Updates screens. The notice removes itself once every active add-on is licensed.
 

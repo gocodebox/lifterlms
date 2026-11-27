@@ -34,6 +34,13 @@ class LLMS_Helper_License_Notices {
 	const NOTICE_MISSING = 'license-missing';
 
 	/**
+	 * Add-ons with a message under their row on the Plugins screen, keyed by plugin file.
+	 *
+	 * @var LLMS_Helper_Add_On[]
+	 */
+	private $row_add_ons = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since [version]
@@ -77,7 +84,8 @@ class LLMS_Helper_License_Notices {
 				continue;
 			}
 
-			$file = $add_on->get( 'update_file' );
+			$file                       = $add_on->get( 'update_file' );
+			$this->row_add_ons[ $file ] = $add_on;
 
 			// After the row WordPress outputs when an update is available.
 			add_action( "after_plugin_row_{$file}", array( $this, 'output_plugin_row_notice' ), 20 );
@@ -96,7 +104,10 @@ class LLMS_Helper_License_Notices {
 	 */
 	public function output_plugin_row_notice( $plugin_file ) {
 
-		$add_on = llms_get_add_on( $plugin_file, 'update_file' );
+		if ( ! isset( $this->row_add_ons[ $plugin_file ] ) ) {
+			return;
+		}
+		$add_on = $this->row_add_ons[ $plugin_file ];
 
 		$colspan = 4;
 		$table   = _get_list_table( 'WP_Plugins_List_Table' );

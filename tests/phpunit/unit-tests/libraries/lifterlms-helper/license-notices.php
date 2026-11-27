@@ -38,6 +38,9 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 		LLMS_Admin_Notices::init();
 
+		// The license notices read the cached list of add-ons, which the upgrader keeps on admin requests.
+		llms_get_add_ons();
+
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 	}
@@ -647,6 +650,57 @@ class LLMS_Helper_Test_License_Notices extends LLMS_Helper_Unit_Test_Case {
 
 		// Hidden notices stay saved.
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+
+	}
+
+	/**
+	 * The license status, notices, Plugins screen rows, and feed tests never send a request to LifterLMS.com.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_no_requests() {
+
+		$stripe = 'lifterlms-stripe/lifterlms-stripe.php';
+		$this->mock_plugins( array( $stripe ) );
+		$notices = new LLMS_Helper_License_Notices();
+
+		$requests = array();
+		$log      = function ( $pre, $args, $url ) use ( &$requests ) {
+			$requests[] = $url;
+			return $pre;
+		};
+		add_filter( 'pre_http_request', $log, 1, 3 );
+
+		$run = function () use ( $notices, $stripe ) {
+			llms_helper_get_license_status();
+			llms_helper_get_unlicensed_add_ons( false );
+			set_current_screen( 'plugins' );
+			$notices->sync_notices();
+			$notices->add_plugin_row_notices();
+			$row = $this->get_output( 'do_action', array( "after_plugin_row_{$stripe}", $stripe, array(), 'all' ) );
+			$notices->banner_test_license( false, 'none' );
+			$notices->banner_test_unlicensed_add_ons( false, true );
+			return $row;
+		};
+
+		// The list of add-ons is not cached, for example because LifterLMS.com could not be reached: nothing is shown.
+		delete_transient( 'llms_products_api_result' );
+		$this->assertSame( '', $run() );
+		$this->assertSame( array(), llms_helper_get_unlicensed_add_ons() );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+		$this->assertFalse( get_transient( 'llms_products_api_result' ) );
+		$this->assertSame( array(), $requests );
+
+		// The list is cached: the notice and the row are shown.
+		llms_get_add_ons();
+		$requests = array();
+		$this->assertStringContainsString( 'llms-license-row-notice', $run() );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'license-missing' ) );
+		$this->assertSame( array(), $requests );
+
+		remove_filter( 'pre_http_request', $log, 1 );
 
 	}
 
