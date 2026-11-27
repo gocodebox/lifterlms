@@ -86,7 +86,9 @@
   ],
   "length": "",
   "menu_order": 0,
-  "modified": "2020-08-04 23:09:49",
+  "length": "",
+  "lesson_audio_placement": "top",
+  "lesson_video_placement": "bottom",
   "modified_gmt": "2020-08-04 23:09:49",
   "name": "simple-course-with-quiz",
   "password": "",
@@ -116,6 +118,7 @@
       "lessons": [
         {
           "audio_embed": "",
+          "audio_placement": "top",
           "author": {
             "description": "",
             "email": "admin@wpllms.test",
@@ -256,7 +259,8 @@
           "time_available": "",
           "title": "New Lesson",
           "type": "lesson",
-          "video_embed": ""
+          "video_embed": "",
+          "video_placement": "bottom"
         }
       ],
       "menu_order": 0,

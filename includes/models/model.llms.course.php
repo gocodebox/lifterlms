@@ -51,6 +51,8 @@ defined( 'ABSPATH' ) || exit;
  * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
  * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
  * @property string $video_embed                URL to an oEmbed enable video URL.
+ * @property string $lesson_video_placement     Default featured video placement for the course's lessons [top|bottom].
+ * @property string $lesson_audio_placement     Default featured audio placement for the course's lessons [top|bottom].
  */
 class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
@@ -94,6 +96,8 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		'days_before_available'      => 'absint',
 		'featured_pricing'           => 'html',
 		'completion_page_id'         => 'absint',
+		'lesson_audio_placement'     => 'text',
+		'lesson_video_placement'     => 'text',
 
 		// Private.
 		'temp_calc_data'             => 'array',
