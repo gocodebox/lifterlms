@@ -33,6 +33,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
+	use LLMS_Trait_Due_Date;
+
 	/**
 	 * Post Type Database name (as registered via `register_post_type()`).
 	 *
@@ -69,6 +71,48 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		'can_be_resumed'      => 'yesno',
 		'disable_retake'      => 'yesno',
 	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 */
+	public function __construct( $model, $args = array() ) {
+		$this->construct_due_date();
+		parent::__construct( $model, $args );
+	}
+
+	/**
+	 * Retrieve the time of a student's first completed attempt.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $student_id WP_User ID.
+	 * @return int|false Unix timestamp or `false` when the student has no completed attempts.
+	 */
+	public function get_first_submission_time( $student_id ) {
+
+		if ( ! $student_id ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		// One query, on the attempts that have an end date: the syllabus asks for this once per quiz.
+		$end_date = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->prepare(
+				"SELECT end_date FROM {$wpdb->prefix}lifterlms_quiz_attempts WHERE student_id = %d AND quiz_id = %d AND status != 'incomplete' AND end_date IS NOT NULL ORDER BY end_date ASC, id ASC LIMIT 1",
+				$student_id,
+				$this->get( 'id' )
+			)
+		);
+
+		// Attempt dates are stored in the site's timezone.
+		return $end_date ? (int) get_gmt_from_date( $end_date, 'U' ) : false;
+	}
 
 	/**
 	 * Retrieve the LLMS_Course for the quiz.

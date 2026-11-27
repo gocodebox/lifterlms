@@ -125,6 +125,10 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 					$additional .= ' - ' . esc_html__( 'Can be resumed', 'lifterlms' );
 				}
 				$value .= ' (' . $additional . ')';
+				$penalty = $attempt->get_late_penalty();
+				if ( $penalty ) {
+					$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge( $penalty );
+				}
 				break;
 
 			case 'start_date':
@@ -133,6 +137,9 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				$date  = $attempt->get( $key );
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
+					if ( 'end_date' === $key && $attempt->is_late() ) {
+						$value .= ' ' . LLMS_Admin_Due_Dates::get_late_badge();
+					}
 				}
 
 				break;

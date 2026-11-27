@@ -78,6 +78,10 @@ define( [
 				show_correct_answer: 'no',
 				can_be_resumed: 'no',
 				disable_retake: 'no',
+				due_method: '',
+				due_date: '',
+				due_time: '',
+				due_days: 7,
 
 				questions: [],
 
