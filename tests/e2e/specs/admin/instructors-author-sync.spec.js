@@ -1,5 +1,5 @@
 /**
- * The block editor's Author panel follows the primary instructor set in the Instructors tab.
+ * The block editor's Author panel and the Instructors tab follow each other.
  *
  * @since 11.1.1
  */
@@ -201,5 +201,58 @@ test.describe( 'Admin/InstructorsAuthorSync', () => {
 		await admin.editPost( courseId );
 		await openInstructorsTab( page, course.instructors.length );
 		expect( await getEditorAuthor( page ) ).toBe( previous );
+	} );
+
+	test( 'changing the Author panel updates the Instructors tab before a reload', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		const suffix = Date.now();
+		const other = await requestUtils.createUser( {
+			username: `instructorother${ suffix }`,
+			email: `instructorother${ suffix }@example.com`,
+			firstName: 'other',
+			lastName: 'Instructor',
+			password: 'password',
+			roles: [ 'author' ],
+		} );
+		ids.push( other.id );
+
+		await admin.editPost( courseId );
+		const rows = await openInstructorsTab( page, 2 );
+		const current = await getEditorAuthor( page );
+		const second = current === ids[ 0 ] ? ids[ 1 ] : ids[ 0 ];
+		const selected = rows.locator( 'select[name^="_llms_id"]' );
+
+		// An instructor picked as the author moves to the top and the others are kept.
+		await page.evaluate(
+			( author ) =>
+				window.wp.data.dispatch( 'core/editor' ).editPost( { author } ),
+			second
+		);
+		await expect( selected.nth( 0 ) ).toHaveValue( String( second ) );
+		await expect( selected.nth( 1 ) ).toHaveValue( String( current ) );
+
+		// Another user picked as the author replaces the primary instructor.
+		await savePost( page, { author: other.id } );
+		await expect( rows ).toHaveCount( 2 );
+		await expect( selected.nth( 0 ) ).toHaveValue( String( other.id ) );
+		await expect(
+			rows.nth( 0 ).locator( '.llms-repeater-title' )
+		).toHaveText( 'other Instructor' );
+		await expect( selected.nth( 1 ) ).toHaveValue( String( current ) );
+
+		const course = await requestUtils.rest( {
+			path: `/llms/v1/courses/${ courseId }`,
+		} );
+		expect( course.instructors ).toEqual( [ other.id, current ] );
+
+		// Saving again without a reload keeps the list shown.
+		await savePost( page, { excerpt: 'Saved again.' } );
+		const again = await requestUtils.rest( {
+			path: `/llms/v1/courses/${ courseId }`,
+		} );
+		expect( again.instructors ).toEqual( [ other.id, current ] );
 	} );
 } );

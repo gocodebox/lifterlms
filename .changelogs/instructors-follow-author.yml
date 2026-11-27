@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#3532"
+entry: "Changing the Author in the block or classic editor now updates the course's Instructors tab without reloading the page."
