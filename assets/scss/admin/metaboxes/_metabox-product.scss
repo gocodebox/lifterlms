@@ -68,6 +68,13 @@
 
 		.llms-metabox-field {
 			margin: 15px 0;
+
+			// In the sidebar, the grid's viewport-based columns leave inputs too narrow to show or type a value.
+			#side-sortables & {
+				float: none;
+				width: 100%;
+				padding-right: 0;
+			}
 		}
 
 		.llms-required {
