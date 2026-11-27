@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: "Fixed the dismiss button of LifterLMS admin notices overlapping the notice text."

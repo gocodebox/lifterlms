@@ -240,6 +240,22 @@ div[id^="lifterlms-"] .inside {
 		padding: 20px;
 	}
 
+	// Lets long unbreakable text, such as a license key, wrap instead of pushing the content out of the notice.
+	.llms-admin-notice-content {
+		min-width: 0;
+		overflow-wrap: break-word;
+	}
+
+	// Keeps the text clear of the dismiss button in the corner, as WordPress does for `.notice.is-dismissible`.
+	.llms-admin-notice-content:has(> .notice-dismiss) {
+		padding-right: 40px;
+
+		// WordPress enlarges the dismiss button on small screens.
+		@media screen and ( max-width: 782px ) {
+			padding-right: 54px;
+		}
+	}
+
 	h3 {
 		font-size: 18px;
 		font-weight: 700;
