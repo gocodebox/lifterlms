@@ -1,0 +1,3 @@
+significance: patch
+type: added
+entry: "Added filters for the order trial labels (`llms_order_trial_information_label`, `llms_order_trial_total_label`, `llms_order_trial_end_date_label`), and the `llms_checkout_summary_main_coupon_discount` filter and `llms_checkout_order_summary_before_terms` action to the checkout order summary, so add-ons can adjust trial wording and the pricing preview."
