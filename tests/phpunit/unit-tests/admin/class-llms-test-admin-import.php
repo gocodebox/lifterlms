@@ -209,7 +209,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * The test bootstrap fakes the exports API, which responds with a `not-found` error for this ID.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Renamed from `test_cloud_import_error_api_real()`.
+	 * @since 11.1.1 Renamed from `test_cloud_import_error_api_real()`.
 	 *
 	 * @return void
 	 */
@@ -233,7 +233,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Test cloud_import() with a generator error
 	 *
 	 * @since 4.8.0
-	 * @since [version] Mock a JSON API response without a generator.
+	 * @since 11.1.1 Mock a JSON API response without a generator.
 	 *
 	 * @return void
 	 */

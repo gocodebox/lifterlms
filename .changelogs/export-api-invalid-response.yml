@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: "Fixed the course importer treating an unexpected (non-JSON or error) response from the LifterLMS.com exports API as course data instead of showing an error."

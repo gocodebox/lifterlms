@@ -352,6 +352,46 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that a student cannot start or continue a quiz that isn't published.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_quiz_unpublished() {
+
+		wp_set_current_user( $this->student->get( 'id' ) );
+
+		$start = function () {
+			return LLMS_AJAX_Handler::quiz_start(
+				array(
+					'quiz_id'   => $this->quiz->get( 'id' ),
+					'lesson_id' => $this->lesson->get( 'id' ),
+				)
+			);
+		};
+
+		$res = $start();
+		$this->assertArrayHasKey( 'attempt_key', $res );
+
+		wp_update_post( array( 'ID' => $this->quiz->get( 'id' ), 'post_status' => 'draft' ) );
+
+		$this->assertWPErrorCodeEquals( 403, $start() );
+		$this->assertWPErrorCodeEquals(
+			403,
+			LLMS_AJAX_Handler::quiz_get_question(
+				array(
+					'attempt_key' => $res['attempt_key'],
+					'question_id' => $res['question_id'],
+				)
+			)
+		);
+
+		wp_set_current_user( 0 );
+
+	}
+
+	/**
 	 * Test that a student cannot finish a quiz attempt after its lesson becomes restricted.
 	 *
 	 * @since 11.1.0

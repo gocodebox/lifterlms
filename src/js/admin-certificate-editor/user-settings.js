@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 // WP deps.
 import { __ } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 import { PanelRow, ExternalLink } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withSelect, dispatch, useSelect } from '@wordpress/data';
@@ -40,7 +41,7 @@ function SelectedUser( { userId } ) {
 		( select ) => {
 			const { getEntityRecord } = select( coreStore ),
 				user = getEntityRecord( 'root', 'user', userId );
-			return user?.name;
+			return user?.name && decodeEntities( user.name );
 		},
 		[ userId ]
 	);

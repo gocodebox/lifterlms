@@ -222,6 +222,41 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 	}
 
 	/**
+	 * New access plans are ordered after the product's existing plans unless a menu_order is requested.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_create_access_plan_menu_order() {
+
+		wp_set_current_user( $this->user_allowed );
+
+		$course = $this->factory->course->create( array( 'sections' => 0 ) );
+		$other  = $this->factory->course->create( array( 'sections' => 0 ) );
+		$create = function ( $product_id, $args = array() ) {
+			$response = $this->perform_mock_request(
+				'POST',
+				$this->route,
+				array_merge( $this->sample_access_plan_args, array( 'post_id' => $product_id ), $args )
+			);
+			$this->assertResponseStatusEquals( 201, $response );
+			return $response->get_data()['menu_order'];
+		};
+
+		$this->assertEquals( 1, $create( $course ) );
+		$this->assertEquals( 2, $create( $course ) );
+
+		// An explicit order is kept, and later plans follow the highest one.
+		$this->assertEquals( 5, $create( $course, array( 'menu_order' => 5 ) ) );
+		$this->assertEquals( 6, $create( $course ) );
+
+		// Another product's plans don't count.
+		$this->assertEquals( 1, $create( $other ) );
+
+	}
+
+	/**
 	 * Test producing bad request error when creating a single access-plans
 	 *
 	 * @since 1.0.0-beta.18
@@ -1163,6 +1198,8 @@ class LLMS_REST_Test_Access_Plans extends LLMS_REST_Unit_Test_Case_Posts {
 
 			'trial_length' => 0, // This is not set if 'trial_offer' is 'no' (default).
 			'trial_period' => '', // This is not set if 'trial_offer' is 'no' (default).
+
+			'menu_order' => 1, // The default 0 means "after the product's existing plans", and this is its first plan.
 		);
 
 		foreach ( array_merge( $this->defaults, $deps ) as $prop => $val ) {

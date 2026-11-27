@@ -103,7 +103,8 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 			'toggles'         => $this->get_attribute( 'toggles' ),
 		);
 
-		if ( ! $course ) {
+		// Only output the outline of a course the current user can view.
+		if ( ! $course->post || ( ! is_post_publicly_viewable( $course->post ) && ! current_user_can( 'read_post', $course->post->ID ) ) ) {
 			return '';
 		}
 

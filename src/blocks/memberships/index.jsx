@@ -12,6 +12,7 @@ import {
 } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 import { useSelect } from '@wordpress/data';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from '@wordpress/element';
@@ -34,7 +35,7 @@ const Edit = ( props ) => {
 	const categoryOptions = categories?.map( ( category ) => {
 		return {
 			value: category.slug,
-			label: category.name,
+			label: decodeEntities( category.name ),
 		};
 	} );
 

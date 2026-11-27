@@ -519,7 +519,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Test save_finish() when an error is encountered during generation
 	 *
 	 * @since 4.8.0
-	 * @since [version] Mock a JSON API response without a generator.
+	 * @since 11.1.1 Mock a JSON API response without a generator.
 	 *
 	 * @return void
 	 */

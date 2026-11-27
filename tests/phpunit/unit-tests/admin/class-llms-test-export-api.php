@@ -65,7 +65,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() when the API responds with something other than JSON data or a JSON error.
 	 *
-	 * @since [version]
+	 * @since 11.1.1
 	 *
 	 * @return void
 	 */

@@ -310,6 +310,64 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test that course element and outline shortcodes only output courses the current user can view.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_course_element_shortcodes_check_access() {
+
+		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$author_id = $this->factory->user->create( array( 'display_name' => 'Hidden Author Name' ) );
+
+		$courses = array();
+		foreach ( array( 'publish', 'draft' ) as $status ) {
+			$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+			$lesson = $course->get_lessons()[0];
+			wp_update_post( array( 'ID' => $lesson->get( 'id' ), 'post_title' => 'Hidden Lesson Title', 'post_author' => $author_id ) );
+			wp_update_post( array( 'ID' => $course->get( 'id' ), 'post_status' => $status, 'post_author' => $author_id ) );
+			$courses[ $status ] = array( $course->get( 'id' ), $lesson->get( 'id' ) );
+		}
+
+		$page_id = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		$this->go_to( get_permalink( $page_id ) );
+
+		$render = function ( $id ) {
+			return do_shortcode( sprintf( '[lifterlms_course_author course_id=%1$d][lifterlms_course_syllabus course_id=%1$d][lifterlms_course_outline course_id=%1$d]', $id ) );
+		};
+
+		foreach ( array( 0, $admin_id ) as $user_id ) {
+			wp_set_current_user( $user_id );
+			$can_view_draft = (bool) $user_id;
+			foreach ( $courses as $status => $ids ) {
+				foreach ( $ids as $id ) {
+					$output   = $render( $id );
+					$expected = 'publish' === $status || $can_view_draft;
+					$this->assertSame( $expected, false !== strpos( $output, 'Hidden Author Name' ), "{$status} {$id} user {$user_id} author" );
+					$this->assertSame( $expected, false !== strpos( $output, 'Hidden Lesson Title' ), "{$status} {$id} user {$user_id} lessons" );
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Test that the related courses shortcode outputs published courses.
+	 *
+	 * @since 11.1.1
+	 *
+	 * @return void
+	 */
+	public function test_related_courses() {
+
+		$course_id = $this->factory->course->create( array( 'sections' => 0 ) );
+
+		$this->assertStringContainsString( get_permalink( $course_id ), do_shortcode( '[lifterlms_related_courses]' ) );
+
+	}
+
+	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
 	 * @since 6.4.0

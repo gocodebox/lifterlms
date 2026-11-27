@@ -1,4 +1,5 @@
 import { __, _x, sprintf } from '@wordpress/i18n';
+import { decodeEntities } from '@wordpress/html-entities';
 
 import BaseSearchControl from './base-search-control';
 
@@ -38,7 +39,7 @@ export default function UserSearchControl( {
 					'User search result label',
 					'lifterlms'
 				),
-				name,
+				decodeEntities( name ),
 				id
 			);
 
